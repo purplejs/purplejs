@@ -1,0 +1,4 @@
+dependencies {
+    project( ':purplejs-core' )
+    compile 'javax.servlet:javax.servlet-api:3.1.0'
+}

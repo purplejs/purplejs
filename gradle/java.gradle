@@ -1,0 +1,60 @@
+apply plugin: 'java'
+apply plugin: 'jacoco'
+
+def defaultEncoding = 'UTF-8'
+
+compileJava {
+    options.encoding = defaultEncoding
+    options.compilerArgs = ['-Xlint:-options']
+}
+
+compileTestJava {
+    options.encoding = defaultEncoding
+    options.compilerArgs = ['-Xlint:-options']
+}
+
+configurations {
+    testOutput.extendsFrom testRuntime
+}
+
+dependencies {
+    testCompile 'junit:junit:4.12'
+    testCompile 'org.mockito:mockito-core:1.10.19'
+    testOutput sourceSets.test.output
+}
+
+task testJar( type: Jar ) {
+    group 'build'
+    description 'Creates a jar file with all test sources.'
+    from sourceSets.test.output
+    classifier = 'test'
+}
+
+task sourceJar( type: Jar ) {
+    classifier 'sources'
+    from sourceSets.main.allJava
+}
+
+artifacts {
+    testOutput testJar
+    archives sourceJar
+}
+
+sourceCompatibility = '1.8'
+targetCompatibility = sourceCompatibility
+
+test {
+    systemProperty 'java.awt.headless', 'true'
+    jvmArgs '-Xmx2048m'
+
+    jacoco {
+        enabled = ( project.properties['ci.build'] == 'true' )
+        destinationFile = file( "${rootProject.buildDir}/jacoco/test.exec" )
+    }
+}
+
+jar {
+    manifest {
+        attributes( ['Implementation-Version': project.version] )
+    }
+}
