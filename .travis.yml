@@ -6,3 +6,7 @@ jdk:
 
 script: ./gradlew ci
 
+cache:
+  directories:
+    - $HOME/.gradle/caches/
+
