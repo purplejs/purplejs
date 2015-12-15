@@ -56,6 +56,9 @@ public class ConvertersTest
 
         final boolean value2 = this.converters.convert( "true", Boolean.class );
         assertEquals( true, value2 );
+
+        final boolean value3 = this.converters.convert( true, Boolean.class );
+        assertEquals( true, value3 );
     }
 
     @Test
@@ -66,6 +69,9 @@ public class ConvertersTest
 
         final byte value2 = this.converters.convert( "11", Byte.class );
         assertEquals( 11, value2 );
+
+        final byte value3 = this.converters.convert( (byte) 11, Byte.class );
+        assertEquals( 11, value3 );
     }
 
     @Test
@@ -76,6 +82,9 @@ public class ConvertersTest
 
         final double value2 = this.converters.convert( "11", Double.class );
         assertEquals( 11, value2, 0 );
+
+        final double value3 = this.converters.convert( 11d, Double.class );
+        assertEquals( 11, value3, 0 );
     }
 
     @Test
@@ -86,6 +95,9 @@ public class ConvertersTest
 
         final float value2 = this.converters.convert( "11", Float.class );
         assertEquals( 11, value2, 0 );
+
+        final float value3 = this.converters.convert( 11f, Float.class );
+        assertEquals( 11, value3, 0 );
     }
 
     @Test
@@ -96,6 +108,9 @@ public class ConvertersTest
 
         final int value2 = this.converters.convert( "11", Integer.class );
         assertEquals( 11, value2 );
+
+        final int value3 = this.converters.convert( 11, Integer.class );
+        assertEquals( 11, value3 );
     }
 
     @Test
@@ -106,6 +121,9 @@ public class ConvertersTest
 
         final long value2 = this.converters.convert( "11", Long.class );
         assertEquals( 11, value2 );
+
+        final long value3 = this.converters.convert( 11L, Long.class );
+        assertEquals( 11, value3 );
     }
 
     @Test
@@ -116,12 +134,18 @@ public class ConvertersTest
 
         final short value2 = this.converters.convert( "11", Short.class );
         assertEquals( 11, value2 );
+
+        final short value3 = this.converters.convert( (short) 11, Short.class );
+        assertEquals( 11, value3 );
     }
 
     @Test
     public void convertString()
     {
-        final String value = this.converters.convert( 11, String.class );
-        assertEquals( "11", value );
+        final String value1 = this.converters.convert( 11, String.class );
+        assertEquals( "11", value1 );
+
+        final String value2 = this.converters.convert( "11", String.class );
+        assertEquals( "11", value2 );
     }
 }
