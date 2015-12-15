@@ -6,3 +6,4 @@ Project PurpleJS
 [![License](https://img.shields.io/github/license/enonic/purplejs.svg)](http://www.apache.org/licenses/LICENSE-2.0.html)
 
 More info here later!
+
