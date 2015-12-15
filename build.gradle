@@ -1,3 +1,7 @@
+buildscript {
+    apply from: "$rootDir/gradle/buildscript.gradle", to: buildscript
+}
+
 apply plugin: 'java-base'
 apply plugin: 'build-dashboard'
 
@@ -17,6 +21,8 @@ allprojects {
 
 configure( javaProjects ) {
     apply from: "$rootDir/gradle/java.gradle"
+    apply from: "$rootDir/gradle/coverage.gradle"
+    apply from: "$rootDir/gradle/travis-ci.gradle"
 }
 
 configure( mavenProjects ) {

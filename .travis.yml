@@ -4,4 +4,5 @@ sudo: false
 jdk:
 - oraclejdk8
 
-script: ./gradlew -Pci.build=true clean build
+script: ./gradlew ci
+
