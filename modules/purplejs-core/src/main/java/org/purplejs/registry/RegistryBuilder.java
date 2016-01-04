@@ -1,7 +1,5 @@
 package org.purplejs.registry;
 
-import java.util.function.Supplier;
-
 public final class RegistryBuilder
 {
     public <T> RegistryBuilder add( final Class<T> type, final T instance )
@@ -9,7 +7,7 @@ public final class RegistryBuilder
         return this;
     }
 
-    public <T> RegistryBuilder add( final Class<T> type, final Supplier<T> supplier )
+    public RegistryBuilder join( Registry registry )
     {
         return this;
     }
