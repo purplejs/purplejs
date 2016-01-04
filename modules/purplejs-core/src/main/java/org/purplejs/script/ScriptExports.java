@@ -1,4 +1,4 @@
-package org.purplejs.engine;
+package org.purplejs.script;
 
 public interface ScriptExports
 {

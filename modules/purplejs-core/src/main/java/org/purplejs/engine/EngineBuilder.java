@@ -1,19 +1,11 @@
 package org.purplejs.engine;
 
-import org.purplejs.convert.Converters;
+import org.purplejs.registry.Registry;
 
 public final class EngineBuilder
 {
-    private Converters converters;
-
-    public EngineBuilder()
+    public <T> EngineBuilder registry( final Registry registry )
     {
-        this.converters = new Converters();
-    }
-
-    public EngineBuilder converters( final Converters converters )
-    {
-        this.converters = converters;
         return this;
     }
 
