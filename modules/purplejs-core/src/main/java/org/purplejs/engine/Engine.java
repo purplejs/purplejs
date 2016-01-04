@@ -1,4 +1,4 @@
-package org.purplejs;
+package org.purplejs.engine;
 
 public interface Engine
 {
