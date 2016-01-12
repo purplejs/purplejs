@@ -1,16 +1,18 @@
 package org.purplejs.engine;
 
-import org.purplejs.registry.Registry;
+import org.purplejs.impl.engine.EngineImpl;
 
 public final class EngineBuilder
 {
-    public <T> EngineBuilder registry( final Registry registry )
+    private final EngineImpl engine;
+
+    public EngineBuilder()
     {
-        return this;
+        this.engine = new EngineImpl();
     }
 
     public Engine build()
     {
-        return null;
+        return this.engine;
     }
 }

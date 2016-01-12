@@ -2,9 +2,9 @@ package org.purplejs.json;
 
 public interface JsonGenerator
 {
-    JsonGenerator object();
+    JsonGenerator map();
 
-    JsonGenerator object( String key );
+    JsonGenerator map( String key );
 
     JsonGenerator array();
 
