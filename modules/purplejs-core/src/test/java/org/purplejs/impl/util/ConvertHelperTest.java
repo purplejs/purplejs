@@ -1,4 +1,4 @@
-package org.purplejs.impl.script.util;
+package org.purplejs.impl.util;
 
 import java.util.Date;
 

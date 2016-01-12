@@ -1,4 +1,4 @@
-package org.purplejs.script;
+package org.purplejs.value;
 
 import java.util.List;
 import java.util.Map;

@@ -1,7 +1,7 @@
-package org.purplejs.impl.script.value;
+package org.purplejs.impl.value;
 
-import org.purplejs.impl.script.util.NashornHelper;
-import org.purplejs.script.ScriptValue;
+import org.purplejs.impl.util.NashornHelper;
+import org.purplejs.value.ScriptValue;
 
 import jdk.nashorn.api.scripting.JSObject;
 

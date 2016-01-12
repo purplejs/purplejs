@@ -1,4 +1,4 @@
-package org.purplejs.script;
+package org.purplejs.value;
 
 public interface ScriptExports
 {

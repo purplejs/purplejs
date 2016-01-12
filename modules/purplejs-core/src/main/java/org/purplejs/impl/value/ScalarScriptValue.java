@@ -1,6 +1,6 @@
-package org.purplejs.impl.script.value;
+package org.purplejs.impl.value;
 
-import org.purplejs.impl.script.util.ConvertHelper;
+import org.purplejs.impl.util.ConvertHelper;
 
 final class ScalarScriptValue
     extends AbstractScriptValue

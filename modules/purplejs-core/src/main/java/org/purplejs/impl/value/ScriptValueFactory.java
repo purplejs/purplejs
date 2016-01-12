@@ -1,6 +1,6 @@
-package org.purplejs.impl.script.value;
+package org.purplejs.impl.value;
 
-import org.purplejs.script.ScriptValue;
+import org.purplejs.value.ScriptValue;
 
 public interface ScriptValueFactory
 {

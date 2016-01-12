@@ -1,7 +1,6 @@
-package org.purplejs.impl.script.json;
+package org.purplejs.impl.json;
 
-import org.purplejs.impl.json.AbstractJsonGenerator;
-import org.purplejs.impl.script.util.NashornHelper;
+import org.purplejs.impl.util.NashornHelper;
 
 public final class ScriptJsonGenerator
     extends AbstractJsonGenerator

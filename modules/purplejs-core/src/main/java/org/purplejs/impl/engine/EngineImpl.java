@@ -2,7 +2,7 @@ package org.purplejs.impl.engine;
 
 import org.purplejs.engine.Engine;
 import org.purplejs.resource.ResourcePath;
-import org.purplejs.script.ScriptExports;
+import org.purplejs.value.ScriptExports;
 
 public final class EngineImpl
     implements Engine

@@ -1,7 +1,7 @@
 package org.purplejs.engine;
 
 import org.purplejs.resource.ResourcePath;
-import org.purplejs.script.ScriptExports;
+import org.purplejs.value.ScriptExports;
 
 public interface Engine
 {

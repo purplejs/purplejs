@@ -1,4 +1,4 @@
-package org.purplejs.impl.script.value;
+package org.purplejs.impl.value;
 
 public interface ScriptMethodInvoker
 {

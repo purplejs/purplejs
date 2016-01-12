@@ -1,4 +1,4 @@
-package org.purplejs.impl.script.util;
+package org.purplejs.impl.util;
 
 import java.util.Date;
 import java.util.List;
@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 
-import org.purplejs.impl.script.json.ScriptJsonGenerator;
+import org.purplejs.impl.json.ScriptJsonGenerator;
 import org.purplejs.json.JsonSerializable;
 
 import com.google.common.collect.Lists;

@@ -1,10 +1,10 @@
-package org.purplejs.impl.script.value;
+package org.purplejs.impl.value;
 
 import java.util.Map;
 import java.util.Set;
 
-import org.purplejs.impl.script.util.JsObjectConverter;
-import org.purplejs.script.ScriptValue;
+import org.purplejs.impl.util.JsObjectConverter;
+import org.purplejs.value.ScriptValue;
 
 import jdk.nashorn.api.scripting.JSObject;
 

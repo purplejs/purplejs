@@ -1,11 +1,11 @@
-package org.purplejs.impl.script.value;
+package org.purplejs.impl.value;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.purplejs.script.ScriptValue;
+import org.purplejs.value.ScriptValue;
 
 import com.google.common.collect.Sets;
 

@@ -1,4 +1,4 @@
-package org.purplejs.impl.script.util;
+package org.purplejs.impl.util;
 
 import jdk.nashorn.api.scripting.ScriptObjectMirror;
 import jdk.nashorn.api.scripting.ScriptUtils;

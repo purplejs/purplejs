@@ -1,8 +1,8 @@
-package org.purplejs.impl.script.value;
+package org.purplejs.impl.value;
 
 import java.util.List;
 
-import org.purplejs.script.ScriptValue;
+import org.purplejs.value.ScriptValue;
 
 import com.google.common.collect.Lists;
 
