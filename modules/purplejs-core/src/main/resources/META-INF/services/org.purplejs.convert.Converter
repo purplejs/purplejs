@@ -1,8 +1,0 @@
-org.purplejs.impl.convert.BooleanConverter
-org.purplejs.impl.convert.ByteConverter
-org.purplejs.impl.convert.DoubleConverter
-org.purplejs.impl.convert.FloatConverter
-org.purplejs.impl.convert.IntegerConverter
-org.purplejs.impl.convert.LongConverter
-org.purplejs.impl.convert.ShortConverter
-org.purplejs.impl.convert.StringConverter
