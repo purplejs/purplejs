@@ -1,5 +1,8 @@
 package org.purplejs.impl.util;
 
+import javax.script.ScriptEngine;
+
+import jdk.nashorn.api.scripting.NashornScriptEngineFactory;
 import jdk.nashorn.api.scripting.ScriptObjectMirror;
 import jdk.nashorn.api.scripting.ScriptUtils;
 import jdk.nashorn.internal.objects.Global;
@@ -9,6 +12,13 @@ import jdk.nashorn.internal.runtime.Undefined;
 
 public final class NashornHelper
 {
+    private final static NashornScriptEngineFactory FACTORY = new NashornScriptEngineFactory();
+
+    public static ScriptEngine getScriptEngine( final ClassLoader loader, final String... args )
+    {
+        return FACTORY.getScriptEngine( args, loader );
+    }
+
     public static boolean isUndefined( final Object value )
     {
         return ( value instanceof Undefined );
