@@ -1,6 +1,6 @@
 package org.purplejs.resource;
 
-import java.time.Instant;
+import java.net.URL;
 
 import com.google.common.io.ByteSource;
 
@@ -8,11 +8,11 @@ public interface Resource
 {
     ResourcePath getPath();
 
-    boolean exists();
+    URL getUrl();
 
     long getSize();
 
-    Instant getLastModified();
+    long getLastModified();
 
     ByteSource getBytes();
 }

@@ -1,10 +1,17 @@
 package org.purplejs.resource;
 
-public final class ResourceException
+public abstract class ResourceException
     extends RuntimeException
 {
-    public LocationInfo getLocation()
+    private final ResourcePath resource;
+
+    public ResourceException( final ResourcePath resource )
     {
-        return null;
+        this.resource = resource;
+    }
+
+    public final ResourcePath getResource()
+    {
+        return this.resource;
     }
 }
