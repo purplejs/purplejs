@@ -7,4 +7,10 @@ public final class ResourceNotFoundException
     {
         super( resource );
     }
+
+    @Override
+    public String getMessage()
+    {
+        return String.format( "Resource [%s] not found", getResource().toString() );
+    }
 }
