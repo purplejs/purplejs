@@ -1,8 +1,8 @@
 include ':purplejs-core'
-include ':purplejs-ratpack'
-include ':purplejs-servlet'
-include ':purplejs-dropwizard'
-include ':purplejs-spring'
+// include ':purplejs-ratpack'
+// include ':purplejs-servlet'
+// include ':purplejs-dropwizard'
+// include ':purplejs-spring'
 
 rootProject.name = 'purplejs'
 
