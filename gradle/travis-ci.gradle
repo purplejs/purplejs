@@ -1,5 +1,0 @@
-task ci {
-    dependsOn 'build', 'coveralls'
-    description = 'Continuous integration tasks'
-    group = 'Build'
-}

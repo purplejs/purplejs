@@ -4,6 +4,8 @@ buildscript {
 
 apply plugin: 'java-base'
 apply plugin: 'build-dashboard'
+apply plugin: 'jacoco'
+apply plugin: 'com.github.kt3k.coveralls'
 
 ext {
     leafProjects = subprojects
@@ -22,9 +24,45 @@ allprojects {
 configure( javaProjects ) {
     apply from: "$rootDir/gradle/java.gradle"
     apply from: "$rootDir/gradle/coverage.gradle"
-    apply from: "$rootDir/gradle/travis-ci.gradle"
 }
 
 configure( mavenProjects ) {
     apply from: "$rootDir/gradle/maven.gradle"
+}
+
+task jacocoRootReport( type: JacocoReport, group: 'Coverage reports' ) {
+    description = 'Generates an aggregate report from all subprojects'
+    dependsOn( javaProjects.test )
+
+    additionalSourceDirs = files( javaProjects.sourceSets.main.allSource.srcDirs )
+    sourceDirectories = files( javaProjects.sourceSets.main.allSource.srcDirs )
+    classDirectories = files( javaProjects.sourceSets.main.output )
+    executionData = files( javaProjects.jacocoTestReport.executionData )
+
+    reports {
+        html.enabled = true // human readable
+        xml.enabled = true // required by coveralls
+    }
+
+    doFirst {
+        executionData = files( executionData.findAll { it.exists() } )
+    }
+}
+
+coveralls {
+    sourceDirs = javaProjects.sourceSets.main.allSource.srcDirs.flatten()
+    jacocoReportPath = "${buildDir}/reports/jacoco/jacocoRootReport/jacocoRootReport.xml"
+}
+
+tasks.coveralls {
+    group = 'Coverage reports'
+    description = 'Uploads the aggregated coverage report to Coveralls'
+
+    dependsOn jacocoRootReport
+}
+
+task ci {
+    dependsOn 'build', 'coveralls'
+    description = 'Continuous integration tasks'
+    group = 'Build'
 }
