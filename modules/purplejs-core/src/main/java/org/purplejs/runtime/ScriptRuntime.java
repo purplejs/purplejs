@@ -1,5 +1,7 @@
 package org.purplejs.runtime;
 
-public class ScriptRuntime
+public interface ScriptRuntime
 {
+    // ScriptExports execute( ResourcePath path );
+
 }

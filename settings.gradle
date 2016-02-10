@@ -1,6 +1,7 @@
 include ':purplejs-core'
+include ':purplejs-http'
+include ':purplejs-servlet'
 // include ':purplejs-ratpack'
-// include ':purplejs-servlet'
 // include ':purplejs-dropwizard'
 // include ':purplejs-spring'
 
