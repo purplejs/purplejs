@@ -1,47 +1,14 @@
 package org.purplejs.http;
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Map;
 import java.util.Optional;
 
-import com.google.common.collect.HashMultimap;
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Multimap;
-
-public final class Parameters
+public interface Parameters
 {
-    private final Multimap<String, String> map;
+    Collection<String> get( String key );
 
-    public Parameters()
-    {
-        this.map = HashMultimap.create();
-    }
+    Optional<String> getFirst( String key );
 
-    public final Collection<String> get( final String key )
-    {
-        final Collection<String> values = this.map.get( key );
-        return values != null ? values : Collections.emptyList();
-    }
-
-    public final Optional<String> getFirst( final String key )
-    {
-        final Collection<String> values = get( key );
-        return values.isEmpty() ? Optional.empty() : Optional.of( values.iterator().next() );
-    }
-
-    public final void put( final String key, final String value )
-    {
-        this.map.put( key, value );
-    }
-
-    public void remove( final String key )
-    {
-        this.map.removeAll( key );
-    }
-
-    public Map<String, Collection<String>> asMap()
-    {
-        return ImmutableMap.copyOf( this.map.asMap() );
-    }
+    Map<String, Collection<String>> asMap();
 }

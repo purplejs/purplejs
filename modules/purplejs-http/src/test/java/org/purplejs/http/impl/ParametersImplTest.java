@@ -1,4 +1,4 @@
-package org.purplejs.http;
+package org.purplejs.http.impl;
 
 import java.util.Collection;
 import java.util.Map;
@@ -9,14 +9,14 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-public class ParametersTest
+public class ParametersImplTest
 {
-    private Parameters params;
+    private ParametersImpl params;
 
     @Before
     public void setup()
     {
-        this.params = new Parameters();
+        this.params = new ParametersImpl();
     }
 
     @Test

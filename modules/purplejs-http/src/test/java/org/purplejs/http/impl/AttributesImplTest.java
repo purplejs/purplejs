@@ -1,14 +1,15 @@
-package org.purplejs.http;
+package org.purplejs.http.impl;
 
 import java.util.Map;
 import java.util.Optional;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.purplejs.http.Attributes;
 
 import static org.junit.Assert.*;
 
-public class AttributesTest
+public class AttributesImplTest
 {
     public class TypedValue
     {
@@ -19,7 +20,7 @@ public class AttributesTest
     @Before
     public void setup()
     {
-        this.attrs = new Attributes();
+        this.attrs = new AttributesImpl();
     }
 
     @Test

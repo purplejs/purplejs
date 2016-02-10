@@ -3,57 +3,19 @@ package org.purplejs.http;
 import java.util.Map;
 import java.util.Optional;
 
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Maps;
-
-public final class Attributes
+public interface Attributes
 {
-    private final Map<String, Object> map;
+    Optional<Object> get( String key );
 
-    public Attributes()
-    {
-        this.map = Maps.newHashMap();
-    }
+    void set( String key, Object value );
 
-    public Optional<Object> get( final String key )
-    {
-        final Object value = this.map.get( key );
-        return Optional.ofNullable( value );
-    }
+    void remove( String key );
 
-    public void set( final String key, final Object value )
-    {
-        this.map.put( key, value );
-    }
+    <T> Optional<T> get( Class<T> key );
 
-    public void remove( final String key )
-    {
-        this.map.remove( key );
-    }
+    <T> void set( Class<T> key, T value );
 
-    public <T> Optional<T> get( final Class<T> key )
-    {
-        final Object value = this.map.get( key.getName() );
-        if ( value == null )
-        {
-            return Optional.empty();
-        }
+    <T> void remove( Class<T> key );
 
-        return Optional.of( key.cast( value ) );
-    }
-
-    public <T> void set( final Class<T> key, final T value )
-    {
-        set( key.getName(), value );
-    }
-
-    public <T> void remove( final Class<T> key )
-    {
-        remove( key.getName() );
-    }
-
-    public Map<String, Object> asMap()
-    {
-        return ImmutableMap.copyOf( this.map );
-    }
+    Map<String, Object> asMap();
 }
