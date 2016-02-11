@@ -1,5 +1,6 @@
 package org.purplejs.servlet.impl;
 
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.Optional;
 
@@ -8,23 +9,22 @@ import javax.servlet.http.Part;
 import org.purplejs.http.MultipartForm;
 import org.purplejs.http.MultipartItem;
 
-import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.Multimap;
 
 final class MultipartFormImpl
     implements MultipartForm
 {
-    private final ImmutableMap<String, MultipartItem> map;
+    private final Multimap<String, MultipartItem> map;
 
     public MultipartFormImpl( final Iterable<Part> parts )
     {
-        final ImmutableMap.Builder<String, MultipartItem> builder = ImmutableMap.builder();
+        this.map = HashMultimap.create();
         for ( final Part part : parts )
         {
             final MultipartItemImpl item = new MultipartItemImpl( part );
-            builder.put( item.getName(), item );
+            this.map.put( item.getName(), item );
         }
-
-        this.map = builder.build();
     }
 
     @Override
@@ -42,7 +42,8 @@ final class MultipartFormImpl
     @Override
     public Optional<MultipartItem> get( final String name )
     {
-        return Optional.ofNullable( this.map.get( name ) );
+        final Collection<MultipartItem> items = this.map.get( name );
+        return items.isEmpty() ? Optional.empty() : Optional.of( items.iterator().next() );
     }
 
     @Override
