@@ -5,20 +5,20 @@ import org.junit.Test;
 import org.purplejs.resource.ResourceNotFoundException;
 import org.purplejs.resource.ResourcePath;
 
-public class NopResourceResolverTest
+public class NopResourceLoaderTest
 {
-    private NopResourceResolver resolver;
+    private NopResourceLoader loader;
 
     @Before
     public void setup()
     {
-        this.resolver = new NopResourceResolver();
+        this.loader = new NopResourceLoader();
     }
 
     @Test(expected = ResourceNotFoundException.class)
-    public void resolve()
+    public void load()
     {
         final ResourcePath path = ResourcePath.from( "/a.txt" );
-        this.resolver.resolve( path );
+        this.loader.load( path );
     }
 }

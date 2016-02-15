@@ -13,14 +13,14 @@ import org.purplejs.resource.ResourcePath;
 
 import static org.junit.Assert.*;
 
-public class ClassLoaderResourceResolverTest
+public class ClassLoaderResourceLoaderTest
 {
     @Rule
     public TemporaryFolder temporaryFolder = new TemporaryFolder();
 
-    private ClassLoaderResourceResolver resolver;
+    private ClassLoaderResourceLoader loader;
 
-    private ClassLoaderResourceResolver resolverWithPrefix;
+    private ClassLoaderResourceLoader loaderWithPrefix;
 
     @Before
     public void setup()
@@ -31,27 +31,27 @@ public class ClassLoaderResourceResolverTest
 
         final ClassLoader classLoader = new URLClassLoader( new URL[]{fixture.getRootDir().toURI().toURL()} );
 
-        this.resolver = new ClassLoaderResourceResolver( classLoader, null );
-        this.resolverWithPrefix = new ClassLoaderResourceResolver( classLoader, "/a" );
+        this.loader = new ClassLoaderResourceLoader( classLoader, null );
+        this.loaderWithPrefix = new ClassLoaderResourceLoader( classLoader, "/a" );
     }
 
     @Test(expected = ResourceNotFoundException.class)
-    public void resolve_not_found()
+    public void load_not_found()
     {
-        this.resolver.resolve( ResourcePath.from( "/a/x.txt" ) );
+        this.loader.load( ResourcePath.from( "/a/x.txt" ) );
     }
 
     @Test
-    public void resolve_found()
+    public void load_found()
     {
-        final Resource resource = this.resolver.resolve( ResourcePath.from( "/a/b.txt" ) );
+        final Resource resource = this.loader.load( ResourcePath.from( "/a/b.txt" ) );
         assertNotNull( resource );
     }
 
     @Test
-    public void resolve_with_prefix()
+    public void load_with_prefix()
     {
-        final Resource resource = this.resolverWithPrefix.resolve( ResourcePath.from( "/b.txt" ) );
+        final Resource resource = this.loaderWithPrefix.load( ResourcePath.from( "/b.txt" ) );
         assertNotNull( resource );
     }
 }

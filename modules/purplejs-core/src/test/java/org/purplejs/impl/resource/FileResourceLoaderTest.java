@@ -10,12 +10,12 @@ import org.purplejs.resource.ResourcePath;
 
 import static org.junit.Assert.*;
 
-public class FileResourceResolverTest
+public class FileResourceLoaderTest
 {
     @Rule
     public TemporaryFolder temporaryFolder = new TemporaryFolder();
 
-    private FileResourceResolver resolver;
+    private FileResourceLoader loader;
 
     @Before
     public void setup()
@@ -24,25 +24,25 @@ public class FileResourceResolverTest
         final ResourceTestFixture fixture = new ResourceTestFixture( this.temporaryFolder );
         fixture.createFiles();
 
-        this.resolver = new FileResourceResolver( fixture.getRootDir() );
+        this.loader = new FileResourceLoader( fixture.getRootDir() );
     }
 
     @Test(expected = ResourceNotFoundException.class)
-    public void resolve_not_found()
+    public void load_not_found()
     {
-        this.resolver.resolve( ResourcePath.from( "/a/x.txt" ) );
+        this.loader.load( ResourcePath.from( "/a/x.txt" ) );
     }
 
     @Test(expected = ResourceNotFoundException.class)
-    public void resolve_directory()
+    public void load_directory()
     {
-        this.resolver.resolve( ResourcePath.from( "/a" ) );
+        this.loader.load( ResourcePath.from( "/a" ) );
     }
 
     @Test
-    public void resolve_found()
+    public void load_found()
     {
-        final Resource resource = this.resolver.resolve( ResourcePath.from( "/a/b.txt" ) );
+        final Resource resource = this.loader.load( ResourcePath.from( "/a/b.txt" ) );
         assertNotNull( resource );
     }
 }

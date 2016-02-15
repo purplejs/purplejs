@@ -1,15 +1,15 @@
 package org.purplejs.impl.resource;
 
 import org.purplejs.resource.Resource;
+import org.purplejs.resource.ResourceLoader;
 import org.purplejs.resource.ResourceNotFoundException;
 import org.purplejs.resource.ResourcePath;
-import org.purplejs.resource.ResourceResolver;
 
-final class NopResourceResolver
-    implements ResourceResolver
+final class NopResourceLoader
+    implements ResourceLoader
 {
     @Override
-    public Resource resolve( final ResourcePath path )
+    public Resource load( final ResourcePath path )
     {
         throw new ResourceNotFoundException( path );
     }

@@ -1,6 +1,6 @@
 package org.purplejs.engine;
 
-import org.purplejs.resource.ResourceResolver;
+import org.purplejs.resource.ResourceLoader;
 
 public interface EngineContext
 {
@@ -8,7 +8,7 @@ public interface EngineContext
 
     // Supplier<Request> getRequest();
 
-    ResourceResolver getResourceResolver();
+    ResourceLoader getResourceResolver();
 
     static EngineContext get()
     {

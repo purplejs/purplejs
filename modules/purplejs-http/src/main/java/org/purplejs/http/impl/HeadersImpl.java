@@ -7,7 +7,6 @@ import org.purplejs.http.Headers;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
-import com.google.common.net.MediaType;
 
 public final class HeadersImpl
     implements Headers
@@ -24,12 +23,6 @@ public final class HeadersImpl
     {
         final String value = this.map.get( key );
         return Optional.ofNullable( value );
-    }
-
-    @Override
-    public Optional<MediaType> getContentType()
-    {
-        return get( "Content-Type" ).map( MediaType::parse );
     }
 
     public void set( final String key, final String value )

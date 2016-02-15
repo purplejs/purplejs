@@ -1,5 +1,7 @@
 package org.purplejs.servlet.impl;
 
+import java.util.Enumeration;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.purplejs.http.Attributes;
@@ -8,6 +10,7 @@ import org.purplejs.http.MultipartForm;
 import org.purplejs.http.Parameters;
 import org.purplejs.http.Request;
 import org.purplejs.http.impl.AttributesImpl;
+import org.purplejs.http.impl.HeadersImpl;
 
 import com.google.common.base.Throwables;
 import com.google.common.io.ByteSource;
@@ -19,10 +22,13 @@ public final class RequestWrapper
 
     private final Attributes attributes;
 
+    private final Headers headers;
+
     public RequestWrapper( final HttpServletRequest wrapped )
     {
         this.wrapped = wrapped;
         this.attributes = new AttributesImpl();
+        this.headers = createHeaders( this.wrapped );
     }
 
     @Override
@@ -40,7 +46,7 @@ public final class RequestWrapper
     @Override
     public Headers getHeaders()
     {
-        return null;
+        return this.headers;
     }
 
     @Override
@@ -72,5 +78,19 @@ public final class RequestWrapper
     public Object getRaw()
     {
         return this.wrapped;
+    }
+
+    private static Headers createHeaders( final HttpServletRequest req )
+    {
+        final HeadersImpl headers = new HeadersImpl();
+        final Enumeration<String> e = req.getHeaderNames();
+
+        while ( e.hasMoreElements() )
+        {
+            final String key = e.nextElement();
+            headers.set( key, req.getHeader( key ) );
+        }
+
+        return headers;
     }
 }

@@ -9,7 +9,10 @@ public interface Headers
 {
     Optional<String> get( String key );
 
-    Optional<MediaType> getContentType();
+    default Optional<MediaType> getContentType()
+    {
+        return get( "Content-Type" ).map( MediaType::parse );
+    }
 
     Map<String, String> asMap();
 }
