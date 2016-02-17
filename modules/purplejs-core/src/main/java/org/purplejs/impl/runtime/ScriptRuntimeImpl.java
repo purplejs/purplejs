@@ -5,6 +5,7 @@ import java.util.Map;
 import javax.script.Bindings;
 import javax.script.ScriptEngine;
 
+import org.purplejs.impl.cache.ScriptExportsCache;
 import org.purplejs.resource.ResourcePath;
 import org.purplejs.resource.ResourceLoader;
 import org.purplejs.runtime.ScriptRuntime;

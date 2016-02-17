@@ -1,4 +1,4 @@
-package org.purplejs.impl.runtime;
+package org.purplejs.impl.executor;
 
 import javax.script.ScriptException;
 
@@ -11,7 +11,7 @@ import jdk.nashorn.api.scripting.NashornException;
 
 final class ErrorHelper
 {
-    public RuntimeException handleError( final Exception e )
+    public static RuntimeException handleError( final Exception e )
     {
         if ( e instanceof ResourceProblemException )
         {
@@ -31,7 +31,7 @@ final class ErrorHelper
         return Throwables.propagate( e );
     }
 
-    private ResourceProblemException doHandleException( final ScriptException e )
+    private static ResourceProblemException doHandleException( final ScriptException e )
     {
         final ResourceProblemException.Builder builder = ResourceProblemException.create();
         builder.cause( e.getCause() );
@@ -40,7 +40,7 @@ final class ErrorHelper
         return builder.build();
     }
 
-    private RuntimeException doHandleException( final RuntimeException e )
+    private static RuntimeException doHandleException( final RuntimeException e )
     {
         final StackTraceElement elem = findScriptTraceElement( e );
         if ( elem == null )
@@ -55,7 +55,7 @@ final class ErrorHelper
         return builder.build();
     }
 
-    private ResourcePath toResourcePath( final String name )
+    private static ResourcePath toResourcePath( final String name )
     {
         try
         {
@@ -67,7 +67,7 @@ final class ErrorHelper
         }
     }
 
-    private StackTraceElement findScriptTraceElement( final RuntimeException e )
+    private static StackTraceElement findScriptTraceElement( final RuntimeException e )
     {
         final StackTraceElement[] elements = NashornException.getScriptFrames( e );
         return elements.length > 0 ? elements[0] : null;

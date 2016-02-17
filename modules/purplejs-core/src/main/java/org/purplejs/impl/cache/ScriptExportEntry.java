@@ -1,4 +1,4 @@
-package org.purplejs.impl.runtime;
+package org.purplejs.impl.cache;
 
 import org.purplejs.resource.ResourcePath;
 

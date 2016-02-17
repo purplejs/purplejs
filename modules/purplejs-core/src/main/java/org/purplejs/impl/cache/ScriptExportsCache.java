@@ -1,4 +1,4 @@
-package org.purplejs.impl.runtime;
+package org.purplejs.impl.cache;
 
 import java.util.Map;
 
@@ -7,7 +7,7 @@ import org.purplejs.resource.ResourcePath;
 
 import com.google.common.collect.Maps;
 
-final class ScriptExportsCache
+public final class ScriptExportsCache
 {
     private final Map<ResourcePath, ScriptExportEntry> cache;
 
@@ -28,7 +28,7 @@ final class ScriptExportsCache
         this.cache.put( key, new ScriptExportEntry( key, value, resource.getLastModified() ) );
     }
 
-    public boolean isModified( final Resource resource )
+    public boolean isExpired( final Resource resource )
     {
         final ResourcePath key = resource.getPath();
         final ScriptExportEntry entry = this.cache.get( key );
