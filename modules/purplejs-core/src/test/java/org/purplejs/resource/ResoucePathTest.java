@@ -11,6 +11,7 @@ public class ResoucePathTest
     {
         final ResourcePath path = ResourcePath.from( "/" );
         assertSame( path, ResourcePath.from( "/" ) );
+        assertSame( path, ResourcePath.ROOT );
         assertEquals( "/", path.getPath() );
         assertEquals( "/", path.toString() );
         assertEquals( "", path.getName() );
