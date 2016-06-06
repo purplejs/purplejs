@@ -32,13 +32,13 @@ public class ChainedResourceLoaderTest
         final ResourcePath path = ResourcePath.from( "/a.txt" );
         final Resource expected = Mockito.mock( Resource.class );
 
-        Mockito.when( this.loader1.load( path ) ).thenReturn( expected );
+        Mockito.when( this.loader1.loadOrNull( path ) ).thenReturn( expected );
 
         final Resource actual = this.chain.load( ResourcePath.from( "/a.txt" ) );
         assertSame( expected, actual );
 
-        Mockito.verify( this.loader1, Mockito.times( 1 ) ).load( path );
-        Mockito.verify( this.loader2, Mockito.times( 0 ) ).load( path );
+        Mockito.verify( this.loader1, Mockito.times( 1 ) ).loadOrNull( path );
+        Mockito.verify( this.loader2, Mockito.times( 0 ) ).loadOrNull( path );
     }
 
     @Test
@@ -47,13 +47,13 @@ public class ChainedResourceLoaderTest
         final ResourcePath path = ResourcePath.from( "/a.txt" );
         final Resource expected = Mockito.mock( Resource.class );
 
-        Mockito.when( this.loader1.load( path ) ).thenThrow( new ResourceNotFoundException( path ) );
-        Mockito.when( this.loader2.load( path ) ).thenReturn( expected );
+        Mockito.when( this.loader1.loadOrNull( path ) ).thenReturn( null );
+        Mockito.when( this.loader2.loadOrNull( path ) ).thenReturn( expected );
 
         final Resource actual = this.chain.load( ResourcePath.from( "/a.txt" ) );
         assertSame( expected, actual );
 
-        Mockito.verify( this.loader1, Mockito.times( 1 ) ).load( path );
-        Mockito.verify( this.loader2, Mockito.times( 1 ) ).load( path );
+        Mockito.verify( this.loader1, Mockito.times( 1 ) ).loadOrNull( path );
+        Mockito.verify( this.loader2, Mockito.times( 1 ) ).loadOrNull( path );
     }
 }

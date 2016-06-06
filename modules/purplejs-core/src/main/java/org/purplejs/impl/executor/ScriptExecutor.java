@@ -10,4 +10,6 @@ public interface ScriptExecutor
     Object executeRequire( ResourcePath path );
 
     ScriptValue newScriptValue( Object value );
+
+    void registerMock( String path, Object value );
 }

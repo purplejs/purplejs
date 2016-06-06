@@ -17,3 +17,11 @@ test {
         classDumpFile = file( "${rootProject.buildDir}/jacoco/classdumps" )
     }
 }
+
+integrationTest {
+    jacoco {
+        append = true
+        destinationFile = file( "${rootProject.buildDir}/jacoco/test.exec" )
+        classDumpFile = file( "${rootProject.buildDir}/jacoco/classdumps" )
+    }
+}

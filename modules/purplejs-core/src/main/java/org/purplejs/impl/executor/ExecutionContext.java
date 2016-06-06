@@ -1,6 +1,8 @@
 package org.purplejs.impl.executor;
 
+import org.purplejs.impl.util.JsObjectConverter;
 import org.purplejs.resource.ResourcePath;
+import org.purplejs.value.ScriptValue;
 
 public final class ExecutionContext
 {
@@ -20,12 +22,8 @@ public final class ExecutionContext
     public Object newBean( final String type )
         throws Exception
     {
-        return null;
-    }
-
-    public void finalize( final Runnable runnable )
-    {
-
+        final Class<?> clz = Class.forName( type, true, this.executor.getSettings().getClassLoader() );
+        return clz.newInstance();
     }
 
     public ResourcePath getResource()
@@ -42,5 +40,20 @@ public final class ExecutionContext
     public ResourcePath resolve( final String path )
     {
         return this.resourceResolver.resolve( path );
+    }
+
+    public ScriptValue toScriptValue( final Object value )
+    {
+        return this.executor.newScriptValue( value );
+    }
+
+    public Object toNativeObject( final Object value )
+    {
+        return JsObjectConverter.toJs( value );
+    }
+
+    public void registerMock( final String name, final Object value )
+    {
+        this.executor.registerMock( name, value );
     }
 }

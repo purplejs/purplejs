@@ -160,4 +160,10 @@ public final class ScriptExecutorImpl
             throw ErrorHelper.handleError( e );
         }
     }
+
+    @Override
+    public void registerMock( final String path, final Object value )
+    {
+        this.mocks.put( path, value );
+    }
 }
