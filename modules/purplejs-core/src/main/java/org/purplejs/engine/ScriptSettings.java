@@ -1,4 +1,4 @@
-package org.purplejs.impl.executor;
+package org.purplejs.engine;
 
 import java.util.Map;
 
@@ -13,4 +13,6 @@ public interface ScriptSettings
     ClassLoader getClassLoader();
 
     Map<String, Object> getGlobalVariables();
+
+    // Map<String, String> getConfig();
 }

@@ -14,5 +14,5 @@ public interface Engine
     // Request filter( ScriptExports exports, Request request );
     // Response filter( ScriptExports exports, Request request, Response response );
 
-    // void dispose();   -> Trigger all finalizers
+    void dispose();
 }

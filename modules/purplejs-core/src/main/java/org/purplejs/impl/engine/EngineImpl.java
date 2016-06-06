@@ -3,8 +3,8 @@ package org.purplejs.impl.engine;
 import java.util.Map;
 
 import org.purplejs.engine.Engine;
+import org.purplejs.engine.ScriptSettings;
 import org.purplejs.impl.executor.ScriptExecutorImpl;
-import org.purplejs.impl.executor.ScriptSettings;
 import org.purplejs.impl.util.NashornHelper;
 import org.purplejs.impl.value.ScriptExportsImpl;
 import org.purplejs.resource.ResourceLoader;
@@ -89,5 +89,11 @@ final class EngineImpl
         final Object exports = this.executor.executeRequire( path );
         final ScriptValue value = this.executor.newScriptValue( exports );
         return new ScriptExportsImpl( path, value );
+    }
+
+    @Override
+    public void dispose()
+    {
+        this.executor.dispose();
     }
 }

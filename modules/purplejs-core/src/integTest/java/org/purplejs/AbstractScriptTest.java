@@ -7,7 +7,7 @@ import org.purplejs.value.ScriptExports;
 
 public abstract class AbstractScriptTest
 {
-    private final Engine engine;
+    protected final Engine engine;
 
     public AbstractScriptTest()
     {

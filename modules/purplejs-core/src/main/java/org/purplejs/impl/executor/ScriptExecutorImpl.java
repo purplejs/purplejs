@@ -9,6 +9,7 @@ import javax.script.ScriptContext;
 import javax.script.ScriptEngine;
 import javax.script.SimpleBindings;
 
+import org.purplejs.engine.ScriptSettings;
 import org.purplejs.impl.cache.ScriptExportsCache;
 import org.purplejs.impl.util.NashornHelper;
 import org.purplejs.impl.value.ScriptValueFactoryImpl;
@@ -32,7 +33,9 @@ public final class ScriptExecutorImpl
 
     private ScriptExportsCache exportsCache;
 
-    private Map<String, Object> mocks;
+    private Map<ResourcePath, Object> mocks;
+
+    private Map<ResourcePath, Runnable> finalizers;
 
     @Override
     public ScriptSettings getSettings()
@@ -53,6 +56,7 @@ public final class ScriptExecutorImpl
     public void init()
     {
         this.mocks = Maps.newHashMap();
+        this.finalizers = Maps.newHashMap();
         this.exportsCache = new ScriptExportsCache();
         this.global = this.engine.createBindings();
         this.global.putAll( this.settings.getGlobalVariables() );
@@ -62,7 +66,7 @@ public final class ScriptExecutorImpl
     @Override
     public Object executeRequire( final ResourcePath path )
     {
-        final Object mock = this.mocks.get( path.getPath() );
+        final Object mock = this.mocks.get( path );
         if ( mock != null )
         {
             return mock;
@@ -119,6 +123,7 @@ public final class ScriptExecutorImpl
         final Resource resource = loadResource( key );
         if ( this.exportsCache.isExpired( resource ) )
         {
+            runFinalizer( key );
             return resource;
         }
 
@@ -134,7 +139,7 @@ public final class ScriptExecutorImpl
     {
         try
         {
-            final ExecutionContext context = new ExecutionContext( this, script );
+            final ExecutionContextImpl context = new ExecutionContextImpl( this, script );
             final Function<String, Object> requireFunc = context::require;
             final Function<String, ResourcePath> resolveFunc = context::resolve;
 
@@ -162,8 +167,32 @@ public final class ScriptExecutorImpl
     }
 
     @Override
-    public void registerMock( final String path, final Object value )
+    public void registerMock( final ResourcePath path, final Object value )
     {
         this.mocks.put( path, value );
+    }
+
+    @Override
+    public void registerFinalizer( final ResourcePath path, final Runnable callback )
+    {
+        this.finalizers.put( path, callback );
+    }
+
+    private void runFinalizer( final ResourcePath path )
+    {
+        runFinalizer( path, this.finalizers.get( path ) );
+    }
+
+    private void runFinalizer( final ResourcePath path, final Runnable callback )
+    {
+        if ( callback != null )
+        {
+            callback.run();
+        }
+    }
+
+    public void dispose()
+    {
+        this.finalizers.forEach( this::runFinalizer );
     }
 }
