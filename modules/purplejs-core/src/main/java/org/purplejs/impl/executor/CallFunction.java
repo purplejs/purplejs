@@ -1,17 +1,27 @@
-package org.purplejs.impl.function;
+package org.purplejs.impl.executor;
+
+import javax.script.Bindings;
 
 import org.purplejs.impl.util.JsObjectConverter;
 
+import jdk.nashorn.api.scripting.AbstractJSObject;
 import jdk.nashorn.api.scripting.JSObject;
 
-public final class CallFunction
-    extends AbstractFunction
+final class CallFunction
+    extends AbstractJSObject
 {
     public final static String NAME = "__call";
 
-    public CallFunction()
+    @Override
+    public final boolean isFunction()
     {
-        super( NAME );
+        return true;
+    }
+
+    @Override
+    public final boolean isStrictFunction()
+    {
+        return true;
     }
 
     @Override
@@ -22,5 +32,10 @@ public final class CallFunction
 
         final Object[] jsArray = JsObjectConverter.toJsArray( array );
         return func.call( thiz, jsArray );
+    }
+
+    public final void register( final Bindings bindings )
+    {
+        bindings.put( NAME, this );
     }
 }

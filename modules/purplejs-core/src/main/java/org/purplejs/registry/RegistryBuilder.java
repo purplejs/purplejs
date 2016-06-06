@@ -10,6 +10,8 @@ public final class RegistryBuilder
 {
     private final Map<Class, Binding> map;
 
+    private LookupProvider lookupProvider;
+
     private RegistryBuilder()
     {
         this.map = Maps.newHashMap();
@@ -33,9 +35,9 @@ public final class RegistryBuilder
         return this;
     }
 
-    public RegistryBuilder join( final Registry registry )
+    public RegistryBuilder lookupProvider( final LookupProvider lookupProvider )
     {
-        registry.getBindings().forEach( this::binding );
+        this.lookupProvider = lookupProvider;
         return this;
     }
 

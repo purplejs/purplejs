@@ -3,6 +3,7 @@ package org.purplejs.impl.value;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
+import org.purplejs.resource.ResourcePath;
 import org.purplejs.value.ScriptExports;
 import org.purplejs.value.ScriptValue;
 
@@ -10,9 +11,9 @@ import static org.junit.Assert.*;
 
 public class ScriptExportsImplTest
 {
-    private ScriptValue value;
+    private ResourcePath resource;
 
-    private ScriptValue func;
+    private ScriptValue value;
 
     private ScriptExports exports;
 
@@ -21,15 +22,22 @@ public class ScriptExportsImplTest
     @Before
     public void setup()
     {
+        this.resource = ResourcePath.from( "/a/b" );
         this.value = Mockito.mock( ScriptValue.class );
-        this.func = Mockito.mock( ScriptValue.class );
+        final ScriptValue func = Mockito.mock( ScriptValue.class );
         this.callResult = Mockito.mock( ScriptValue.class );
 
-        Mockito.when( this.func.isFunction() ).thenReturn( true );
-        Mockito.when( this.func.call( ) ).thenReturn( this.callResult );
-        Mockito.when( this.value.getMember( "exists" ) ).thenReturn( this.func );
+        Mockito.when( func.isFunction() ).thenReturn( true );
+        Mockito.when( func.call() ).thenReturn( this.callResult );
+        Mockito.when( this.value.getMember( "exists" ) ).thenReturn( func );
 
-        this.exports = new ScriptExportsImpl( value );
+        this.exports = new ScriptExportsImpl( this.resource, this.value );
+    }
+
+    @Test
+    public void getResource()
+    {
+        assertEquals( this.resource, this.exports.getResource() );
     }
 
     @Test

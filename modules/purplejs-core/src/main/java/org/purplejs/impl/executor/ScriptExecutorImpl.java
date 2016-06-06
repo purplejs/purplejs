@@ -1,20 +1,23 @@
 package org.purplejs.impl.executor;
 
 import java.util.Map;
+import java.util.function.Function;
 
 import javax.script.Bindings;
 import javax.script.Invocable;
+import javax.script.ScriptContext;
 import javax.script.ScriptEngine;
+import javax.script.SimpleBindings;
 
 import org.purplejs.impl.cache.ScriptExportsCache;
-import org.purplejs.impl.function.CallFunction;
-import org.purplejs.impl.function.ScriptFunctions;
 import org.purplejs.impl.util.NashornHelper;
 import org.purplejs.impl.value.ScriptValueFactoryImpl;
 import org.purplejs.resource.Resource;
-import org.purplejs.resource.ResourceLoader;
 import org.purplejs.resource.ResourcePath;
 import org.purplejs.value.ScriptValue;
+
+import com.google.common.base.Charsets;
+import com.google.common.collect.Maps;
 
 import jdk.nashorn.api.scripting.ScriptObjectMirror;
 
@@ -25,13 +28,36 @@ public final class ScriptExecutorImpl
 
     private Bindings global;
 
-    private boolean devMode;
+    private ScriptSettings settings;
 
     private ScriptExportsCache exportsCache;
 
-    private ResourceLoader resourceLoader;
-
     private Map<String, Object> mocks;
+
+    @Override
+    public ScriptSettings getSettings()
+    {
+        return this.settings;
+    }
+
+    public void setEngine( final ScriptEngine engine )
+    {
+        this.engine = engine;
+    }
+
+    public void setSettings( final ScriptSettings settings )
+    {
+        this.settings = settings;
+    }
+
+    public void init()
+    {
+        this.mocks = Maps.newHashMap();
+        this.exportsCache = new ScriptExportsCache();
+        this.global = this.engine.createBindings();
+        this.global.putAll( this.settings.getGlobalVariables() );
+        new CallFunction().register( this.global );
+    }
 
     @Override
     public Object executeRequire( final ResourcePath path )
@@ -49,19 +75,15 @@ public final class ScriptExecutorImpl
             return cached;
         }
 
-        /*
-        final ScriptContextImpl context = new ScriptContextImpl( resource, this.scriptSettings );
+        final ScriptContextImpl context = new ScriptContextImpl( resource );
         context.setEngineScope( this.global );
         context.setGlobalScope( new SimpleBindings() );
 
         final ScriptObjectMirror func = (ScriptObjectMirror) doExecute( context, resource );
-        final Object result = executeRequire( key, func );
+        final Object result = executeRequire( path, func );
 
         this.exportsCache.put( resource, result );
         return result;
-        */
-
-        return null;
     }
 
     @Override
@@ -89,7 +111,7 @@ public final class ScriptExecutorImpl
             return loadResource( key );
         }
 
-        if ( !this.devMode )
+        if ( !this.settings.isDevMode() )
         {
             return null;
         }
@@ -105,16 +127,33 @@ public final class ScriptExecutorImpl
 
     private Resource loadResource( final ResourcePath key )
     {
-        return this.resourceLoader.load( key );
+        return this.settings.getResourceLoader().load( key );
     }
 
     private Object executeRequire( final ResourcePath script, final ScriptObjectMirror func )
     {
         try
         {
-            final ScriptFunctions functions = new ScriptFunctions( script, this );
-            final Object result = func.call( null, functions.getLog(), functions.getRequire(), functions.getResolve(), functions );
+            final ExecutionContext context = new ExecutionContext( this, script );
+            final Function<String, Object> requireFunc = context::require;
+            final Function<String, ResourcePath> resolveFunc = context::resolve;
+
+            final Object result = func.call( null, context, requireFunc, resolveFunc );
             return NashornHelper.unwrap( result );
+        }
+        catch ( final Exception e )
+        {
+            throw ErrorHelper.handleError( e );
+        }
+    }
+
+    private Object doExecute( final ScriptContext context, final Resource script )
+    {
+        try
+        {
+            final String text = script.getBytes().asCharSource( Charsets.UTF_8 ).read();
+            final String source = InitScriptReader.getScript( text );
+            return this.engine.eval( source, context );
         }
         catch ( final Exception e )
         {

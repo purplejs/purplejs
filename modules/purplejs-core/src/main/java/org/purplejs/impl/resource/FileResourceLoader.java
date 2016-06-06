@@ -4,7 +4,6 @@ import java.io.File;
 
 import org.purplejs.resource.Resource;
 import org.purplejs.resource.ResourceLoader;
-import org.purplejs.resource.ResourceNotFoundException;
 import org.purplejs.resource.ResourcePath;
 
 final class FileResourceLoader
@@ -18,7 +17,7 @@ final class FileResourceLoader
     }
 
     @Override
-    public Resource load( final ResourcePath path )
+    public Resource loadOrNull( final ResourcePath path )
     {
         final File file = new File( this.dir, path.getPath() );
         if ( file.isFile() && file.exists() )
@@ -26,6 +25,6 @@ final class FileResourceLoader
             return new FileResource( path, file );
         }
 
-        throw new ResourceNotFoundException( path );
+        return null;
     }
 }

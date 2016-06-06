@@ -1,18 +1,24 @@
 package org.purplejs.engine;
 
-import org.purplejs.impl.engine.EngineImpl;
+import org.purplejs.impl.engine.EngineBuilderImpl;
+import org.purplejs.resource.ResourceLoader;
 
-public final class EngineBuilder
+public interface EngineBuilder
 {
-    private final EngineImpl engine;
+    EngineBuilder devMode( boolean devMode );
 
-    public EngineBuilder()
-    {
-        this.engine = new EngineImpl();
-    }
+    EngineBuilder classLoader( ClassLoader classLoader );
 
-    public Engine build()
+    EngineBuilder resourceLoader( ResourceLoader resourceLoader );
+
+    EngineBuilder globalVariable( String name, Object value );
+
+    // EngineBuilder config( String name, String value );
+
+    Engine build();
+
+    static EngineBuilder create()
     {
-        return this.engine;
+        return new EngineBuilderImpl();
     }
 }

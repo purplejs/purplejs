@@ -2,7 +2,6 @@ package org.purplejs.impl.resource;
 
 import org.purplejs.resource.Resource;
 import org.purplejs.resource.ResourceLoader;
-import org.purplejs.resource.ResourceNotFoundException;
 import org.purplejs.resource.ResourcePath;
 
 final class ChainedResourceLoader
@@ -19,15 +18,14 @@ final class ChainedResourceLoader
     }
 
     @Override
-    public Resource load( final ResourcePath path )
+    public Resource loadOrNull( final ResourcePath path )
     {
-        try
+        final Resource resource = this.loader.loadOrNull( path );
+        if ( resource != null )
         {
-            return this.loader.load( path );
+            return resource;
         }
-        catch ( final ResourceNotFoundException e )
-        {
-            return this.next.load( path );
-        }
+
+        return this.next.loadOrNull( path );
     }
 }

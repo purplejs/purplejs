@@ -12,6 +12,8 @@ public abstract class AbstractJsonGenerator
 
     private Object current;
 
+    private Object root;
+
     public AbstractJsonGenerator()
     {
         this.stack = new Stack<>();
@@ -19,7 +21,7 @@ public abstract class AbstractJsonGenerator
 
     public final Object getRoot()
     {
-        return this.current;
+        return this.root;
     }
 
     protected abstract Object newMap();
@@ -68,12 +70,26 @@ public abstract class AbstractJsonGenerator
     {
         this.stack.push( this.current );
         this.current = object;
+
+        if ( this.root == null )
+        {
+            this.root = this.current;
+        }
+
     }
 
     @Override
     public final JsonGenerator array()
     {
-        setCurrent( addToArray( newArray() ) );
+        if ( this.current == null )
+        {
+            setCurrent( newArray() );
+        }
+        else
+        {
+            setCurrent( addToArray( newArray() ) );
+        }
+
         return this;
     }
 
@@ -87,7 +103,15 @@ public abstract class AbstractJsonGenerator
     @Override
     public final JsonGenerator map()
     {
-        setCurrent( addToArray( newMap() ) );
+        if ( this.current == null )
+        {
+            setCurrent( newMap() );
+        }
+        else
+        {
+            setCurrent( addToArray( newMap() ) );
+        }
+
         return this;
     }
 

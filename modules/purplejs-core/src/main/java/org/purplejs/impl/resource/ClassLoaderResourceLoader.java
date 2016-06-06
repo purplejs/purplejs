@@ -4,7 +4,6 @@ import java.net.URL;
 
 import org.purplejs.resource.Resource;
 import org.purplejs.resource.ResourceLoader;
-import org.purplejs.resource.ResourceNotFoundException;
 import org.purplejs.resource.ResourcePath;
 
 import com.google.common.base.Joiner;
@@ -25,7 +24,7 @@ final class ClassLoaderResourceLoader
     }
 
     @Override
-    public Resource load( final ResourcePath path )
+    public Resource loadOrNull( final ResourcePath path )
     {
         final String location = resolveLocation( path );
 
@@ -35,7 +34,7 @@ final class ClassLoaderResourceLoader
             return new UrlResource( path, url );
         }
 
-        throw new ResourceNotFoundException( path );
+        return null;
     }
 
     private String normalizePath( final String path )

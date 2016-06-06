@@ -8,6 +8,7 @@ import static org.junit.Assert.*;
 
 public class RegistryBuilderTest
 {
+    /*
     @Test
     public void join()
     {
@@ -36,6 +37,7 @@ public class RegistryBuilderTest
         assertNotNull( reg3 );
         assertEquals( "Hello3", reg3.get( String.class ) );
     }
+    */
 
     @Test
     public void register()

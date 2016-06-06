@@ -1,17 +1,16 @@
 package org.purplejs.engine;
 
 import org.purplejs.resource.ResourceLoader;
+import org.purplejs.resource.ResourcePath;
 
+// TODO: Rename to execute context
 public interface EngineContext
 {
-    Engine getEngine();
+    ResourcePath getResource();
 
-    // Supplier<Request> getRequest();
+    ResourceLoader getLoader();
 
-    ResourceLoader getResourceResolver();
+    // <T> Supplier<T> lookup( Class<T> type );
 
-    static EngineContext get()
-    {
-        return null;
-    }
+
 }
