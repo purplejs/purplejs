@@ -23,7 +23,9 @@ final class EngineImpl
 
     private ClassLoader classLoader;
 
-    private ImmutableMap<String, Object> globalVariables;
+    private Map<String, Object> globalVariables;
+
+    private Map<String, String> config;
 
     private ResourceLoader resourceLoader;
 
@@ -56,6 +58,12 @@ final class EngineImpl
         return this.globalVariables;
     }
 
+    @Override
+    public Map<String, String> getConfig()
+    {
+        return this.config;
+    }
+
     public void setDevMode( final boolean devMode )
     {
         this.devMode = devMode;
@@ -74,6 +82,11 @@ final class EngineImpl
     public void setGlobalVariables( final Map<String, Object> globalVariables )
     {
         this.globalVariables = ImmutableMap.copyOf( globalVariables );
+    }
+
+    public void setConfig( final Map<String, String> config )
+    {
+        this.config = ImmutableMap.copyOf( config );
     }
 
     protected void init()

@@ -13,7 +13,7 @@ public interface EngineBuilder
 
     EngineBuilder globalVariable( String name, Object value );
 
-    // EngineBuilder config( String name, String value );
+    EngineBuilder config( String name, String value );
 
     Engine build();
 

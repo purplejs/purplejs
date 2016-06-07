@@ -1,5 +1,7 @@
 package org.purplejs.impl.executor;
 
+import java.util.Map;
+
 import org.purplejs.engine.ExecutionContext;
 import org.purplejs.engine.ScriptSettings;
 import org.purplejs.impl.util.JsObjectConverter;
@@ -90,5 +92,11 @@ public final class ExecutionContextImpl
     public void finalizer( final Runnable runnable )
     {
         this.executor.registerFinalizer( this.resource, runnable );
+    }
+
+    @Override
+    public Map<String, String> getConfig()
+    {
+        return this.executor.getSettings().getConfig();
     }
 }

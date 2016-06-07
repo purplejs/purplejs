@@ -1,5 +1,7 @@
 package org.purplejs.engine;
 
+import java.util.Map;
+
 import org.purplejs.resource.ResourceLoader;
 import org.purplejs.resource.ResourcePath;
 import org.purplejs.value.ScriptValue;
@@ -28,7 +30,7 @@ public interface ExecutionContext
 
     Object toNativeObject( Object value );
 
-    // Map<String, String> getConfig();
+    Map<String, String> getConfig();
 
     void registerMock( String path, Object value );
 }

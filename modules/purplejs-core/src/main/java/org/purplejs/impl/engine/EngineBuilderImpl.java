@@ -20,9 +20,12 @@ public final class EngineBuilderImpl
 
     private final Map<String, Object> globalVariables;
 
+    private final Map<String, String> config;
+
     public EngineBuilderImpl()
     {
         this.globalVariables = Maps.newHashMap();
+        this.config = Maps.newHashMap();
     }
 
     @Override
@@ -53,6 +56,13 @@ public final class EngineBuilderImpl
         return this;
     }
 
+    @Override
+    public EngineBuilder config( final String name, final String value )
+    {
+        this.config.put( name, value );
+        return this;
+    }
+
     private void setupDefaults()
     {
         if ( this.classLoader == null )
@@ -76,6 +86,7 @@ public final class EngineBuilderImpl
         engine.setClassLoader( this.classLoader );
         engine.setResourceLoader( this.resourceLoader );
         engine.setGlobalVariables( this.globalVariables );
+        engine.setConfig( this.config );
         engine.init();
 
         return engine;

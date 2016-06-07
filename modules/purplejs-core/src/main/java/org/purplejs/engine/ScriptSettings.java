@@ -14,5 +14,5 @@ public interface ScriptSettings
 
     Map<String, Object> getGlobalVariables();
 
-    // Map<String, String> getConfig();
+    Map<String, String> getConfig();
 }
