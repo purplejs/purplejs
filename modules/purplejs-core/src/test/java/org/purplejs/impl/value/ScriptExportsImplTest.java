@@ -30,6 +30,7 @@ public class ScriptExportsImplTest
         Mockito.when( func.isFunction() ).thenReturn( true );
         Mockito.when( func.call() ).thenReturn( this.callResult );
         Mockito.when( this.value.getMember( "exists" ) ).thenReturn( func );
+        Mockito.when( this.value.getMember( "number" ) ).thenReturn( new ScriptValueFactoryImpl( null ).newValue( 1 ) );
 
         this.exports = new ScriptExportsImpl( this.resource, this.value );
     }
@@ -61,5 +62,8 @@ public class ScriptExportsImplTest
 
         final ScriptValue result2 = this.exports.executeMethod( "exists" );
         assertSame( this.callResult, result2 );
+
+        final ScriptValue result3 = this.exports.executeMethod( "number" );
+        assertNull( result3 );
     }
 }
