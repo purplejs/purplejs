@@ -4,15 +4,15 @@ import java.io.File;
 import java.util.List;
 import java.util.Map;
 
-import io.purplejs.resource.ResourceLoader;
-import io.purplejs.resource.ResourceLoaderBuilder;
-
+import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 import io.purplejs.Engine;
 import io.purplejs.EngineBuilder;
+import io.purplejs.resource.ResourceLoader;
+import io.purplejs.resource.ResourceLoaderBuilder;
 
 public final class EngineBuilderImpl
     implements EngineBuilder
@@ -34,6 +34,7 @@ public final class EngineBuilderImpl
         this.devSourceDirs = Lists.newArrayList();
         this.globalVariables = Maps.newHashMap();
         this.config = Maps.newHashMap();
+        setupFromEnvironment();
     }
 
     @Override
@@ -102,6 +103,37 @@ public final class EngineBuilderImpl
         this.devSourceDirs.forEach( builder::from );
         builder.add( this.resourceLoader );
         return builder.build();
+    }
+
+    private void setupFromEnvironment()
+    {
+        setDevModeFromEnv();
+        setDevSourceDirsFromEnv();
+    }
+
+    private void setDevModeFromEnv()
+    {
+        final String value = System.getProperty( "purplejs.devMode" );
+
+        try
+        {
+            this.devMode = Boolean.parseBoolean( value );
+        }
+        catch ( final Exception e )
+        {
+            this.devMode = false;
+        }
+    }
+
+    private void setDevSourceDirsFromEnv()
+    {
+        final String value = System.getProperty( "purplejs.devSourceDirs" );
+        if ( value == null )
+        {
+            return;
+        }
+
+        Splitter.on( ',' ).trimResults().omitEmptyStrings().split( value ).forEach( str -> this.devSourceDirs.add( new File( str ) ) );
     }
 
     @Override
