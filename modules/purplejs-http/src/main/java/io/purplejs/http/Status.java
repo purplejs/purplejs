@@ -1,4 +1,4 @@
-package org.purplejs.http;
+package io.purplejs.http;
 
 public enum Status
     implements StatusType

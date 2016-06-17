@@ -1,24 +1,24 @@
-package org.purplejs.http.impl;
+package io.purplejs.http;
 
 import java.util.Map;
 import java.util.Optional;
 
-import org.purplejs.http.Headers;
-
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
+import com.google.common.net.MediaType;
 
-public final class HeadersImpl
-    implements Headers
+public final class Headers
 {
+    public final static String CONTENT_TYPE = "Content-Type";
+
+
     private final Map<String, String> map;
 
-    public HeadersImpl()
+    public Headers()
     {
         this.map = Maps.newHashMap();
     }
 
-    @Override
     public Optional<String> get( final String key )
     {
         final String value = this.map.get( key );
@@ -35,9 +35,13 @@ public final class HeadersImpl
         this.map.remove( key );
     }
 
-    @Override
     public Map<String, String> asMap()
     {
         return ImmutableMap.copyOf( this.map );
+    }
+
+    public Optional<MediaType> getContentType()
+    {
+        return get( CONTENT_TYPE ).map( MediaType::parse );
     }
 }

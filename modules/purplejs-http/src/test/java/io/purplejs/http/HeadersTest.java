@@ -1,4 +1,4 @@
-package org.purplejs.http.impl;
+package io.purplejs.http;
 
 import java.util.Map;
 import java.util.Optional;
@@ -10,14 +10,14 @@ import com.google.common.net.MediaType;
 
 import static org.junit.Assert.*;
 
-public class HeadersImplTest
+public class HeadersTest
 {
-    private HeadersImpl headers;
+    private Headers headers;
 
     @Before
     public void setup()
     {
-        this.headers = new HeadersImpl();
+        this.headers = new Headers();
     }
 
     @Test

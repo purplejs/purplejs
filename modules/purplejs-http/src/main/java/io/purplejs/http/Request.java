@@ -1,4 +1,4 @@
-package org.purplejs.http;
+package io.purplejs.http;
 
 import com.google.common.io.ByteSource;
 
