@@ -2,7 +2,7 @@ package io.purplejs;
 
 import java.io.File;
 
-import org.purplejs.resource.ResourceLoader;
+import io.purplejs.resource.ResourceLoader;
 
 import io.purplejs.impl.EngineBuilderImpl;
 

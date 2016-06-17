@@ -4,8 +4,8 @@ import java.io.File;
 import java.util.List;
 import java.util.Map;
 
-import org.purplejs.resource.ResourceLoader;
-import org.purplejs.resource.ResourceLoaderBuilder;
+import io.purplejs.resource.ResourceLoader;
+import io.purplejs.resource.ResourceLoaderBuilder;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;

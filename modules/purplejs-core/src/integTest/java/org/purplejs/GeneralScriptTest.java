@@ -1,9 +1,9 @@
 package org.purplejs;
 
 import org.junit.Test;
-import org.purplejs.json.JsonSerializable;
-import org.purplejs.resource.ResourcePath;
-import org.purplejs.value.ScriptExports;
+import io.purplejs.json.JsonSerializable;
+import io.purplejs.resource.ResourcePath;
+import io.purplejs.value.ScriptExports;
 
 import static org.junit.Assert.*;
 

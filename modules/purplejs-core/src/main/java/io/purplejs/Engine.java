@@ -2,9 +2,8 @@ package io.purplejs;
 
 import java.util.function.Function;
 
-import org.purplejs.engine.ScriptSettings;
-import org.purplejs.resource.ResourcePath;
-import org.purplejs.value.ScriptExports;
+import io.purplejs.resource.ResourcePath;
+import io.purplejs.value.ScriptExports;
 
 public interface Engine
 {

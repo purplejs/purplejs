@@ -1,7 +1,7 @@
 package org.purplejs;
 
 import org.junit.Test;
-import org.purplejs.resource.ResourcePath;
+import io.purplejs.resource.ResourcePath;
 
 public class GlobalScopeTest
     extends AbstractScriptTest

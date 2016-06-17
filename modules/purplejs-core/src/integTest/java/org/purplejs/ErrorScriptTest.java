@@ -1,9 +1,9 @@
 package org.purplejs;
 
 import org.junit.Test;
-import org.purplejs.resource.ResourcePath;
-import org.purplejs.resource.ResourceProblemException;
-import org.purplejs.value.ScriptExports;
+import io.purplejs.resource.ResourcePath;
+import io.purplejs.resource.ResourceProblemException;
+import io.purplejs.value.ScriptExports;
 
 import static org.junit.Assert.*;
 

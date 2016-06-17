@@ -2,10 +2,9 @@ package io.purplejs;
 
 import java.util.Map;
 
-import org.purplejs.engine.ScriptSettings;
-import org.purplejs.resource.ResourceLoader;
-import org.purplejs.resource.ResourcePath;
-import org.purplejs.value.ScriptValue;
+import io.purplejs.resource.ResourceLoader;
+import io.purplejs.resource.ResourcePath;
+import io.purplejs.value.ScriptValue;
 
 public interface ExecutionContext
 {

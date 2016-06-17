@@ -2,13 +2,13 @@ package io.purplejs.impl;
 
 import java.util.function.Function;
 
-import org.purplejs.engine.ScriptSettings;
-import org.purplejs.impl.executor.ScriptExecutorImpl;
-import org.purplejs.impl.util.NashornHelper;
-import org.purplejs.impl.value.ScriptExportsImpl;
-import org.purplejs.resource.ResourcePath;
-import org.purplejs.value.ScriptExports;
-import org.purplejs.value.ScriptValue;
+import io.purplejs.ScriptSettings;
+import io.purplejs.impl.executor.ScriptExecutorImpl;
+import io.purplejs.impl.util.NashornHelper;
+import io.purplejs.impl.value.ScriptExportsImpl;
+import io.purplejs.resource.ResourcePath;
+import io.purplejs.value.ScriptExports;
+import io.purplejs.value.ScriptValue;
 
 import io.purplejs.Engine;
 

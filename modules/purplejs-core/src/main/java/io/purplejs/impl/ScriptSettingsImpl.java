@@ -2,8 +2,8 @@ package io.purplejs.impl;
 
 import java.util.Map;
 
-import org.purplejs.engine.ScriptSettings;
-import org.purplejs.resource.ResourceLoader;
+import io.purplejs.ScriptSettings;
+import io.purplejs.resource.ResourceLoader;
 
 import com.google.common.collect.ImmutableMap;
 
