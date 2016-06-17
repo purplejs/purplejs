@@ -2,6 +2,7 @@ package io.purplejs.impl;
 
 import java.util.function.Function;
 
+import io.purplejs.Engine;
 import io.purplejs.ScriptSettings;
 import io.purplejs.impl.executor.ScriptExecutorImpl;
 import io.purplejs.impl.util.NashornHelper;
@@ -9,8 +10,6 @@ import io.purplejs.impl.value.ScriptExportsImpl;
 import io.purplejs.resource.ResourcePath;
 import io.purplejs.value.ScriptExports;
 import io.purplejs.value.ScriptValue;
-
-import io.purplejs.Engine;
 
 final class EngineImpl
     implements Engine
@@ -42,9 +41,7 @@ final class EngineImpl
     public <R> R execute( final ResourcePath resource, final Function<ScriptExports, R> command )
     {
         final ScriptExports exports = require( resource );
-
-        // TODO: Set the command in context so that it's available as __.command (and clear afterwards)
-        return command.apply( exports );
+        return this.executor.executeCommand( exports, command );
     }
 
     @Override

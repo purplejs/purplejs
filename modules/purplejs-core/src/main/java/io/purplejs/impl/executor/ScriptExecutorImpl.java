@@ -9,22 +9,24 @@ import javax.script.ScriptContext;
 import javax.script.ScriptEngine;
 import javax.script.SimpleBindings;
 
+import com.google.common.base.Charsets;
+import com.google.common.collect.Maps;
+
 import io.purplejs.ScriptSettings;
 import io.purplejs.impl.cache.ScriptExportsCache;
 import io.purplejs.impl.util.NashornHelper;
 import io.purplejs.impl.value.ScriptValueFactoryImpl;
 import io.purplejs.resource.Resource;
 import io.purplejs.resource.ResourcePath;
+import io.purplejs.value.ScriptExports;
 import io.purplejs.value.ScriptValue;
-
-import com.google.common.base.Charsets;
-import com.google.common.collect.Maps;
-
 import jdk.nashorn.api.scripting.ScriptObjectMirror;
 
 public final class ScriptExecutorImpl
     implements ScriptExecutor
 {
+    private final ThreadLocal<Object> currentCommand;
+
     private ScriptEngine engine;
 
     private Bindings global;
@@ -36,6 +38,11 @@ public final class ScriptExecutorImpl
     private Map<ResourcePath, Object> mocks;
 
     private Map<ResourcePath, Runnable> finalizers;
+
+    public ScriptExecutorImpl()
+    {
+        this.currentCommand = new ThreadLocal<>();
+    }
 
     @Override
     public ScriptSettings getSettings()
@@ -139,7 +146,7 @@ public final class ScriptExecutorImpl
     {
         try
         {
-            final ExecutionContextImpl context = new ExecutionContextImpl( this, script );
+            final ExecutionContextImpl context = new ExecutionContextImpl( this, script, this::getCurrentCommand );
             final Function<String, Object> requireFunc = context::require;
             final Function<String, ResourcePath> resolveFunc = context::resolve;
 
@@ -194,5 +201,25 @@ public final class ScriptExecutorImpl
     public void dispose()
     {
         this.finalizers.forEach( this::runFinalizer );
+    }
+
+    @Override
+    public <R> R executeCommand( final ScriptExports exports, final Function<ScriptExports, R> command )
+    {
+        this.currentCommand.set( command );
+
+        try
+        {
+            return command.apply( exports );
+        }
+        finally
+        {
+            this.currentCommand.remove();
+        }
+    }
+
+    private Object getCurrentCommand()
+    {
+        return this.currentCommand.get();
     }
 }

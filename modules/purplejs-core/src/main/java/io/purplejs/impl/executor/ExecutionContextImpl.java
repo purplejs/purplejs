@@ -1,6 +1,7 @@
 package io.purplejs.impl.executor;
 
 import java.util.Map;
+import java.util.function.Supplier;
 
 import io.purplejs.ExecutionContext;
 import io.purplejs.ScriptSettings;
@@ -18,11 +19,14 @@ final class ExecutionContextImpl
 
     private ResourceResolver resourceResolver;
 
-    ExecutionContextImpl( final ScriptExecutor executor, final ResourcePath resource )
+    private final Supplier<Object> commandSupplier;
+
+    ExecutionContextImpl( final ScriptExecutor executor, final ResourcePath resource, final Supplier<Object> commandSupplier )
     {
         this.executor = executor;
         this.resource = resource;
         this.resourceResolver = new ResourceResolver( this.executor.getSettings().getResourceLoader(), this.resource );
+        this.commandSupplier = commandSupplier;
     }
 
     @Override
@@ -34,7 +38,7 @@ final class ExecutionContextImpl
     @Override
     public Object getCommand()
     {
-        return null;
+        return this.commandSupplier.get();
     }
 
     @Override
