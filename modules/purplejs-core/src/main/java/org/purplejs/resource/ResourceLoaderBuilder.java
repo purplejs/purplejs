@@ -16,6 +16,7 @@ public interface ResourceLoaderBuilder
 
     ResourceLoader build();
 
+    // TODO: Rename to newBuilder
     static ResourceLoaderBuilder create()
     {
         return new ResourceLoaderBuilderImpl();

@@ -1,11 +1,16 @@
-package org.purplejs.engine;
+package io.purplejs;
 
-import org.purplejs.impl.engine.EngineBuilderImpl;
+import java.io.File;
+
 import org.purplejs.resource.ResourceLoader;
+
+import io.purplejs.impl.EngineBuilderImpl;
 
 public interface EngineBuilder
 {
     EngineBuilder devMode( boolean devMode );
+
+    EngineBuilder devSourceDir( File dir );
 
     EngineBuilder classLoader( ClassLoader classLoader );
 
@@ -17,7 +22,7 @@ public interface EngineBuilder
 
     Engine build();
 
-    static EngineBuilder create()
+    static EngineBuilder newBuilder()
     {
         return new EngineBuilderImpl();
     }

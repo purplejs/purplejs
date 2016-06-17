@@ -1,13 +1,18 @@
-package org.purplejs.impl.engine;
+package io.purplejs.impl;
 
+import java.io.File;
+import java.util.List;
 import java.util.Map;
 
-import org.purplejs.engine.Engine;
-import org.purplejs.engine.EngineBuilder;
 import org.purplejs.resource.ResourceLoader;
 import org.purplejs.resource.ResourceLoaderBuilder;
 
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+
+import io.purplejs.Engine;
+import io.purplejs.EngineBuilder;
 
 public final class EngineBuilderImpl
     implements EngineBuilder
@@ -18,12 +23,15 @@ public final class EngineBuilderImpl
 
     private ResourceLoader resourceLoader;
 
+    private final List<File> devSourceDirs;
+
     private final Map<String, Object> globalVariables;
 
     private final Map<String, String> config;
 
     public EngineBuilderImpl()
     {
+        this.devSourceDirs = Lists.newArrayList();
         this.globalVariables = Maps.newHashMap();
         this.config = Maps.newHashMap();
     }
@@ -32,6 +40,13 @@ public final class EngineBuilderImpl
     public EngineBuilder devMode( final boolean devMode )
     {
         this.devMode = devMode;
+        return this;
+    }
+
+    @Override
+    public EngineBuilder devSourceDir( final File dir )
+    {
+        this.devSourceDirs.add( dir );
         return this;
     }
 
@@ -76,17 +91,33 @@ public final class EngineBuilderImpl
         }
     }
 
+    private ResourceLoader createResourceLoader()
+    {
+        if ( !this.devMode )
+        {
+            return this.resourceLoader;
+        }
+
+        final ResourceLoaderBuilder builder = ResourceLoaderBuilder.create();
+        this.devSourceDirs.forEach( builder::from );
+        builder.add( this.resourceLoader );
+        return builder.build();
+    }
+
     @Override
     public Engine build()
     {
         setupDefaults();
 
+        final ScriptSettingsImpl settings = new ScriptSettingsImpl();
+        settings.devMode = this.devMode;
+        settings.classLoader = this.classLoader;
+        settings.resourceLoader = createResourceLoader();
+        settings.config = ImmutableMap.copyOf( this.config );
+        settings.globalVariables = ImmutableMap.copyOf( this.globalVariables );
+
         final EngineImpl engine = new EngineImpl();
-        engine.setDevMode( this.devMode );
-        engine.setClassLoader( this.classLoader );
-        engine.setResourceLoader( this.resourceLoader );
-        engine.setGlobalVariables( this.globalVariables );
-        engine.setConfig( this.config );
+        engine.settings = settings;
         engine.init();
 
         return engine;
