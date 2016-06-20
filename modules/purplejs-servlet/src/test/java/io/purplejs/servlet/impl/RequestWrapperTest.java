@@ -1,9 +1,10 @@
-package org.purplejs.servlet.impl;
+package io.purplejs.servlet.impl;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.purplejs.http.Headers;
 import org.springframework.mock.web.MockHttpServletRequest;
+
+import io.purplejs.http.Headers;
 
 import static org.junit.Assert.*;
 

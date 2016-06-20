@@ -1,4 +1,4 @@
-package org.purplejs.servlet.impl;
+package io.purplejs.servlet.impl;
 
 import java.io.ByteArrayInputStream;
 

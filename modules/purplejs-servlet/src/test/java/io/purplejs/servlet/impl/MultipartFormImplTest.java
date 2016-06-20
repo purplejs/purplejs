@@ -1,4 +1,4 @@
-package org.purplejs.servlet.impl;
+package io.purplejs.servlet.impl;
 
 import java.util.Iterator;
 
@@ -6,10 +6,11 @@ import javax.servlet.http.Part;
 
 import org.junit.Test;
 import org.mockito.Mockito;
-import org.purplejs.http.MultipartForm;
-import org.purplejs.http.MultipartItem;
 
 import com.google.common.collect.Lists;
+
+import io.purplejs.http.MultipartForm;
+import io.purplejs.http.MultipartItem;
 
 import static org.junit.Assert.*;
 

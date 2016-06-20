@@ -1,4 +1,4 @@
-package org.purplejs.servlet.impl;
+package io.purplejs.servlet.impl;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -6,11 +6,11 @@ import java.util.Optional;
 
 import javax.servlet.http.Part;
 
-import org.purplejs.http.MultipartForm;
-import org.purplejs.http.MultipartItem;
-
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
+
+import io.purplejs.http.MultipartForm;
+import io.purplejs.http.MultipartItem;
 
 final class MultipartFormImpl
     implements MultipartForm

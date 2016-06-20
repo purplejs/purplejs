@@ -1,16 +1,16 @@
-package org.purplejs.servlet.impl;
+package io.purplejs.servlet.impl;
 
 import java.io.IOException;
 import java.io.InputStream;
 
 import javax.servlet.http.Part;
 
-import org.purplejs.http.MultipartItem;
-
 import com.google.common.base.Charsets;
 import com.google.common.base.Throwables;
 import com.google.common.io.ByteSource;
 import com.google.common.net.MediaType;
+
+import io.purplejs.http.MultipartItem;
 
 final class MultipartItemImpl
     extends ByteSource

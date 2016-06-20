@@ -1,0 +1,7 @@
+apply plugin: 'jetty'
+
+dependencies {
+    compile project( ':purplejs-servlet' )
+}
+
+jettyRun.contextPath = '/'
