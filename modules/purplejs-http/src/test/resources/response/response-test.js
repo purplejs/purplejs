@@ -72,3 +72,22 @@ exports.jsonObjectBody = function () {
         }
     }
 };
+
+exports.cookies = function () {
+    return {
+        cookies: {
+            "cookie1": "value1",
+            "cookie2": {
+                "value": "value2",
+                "path": "/a/b",
+                "domain": "foo.com",
+                "comment": "a cookie",
+                "maxAge": 100,
+                "secure": true,
+                "httpOnly": true
+            }
+        }
+    }
+};
+
+

@@ -1,8 +1,12 @@
 package io.purplejs.http.impl.response;
 
+import java.util.List;
+
+import com.google.common.collect.Lists;
 import com.google.common.io.ByteSource;
 import com.google.common.net.MediaType;
 
+import io.purplejs.http.Cookie;
 import io.purplejs.http.Headers;
 import io.purplejs.http.Response;
 import io.purplejs.http.Status;
@@ -17,6 +21,8 @@ public final class ResponseBuilder
     private ByteSource body;
 
     private final Headers headers = new Headers();
+
+    private final List<Cookie> cookies = Lists.newArrayList();
 
     private ScriptValue value;
 
@@ -50,6 +56,12 @@ public final class ResponseBuilder
         return this;
     }
 
+    public ResponseBuilder cookie( final Cookie cookie )
+    {
+        this.cookies.add( cookie );
+        return this;
+    }
+
     public Response build()
     {
         final ResponseImpl response = new ResponseImpl();
@@ -58,6 +70,7 @@ public final class ResponseBuilder
         response.body = this.body != null ? this.body : ByteSource.empty();
         response.headers = this.headers;
         response.value = this.value;
+        response.cookies = this.cookies;
         return response;
     }
 

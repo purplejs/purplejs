@@ -1,8 +1,11 @@
 package io.purplejs.http.impl.response;
 
+import java.util.List;
+
 import com.google.common.io.ByteSource;
 import com.google.common.net.MediaType;
 
+import io.purplejs.http.Cookie;
 import io.purplejs.http.Headers;
 import io.purplejs.http.Response;
 import io.purplejs.http.Status;
@@ -21,6 +24,8 @@ final class ResponseImpl
 
     ScriptValue value;
 
+    List<Cookie> cookies;
+
     @Override
     public Status getStatus()
     {
@@ -37,6 +42,12 @@ final class ResponseImpl
     public Headers getHeaders()
     {
         return this.headers;
+    }
+
+    @Override
+    public List<Cookie> getCookies()
+    {
+        return this.cookies;
     }
 
     @Override

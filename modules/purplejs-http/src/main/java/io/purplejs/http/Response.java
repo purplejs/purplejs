@@ -1,5 +1,7 @@
 package io.purplejs.http;
 
+import java.util.List;
+
 import com.google.common.io.ByteSource;
 import com.google.common.net.MediaType;
 
@@ -14,6 +16,8 @@ public interface Response
     MediaType getContentType();
 
     Headers getHeaders();
+
+    List<Cookie> getCookies();
 
     ScriptValue getValue();
 }

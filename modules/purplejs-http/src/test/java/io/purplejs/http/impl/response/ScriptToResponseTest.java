@@ -1,5 +1,7 @@
 package io.purplejs.http.impl.response;
 
+import java.util.List;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -10,6 +12,7 @@ import com.google.common.net.MediaType;
 
 import io.purplejs.Engine;
 import io.purplejs.EngineBuilder;
+import io.purplejs.http.Cookie;
 import io.purplejs.http.Response;
 import io.purplejs.http.Status;
 import io.purplejs.resource.Resource;
@@ -68,6 +71,7 @@ public class ScriptToResponseTest
         assertEquals( "text/plain", response.getContentType().toString() );
         assertEquals( "{X-Header-2=value2, X-Header-1=value1}", response.getHeaders().asMap().toString() );
         assertNotNull( response.getValue() );
+        assertEquals( 0, response.getCookies().size() );
     }
 
     @Test
@@ -156,5 +160,34 @@ public class ScriptToResponseTest
     {
         final Response response = toResponse( "jsonObjectBody" );
         assertEquals( "{\"a\":1,\"b\":2,\"c\":3,\"d\":[1,2,3]}", response.getBody().asCharSource( Charsets.UTF_8 ).read() );
+    }
+
+    @Test
+    public void cookies()
+    {
+        final Response response = toResponse( "cookies" );
+        final List<Cookie> cookies = response.getCookies();
+
+        assertEquals( 2, cookies.size() );
+
+        final Cookie cookie1 = cookies.get( 0 );
+        assertEquals( "cookie1", cookie1.getName() );
+        assertEquals( "value1", cookie1.getValue() );
+        assertNull( cookie1.getComment() );
+        assertNull( cookie1.getPath() );
+        assertNull( cookie1.getDomain() );
+        assertEquals( 0, cookie1.getMaxAge() );
+        assertEquals( false, cookie1.isSecure() );
+        assertEquals( false, cookie1.isHttpOnly() );
+
+        final Cookie cookie2 = cookies.get( 1 );
+        assertEquals( "cookie2", cookie2.getName() );
+        assertEquals( "value2", cookie2.getValue() );
+        assertEquals( "a cookie", cookie2.getComment() );
+        assertEquals( "/a/b", cookie2.getPath() );
+        assertEquals( "foo.com", cookie2.getDomain() );
+        assertEquals( 100, cookie2.getMaxAge() );
+        assertEquals( true, cookie2.isSecure() );
+        assertEquals( true, cookie2.isHttpOnly() );
     }
 }
