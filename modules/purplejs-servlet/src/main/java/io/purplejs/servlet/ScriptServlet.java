@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import io.purplejs.EngineBuilder;
+import io.purplejs.http.Response;
 import io.purplejs.http.executor.HttpExecutor;
 import io.purplejs.http.executor.HttpExecutorBuilder;
 import io.purplejs.resource.ResourcePath;
@@ -50,9 +51,17 @@ public class ScriptServlet
         throws ServletException, IOException
     {
         final RequestWrapper requestWrapper = new RequestWrapper( req );
-        this.executor.serve( this.resource, requestWrapper );
+        final Response response = this.executor.serve( this.resource, requestWrapper );
+        serialize( resp, response );
+    }
 
-        super.service( req, resp );
+    private void serialize( final HttpServletResponse to, final Response from )
+        throws IOException
+    {
+        to.setStatus( from.getStatus().getCode() );
+
+        System.out.println( from.getBody() );
+        to.getOutputStream().write( from.getBody().read() );
     }
 
     @Override

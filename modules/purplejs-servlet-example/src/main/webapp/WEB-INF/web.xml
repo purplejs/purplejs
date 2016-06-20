@@ -6,7 +6,7 @@
     <servlet-class>io.purplejs.servlet.ScriptServlet</servlet-class>
     <init-param>
       <param-name>resource</param-name>
-      <param-value>/app/mai.js</param-value>
+      <param-value>/app/main.js</param-value>
     </init-param>
   </servlet>
 

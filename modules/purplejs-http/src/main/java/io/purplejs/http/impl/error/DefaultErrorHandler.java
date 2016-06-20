@@ -4,7 +4,7 @@ import io.purplejs.http.Response;
 import io.purplejs.http.error.ErrorHandler;
 import io.purplejs.http.error.ExceptionInfo;
 
-public final class DefaultErrorHandler
+final class DefaultErrorHandler
     implements ErrorHandler
 {
     @Override

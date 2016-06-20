@@ -2,12 +2,8 @@ package io.purplejs.http.impl.error;
 
 import java.util.List;
 
-import com.google.common.base.Charsets;
 import com.google.common.collect.Lists;
 
-import io.purplejs.resource.Resource;
-import io.purplejs.resource.ResourceLoader;
-import io.purplejs.resource.ResourcePath;
 import io.purplejs.resource.ResourceProblemException;
 
 final class ErrorPageBuilder
@@ -60,7 +56,7 @@ final class ErrorPageBuilder
 
     private Throwable cause;
 
-    private ResourceLoader resourceLoader;
+    private List<String> lines;
 
     public ErrorPageBuilder status( final int value )
     {
@@ -77,12 +73,6 @@ final class ErrorPageBuilder
     public ErrorPageBuilder description( final String value )
     {
         this.description = value;
-        return this;
-    }
-
-    public ErrorPageBuilder resourceLoader( final ResourceLoader resourceLoader )
-    {
-        this.resourceLoader = resourceLoader;
         return this;
     }
 
@@ -307,7 +297,7 @@ final class ErrorPageBuilder
     private List<LineInfo> findSourceLines( final ResourceProblemException cause )
     {
         final int errorLine = cause.getLineNumber();
-        final List<String> allLines = findAllSourceLines( cause );
+        final List<String> allLines = this.lines;
         final List<String> subList = sliceLines( errorLine, allLines );
 
         int currentLine = Math.max( 0, errorLine - NUM_DELTA_LINES ) + 1;
@@ -321,30 +311,6 @@ final class ErrorPageBuilder
         }
 
         return list;
-    }
-
-    private List<String> findAllSourceLines( final ResourceProblemException cause )
-    {
-        final ResourcePath path = cause.getResource();
-        if ( path == null )
-        {
-            return Lists.newArrayList();
-        }
-
-        return readLines( path );
-    }
-
-    private List<String> readLines( final ResourcePath path )
-    {
-        try
-        {
-            final Resource resource = this.resourceLoader.load( path );
-            return Lists.newArrayList( resource.getBytes().asCharSource( Charsets.UTF_8 ).readLines() );
-        }
-        catch ( final Exception e )
-        {
-            return Lists.newArrayList();
-        }
     }
 
     private static List<String> sliceLines( final int line, final List<String> all )
