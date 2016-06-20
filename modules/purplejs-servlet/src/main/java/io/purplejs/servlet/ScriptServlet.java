@@ -14,6 +14,7 @@ import io.purplejs.http.executor.HttpExecutor;
 import io.purplejs.http.executor.HttpExecutorBuilder;
 import io.purplejs.resource.ResourcePath;
 import io.purplejs.servlet.impl.RequestWrapper;
+import io.purplejs.servlet.impl.ResponseSerializer;
 
 public class ScriptServlet
     extends HttpServlet
@@ -58,10 +59,7 @@ public class ScriptServlet
     private void serialize( final HttpServletResponse to, final Response from )
         throws IOException
     {
-        to.setStatus( from.getStatus().getCode() );
-
-        System.out.println( from.getBody() );
-        to.getOutputStream().write( from.getBody().read() );
+        new ResponseSerializer( to ).serialize( from );
     }
 
     @Override

@@ -15,11 +15,11 @@ final class CookieImpl
 
     String comment;
 
-    boolean secure;
+    boolean secure = false;
 
-    boolean httpOnly;
+    boolean httpOnly = false;
 
-    long maxAge;
+    int maxAge = -1;
 
     @Override
     public String getName()
@@ -58,7 +58,7 @@ final class CookieImpl
     }
 
     @Override
-    public long getMaxAge()
+    public int getMaxAge()
     {
         return this.maxAge;
     }

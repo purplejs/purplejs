@@ -14,7 +14,7 @@ public interface Cookie
 
     boolean isSecure();
 
-    long getMaxAge();
+    int getMaxAge();
 
     String getPath();
 }

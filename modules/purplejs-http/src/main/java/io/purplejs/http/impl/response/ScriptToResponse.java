@@ -111,7 +111,7 @@ public final class ScriptToResponse
             cookie.path = getMemberValue( value, "path", String.class, null );
             cookie.domain = getMemberValue( value, "domain", String.class, null );
             cookie.comment = getMemberValue( value, "comment", String.class, null );
-            cookie.maxAge = getMemberValue( value, "maxAge", Long.class, 0L );
+            cookie.maxAge = getMemberValue( value, "maxAge", Integer.class, -1 );
             cookie.secure = getMemberValue( value, "secure", Boolean.class, false );
             cookie.httpOnly = getMemberValue( value, "httpOnly", Boolean.class, false );
         }

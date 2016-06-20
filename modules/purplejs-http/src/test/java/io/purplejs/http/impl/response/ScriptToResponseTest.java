@@ -176,7 +176,7 @@ public class ScriptToResponseTest
         assertNull( cookie1.getComment() );
         assertNull( cookie1.getPath() );
         assertNull( cookie1.getDomain() );
-        assertEquals( 0, cookie1.getMaxAge() );
+        assertEquals( -1, cookie1.getMaxAge() );
         assertEquals( false, cookie1.isSecure() );
         assertEquals( false, cookie1.isHttpOnly() );
 
