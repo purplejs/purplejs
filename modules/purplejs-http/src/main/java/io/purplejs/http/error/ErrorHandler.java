@@ -4,5 +4,5 @@ import io.purplejs.http.Response;
 
 public interface ErrorHandler
 {
-    Response handleException( Exception ex );
+    Response handleException( ExceptionInfo ex );
 }

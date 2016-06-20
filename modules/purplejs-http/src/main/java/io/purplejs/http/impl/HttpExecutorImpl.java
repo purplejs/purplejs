@@ -36,7 +36,7 @@ final class HttpExecutorImpl
         }
         catch ( final Exception e )
         {
-            return this.handler.handleException( e );
+            return null;
         }
     }
 
