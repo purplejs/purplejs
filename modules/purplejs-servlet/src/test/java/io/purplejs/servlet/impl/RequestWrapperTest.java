@@ -29,12 +29,6 @@ public class RequestWrapperTest
     }
 
     @Test
-    public void getAttributes()
-    {
-        assertNotNull( this.wrapper.getAttributes() );
-    }
-
-    @Test
     public void getMultipart()
     {
         assertNotNull( this.wrapper.getMultipart() );

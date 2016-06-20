@@ -7,7 +7,6 @@ import javax.servlet.http.HttpServletRequest;
 import com.google.common.base.Throwables;
 import com.google.common.io.ByteSource;
 
-import io.purplejs.http.Attributes;
 import io.purplejs.http.Headers;
 import io.purplejs.http.MultipartForm;
 import io.purplejs.http.Parameters;
@@ -18,14 +17,11 @@ public final class RequestWrapper
 {
     private final HttpServletRequest wrapped;
 
-    private final Attributes attributes;
-
     private final Headers headers;
 
     public RequestWrapper( final HttpServletRequest wrapped )
     {
         this.wrapped = wrapped;
-        this.attributes = new Attributes();
         this.headers = createHeaders( this.wrapped );
     }
 
@@ -45,12 +41,6 @@ public final class RequestWrapper
     public Headers getHeaders()
     {
         return this.headers;
-    }
-
-    @Override
-    public Attributes getAttributes()
-    {
-        return this.attributes;
     }
 
     @Override

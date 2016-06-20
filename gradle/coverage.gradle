@@ -18,6 +18,8 @@ test {
     }
 }
 
+/*
+
 integrationTest {
     jacoco {
         append = true
@@ -25,3 +27,5 @@ integrationTest {
         classDumpFile = file( "${rootProject.buildDir}/jacoco/classdumps" )
     }
 }
+
+*/

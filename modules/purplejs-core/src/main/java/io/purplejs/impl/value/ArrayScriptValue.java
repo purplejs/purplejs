@@ -2,10 +2,11 @@ package io.purplejs.impl.value;
 
 import java.util.List;
 
-import io.purplejs.value.ScriptValue;
-
 import com.google.common.collect.Lists;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 
+import io.purplejs.value.ScriptValue;
 import jdk.nashorn.api.scripting.JSObject;
 
 final class ArrayScriptValue
@@ -15,7 +16,7 @@ final class ArrayScriptValue
 
     private final JSObject value;
 
-    public ArrayScriptValue( final ScriptValueFactory factory, final JSObject value )
+    ArrayScriptValue( final ScriptValueFactory factory, final JSObject value )
     {
         this.factory = factory;
         this.value = value;
@@ -44,18 +45,14 @@ final class ArrayScriptValue
     }
 
     @Override
-    public <T> List<T> getArray( final Class<T> type )
+    public JsonElement toJson()
     {
-        final List<T> result = Lists.newArrayList();
-        for ( final ScriptValue item : getArray() )
+        final JsonArray json = new JsonArray();
+        for ( final ScriptValue value : getArray() )
         {
-            final T converted = item.getValue( type );
-            if ( converted != null )
-            {
-                result.add( converted );
-            }
+            json.add( value.toJson() );
         }
 
-        return result;
+        return json;
     }
 }

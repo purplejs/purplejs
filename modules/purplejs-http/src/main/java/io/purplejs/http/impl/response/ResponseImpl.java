@@ -3,7 +3,6 @@ package io.purplejs.http.impl.response;
 import com.google.common.io.ByteSource;
 import com.google.common.net.MediaType;
 
-import io.purplejs.http.Attributes;
 import io.purplejs.http.Headers;
 import io.purplejs.http.Response;
 import io.purplejs.http.Status;
@@ -17,6 +16,10 @@ final class ResponseImpl
     MediaType contentType;
 
     ByteSource body;
+
+    Headers headers;
+
+    ScriptValue value;
 
     @Override
     public Status getStatus()
@@ -33,19 +36,13 @@ final class ResponseImpl
     @Override
     public Headers getHeaders()
     {
-        return null;
-    }
-
-    @Override
-    public Attributes getAttributes()
-    {
-        return null;
+        return this.headers;
     }
 
     @Override
     public ScriptValue getValue()
     {
-        return null;
+        return this.value;
     }
 
     @Override

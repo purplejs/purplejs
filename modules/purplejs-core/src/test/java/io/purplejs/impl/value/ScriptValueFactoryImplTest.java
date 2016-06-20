@@ -6,11 +6,13 @@ import javax.script.ScriptEngine;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
+
+import com.google.common.base.Charsets;
+import com.google.common.base.Joiner;
+import com.google.gson.JsonNull;
+
 import io.purplejs.impl.util.NashornHelper;
 import io.purplejs.value.ScriptValue;
-
-import com.google.common.base.Joiner;
-
 import jdk.nashorn.api.scripting.JSObject;
 import jdk.nashorn.internal.runtime.Undefined;
 
@@ -56,6 +58,11 @@ public class ScriptValueFactoryImplTest
         assertNonArray( value );
         assertNonObject( value );
         assertNonFunction( value );
+
+        assertEquals( "true", this.factory.newValue( true ).toJson().toString() );
+        assertEquals( "12", this.factory.newValue( 12 ).toJson().toString() );
+        assertEquals( "\"test\"", this.factory.newValue( "test" ).toJson().toString() );
+        assertEquals( "\"UTF-8\"", this.factory.newValue( Charsets.UTF_8 ).toJson().toString() );
     }
 
     @Test
@@ -89,6 +96,8 @@ public class ScriptValueFactoryImplTest
         assertNotNull( result );
         assertEquals( true, result.isValue() );
         assertEquals( "a+b", result.getValue() );
+
+        assertEquals( JsonNull.INSTANCE, value.toJson() );
     }
 
     @Test
@@ -110,12 +119,10 @@ public class ScriptValueFactoryImplTest
 
         assertNotNull( value.getArray() );
         assertEquals( 2, value.getArray().size() );
-        assertNotNull( value.getArray( Integer.class ) );
-        assertEquals( 2, value.getArray( Integer.class ).size() );
         assertEquals( "1", value.getArray().get( 0 ).getValue() );
         assertEquals( "2", value.getArray().get( 1 ).getValue() );
-        assertEquals( new Integer( 1 ), value.getArray( Integer.class ).get( 0 ) );
-        assertEquals( new Integer( 2 ), value.getArray( Integer.class ).get( 1 ) );
+
+        assertEquals( "[\"1\",\"2\"]", value.toJson().toString() );
     }
 
     @Test
@@ -139,11 +146,11 @@ public class ScriptValueFactoryImplTest
         assertEquals( 2, value.getKeys().size() );
         assertEquals( "a,b", Joiner.on( "," ).join( value.getKeys() ) );
 
-        assertNotNull( value.getMap() );
-        assertEquals( 2, value.getMap().size() );
         assertNotNull( value.getMember( "a" ) );
         assertEquals( 1, value.getMember( "a" ).getValue() );
         assertTrue( value.hasMember( "a" ) );
+
+        assertEquals( "{\"a\":1,\"b\":2}", value.toJson().toString() );
     }
 
     private void assertNonValue( final ScriptValue value )
@@ -156,8 +163,6 @@ public class ScriptValueFactoryImplTest
     {
         assertNotNull( value.getArray() );
         assertEquals( 0, value.getArray().size() );
-        assertNotNull( value.getArray( Integer.class ) );
-        assertEquals( 0, value.getArray( Integer.class ).size() );
     }
 
     private void assertNonObject( final ScriptValue value )
@@ -165,8 +170,6 @@ public class ScriptValueFactoryImplTest
         assertNotNull( value.getKeys() );
         assertEquals( 0, value.getKeys().size() );
 
-        assertNotNull( value.getMap() );
-        assertEquals( 0, value.getMap().size() );
         assertNull( value.getMember( "test" ) );
         assertFalse( value.hasMember( "test" ) );
     }

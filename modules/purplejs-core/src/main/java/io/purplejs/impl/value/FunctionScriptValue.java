@@ -1,7 +1,6 @@
 package io.purplejs.impl.value;
 
 import io.purplejs.value.ScriptValue;
-
 import jdk.nashorn.api.scripting.JSObject;
 
 final class FunctionScriptValue
@@ -11,7 +10,7 @@ final class FunctionScriptValue
 
     private final JSObject value;
 
-    public FunctionScriptValue( final ScriptValueFactory factory, final JSObject value )
+    FunctionScriptValue( final ScriptValueFactory factory, final JSObject value )
     {
         this.factory = factory;
         this.value = value;

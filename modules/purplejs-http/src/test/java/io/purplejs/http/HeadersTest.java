@@ -6,8 +6,6 @@ import java.util.Optional;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.google.common.net.MediaType;
-
 import static org.junit.Assert.*;
 
 public class HeadersTest
@@ -50,20 +48,5 @@ public class HeadersTest
         assertNotNull( map );
         assertEquals( 1, map.size() );
         assertEquals( "myvalue", map.get( "mykey" ) );
-    }
-
-    @Test
-    public void getContentType()
-    {
-        final Optional<MediaType> type1 = this.headers.getContentType();
-        assertNotNull( type1 );
-        assertFalse( type1.isPresent() );
-
-        this.headers.set( "Content-Type", "text/plain" );
-
-        final Optional<MediaType> type2 = this.headers.getContentType();
-        assertNotNull( type2 );
-        assertTrue( type2.isPresent() );
-        assertEquals( "text/plain", type2.get().toString() );
     }
 }

@@ -1,8 +1,9 @@
 package io.purplejs.value;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
+
+import com.google.gson.JsonElement;
 
 public interface ScriptValue
 {
@@ -26,9 +27,7 @@ public interface ScriptValue
 
     List<ScriptValue> getArray();
 
-    <T> List<T> getArray( Class<T> type );
-
-    Map<String, Object> getMap();
-
     ScriptValue call( Object... args );
+
+    JsonElement toJson();
 }

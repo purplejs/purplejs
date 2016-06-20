@@ -5,13 +5,9 @@ import java.util.Optional;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
-import com.google.common.net.MediaType;
 
 public final class Headers
 {
-    public final static String CONTENT_TYPE = "Content-Type";
-
-
     private final Map<String, String> map;
 
     public Headers()
@@ -38,10 +34,5 @@ public final class Headers
     public Map<String, String> asMap()
     {
         return ImmutableMap.copyOf( this.map );
-    }
-
-    public Optional<MediaType> getContentType()
-    {
-        return get( CONTENT_TYPE ).map( MediaType::parse );
     }
 }

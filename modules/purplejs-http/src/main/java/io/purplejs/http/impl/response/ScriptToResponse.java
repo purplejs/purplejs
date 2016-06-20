@@ -1,5 +1,6 @@
 package io.purplejs.http.impl.response;
 
+import com.google.common.net.HttpHeaders;
 import com.google.common.net.MediaType;
 
 import io.purplejs.http.Response;
@@ -11,9 +12,17 @@ public final class ScriptToResponse
     public Response toResponse( final ScriptValue value )
     {
         final ResponseBuilder builder = ResponseBuilder.newBuilder();
+        if ( value == null )
+        {
+            return builder.build();
+        }
+
+        builder.value( value );
         populateStatus( builder, value.getMember( "status" ) );
         populateContentType( builder, value.getMember( "contentType" ) );
         populateBody( builder, value.getMember( "body" ) );
+        populateHeaders( builder, value.getMember( "headers" ) );
+        setRedirect( builder, value.getMember( "redirect" ) );
 
         return builder.build();
     }
@@ -32,23 +41,36 @@ public final class ScriptToResponse
 
     private void populateBody( final ResponseBuilder builder, final ScriptValue value )
     {
-        if ( ( value == null ) || value.isFunction() )
+        builder.body( new BodySerializer().toBody( value ) );
+    }
+
+    private void populateHeaders( final ResponseBuilder builder, final ScriptValue value )
+    {
+        if ( value == null )
         {
             return;
         }
 
-        if ( value.isArray() )
+        if ( !value.isObject() )
         {
-            builder.body( value.getValue( String.class ) );
             return;
         }
 
-        if ( value.isObject() )
+        for ( final String key : value.getKeys() )
         {
-            builder.body( value.getMap() );
+            builder.header( key, value.getMember( key ).getValue( String.class ) );
+        }
+    }
+
+    private void setRedirect( final ResponseBuilder builder, final ScriptValue value )
+    {
+        final String redirect = ( value != null ) ? value.getValue( String.class ) : null;
+        if ( redirect == null )
+        {
             return;
         }
 
-        builder.body( value.getValue() );
+        builder.status( Status.SEE_OTHER );
+        builder.header( HttpHeaders.LOCATION, redirect );
     }
 }

@@ -1,6 +1,7 @@
-package org.purplejs;
+package io.purplejs.script;
 
 import org.junit.Test;
+
 import io.purplejs.json.JsonSerializable;
 import io.purplejs.resource.ResourcePath;
 import io.purplejs.value.ScriptExports;

@@ -9,14 +9,11 @@ public interface Response
 {
     Status getStatus();
 
-    // TODO: Check if we can use OK IO or some other means of streaming the body
     ByteSource getBody();
 
     MediaType getContentType();
 
     Headers getHeaders();
-
-    Attributes getAttributes();
 
     ScriptValue getValue();
 }

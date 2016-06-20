@@ -1,11 +1,11 @@
 package io.purplejs.impl.value;
 
-import java.util.Map;
 import java.util.Set;
 
-import io.purplejs.impl.util.JsObjectConverter;
-import io.purplejs.value.ScriptValue;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 
+import io.purplejs.value.ScriptValue;
 import jdk.nashorn.api.scripting.JSObject;
 
 final class ObjectScriptValue
@@ -15,7 +15,7 @@ final class ObjectScriptValue
 
     private final JSObject value;
 
-    public ObjectScriptValue( final ScriptValueFactory factory, final JSObject value )
+    ObjectScriptValue( final ScriptValueFactory factory, final JSObject value )
     {
         this.factory = factory;
         this.value = value;
@@ -46,8 +46,14 @@ final class ObjectScriptValue
     }
 
     @Override
-    public Map<String, Object> getMap()
+    public JsonElement toJson()
     {
-        return JsObjectConverter.toMap( this.value );
+        final JsonObject json = new JsonObject();
+        for ( final String key : this.value.keySet() )
+        {
+            json.add( key, getMember( key ).toJson() );
+        }
+
+        return json;
     }
 }

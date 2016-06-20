@@ -2,12 +2,13 @@ package io.purplejs.impl.value;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
-import io.purplejs.value.ScriptValue;
-
 import com.google.common.collect.Sets;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonNull;
+
+import io.purplejs.value.ScriptValue;
 
 abstract class AbstractScriptValue
     implements ScriptValue
@@ -42,7 +43,6 @@ abstract class AbstractScriptValue
         return null;
     }
 
-
     @Override
     public <T> T getValue( final Class<T> type )
     {
@@ -74,20 +74,14 @@ abstract class AbstractScriptValue
     }
 
     @Override
-    public <T> List<T> getArray( final Class<T> type )
-    {
-        return Collections.emptyList();
-    }
-
-    @Override
-    public Map<String, Object> getMap()
-    {
-        return Collections.emptyMap();
-    }
-
-    @Override
     public ScriptValue call( final Object... args )
     {
         return null;
+    }
+
+    @Override
+    public JsonElement toJson()
+    {
+        return JsonNull.INSTANCE;
     }
 }

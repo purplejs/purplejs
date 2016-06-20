@@ -10,8 +10,6 @@ public interface Request
 
     Headers getHeaders();
 
-    Attributes getAttributes();
-
     ByteSource getBody();
 
     MultipartForm getMultipart();
