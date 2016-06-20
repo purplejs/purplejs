@@ -3,7 +3,8 @@ package io.purplejs.http;
 public enum Status
     implements StatusType
 {
-    OK( 200, "OK" );
+    OK( 200, "OK" ),
+    BAD_REQUEST( 400, "Bad Request" );
 
     private final int code;
 

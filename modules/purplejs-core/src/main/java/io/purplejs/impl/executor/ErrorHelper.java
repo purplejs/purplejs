@@ -11,7 +11,7 @@ import jdk.nashorn.api.scripting.NashornException;
 
 final class ErrorHelper
 {
-    public static RuntimeException handleError( final Exception e )
+    static RuntimeException handleError( final Exception e )
     {
         if ( e instanceof ResourceProblemException )
         {
