@@ -1,12 +1,15 @@
 package io.purplejs.impl;
 
+import java.util.Map;
 import java.util.function.Function;
 
+import com.google.common.collect.ImmutableMap;
+
 import io.purplejs.Engine;
-import io.purplejs.ScriptSettings;
 import io.purplejs.impl.executor.ScriptExecutorImpl;
 import io.purplejs.impl.util.NashornHelper;
 import io.purplejs.impl.value.ScriptExportsImpl;
+import io.purplejs.resource.ResourceLoader;
 import io.purplejs.resource.ResourcePath;
 import io.purplejs.value.ScriptExports;
 import io.purplejs.value.ScriptValue;
@@ -14,7 +17,15 @@ import io.purplejs.value.ScriptValue;
 final class EngineImpl
     implements Engine
 {
-    ScriptSettings settings;
+    boolean devMode;
+
+    ResourceLoader resourceLoader;
+
+    ClassLoader classLoader;
+
+    ImmutableMap<String, String> config;
+
+    ImmutableMap<String, Object> globalVariables;
 
     private final ScriptExecutorImpl executor;
 
@@ -24,9 +35,33 @@ final class EngineImpl
     }
 
     @Override
-    public ScriptSettings getSettings()
+    public boolean isDevMode()
     {
-        return this.settings;
+        return this.devMode;
+    }
+
+    @Override
+    public ResourceLoader getResourceLoader()
+    {
+        return this.resourceLoader;
+    }
+
+    @Override
+    public ClassLoader getClassLoader()
+    {
+        return this.classLoader;
+    }
+
+    @Override
+    public Map<String, Object> getGlobalVariables()
+    {
+        return this.globalVariables;
+    }
+
+    @Override
+    public Map<String, String> getConfig()
+    {
+        return this.config;
     }
 
     @Override
@@ -52,8 +87,8 @@ final class EngineImpl
 
     void init()
     {
-        this.executor.setSettings( this.settings );
-        this.executor.setEngine( NashornHelper.getScriptEngine( this.settings.getClassLoader(), "-strict" ) );
+        this.executor.setSettings( this );
+        this.executor.setEngine( NashornHelper.getScriptEngine( this.classLoader, "-strict" ) );
         this.executor.init();
     }
 }

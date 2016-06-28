@@ -108,15 +108,12 @@ public final class EngineBuilderImpl
     {
         setupDefaults();
 
-        final ScriptSettingsImpl settings = new ScriptSettingsImpl();
-        settings.devMode = this.devMode;
-        settings.classLoader = this.classLoader;
-        settings.resourceLoader = createResourceLoader();
-        settings.config = ImmutableMap.copyOf( this.config );
-        settings.globalVariables = ImmutableMap.copyOf( this.globalVariables );
-
         final EngineImpl engine = new EngineImpl();
-        engine.settings = settings;
+        engine.devMode = this.devMode;
+        engine.classLoader = this.classLoader;
+        engine.resourceLoader = createResourceLoader();
+        engine.config = ImmutableMap.copyOf( this.config );
+        engine.globalVariables = ImmutableMap.copyOf( this.globalVariables );
         engine.init();
 
         return engine;
