@@ -7,13 +7,13 @@ import io.purplejs.value.ScriptExports;
 
 import static org.junit.Assert.*;
 
-public class FinalizerTest
+public class DisposerTest
     extends AbstractScriptTest
 {
     @Test
     public void resolve()
     {
-        final ResourcePath script = ResourcePath.from( "/finalizer/finalizer-test.js" );
+        final ResourcePath script = ResourcePath.from( "/disposer/disposer-test.js" );
         final ScriptExports exports = run( script );
 
         assertNotNull( exports );

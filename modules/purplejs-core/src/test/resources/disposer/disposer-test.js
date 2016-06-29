@@ -1,6 +1,6 @@
 var executed = false;
 
-__.finalizer(function () {
+__.disposer(function () {
     executed = true;
 });
 
