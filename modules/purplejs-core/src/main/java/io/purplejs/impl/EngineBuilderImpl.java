@@ -119,7 +119,7 @@ public final class EngineBuilderImpl
     @Override
     public EngineBinder disposer( final Consumer<Engine> disposer )
     {
-        this.module.addInitializer( disposer );
+        this.module.addDisposer( disposer );
         return this;
     }
 
