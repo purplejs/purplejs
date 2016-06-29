@@ -1,0 +1,5 @@
+dependencies {
+    compile project( ':purplejs-servlet' )
+    compile 'org.eclipse.jetty:jetty-servlet:9.3.10.v20160621'
+    compile 'ch.qos.logback:logback-classic:1.1.7'
+}

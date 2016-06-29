@@ -1,21 +1,17 @@
 package io.purplejs.http.impl;
 
 import io.purplejs.Engine;
-import io.purplejs.http.Request;
-import io.purplejs.http.Response;
+import io.purplejs.http.error.ExceptionHandler;
 import io.purplejs.http.executor.HttpExecutor;
-import io.purplejs.http.impl.command.ServeRequestCommand;
+import io.purplejs.http.executor.HttpHandler;
 import io.purplejs.resource.ResourcePath;
 
 final class HttpExecutorImpl
     implements HttpExecutor
 {
-    private final Engine engine;
+    Engine engine;
 
-    HttpExecutorImpl( final Engine engine )
-    {
-        this.engine = engine;
-    }
+    ExceptionHandler exceptionHandler;
 
     @Override
     public Engine getEngine()
@@ -24,9 +20,15 @@ final class HttpExecutorImpl
     }
 
     @Override
-    public Response serve( final ResourcePath resource, final Request request )
+    public HttpHandler newHandler( final ResourcePath resource )
     {
-        return this.engine.execute( resource, new ServeRequestCommand( request ) );
+        final HttpHandlerImpl handler = new HttpHandlerImpl();
+        handler.engine = this.engine;
+        handler.exceptionHandler = this.exceptionHandler;
+        handler.resource = resource;
+
+        handler.init();
+        return handler;
     }
 
     @Override

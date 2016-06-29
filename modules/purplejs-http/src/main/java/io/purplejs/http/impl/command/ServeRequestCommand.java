@@ -5,6 +5,7 @@ import java.util.function.Function;
 import io.purplejs.http.Request;
 import io.purplejs.http.Response;
 import io.purplejs.http.Status;
+import io.purplejs.http.impl.request.RequestWrapper;
 import io.purplejs.http.impl.response.ResponseBuilder;
 import io.purplejs.http.impl.response.ScriptToResponse;
 import io.purplejs.value.ScriptExports;
@@ -22,6 +23,11 @@ public final class ServeRequestCommand
         this.request = request;
     }
 
+    public Request getRequest()
+    {
+        return this.request;
+    }
+
     @Override
     public Response apply( final ScriptExports exports )
     {
@@ -31,7 +37,8 @@ public final class ServeRequestCommand
             return methodNotAllowed();
         }
 
-        final ScriptValue value = exports.executeMethod( method, this.request );
+        final RequestWrapper wrapper = new RequestWrapper( this.request );
+        final ScriptValue value = exports.executeMethod( method, wrapper );
         return new ScriptToResponse().toResponse( value );
     }
 

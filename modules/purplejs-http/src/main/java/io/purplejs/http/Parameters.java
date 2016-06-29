@@ -6,7 +6,6 @@ import java.util.Map;
 import java.util.Optional;
 
 import com.google.common.collect.HashMultimap;
-import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Multimap;
 
 public final class Parameters
@@ -42,6 +41,6 @@ public final class Parameters
 
     public Map<String, Collection<String>> asMap()
     {
-        return ImmutableMap.copyOf( this.map.asMap() );
+        return this.map.asMap();
     }
 }

@@ -1,3 +1,0 @@
-dependencies {
-    project( ':purplejs-core' )
-}

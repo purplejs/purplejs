@@ -3,9 +3,9 @@ package io.purplejs.http;
 import java.util.Map;
 import java.util.Optional;
 
-import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 
+// See io.netty.handler.codec.http.HttpHeaders
 public final class Headers
 {
     private final Map<String, String> map;
@@ -33,6 +33,6 @@ public final class Headers
 
     public Map<String, String> asMap()
     {
-        return ImmutableMap.copyOf( this.map );
+        return this.map;
     }
 }

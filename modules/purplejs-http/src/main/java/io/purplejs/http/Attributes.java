@@ -3,7 +3,6 @@ package io.purplejs.http;
 import java.util.Map;
 import java.util.Optional;
 
-import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 
 public final class Attributes
@@ -54,6 +53,6 @@ public final class Attributes
 
     public Map<String, Object> asMap()
     {
-        return ImmutableMap.copyOf( this.map );
+        return this.map;
     }
 }

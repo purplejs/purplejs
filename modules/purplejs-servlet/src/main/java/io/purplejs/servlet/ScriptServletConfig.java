@@ -1,11 +1,17 @@
 package io.purplejs.servlet;
 
+import java.io.File;
 import java.util.Enumeration;
+import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+import java.util.function.Supplier;
 
 import javax.servlet.ServletConfig;
 
+import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 import io.purplejs.resource.ResourcePath;
@@ -14,6 +20,12 @@ final class ScriptServletConfig
 {
     private final static String CONFIG_PREFIX = "config.";
 
+    private final static String DEV_MODE_PROP = "devMode";
+
+    private final static String DEV_SOURCE_DIRS_PROP = "devSourceDirs";
+
+    private final static String RESOURCE_PROP = "resource";
+
     private final ServletConfig config;
 
     ScriptServletConfig( final ServletConfig config )
@@ -21,9 +33,23 @@ final class ScriptServletConfig
         this.config = config;
     }
 
+    boolean isDevMode()
+    {
+        return getValue( DEV_MODE_PROP ).map( Boolean::parseBoolean ).orElse( false );
+    }
+
+    List<File> getDevSourceDirs()
+    {
+        final String value = getValue( DEV_SOURCE_DIRS_PROP ).orElse( "" );
+
+        final List<File> result = Lists.newArrayList();
+        Splitter.on( ',' ).omitEmptyStrings().trimResults().split( value ).forEach( ( str ) -> result.add( new File( str ) ) );
+        return result;
+    }
+
     ResourcePath getResource()
     {
-        return ResourcePath.from( getRequiredValue( "resource" ) );
+        return ResourcePath.from( getRequiredValue( RESOURCE_PROP ) );
     }
 
     Map<String, String> getConfig()
@@ -43,14 +69,16 @@ final class ScriptServletConfig
         return result;
     }
 
-    private String getRequiredValue( final String name )
+    private Optional<String> getValue( final String name )
     {
         final String value = this.config.getInitParameter( name );
-        if ( !Strings.isNullOrEmpty( value ) )
-        {
-            return value;
-        }
+        return Optional.ofNullable( Strings.emptyToNull( value ) );
+    }
 
-        throw new IllegalArgumentException( String.format( "Required init-parameter [%s] not set.", name ) );
+    private String getRequiredValue( final String name )
+    {
+        return getValue( name ).orElseThrow( (Supplier<RuntimeException>) () -> new IllegalArgumentException(
+            String.format( "Required init-parameter [%s] not set.", name ) ) );
     }
 }
+

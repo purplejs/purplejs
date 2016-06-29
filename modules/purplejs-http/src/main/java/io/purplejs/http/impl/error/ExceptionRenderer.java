@@ -8,7 +8,7 @@ import com.google.common.base.Charsets;
 import io.purplejs.http.Request;
 import io.purplejs.http.Response;
 import io.purplejs.http.Status;
-import io.purplejs.http.error.ErrorHandler;
+import io.purplejs.http.error.ExceptionHandler;
 import io.purplejs.http.error.ExceptionInfo;
 import io.purplejs.resource.Resource;
 import io.purplejs.resource.ResourceException;
@@ -17,20 +17,20 @@ import io.purplejs.resource.ResourcePath;
 
 public final class ExceptionRenderer
 {
-    private final ErrorHandler handler;
+    private final ExceptionHandler handler;
 
     private final ResourceLoader resourceLoader;
 
-    public ExceptionRenderer( final ErrorHandler handler, final ResourceLoader resourceLoader )
+    public ExceptionRenderer( final ExceptionHandler handler, final ResourceLoader resourceLoader )
     {
-        this.handler = handler != null ? handler : new DefaultErrorHandler();
+        this.handler = handler != null ? handler : new DefaultExceptionHandler();
         this.resourceLoader = resourceLoader;
     }
 
     public Response handle( final Request request, final Exception ex )
     {
         final ExceptionInfo info = toInfo( request, ex );
-        return this.handler.handleException( info );
+        return this.handler.handle( info );
     }
 
     private ExceptionInfo toInfo( final Request request, final Exception ex )

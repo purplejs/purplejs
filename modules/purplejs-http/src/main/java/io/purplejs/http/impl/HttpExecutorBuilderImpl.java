@@ -2,15 +2,18 @@ package io.purplejs.http.impl;
 
 import java.util.function.Consumer;
 
-import io.purplejs.Engine;
 import io.purplejs.EngineBuilder;
+import io.purplejs.http.error.ExceptionHandler;
 import io.purplejs.http.executor.HttpExecutor;
 import io.purplejs.http.executor.HttpExecutorBuilder;
+import io.purplejs.http.impl.error.DefaultExceptionHandler;
 
 public final class HttpExecutorBuilderImpl
     implements HttpExecutorBuilder
 {
     private final EngineBuilder engineBuilder;
+
+    private ExceptionHandler exceptionHandler;
 
     public HttpExecutorBuilderImpl()
     {
@@ -25,9 +28,28 @@ public final class HttpExecutorBuilderImpl
     }
 
     @Override
+    public HttpExecutorBuilder exceptionHandler( final ExceptionHandler exceptionHandler )
+    {
+        this.exceptionHandler = exceptionHandler;
+        return this;
+    }
+
+    private void setupDefaults()
+    {
+        if ( this.exceptionHandler == null )
+        {
+            this.exceptionHandler = new DefaultExceptionHandler();
+        }
+    }
+
+    @Override
     public HttpExecutor build()
     {
-        final Engine engine = this.engineBuilder.build();
-        return new HttpExecutorImpl( engine );
+        setupDefaults();
+
+        final HttpExecutorImpl executor = new HttpExecutorImpl();
+        executor.engine = this.engineBuilder.build();
+        executor.exceptionHandler = this.exceptionHandler;
+        return executor;
     }
 }

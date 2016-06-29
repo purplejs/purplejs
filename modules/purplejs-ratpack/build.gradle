@@ -1,4 +1,0 @@
-dependencies {
-    project( ':purplejs-core' )
-    compile 'io.ratpack:ratpack-core:1.1.1'
-}
