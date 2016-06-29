@@ -6,6 +6,7 @@ import java.util.function.Supplier;
 import io.purplejs.resource.ResourceLoader;
 
 public interface Environment
+    // extends Registry
 {
     boolean isDevMode();
 
@@ -18,6 +19,4 @@ public interface Environment
     <T> T getInstance( Class<T> type );
 
     <T> Supplier<T> getSupplier( Class<T> type );
-
-    <T> T newInstance( Class<T> type );
 }

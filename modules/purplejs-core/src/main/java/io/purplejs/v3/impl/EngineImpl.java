@@ -81,9 +81,11 @@ final class EngineImpl
         return this.registry.getSupplier( type );
     }
 
+    /*
     @Override
     public <T> T newInstance( final Class<T> type )
     {
         return this.registry.newInstance( type );
     }
+    */
 }

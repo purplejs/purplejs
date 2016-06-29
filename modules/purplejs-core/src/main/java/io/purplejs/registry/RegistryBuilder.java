@@ -2,9 +2,18 @@ package io.purplejs.registry;
 
 import java.util.function.Supplier;
 
+import io.purplejs.impl.registry.RegistryBuilderImpl;
+
 public interface RegistryBuilder
 {
-    <T> RegistryBuilder bind( Class<T> type, T instance );
+    <T> RegistryBuilder instance( Class<T> type, T instance );
 
-    <T> RegistryBuilder bind( Class<T> type, Supplier<T> supplier );
+    <T> RegistryBuilder supplier( Class<T> type, Supplier<T> supplier );
+
+    Registry build();
+
+    public static RegistryBuilder newBuilder()
+    {
+        return new RegistryBuilderImpl();
+    }
 }
