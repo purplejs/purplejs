@@ -1,29 +1,17 @@
-package io.purplejs;
+package io.purplejs.v3.context;
 
-import java.util.Map;
 import java.util.function.Supplier;
 
-import io.purplejs.resource.ResourceLoader;
 import io.purplejs.resource.ResourcePath;
+import io.purplejs.v3.Environment;
 import io.purplejs.value.ScriptValue;
 
 public interface ExecutionContext
+    extends Environment
 {
     ResourcePath getResource();
 
-    ResourceLoader getLoader();
-
-    Object getCommand();
-
-    // <T> Supplier<T> lookup( Class<T> type );
-
-    // Registry getRegistry();
-
-    void finalizer( Runnable runnable );
-
-    ScriptSettings getSettings();
-
-    Object newBean( String type );
+    void disposer( Runnable runnable );
 
     Object require( String path );
 
@@ -33,11 +21,11 @@ public interface ExecutionContext
 
     Object toNativeObject( Object value );
 
-    Map<String, String> getConfig();
-
     void registerMock( String path, Object value );
 
-    <T> Supplier<T> getSupplier( Class<T> type );
+    Object getInstance( String type );
 
     Supplier<?> getSupplier( String type );
+
+    Object newInstance( String type );
 }

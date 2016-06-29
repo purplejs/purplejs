@@ -3,6 +3,8 @@ package io.purplejs.impl.executor;
 import java.util.Map;
 import java.util.function.Supplier;
 
+import com.google.common.base.Throwables;
+
 import io.purplejs.ExecutionContext;
 import io.purplejs.ScriptSettings;
 import io.purplejs.impl.util.JsObjectConverter;
@@ -108,5 +110,32 @@ final class ExecutionContextImpl
     public Map<String, String> getConfig()
     {
         return this.executor.getSettings().getConfig();
+    }
+
+    @Override
+    public <T> Supplier<T> getSupplier( final Class<T> type )
+    {
+        try
+        {
+            final T instance = type.newInstance();
+            return () -> instance;
+        }
+        catch ( final Exception e )
+        {
+            throw Throwables.propagate( e );
+        }
+    }
+
+    @Override
+    public Supplier<?> getSupplier( final String type )
+    {
+        try
+        {
+            return getSupplier( Class.forName( type ) );
+        }
+        catch ( final Exception e )
+        {
+            throw Throwables.propagate( e );
+        }
     }
 }
