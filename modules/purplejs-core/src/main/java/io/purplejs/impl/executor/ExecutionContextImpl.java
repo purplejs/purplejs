@@ -1,12 +1,13 @@
 package io.purplejs.impl.executor;
 
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Supplier;
 
 import com.google.common.base.Throwables;
 
-import io.purplejs.ExecutionContext;
-import io.purplejs.ScriptSettings;
+import io.purplejs.Environment;
+import io.purplejs.context.ExecutionContext;
 import io.purplejs.impl.util.JsObjectConverter;
 import io.purplejs.resource.ResourceLoader;
 import io.purplejs.resource.ResourcePath;
@@ -19,48 +20,28 @@ final class ExecutionContextImpl
 
     private final ResourcePath resource;
 
-    private ResourceResolver resourceResolver;
+    private final ResourceResolver resourceResolver;
 
-    private final Supplier<Object> commandSupplier;
+    private final Environment environment;
 
-    ExecutionContextImpl( final ScriptExecutor executor, final ResourcePath resource, final Supplier<Object> commandSupplier )
+    ExecutionContextImpl( final ScriptExecutor executor, final ResourcePath resource )
     {
         this.executor = executor;
         this.resource = resource;
-        this.resourceResolver = new ResourceResolver( this.executor.getSettings().getResourceLoader(), this.resource );
-        this.commandSupplier = commandSupplier;
-    }
-
-    @Override
-    public ResourceLoader getLoader()
-    {
-        return this.executor.getSettings().getResourceLoader();
-    }
-
-    @Override
-    public Object getCommand()
-    {
-        return this.commandSupplier.get();
-    }
-
-    @Override
-    public Object newBean( final String type )
-    {
-        try
-        {
-            final Class<?> clz = Class.forName( type, true, this.executor.getSettings().getClassLoader() );
-            return clz.newInstance();
-        }
-        catch ( final Exception e )
-        {
-            throw new RuntimeException( "Failed to create instance of [" + type + "]", e );
-        }
+        this.environment = this.executor.getEnvironment();
+        this.resourceResolver = new ResourceResolver( this.environment.getResourceLoader(), this.resource );
     }
 
     @Override
     public ResourcePath getResource()
     {
         return this.resource;
+    }
+
+    @Override
+    public void disposer( final Runnable runnable )
+    {
+        this.executor.registerDisposer( this.resource, runnable );
     }
 
     @Override
@@ -94,48 +75,100 @@ final class ExecutionContextImpl
         this.executor.registerMock( ResourcePath.from( path ), value );
     }
 
-    @Override
-    public ScriptSettings getSettings()
-    {
-        return this.executor.getSettings();
-    }
-
-    @Override
-    public void finalizer( final Runnable runnable )
-    {
-        this.executor.registerFinalizer( this.resource, runnable );
-    }
-
-    @Override
-    public Map<String, String> getConfig()
-    {
-        return this.executor.getSettings().getConfig();
-    }
-
-    @Override
-    public <T> Supplier<T> getSupplier( final Class<T> type )
+    private Class<?> forName( final String type )
     {
         try
         {
-            final T instance = type.newInstance();
-            return () -> instance;
+            return Class.forName( type, true, getClassLoader() );
         }
         catch ( final Exception e )
         {
             throw Throwables.propagate( e );
         }
+    }
+
+    @Override
+    public Object getInstance( final String type )
+    {
+        return getInstance( forName( type ) );
     }
 
     @Override
     public Supplier<?> getSupplier( final String type )
     {
+        return getSupplier( forName( type ) );
+    }
+
+    @Override
+    public Optional<?> getOptional( final String type )
+    {
+        return getOptional( forName( type ) );
+    }
+
+    @Override
+    public <T> T newBean( final Class<T> type )
+    {
         try
         {
-            return getSupplier( Class.forName( type ) );
+            return type.newInstance();
         }
         catch ( final Exception e )
         {
             throw Throwables.propagate( e );
         }
+    }
+
+    @Override
+    public Object newBean( final String type )
+    {
+        return newBean( forName( type ) );
+    }
+
+    @Override
+    public boolean isDevMode()
+    {
+        return this.environment.isDevMode();
+    }
+
+    @Override
+    public ResourceLoader getResourceLoader()
+    {
+        return this.environment.getResourceLoader();
+    }
+
+    @Override
+    public ClassLoader getClassLoader()
+    {
+        return this.environment.getClassLoader();
+    }
+
+    @Override
+    public Map<String, String> getConfig()
+    {
+        return this.environment.getConfig();
+    }
+
+    @Override
+    public Map<String, Object> getGlobalVariables()
+    {
+        return this.environment.getGlobalVariables();
+    }
+
+    @Override
+    public <T> Optional<T> getOptional( final Class<T> type )
+    {
+        return this.environment.getOptional( type );
+    }
+
+    @Override
+    public <T> T getInstance( final Class<T> type )
+    {
+        return this.environment.getInstance( type );
+    }
+
+    @Override
+    public <T> Supplier<T> getSupplier( final Class<T> type )
+    {
+        return this.environment.getSupplier( type );
     }
 }

@@ -12,42 +12,43 @@ import javax.script.SimpleBindings;
 import com.google.common.base.Charsets;
 import com.google.common.collect.Maps;
 
-import io.purplejs.ScriptSettings;
+import io.purplejs.Environment;
 import io.purplejs.impl.cache.ScriptExportsCache;
 import io.purplejs.impl.util.NashornHelper;
 import io.purplejs.impl.value.ScriptValueFactoryImpl;
 import io.purplejs.resource.Resource;
 import io.purplejs.resource.ResourcePath;
-import io.purplejs.value.ScriptExports;
 import io.purplejs.value.ScriptValue;
 import jdk.nashorn.api.scripting.ScriptObjectMirror;
 
 public final class ScriptExecutorImpl
     implements ScriptExecutor
 {
-    private final ThreadLocal<Object> currentCommand;
+    // private final ThreadLocal<Object> currentCommand;
 
     private ScriptEngine engine;
 
     private Bindings global;
 
-    private ScriptSettings settings;
+    private Environment environment;
 
     private ScriptExportsCache exportsCache;
 
     private Map<ResourcePath, Object> mocks;
 
-    private Map<ResourcePath, Runnable> finalizers;
+    private Map<ResourcePath, Runnable> disposers;
 
+    /*
     public ScriptExecutorImpl()
     {
         this.currentCommand = new ThreadLocal<>();
     }
+    */
 
     @Override
-    public ScriptSettings getSettings()
+    public Environment getEnvironment()
     {
-        return this.settings;
+        return this.environment;
     }
 
     public void setEngine( final ScriptEngine engine )
@@ -55,18 +56,18 @@ public final class ScriptExecutorImpl
         this.engine = engine;
     }
 
-    public void setSettings( final ScriptSettings settings )
+    public void setEnvironment( final Environment environment )
     {
-        this.settings = settings;
+        this.environment = environment;
     }
 
     public void init()
     {
         this.mocks = Maps.newHashMap();
-        this.finalizers = Maps.newHashMap();
+        this.disposers = Maps.newHashMap();
         this.exportsCache = new ScriptExportsCache();
         this.global = this.engine.createBindings();
-        this.global.putAll( this.settings.getGlobalVariables() );
+        this.global.putAll( this.environment.getGlobalVariables() );
         new CallFunction().register( this.global );
     }
 
@@ -122,7 +123,7 @@ public final class ScriptExecutorImpl
             return loadResource( key );
         }
 
-        if ( !this.settings.isDevMode() )
+        if ( !this.environment.isDevMode() )
         {
             return null;
         }
@@ -130,7 +131,7 @@ public final class ScriptExecutorImpl
         final Resource resource = loadResource( key );
         if ( this.exportsCache.isExpired( resource ) )
         {
-            runFinalizer( key );
+            runDisposer( key );
             return resource;
         }
 
@@ -139,14 +140,14 @@ public final class ScriptExecutorImpl
 
     private Resource loadResource( final ResourcePath key )
     {
-        return this.settings.getResourceLoader().load( key );
+        return this.environment.getResourceLoader().load( key );
     }
 
     private Object executeRequire( final ResourcePath script, final ScriptObjectMirror func )
     {
         try
         {
-            final ExecutionContextImpl context = new ExecutionContextImpl( this, script, this::getCurrentCommand );
+            final ExecutionContextImpl context = new ExecutionContextImpl( this, script );
             final Function<String, Object> requireFunc = context::require;
             final Function<String, ResourcePath> resolveFunc = context::resolve;
 
@@ -180,17 +181,17 @@ public final class ScriptExecutorImpl
     }
 
     @Override
-    public void registerFinalizer( final ResourcePath path, final Runnable callback )
+    public void registerDisposer( final ResourcePath path, final Runnable callback )
     {
-        this.finalizers.put( path, callback );
+        this.disposers.put( path, callback );
     }
 
-    private void runFinalizer( final ResourcePath path )
+    private void runDisposer( final ResourcePath path )
     {
-        runFinalizer( path, this.finalizers.get( path ) );
+        runDisposer( path, this.disposers.get( path ) );
     }
 
-    private void runFinalizer( final ResourcePath path, final Runnable callback )
+    private void runDisposer( final ResourcePath path, final Runnable callback )
     {
         if ( callback != null )
         {
@@ -200,9 +201,10 @@ public final class ScriptExecutorImpl
 
     public void dispose()
     {
-        this.finalizers.forEach( this::runFinalizer );
+        this.disposers.forEach( this::runDisposer );
     }
 
+    /*
     @Override
     public <R> R executeCommand( final ScriptExports exports, final Function<ScriptExports, R> command )
     {
@@ -217,9 +219,12 @@ public final class ScriptExecutorImpl
             this.currentCommand.remove();
         }
     }
+    */
 
+    /*
     private Object getCurrentCommand()
     {
         return this.currentCommand.get();
     }
+    */
 }

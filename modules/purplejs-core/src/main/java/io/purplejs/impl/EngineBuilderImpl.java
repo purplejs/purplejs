@@ -3,18 +3,23 @@ package io.purplejs.impl;
 import java.io.File;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 import io.purplejs.Engine;
+import io.purplejs.EngineBinder;
 import io.purplejs.EngineBuilder;
+import io.purplejs.EngineModule;
+import io.purplejs.registry.RegistryBuilder;
 import io.purplejs.resource.ResourceLoader;
 import io.purplejs.resource.ResourceLoaderBuilder;
 
 public final class EngineBuilderImpl
-    implements EngineBuilder
+    implements EngineBuilder, EngineBinder
 {
     private boolean devMode;
 
@@ -28,11 +33,17 @@ public final class EngineBuilderImpl
 
     private final Map<String, String> config;
 
+    private final CompositeModule module;
+
+    private final RegistryBuilder registryBuilder;
+
     public EngineBuilderImpl()
     {
         this.devSourceDirs = Lists.newArrayList();
         this.globalVariables = Maps.newHashMap();
         this.config = Maps.newHashMap();
+        this.module = new CompositeModule();
+        this.registryBuilder = RegistryBuilder.newBuilder();
     }
 
     @Override
@@ -64,16 +75,51 @@ public final class EngineBuilderImpl
     }
 
     @Override
-    public EngineBuilder globalVariable( final String name, final Object value )
+    public EngineBuilder module( final EngineModule module )
+    {
+        this.module.add( module );
+        return this;
+    }
+
+    @Override
+    public EngineBinder globalVariable( final String name, final Object value )
     {
         this.globalVariables.put( name, value );
         return this;
     }
 
     @Override
-    public EngineBuilder config( final String name, final String value )
+    public EngineBinder config( final String name, final String value )
     {
         this.config.put( name, value );
+        return this;
+    }
+
+    @Override
+    public <T> EngineBinder instance( final Class<T> type, final T instance )
+    {
+        this.registryBuilder.instance( type, instance );
+        return this;
+    }
+
+    @Override
+    public <T> EngineBinder supplier( final Class<T> type, final Supplier<T> supplier )
+    {
+        this.registryBuilder.supplier( type, supplier );
+        return this;
+    }
+
+    @Override
+    public EngineBinder initializer( final Consumer<Engine> initializer )
+    {
+        this.module.addInitializer( initializer );
+        return this;
+    }
+
+    @Override
+    public EngineBinder disposer( final Consumer<Engine> disposer )
+    {
+        this.module.addInitializer( disposer );
         return this;
     }
 
@@ -108,12 +154,20 @@ public final class EngineBuilderImpl
     {
         setupDefaults();
 
+        this.module.configure( this );
+
         final EngineImpl engine = new EngineImpl();
         engine.devMode = this.devMode;
         engine.classLoader = this.classLoader;
         engine.resourceLoader = createResourceLoader();
         engine.config = ImmutableMap.copyOf( this.config );
         engine.globalVariables = ImmutableMap.copyOf( this.globalVariables );
+        engine.module = this.module;
+
+        this.registryBuilder.instance( Engine.class, engine );
+        this.registryBuilder.instance( ResourceLoader.class, this.resourceLoader );
+
+        engine.registry = this.registryBuilder.build();
         engine.init();
 
         return engine;

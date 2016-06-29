@@ -12,7 +12,7 @@ public interface RegistryBuilder
 
     Registry build();
 
-    public static RegistryBuilder newBuilder()
+    static RegistryBuilder newBuilder()
     {
         return new RegistryBuilderImpl();
     }

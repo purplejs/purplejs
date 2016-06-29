@@ -3,7 +3,6 @@ package io.purplejs.v3;
 import java.io.File;
 
 import io.purplejs.resource.ResourceLoader;
-import io.purplejs.v3.impl.EngineBuilderImpl;
 
 public interface EngineBuilder
 {
@@ -21,6 +20,6 @@ public interface EngineBuilder
 
     public static EngineBuilder newBuilder()
     {
-        return new EngineBuilderImpl();
+        return null;
     }
 }

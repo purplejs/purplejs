@@ -2,9 +2,8 @@ package io.purplejs;
 
 import java.io.File;
 
-import io.purplejs.resource.ResourceLoader;
-
 import io.purplejs.impl.EngineBuilderImpl;
+import io.purplejs.resource.ResourceLoader;
 
 public interface EngineBuilder
 {
@@ -16,9 +15,7 @@ public interface EngineBuilder
 
     EngineBuilder resourceLoader( ResourceLoader resourceLoader );
 
-    EngineBuilder globalVariable( String name, Object value );
-
-    EngineBuilder config( String name, String value );
+    EngineBuilder module( EngineModule module );
 
     Engine build();
 

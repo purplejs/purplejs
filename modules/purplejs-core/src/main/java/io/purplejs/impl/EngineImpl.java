@@ -1,7 +1,8 @@
 package io.purplejs.impl;
 
 import java.util.Map;
-import java.util.function.Function;
+import java.util.Optional;
+import java.util.function.Supplier;
 
 import com.google.common.collect.ImmutableMap;
 
@@ -9,6 +10,7 @@ import io.purplejs.Engine;
 import io.purplejs.impl.executor.ScriptExecutorImpl;
 import io.purplejs.impl.util.NashornHelper;
 import io.purplejs.impl.value.ScriptExportsImpl;
+import io.purplejs.registry.Registry;
 import io.purplejs.resource.ResourceLoader;
 import io.purplejs.resource.ResourcePath;
 import io.purplejs.value.ScriptExports;
@@ -26,6 +28,10 @@ final class EngineImpl
     ImmutableMap<String, String> config;
 
     ImmutableMap<String, Object> globalVariables;
+
+    Registry registry;
+
+    CompositeModule module;
 
     private final ScriptExecutorImpl executor;
 
@@ -65,6 +71,24 @@ final class EngineImpl
     }
 
     @Override
+    public <T> T getInstance( final Class<T> type )
+    {
+        return this.registry.getInstance( type );
+    }
+
+    @Override
+    public <T> Optional<T> getOptional( final Class<T> type )
+    {
+        return this.registry.getOptional( type );
+    }
+
+    @Override
+    public <T> Supplier<T> getSupplier( final Class<T> type )
+    {
+        return this.registry.getSupplier( type );
+    }
+
+    @Override
     public ScriptExports require( final ResourcePath resource )
     {
         final Object exports = this.executor.executeRequire( resource );
@@ -72,23 +96,28 @@ final class EngineImpl
         return new ScriptExportsImpl( resource, value );
     }
 
+    /*
     @Override
     public <R> R execute( final ResourcePath resource, final Function<ScriptExports, R> command )
     {
         final ScriptExports exports = require( resource );
         return this.executor.executeCommand( exports, command );
     }
+    */
 
     @Override
     public void dispose()
     {
+        this.module.dispose( this );
         this.executor.dispose();
     }
 
     void init()
     {
-        this.executor.setSettings( this );
+        this.executor.setEnvironment( this );
         this.executor.setEngine( NashornHelper.getScriptEngine( this.classLoader, "-strict" ) );
         this.executor.init();
+
+        this.module.init( this );
     }
 }

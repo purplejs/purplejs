@@ -20,7 +20,7 @@ final class RegistryImpl
     @Override
     public <T> T getInstance( final Class<T> type )
     {
-        return getBinding( type ).get();
+        return getSupplier( type ).get();
     }
 
     @Override
@@ -33,7 +33,7 @@ final class RegistryImpl
     @Override
     public <T> Supplier<T> getSupplier( final Class<T> type )
     {
-        return getBinding( type );
+        return getBinding(type);
     }
 
     private <T> Supplier<T> getBinding( final Class<T> type )
