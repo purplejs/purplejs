@@ -2,11 +2,10 @@ package io.purplejs.impl.executor;
 
 import javax.script.ScriptException;
 
-import io.purplejs.resource.ResourcePath;
-import io.purplejs.resource.ResourceProblemException;
-
 import com.google.common.base.Throwables;
 
+import io.purplejs.resource.ResourcePath;
+import io.purplejs.resource.ResourceProblemException;
 import jdk.nashorn.api.scripting.NashornException;
 
 final class ErrorHelper
@@ -57,14 +56,7 @@ final class ErrorHelper
 
     private static ResourcePath toResourcePath( final String name )
     {
-        try
-        {
-            return ResourcePath.from( name );
-        }
-        catch ( final IllegalArgumentException e )
-        {
-            return null;
-        }
+        return ResourcePath.from( name );
     }
 
     private static StackTraceElement findScriptTraceElement( final RuntimeException e )

@@ -1,15 +1,11 @@
 package io.purplejs.impl.executor;
 
-import java.util.Map;
 import java.util.Optional;
 import java.util.function.Supplier;
-
-import com.google.common.base.Throwables;
 
 import io.purplejs.Environment;
 import io.purplejs.context.ExecutionContext;
 import io.purplejs.impl.util.JsObjectConverter;
-import io.purplejs.resource.ResourceLoader;
 import io.purplejs.resource.ResourcePath;
 import io.purplejs.value.ScriptValue;
 
@@ -36,6 +32,12 @@ final class ExecutionContextImpl
     public ResourcePath getResource()
     {
         return this.resource;
+    }
+
+    @Override
+    public Environment getEnvironment()
+    {
+        return this.environment;
     }
 
     @Override
@@ -76,99 +78,43 @@ final class ExecutionContextImpl
     }
 
     private Class<?> forName( final String type )
+        throws Exception
     {
-        try
-        {
-            return Class.forName( type, true, getClassLoader() );
-        }
-        catch ( final Exception e )
-        {
-            throw Throwables.propagate( e );
-        }
+        return Class.forName( type, true, this.environment.getClassLoader() );
     }
 
     @Override
     public Object getInstance( final String type )
+        throws Exception
     {
-        return getInstance( forName( type ) );
+        return this.environment.getInstance( forName( type ) );
     }
 
     @Override
     public Supplier<?> getSupplier( final String type )
+        throws Exception
     {
-        return getSupplier( forName( type ) );
+        return this.environment.getSupplier( forName( type ) );
     }
 
     @Override
     public Optional<?> getOptional( final String type )
+        throws Exception
     {
-        return getOptional( forName( type ) );
+        return this.environment.getOptional( forName( type ) );
     }
 
     @Override
     public <T> T newBean( final Class<T> type )
+        throws Exception
     {
-        try
-        {
-            return type.newInstance();
-        }
-        catch ( final Exception e )
-        {
-            throw Throwables.propagate( e );
-        }
+        return type.newInstance();
     }
 
     @Override
     public Object newBean( final String type )
+        throws Exception
     {
         return newBean( forName( type ) );
-    }
-
-    @Override
-    public boolean isDevMode()
-    {
-        return this.environment.isDevMode();
-    }
-
-    @Override
-    public ResourceLoader getResourceLoader()
-    {
-        return this.environment.getResourceLoader();
-    }
-
-    @Override
-    public ClassLoader getClassLoader()
-    {
-        return this.environment.getClassLoader();
-    }
-
-    @Override
-    public Map<String, String> getConfig()
-    {
-        return this.environment.getConfig();
-    }
-
-    @Override
-    public Map<String, Object> getGlobalVariables()
-    {
-        return this.environment.getGlobalVariables();
-    }
-
-    @Override
-    public <T> Optional<T> getOptional( final Class<T> type )
-    {
-        return this.environment.getOptional( type );
-    }
-
-    @Override
-    public <T> T getInstance( final Class<T> type )
-    {
-        return this.environment.getInstance( type );
-    }
-
-    @Override
-    public <T> Supplier<T> getSupplier( final Class<T> type )
-    {
-        return this.environment.getSupplier( type );
     }
 }

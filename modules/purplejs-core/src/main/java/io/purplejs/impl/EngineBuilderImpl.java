@@ -132,7 +132,7 @@ public final class EngineBuilderImpl
 
         if ( this.resourceLoader == null )
         {
-            this.resourceLoader = ResourceLoaderBuilder.create().from( this.classLoader ).build();
+            this.resourceLoader = ResourceLoaderBuilder.newBuilder().from( this.classLoader ).build();
         }
     }
 
@@ -143,7 +143,7 @@ public final class EngineBuilderImpl
             return this.resourceLoader;
         }
 
-        final ResourceLoaderBuilder builder = ResourceLoaderBuilder.create();
+        final ResourceLoaderBuilder builder = ResourceLoaderBuilder.newBuilder();
         this.devSourceDirs.forEach( builder::from );
         builder.add( this.resourceLoader );
         return builder.build();

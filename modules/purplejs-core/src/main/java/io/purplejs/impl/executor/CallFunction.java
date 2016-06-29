@@ -3,23 +3,16 @@ package io.purplejs.impl.executor;
 import javax.script.Bindings;
 
 import io.purplejs.impl.util.JsObjectConverter;
-
 import jdk.nashorn.api.scripting.AbstractJSObject;
 import jdk.nashorn.api.scripting.JSObject;
 
 final class CallFunction
     extends AbstractJSObject
 {
-    public final static String NAME = "__call";
+    final static String NAME = "__call";
 
     @Override
     public final boolean isFunction()
-    {
-        return true;
-    }
-
-    @Override
-    public final boolean isStrictFunction()
     {
         return true;
     }
@@ -34,7 +27,7 @@ final class CallFunction
         return func.call( thiz, jsArray );
     }
 
-    public final void register( final Bindings bindings )
+    final void register( final Bindings bindings )
     {
         bindings.put( NAME, this );
     }

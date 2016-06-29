@@ -24,7 +24,7 @@ public class ResourceResolverTest
     @Before
     public void setup()
     {
-        this.resourceLoader = ResourceLoaderBuilder.create().
+        this.resourceLoader = ResourceLoaderBuilder.newBuilder().
             from( this.temporaryFolder.getRoot() ).
             build();
     }

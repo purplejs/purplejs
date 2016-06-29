@@ -8,15 +8,16 @@ import io.purplejs.resource.ResourcePath;
 import io.purplejs.value.ScriptValue;
 
 public interface ExecutionContext
-    extends Environment
 {
     ResourcePath getResource();
 
-    void disposer( Runnable runnable );
+    Environment getEnvironment();
 
     Object require( String path );
 
     ResourcePath resolve( String path );
+
+    void disposer( Runnable runnable );
 
     ScriptValue toScriptValue( Object value );
 
@@ -24,13 +25,18 @@ public interface ExecutionContext
 
     void registerMock( String path, Object value );
 
-    Object getInstance( String type );
+    Object getInstance( String type )
+        throws Exception;
 
-    Supplier<?> getSupplier( String type );
+    Supplier<?> getSupplier( String type )
+        throws Exception;
 
-    Optional<?> getOptional( String type );
+    Optional<?> getOptional( String type )
+        throws Exception;
 
-    <T> T newBean( Class<T> type );
+    <T> T newBean( Class<T> type )
+        throws Exception;
 
-    Object newBean( String type );
+    Object newBean( String type )
+        throws Exception;
 }

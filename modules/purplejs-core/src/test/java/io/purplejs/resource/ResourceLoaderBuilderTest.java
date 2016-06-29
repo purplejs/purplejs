@@ -15,7 +15,7 @@ public class ResourceLoaderBuilderTest
     @Test
     public void testBuild()
     {
-        final ResourceLoaderBuilder builder = ResourceLoaderBuilder.create();
+        final ResourceLoaderBuilder builder = ResourceLoaderBuilder.newBuilder();
 
         assertSame( builder, builder.add( Mockito.mock( ResourceLoader.class ) ) );
         assertSame( builder, builder.from( getClass().getClassLoader() ) );
