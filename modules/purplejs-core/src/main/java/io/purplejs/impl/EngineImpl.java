@@ -59,12 +59,6 @@ final class EngineImpl
     }
 
     @Override
-    public Map<String, Object> getGlobalVariables()
-    {
-        return this.globalVariables;
-    }
-
-    @Override
     public Map<String, String> getConfig()
     {
         return this.config;
@@ -117,6 +111,7 @@ final class EngineImpl
         this.executor.setEnvironment( this );
         this.executor.setEngine( NashornHelper.getScriptEngine( this.classLoader, "-strict" ) );
         this.executor.init();
+        this.executor.addGlobalVariables( this.globalVariables );
 
         this.module.init( this );
     }

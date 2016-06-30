@@ -42,8 +42,10 @@ public final class EngineBuilderImpl
         this.devSourceDirs = Lists.newArrayList();
         this.globalVariables = Maps.newHashMap();
         this.config = Maps.newHashMap();
-        this.module = new CompositeModule();
         this.registryBuilder = RegistryBuilder.newBuilder();
+
+        this.module = new CompositeModule();
+        this.module.autoLoad();
     }
 
     @Override

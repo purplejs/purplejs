@@ -11,17 +11,17 @@ final class ScriptContextImpl
 {
     private final Resource resource;
 
-    public ScriptContextImpl( final Resource resource )
+    ScriptContextImpl( final Resource resource )
     {
         this.resource = resource;
     }
 
-    public void setEngineScope( final Bindings scope )
+    void setEngineScope( final Bindings scope )
     {
         setBindings( scope, ENGINE_SCOPE );
     }
 
-    public void setGlobalScope( final Bindings scope )
+    void setGlobalScope( final Bindings scope )
     {
         setBindings( scope, GLOBAL_SCOPE );
     }

@@ -24,7 +24,10 @@ final class CompositeModule
         this.list = Lists.newArrayList();
         this.initializerList = Lists.newArrayList();
         this.disposerList = Lists.newArrayList();
+    }
 
+    void autoLoad()
+    {
         ServiceLoader.load( EngineModule.class ).forEach( this::add );
     }
 
@@ -33,7 +36,7 @@ final class CompositeModule
         this.list.add( module );
     }
 
-    public void init( final Engine engine )
+    void init( final Engine engine )
     {
         this.initializerList.forEach( initializer -> init( initializer, engine ) );
     }
@@ -43,7 +46,7 @@ final class CompositeModule
         initializer.accept( engine );
     }
 
-    public void dispose( final Engine engine )
+    void dispose( final Engine engine )
     {
         this.disposerList.forEach( disposer -> dispose( disposer, engine ) );
     }

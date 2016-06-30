@@ -25,7 +25,7 @@ final class InitScriptReader
         }
     }
 
-    public static String getScript( final String script )
+    static String getScript( final String script )
     {
         return INSTANCE.init.replace( "__script__;", script );
     }

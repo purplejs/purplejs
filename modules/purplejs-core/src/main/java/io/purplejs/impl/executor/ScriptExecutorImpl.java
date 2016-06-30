@@ -15,6 +15,7 @@ import com.google.common.collect.Maps;
 import io.purplejs.Environment;
 import io.purplejs.impl.cache.ScriptExportsCache;
 import io.purplejs.impl.util.NashornHelper;
+import io.purplejs.impl.value.ScriptValueFactory;
 import io.purplejs.impl.value.ScriptValueFactoryImpl;
 import io.purplejs.resource.Resource;
 import io.purplejs.resource.ResourcePath;
@@ -37,6 +38,8 @@ public final class ScriptExecutorImpl
     private Map<ResourcePath, Object> mocks;
 
     private Map<ResourcePath, Runnable> disposers;
+
+    private ScriptValueFactory scriptValueFactory;
 
     /*
     public ScriptExecutorImpl()
@@ -67,8 +70,13 @@ public final class ScriptExecutorImpl
         this.disposers = Maps.newHashMap();
         this.exportsCache = new ScriptExportsCache();
         this.global = this.engine.createBindings();
-        this.global.putAll( this.environment.getGlobalVariables() );
         new CallFunction().register( this.global );
+        this.scriptValueFactory = new ScriptValueFactoryImpl( this::invokeMethod );
+    }
+
+    public void addGlobalVariables( final Map<String, Object> variables )
+    {
+        this.global.putAll( variables );
     }
 
     @Override
@@ -101,7 +109,7 @@ public final class ScriptExecutorImpl
     @Override
     public ScriptValue newScriptValue( final Object value )
     {
-        return new ScriptValueFactoryImpl( this::invokeMethod ).newValue( value );
+        return this.scriptValueFactory.newValue( value );
     }
 
     private Object invokeMethod( final Object func, final Object... args )

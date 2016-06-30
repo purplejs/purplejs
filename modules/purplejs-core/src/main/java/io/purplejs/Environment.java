@@ -14,7 +14,5 @@ public interface Environment
 
     ClassLoader getClassLoader();
 
-    Map<String, Object> getGlobalVariables();
-
     Map<String, String> getConfig();
 }
