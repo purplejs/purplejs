@@ -7,6 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
+import io.purplejs.Engine;
 import io.purplejs.Environment;
 import io.purplejs.context.ExecutionContext;
 import io.purplejs.resource.ResourceLoader;
@@ -21,6 +22,8 @@ public class ExecutionContextImplTest
 
     private ScriptExecutor executor;
 
+    private Engine engine;
+
     private Environment environment;
 
     private ResourcePath resource;
@@ -32,7 +35,10 @@ public class ExecutionContextImplTest
             from( getClass().getClassLoader() ).
             build();
 
+        this.engine = Mockito.mock( Engine.class );
         this.environment = Mockito.mock( Environment.class );
+        Mockito.when( this.environment.getInstance( Engine.class ) ).thenReturn( this.engine );
+
         Mockito.when( this.environment.getResourceLoader() ).thenReturn( resourceLoader );
         Mockito.when( this.environment.getClassLoader() ).thenReturn( getClass().getClassLoader() );
 
@@ -53,6 +59,18 @@ public class ExecutionContextImplTest
     public void getEnvironment()
     {
         assertSame( this.environment, this.context.getEnvironment() );
+    }
+
+    @Test
+    public void getEngine()
+    {
+        assertSame( this.engine, this.context.getEngine() );
+    }
+
+    @Test
+    public void getRegistry()
+    {
+        assertSame( this.environment, this.context.getRegistry() );
     }
 
     @Test

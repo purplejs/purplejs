@@ -3,9 +3,11 @@ package io.purplejs.impl.executor;
 import java.util.Optional;
 import java.util.function.Supplier;
 
+import io.purplejs.Engine;
 import io.purplejs.Environment;
 import io.purplejs.context.ExecutionContext;
 import io.purplejs.impl.util.JsObjectConverter;
+import io.purplejs.registry.Registry;
 import io.purplejs.resource.ResourcePath;
 import io.purplejs.value.ScriptValue;
 
@@ -36,6 +38,18 @@ final class ExecutionContextImpl
 
     @Override
     public Environment getEnvironment()
+    {
+        return this.environment;
+    }
+
+    @Override
+    public Engine getEngine()
+    {
+        return this.environment.getInstance( Engine.class );
+    }
+
+    @Override
+    public Registry getRegistry()
     {
         return this.environment;
     }
