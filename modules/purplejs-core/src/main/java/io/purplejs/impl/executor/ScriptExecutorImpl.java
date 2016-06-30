@@ -95,7 +95,7 @@ public final class ScriptExecutorImpl
             return cached;
         }
 
-        final ScriptContextImpl context = new ScriptContextImpl( resource );
+        final ScriptContextImpl context = new ScriptContextImpl( path );
         context.setEngineScope( this.global );
         context.setGlobalScope( new SimpleBindings() );
 

@@ -5,13 +5,14 @@ import javax.script.ScriptEngine;
 import javax.script.SimpleScriptContext;
 
 import io.purplejs.resource.Resource;
+import io.purplejs.resource.ResourcePath;
 
 final class ScriptContextImpl
     extends SimpleScriptContext
 {
-    private final Resource resource;
+    private final ResourcePath resource;
 
-    ScriptContextImpl( final Resource resource )
+    ScriptContextImpl( final ResourcePath resource )
     {
         this.resource = resource;
     }
@@ -39,6 +40,6 @@ final class ScriptContextImpl
 
     private String getFileName()
     {
-        return this.resource.getPath().toString();
+        return this.resource.toString();
     }
 }

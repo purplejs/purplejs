@@ -2,8 +2,6 @@ package io.purplejs.impl.executor;
 
 import javax.script.ScriptException;
 
-import com.google.common.base.Throwables;
-
 import io.purplejs.resource.ResourcePath;
 import io.purplejs.resource.ResourceProblemException;
 import jdk.nashorn.api.scripting.NashornException;
@@ -27,13 +25,15 @@ final class ErrorHelper
             return doHandleException( (RuntimeException) e );
         }
 
-        return Throwables.propagate( e );
+        return new RuntimeException( e );
     }
 
     private static ResourceProblemException doHandleException( final ScriptException e )
     {
-        final ResourceProblemException.Builder builder = ResourceProblemException.create();
-        builder.cause( e.getCause() );
+        final ResourceProblemException.Builder builder = ResourceProblemException.newBuilder();
+        final Throwable cause = e.getCause();
+
+        builder.cause( cause != null ? cause : e );
         builder.lineNumber( e.getLineNumber() );
         builder.resource( toResourcePath( e.getFileName() ) );
         return builder.build();
@@ -47,7 +47,7 @@ final class ErrorHelper
             return e;
         }
 
-        final ResourceProblemException.Builder builder = ResourceProblemException.create();
+        final ResourceProblemException.Builder builder = ResourceProblemException.newBuilder();
         builder.cause( e );
         builder.lineNumber( elem.getLineNumber() );
         builder.resource( toResourcePath( elem.getFileName() ) );
