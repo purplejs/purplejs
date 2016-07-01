@@ -8,7 +8,7 @@ public interface RegistryBuilder
 {
     <T> RegistryBuilder instance( Class<T> type, T instance );
 
-    <T> RegistryBuilder supplier( Class<T> type, Supplier<T> supplier );
+    <T> RegistryBuilder provider( Class<T> type, Supplier<T> supplier );
 
     Registry build();
 

@@ -139,13 +139,13 @@ public class ExecutionContextImplTest
     }
 
     @Test
-    public void getSupplier()
+    public void getProvider()
         throws Exception
     {
         final Supplier<MyTestBean> expected = MyTestBean::new;
-        Mockito.when( this.environment.getSupplier( MyTestBean.class ) ).thenReturn( expected );
+        Mockito.when( this.environment.getProvider( MyTestBean.class ) ).thenReturn( expected );
 
-        final Supplier<?> supplier = this.context.getSupplier( MyTestBean.class.getName() );
+        final Supplier<?> supplier = this.context.getProvider( MyTestBean.class.getName() );
         assertSame( expected, supplier );
     }
 

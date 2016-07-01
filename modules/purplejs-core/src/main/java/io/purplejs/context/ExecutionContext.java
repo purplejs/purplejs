@@ -34,7 +34,7 @@ public interface ExecutionContext
     Object getInstance( String type )
         throws Exception;
 
-    Supplier<?> getSupplier( String type )
+    Supplier<?> getProvider( String type )
         throws Exception;
 
     Optional<?> getOptional( String type )

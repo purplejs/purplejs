@@ -9,5 +9,5 @@ public interface Registry
 
     <T> Optional<T> getOptional( Class<T> type );
 
-    <T> Supplier<T> getSupplier( Class<T> type );
+    <T> Supplier<T> getProvider( Class<T> type );
 }

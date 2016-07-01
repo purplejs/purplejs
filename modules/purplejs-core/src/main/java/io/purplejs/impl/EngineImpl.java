@@ -77,9 +77,9 @@ final class EngineImpl
     }
 
     @Override
-    public <T> Supplier<T> getSupplier( final Class<T> type )
+    public <T> Supplier<T> getProvider( final Class<T> type )
     {
-        return this.registry.getSupplier( type );
+        return this.registry.getProvider( type );
     }
 
     @Override

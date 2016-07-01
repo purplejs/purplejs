@@ -1,12 +1,14 @@
-package io.purplejs.http.impl;
+package io.purplejs.http.impl.handler;
+
+import java.util.function.Function;
 
 import io.purplejs.Engine;
 import io.purplejs.http.Request;
 import io.purplejs.http.Response;
 import io.purplejs.http.error.ExceptionHandler;
-import io.purplejs.http.executor.HttpHandler;
-import io.purplejs.http.impl.command.ServeRequestCommand;
+import io.purplejs.http.handler.HttpHandler;
 import io.purplejs.resource.ResourcePath;
+import io.purplejs.value.ScriptExports;
 
 final class HttpHandlerImpl
     implements HttpHandler
@@ -28,6 +30,13 @@ final class HttpHandlerImpl
     @Override
     public Response serve( final Request request )
     {
-        return this.engine.execute( this.resource, new ServeRequestCommand( request ) );
+        final ServeRequestCommand command = new ServeRequestCommand( request );
+        return execute( command );
+    }
+
+    private <R> R execute( final Function<ScriptExports, R> command )
+    {
+        final ScriptExports exports = this.engine.require( this.resource );
+        return command.apply( exports );
     }
 }

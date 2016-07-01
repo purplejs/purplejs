@@ -1,7 +1,5 @@
 package io.purplejs.servlet.impl;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.net.URI;
 import java.util.Enumeration;
 
@@ -9,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.google.common.base.Throwables;
 import com.google.common.io.ByteSource;
+import com.google.common.io.ByteStreams;
 import com.google.common.net.MediaType;
 
 import io.purplejs.http.Headers;
@@ -25,14 +24,13 @@ public final class RequestWrapper
 
     private final Parameters parameters;
 
+    private ByteSource body;
+
     public RequestWrapper( final HttpServletRequest wrapped )
     {
         this.wrapped = wrapped;
         this.headers = createHeaders( this.wrapped );
         this.parameters = createParameters( this.wrapped );
-
-        System.out.println( "Content Type   = " + this.wrapped.getContentType() );
-        System.out.println( "Content Length = " + this.wrapped.getContentLength() );
     }
 
     @Override
@@ -63,7 +61,7 @@ public final class RequestWrapper
     public MediaType getContentType()
     {
         final String value = this.wrapped.getContentType();
-        return value != null ? MediaType.parse( value ) : null;
+        return value != null ? MediaType.parse( value ).withoutParameters() : null;
     }
 
     @Override
@@ -75,15 +73,24 @@ public final class RequestWrapper
     @Override
     public ByteSource getBody()
     {
-        return new ByteSource()
+        if ( getContentLength() <= 0 )
         {
-            @Override
-            public InputStream openStream()
-                throws IOException
+            return ByteSource.empty();
+        }
+
+        if ( this.body == null )
+        {
+            try
             {
-                return wrapped.getInputStream();
+                this.body = ByteSource.wrap( ByteStreams.toByteArray( this.wrapped.getInputStream() ) );
             }
-        };
+            catch ( final Exception e )
+            {
+                throw Throwables.propagate( e );
+            }
+        }
+
+        return this.body;
     }
 
     @Override

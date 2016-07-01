@@ -1,4 +1,4 @@
-package io.purplejs.http.executor;
+package io.purplejs.http.handler;
 
 import io.purplejs.http.Request;
 import io.purplejs.http.Response;

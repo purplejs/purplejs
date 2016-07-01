@@ -105,9 +105,9 @@ public final class EngineBuilderImpl
     }
 
     @Override
-    public <T> EngineBinder supplier( final Class<T> type, final Supplier<T> supplier )
+    public <T> EngineBinder provider( final Class<T> type, final Supplier<T> supplier )
     {
-        this.registryBuilder.supplier( type, supplier );
+        this.registryBuilder.provider( type, supplier );
         return this;
     }
 

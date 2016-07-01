@@ -8,18 +8,20 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import io.purplejs.Engine;
+import io.purplejs.EngineBinder;
 import io.purplejs.EngineBuilder;
+import io.purplejs.http.HttpModule;
 import io.purplejs.http.Response;
-import io.purplejs.http.executor.HttpExecutor;
-import io.purplejs.http.executor.HttpExecutorBuilder;
-import io.purplejs.http.executor.HttpHandler;
+import io.purplejs.http.handler.HttpHandler;
+import io.purplejs.http.handler.HttpHandlerFactory;
 import io.purplejs.servlet.impl.RequestWrapper;
 import io.purplejs.servlet.impl.ResponseSerializer;
 
 public class ScriptServlet
     extends HttpServlet
 {
-    private HttpExecutor executor;
+    private Engine engine;
 
     private HttpHandler handler;
 
@@ -33,19 +35,26 @@ public class ScriptServlet
 
     private void configure( final ScriptServletConfig config )
     {
-        final HttpExecutorBuilder builder = HttpExecutorBuilder.newBuilder();
-        builder.engine( ( engineBuilder ) -> configure( config, engineBuilder ) );
+        final EngineBuilder builder = EngineBuilder.newBuilder();
+        configure( config, builder );
+        this.engine = builder.build();
 
-        this.executor = builder.build();
-        this.handler = this.executor.newHandler( config.getResource() );
+        final HttpHandlerFactory handlerFactory = this.engine.getInstance( HttpHandlerFactory.class );
+        this.handler = handlerFactory.newHandler( config.getResource() );
     }
 
     private void configure( final ScriptServletConfig config, final EngineBuilder builder )
     {
         builder.devMode( config.isDevMode() );
         builder.classLoader( getClass().getClassLoader() );
-        config.getConfig().forEach( builder::config );
         config.getDevSourceDirs().forEach( builder::devSourceDir );
+        builder.module( new HttpModule() );
+        builder.module( binder -> configure( config, binder ) );
+    }
+
+    private void configure( final ScriptServletConfig config, final EngineBinder binder )
+    {
+        config.getConfig().forEach( binder::config );
     }
 
     @Override
@@ -66,6 +75,6 @@ public class ScriptServlet
     @Override
     public void destroy()
     {
-        this.executor.dispose();
+        this.engine.dispose();
     }
 }

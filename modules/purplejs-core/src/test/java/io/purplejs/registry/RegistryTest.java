@@ -29,7 +29,7 @@ public class RegistryTest
     {
         this.registry = RegistryBuilder.newBuilder().
             instance( MyObject1.class, new MyObject1() ).
-            supplier( MyObject2.class, MyObject2::new ).
+            provider( MyObject2.class, MyObject2::new ).
             build();
     }
 
@@ -40,9 +40,9 @@ public class RegistryTest
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void getSupplier_notFound()
+    public void getProvider_notFound()
     {
-        this.registry.getSupplier( MyObject3.class );
+        this.registry.getProvider( MyObject3.class );
     }
 
     @Test
@@ -62,23 +62,23 @@ public class RegistryTest
     }
 
     @Test
-    public void getSupplier()
+    public void getProvider()
     {
-        final Supplier<MyObject1> supplier1 = this.registry.getSupplier( MyObject1.class );
+        final Supplier<MyObject1> supplier1 = this.registry.getProvider( MyObject1.class );
         assertNotNull( supplier1 );
         assertNotNull( supplier1.get() );
         assertSame( supplier1.get(), supplier1.get() );
 
-        final Supplier<MyObject1> supplier2 = this.registry.getSupplier( MyObject1.class );
+        final Supplier<MyObject1> supplier2 = this.registry.getProvider( MyObject1.class );
         assertNotNull( supplier2 );
         assertSame( supplier1, supplier2 );
 
-        final Supplier<MyObject2> supplier3 = this.registry.getSupplier( MyObject2.class );
+        final Supplier<MyObject2> supplier3 = this.registry.getProvider( MyObject2.class );
         assertNotNull( supplier3 );
         assertNotNull( supplier3.get() );
         assertNotSame( supplier3.get(), supplier3.get() );
 
-        final Supplier<MyObject2> supplier4 = this.registry.getSupplier( MyObject2.class );
+        final Supplier<MyObject2> supplier4 = this.registry.getProvider( MyObject2.class );
         assertNotNull( supplier4 );
         assertSame( supplier3, supplier4 );
     }

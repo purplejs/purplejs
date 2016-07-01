@@ -22,11 +22,11 @@ public final class RegistryBuilderImpl
     @Override
     public <T> RegistryBuilder instance( final Class<T> type, final T instance )
     {
-        return supplier( type, () -> instance );
+        return provider( type, () -> instance );
     }
 
     @Override
-    public <T> RegistryBuilder supplier( final Class<T> type, final Supplier<T> supplier )
+    public <T> RegistryBuilder provider( final Class<T> type, final Supplier<T> supplier )
     {
         this.map.put( type, supplier );
         return this;

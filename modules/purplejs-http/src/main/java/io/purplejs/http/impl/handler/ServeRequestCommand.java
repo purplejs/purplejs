@@ -1,35 +1,44 @@
-package io.purplejs.http.impl.command;
+package io.purplejs.http.impl.handler;
 
 import java.util.function.Function;
 
 import io.purplejs.http.Request;
 import io.purplejs.http.Response;
 import io.purplejs.http.Status;
+import io.purplejs.http.impl.RequestAccessor;
 import io.purplejs.http.impl.request.RequestWrapper;
 import io.purplejs.http.impl.response.ResponseBuilder;
 import io.purplejs.http.impl.response.ScriptToResponse;
 import io.purplejs.value.ScriptExports;
 import io.purplejs.value.ScriptValue;
 
-public final class ServeRequestCommand
+final class ServeRequestCommand
     implements Function<ScriptExports, Response>
 {
     private final static String SERVICE_METHOD = "service";
 
     private final Request request;
 
-    public ServeRequestCommand( final Request request )
+    ServeRequestCommand( final Request request )
     {
         this.request = request;
     }
 
-    public Request getRequest()
-    {
-        return this.request;
-    }
-
     @Override
     public Response apply( final ScriptExports exports )
+    {
+        try
+        {
+            RequestAccessor.set( this.request );
+            return doExecute( exports );
+        }
+        finally
+        {
+            RequestAccessor.remove();
+        }
+    }
+
+    private Response doExecute( final ScriptExports exports )
     {
         final String method = findMethod( exports );
         if ( method == null )

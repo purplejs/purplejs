@@ -72,10 +72,10 @@ public class EngineTest
         final String value = "hello";
 
         final Engine engine = EngineBuilder.newBuilder().
-            module( binder -> binder.supplier( String.class, () -> value ) ).
+            module( binder -> binder.provider( String.class, () -> value ) ).
             build();
 
-        assertSame( value, engine.getSupplier( String.class ).get() );
+        assertSame( value, engine.getProvider( String.class ).get() );
     }
 
     @Test

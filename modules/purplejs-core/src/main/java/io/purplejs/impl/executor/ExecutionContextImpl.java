@@ -105,10 +105,10 @@ final class ExecutionContextImpl
     }
 
     @Override
-    public Supplier<?> getSupplier( final String type )
+    public Supplier<?> getProvider( final String type )
         throws Exception
     {
-        return this.environment.getSupplier( forName( type ) );
+        return this.environment.getProvider( forName( type ) );
     }
 
     @Override
