@@ -6,6 +6,7 @@ include ':purplejs-core'
 // include ':purplejs-ratpack'
 // include ':purplejs-dropwizard'
 // include ':purplejs-spring'
+// include ':purplejs-testing'
 
 rootProject.name = 'purplejs'
 
