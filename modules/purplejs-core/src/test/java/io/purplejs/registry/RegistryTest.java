@@ -25,7 +25,7 @@ public class RegistryTest
     private Registry registry;
 
     @Before
-    public void setup()
+    public void setUp()
     {
         this.registry = RegistryBuilder.newBuilder().
             instance( MyObject1.class, new MyObject1() ).

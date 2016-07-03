@@ -15,7 +15,7 @@ public class CompositeModuleTest
     private CompositeModule compositeModule;
 
     @Before
-    public void setup()
+    public void setUp()
     {
         this.compositeModule = new CompositeModule();
     }

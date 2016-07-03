@@ -18,7 +18,7 @@ public class ChainedResourceLoaderTest
     private ResourceLoader loader2;
 
     @Before
-    public void setup()
+    public void setUp()
     {
         this.loader1 = Mockito.mock( ResourceLoader.class );
         this.loader2 = Mockito.mock( ResourceLoader.class );

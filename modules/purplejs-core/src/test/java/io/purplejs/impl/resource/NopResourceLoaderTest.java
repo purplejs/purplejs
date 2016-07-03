@@ -10,7 +10,7 @@ public class NopResourceLoaderTest
     private NopResourceLoader loader;
 
     @Before
-    public void setup()
+    public void setUp()
     {
         this.loader = new NopResourceLoader();
     }

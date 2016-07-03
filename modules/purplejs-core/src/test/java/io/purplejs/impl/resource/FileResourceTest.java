@@ -20,7 +20,7 @@ public class FileResourceTest
     private File file;
 
     @Before
-    public void setup()
+    public void setUp()
         throws Exception
     {
         final ResourceTestFixture fixture = new ResourceTestFixture( this.temporaryFolder );

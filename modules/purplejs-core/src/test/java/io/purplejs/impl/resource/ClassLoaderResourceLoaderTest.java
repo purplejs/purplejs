@@ -23,7 +23,7 @@ public class ClassLoaderResourceLoaderTest
     private ClassLoaderResourceLoader loaderWithPrefix;
 
     @Before
-    public void setup()
+    public void setUp()
         throws Exception
     {
         final ResourceTestFixture fixture = new ResourceTestFixture( this.temporaryFolder );
