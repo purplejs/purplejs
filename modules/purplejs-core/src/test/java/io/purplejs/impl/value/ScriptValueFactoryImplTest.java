@@ -27,7 +27,7 @@ public class ScriptValueFactoryImplTest
     private ScriptEngine engine;
 
     @Before
-    public void setup()
+    public void setUp()
     {
         this.invoker = Mockito.mock( ScriptMethodInvoker.class );
         this.factory = new ScriptValueFactoryImpl( this.invoker );

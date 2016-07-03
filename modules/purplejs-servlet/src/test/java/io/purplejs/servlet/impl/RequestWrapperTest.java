@@ -15,7 +15,7 @@ public class RequestWrapperTest
     private RequestWrapper wrapper;
 
     @Before
-    public void setup()
+    public void setUp()
     {
         this.request = new MockHttpServletRequest();
         this.wrapper = new RequestWrapper( this.request );

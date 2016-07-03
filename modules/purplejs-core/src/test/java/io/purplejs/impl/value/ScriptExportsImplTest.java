@@ -20,7 +20,7 @@ public class ScriptExportsImplTest
     private ScriptValue callResult;
 
     @Before
-    public void setup()
+    public void setUp()
     {
         this.resource = ResourcePath.from( "/a/b" );
         this.value = Mockito.mock( ScriptValue.class );

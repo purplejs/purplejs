@@ -20,7 +20,7 @@ public class MultipartItemImplTest
     private MultipartItemImpl item;
 
     @Before
-    public void setup()
+    public void setUp()
     {
         this.part = Mockito.mock( Part.class );
         this.item = new MultipartItemImpl( this.part );
