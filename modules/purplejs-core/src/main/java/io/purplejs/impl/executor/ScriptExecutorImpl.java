@@ -196,10 +196,10 @@ public final class ScriptExecutorImpl
 
     private void runDisposer( final ResourcePath path )
     {
-        runDisposer( path, this.disposers.get( path ) );
+        runDisposer( this.disposers.get( path ) );
     }
 
-    private void runDisposer( final ResourcePath path, final Runnable callback )
+    private void runDisposer( final Runnable callback )
     {
         if ( callback != null )
         {
@@ -209,7 +209,7 @@ public final class ScriptExecutorImpl
 
     public void dispose()
     {
-        this.disposers.forEach( this::runDisposer );
+        this.disposers.values().forEach( this::runDisposer );
     }
 
     /*

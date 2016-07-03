@@ -9,6 +9,7 @@ import com.google.common.net.MediaType;
 import io.purplejs.http.Request;
 import io.purplejs.registry.Registry;
 
+// TODO: Move this (and http.js) into purplejs-http.
 public final class RequestHelper
 {
     private Supplier<Request> requestProvider;
