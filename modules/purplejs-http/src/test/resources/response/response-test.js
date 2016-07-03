@@ -41,7 +41,7 @@ exports.textBody = function () {
 exports.functionBody = function () {
     return {
         body: function () {
-            return 'text-in-function'
+            return 'text-in-function';
         }
     };
 };
