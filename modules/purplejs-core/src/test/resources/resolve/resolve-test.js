@@ -1,3 +1,4 @@
+/* global Java */
 var assert = Java.type('org.junit.Assert');
 
 require('other/resolve-in-require').test();

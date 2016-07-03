@@ -1,3 +1,5 @@
+/* global Java */
+/* global __ */
 var assert = Java.type('org.junit.Assert');
 
 var lib = require('./library');

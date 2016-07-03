@@ -1,3 +1,4 @@
+/* global Java */
 var assert = Java.type('org.junit.Assert');
 
 var array = [1, 2, 3];

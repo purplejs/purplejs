@@ -1,3 +1,5 @@
+/* global __ */
+
 var executed = false;
 
 __.disposer(function () {
