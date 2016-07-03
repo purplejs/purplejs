@@ -17,7 +17,7 @@ public class AttributesTest
     private Attributes attrs;
 
     @Before
-    public void setup()
+    public void setUp()
     {
         this.attrs = new Attributes();
     }

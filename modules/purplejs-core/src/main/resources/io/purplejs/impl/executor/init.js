@@ -13,6 +13,6 @@
         }
     });
 
-    __script__;
+    /*__script__*/
     return module.exports;
 });

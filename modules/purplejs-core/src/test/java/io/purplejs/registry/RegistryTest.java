@@ -10,6 +10,8 @@ import static org.junit.Assert.*;
 
 public class RegistryTest
 {
+    private Registry registry;
+
     public class MyObject1
     {
     }
@@ -21,8 +23,6 @@ public class RegistryTest
     public class MyObject3
     {
     }
-
-    private Registry registry;
 
     @Before
     public void setUp()

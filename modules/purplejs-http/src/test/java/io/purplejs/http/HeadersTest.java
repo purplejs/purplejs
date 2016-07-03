@@ -13,7 +13,7 @@ public class HeadersTest
     private Headers headers;
 
     @Before
-    public void setup()
+    public void setUp()
     {
         this.headers = new Headers();
     }

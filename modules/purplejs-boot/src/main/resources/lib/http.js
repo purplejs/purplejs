@@ -1,3 +1,5 @@
+/* global __ */
+
 var helper = __.newBean('io.purplejs.http.impl.lib.RequestHelper');
 helper.init(__.registry);
 

@@ -27,7 +27,7 @@ public class ScriptToResponseTest
     private ScriptExports exports;
 
     @Before
-    public void setup()
+    public void setUp()
     {
         final Engine engine = EngineBuilder.newBuilder().
             build();

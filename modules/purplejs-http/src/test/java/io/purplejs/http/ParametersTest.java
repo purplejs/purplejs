@@ -14,7 +14,7 @@ public class ParametersTest
     private Parameters params;
 
     @Before
-    public void setup()
+    public void setUp()
     {
         this.params = new Parameters();
     }
