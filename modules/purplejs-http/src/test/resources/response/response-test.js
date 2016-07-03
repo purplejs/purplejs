@@ -5,7 +5,7 @@ exports.emtpy = function () {
 exports.statusOnly = function () {
     return {
         status: 201
-    }
+    };
 };
 
 exports.all = function () {
@@ -17,25 +17,25 @@ exports.all = function () {
             'X-Header-1': 'value1',
             'X-Header-2': 'value2'
         }
-    }
+    };
 };
 
 exports.redirect = function () {
     return {
         redirect: 'http://foo.bar'
-    }
+    };
 };
 
 exports.wrong = function () {
     return {
         headers: []
-    }
+    };
 };
 
 exports.textBody = function () {
     return {
         body: 'text',
-    }
+    };
 };
 
 exports.functionBody = function () {
@@ -43,13 +43,13 @@ exports.functionBody = function () {
         body: function () {
             return 'text-in-function'
         }
-    }
+    };
 };
 
 exports.argBody = function (obj) {
     return {
         body: obj
-    }
+    };
 };
 
 exports.jsonArrayBody = function () {
@@ -59,7 +59,7 @@ exports.jsonArrayBody = function () {
             b: 2,
             c: 3
         }]
-    }
+    };
 };
 
 exports.jsonObjectBody = function () {
@@ -70,7 +70,7 @@ exports.jsonObjectBody = function () {
             c: 3,
             d: [1, 2, 3]
         }
-    }
+    };
 };
 
 exports.cookies = function () {
@@ -87,7 +87,7 @@ exports.cookies = function () {
                 "httpOnly": true
             }
         }
-    }
+    };
 };
 
 

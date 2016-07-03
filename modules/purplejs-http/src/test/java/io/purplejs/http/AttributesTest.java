@@ -10,11 +10,11 @@ import static org.junit.Assert.*;
 
 public class AttributesTest
 {
+    private Attributes attrs;
+
     private class TypedValue
     {
     }
-
-    private Attributes attrs;
 
     @Before
     public void setUp()

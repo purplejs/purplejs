@@ -12,6 +12,16 @@ final class ErrorPageBuilder
 
     private final static int NUM_STACK_ELEMENTS = 140;
 
+    private int statusCode;
+
+    private String title;
+
+    private String description;
+
+    private Throwable cause;
+
+    private List<String> lines;
+
     private final static class LineInfo
     {
         private final int line;
@@ -47,16 +57,6 @@ final class ErrorPageBuilder
             return this.text;
         }
     }
-
-    private int statusCode;
-
-    private String title;
-
-    private String description;
-
-    private Throwable cause;
-
-    private List<String> lines;
 
     public ErrorPageBuilder status( final int value )
     {
