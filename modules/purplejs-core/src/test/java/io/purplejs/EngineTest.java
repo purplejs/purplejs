@@ -99,6 +99,7 @@ public class EngineTest
             module( binder -> binder.initializer( initializer ) ).
             build();
 
+        assertNotNull( engine );
         Mockito.verify( initializer, Mockito.times( 1 ) ).accept( engine );
     }
 

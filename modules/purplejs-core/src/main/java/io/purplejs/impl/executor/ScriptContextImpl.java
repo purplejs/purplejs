@@ -4,7 +4,6 @@ import javax.script.Bindings;
 import javax.script.ScriptEngine;
 import javax.script.SimpleScriptContext;
 
-import io.purplejs.resource.Resource;
 import io.purplejs.resource.ResourcePath;
 
 final class ScriptContextImpl

@@ -3,6 +3,7 @@ package io.purplejs.impl.cache;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
+
 import io.purplejs.resource.Resource;
 import io.purplejs.resource.ResourcePath;
 
@@ -13,7 +14,7 @@ public class ScriptExportsCacheTest
     private ScriptExportsCache cache;
 
     @Before
-    public void setup()
+    public void setUp()
     {
         this.cache = new ScriptExportsCache();
     }

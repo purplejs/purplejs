@@ -22,7 +22,7 @@ public class ResourceResolverTest
     private ResourceLoader resourceLoader;
 
     @Before
-    public void setup()
+    public void setUp()
     {
         this.resourceLoader = ResourceLoaderBuilder.newBuilder().
             from( this.temporaryFolder.getRoot() ).

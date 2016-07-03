@@ -29,7 +29,7 @@ public class ExecutionContextImplTest
     private ResourcePath resource;
 
     @Before
-    public void setup()
+    public void setUp()
     {
         final ResourceLoader resourceLoader = ResourceLoaderBuilder.newBuilder().
             from( getClass().getClassLoader() ).

@@ -1,6 +1,5 @@
 package io.purplejs.resource;
 
-import org.junit.Assert;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -14,6 +13,6 @@ public class ResourceNotFoundExceptionTest
         final ResourceNotFoundException ex = new ResourceNotFoundException( path );
 
         assertSame( path, ex.getResource() );
-        Assert.assertEquals( "Resource [/a.txt] not found", ex.getMessage() );
+        assertEquals( "Resource [/a.txt] not found", ex.getMessage() );
     }
 }

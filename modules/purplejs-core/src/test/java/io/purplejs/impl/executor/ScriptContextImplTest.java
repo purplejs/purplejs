@@ -16,7 +16,7 @@ public class ScriptContextImplTest
     private ScriptContextImpl context;
 
     @Before
-    public void setup()
+    public void setUp()
     {
         this.resource = ResourcePath.from( "/a/b/test.js" );
         this.context = new ScriptContextImpl( this.resource );

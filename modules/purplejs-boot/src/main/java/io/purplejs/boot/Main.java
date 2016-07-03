@@ -4,7 +4,6 @@ import javax.servlet.MultipartConfigElement;
 
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
-import org.eclipse.jetty.servlet.ServletHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 
 import com.google.common.io.Files;
@@ -17,8 +16,8 @@ public final class Main
         throws Exception
     {
         final Server server = new Server( 8080 );
-        final ServletContextHandler context = new ServletContextHandler( ServletContextHandler.SESSIONS);
-        server.setHandler(context);
+        final ServletContextHandler context = new ServletContextHandler( ServletContextHandler.SESSIONS );
+        server.setHandler( context );
 
         final ServletHolder servlet = context.addServlet( ScriptServlet.class, "/*" );
         servlet.setInitParameter( "resource", "/app/main.js" );
