@@ -5,13 +5,13 @@ import java.util.List;
 
 import com.google.common.base.Charsets;
 
+import io.purplejs.exception.ProblemException;
 import io.purplejs.http.Request;
 import io.purplejs.http.Response;
 import io.purplejs.http.Status;
 import io.purplejs.http.error.ExceptionHandler;
 import io.purplejs.http.error.ExceptionInfo;
 import io.purplejs.resource.Resource;
-import io.purplejs.resource.ResourceException;
 import io.purplejs.resource.ResourceLoader;
 import io.purplejs.resource.ResourcePath;
 
@@ -40,17 +40,17 @@ public final class ExceptionRenderer
         info.request = request;
         info.status = Status.INTERNAL_SERVER_ERROR;
 
-        if ( ex instanceof ResourceException )
+        if ( ex instanceof ProblemException )
         {
-            populate( info, (ResourceException) ex );
+            populate( info, (ProblemException) ex );
         }
 
         return info;
     }
 
-    private void populate( final ExceptionInfoImpl info, final ResourceException ex )
+    private void populate( final ExceptionInfoImpl info, final ProblemException ex )
     {
-        info.path = ex.getResource();
+        info.path = ex.getPath();
         info.resource = loadResourceOrNull( info.path );
         info.lines = loadLines( info.resource );
     }

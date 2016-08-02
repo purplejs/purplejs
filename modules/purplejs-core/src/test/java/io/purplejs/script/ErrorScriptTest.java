@@ -19,7 +19,7 @@ public class ErrorScriptTest
         try
         {
             run( path );
-            fail( "Should throw ResourceProblemException" );
+            fail( "Should throw ProblemException" );
         }
         catch ( final ProblemException e )
         {
@@ -39,7 +39,7 @@ public class ErrorScriptTest
         try
         {
             exports.executeMethod( "hello" );
-            fail( "Should throw ResourceProblemException" );
+            fail( "Should throw ProblemException" );
         }
         catch ( final ProblemException e )
         {
@@ -59,7 +59,7 @@ public class ErrorScriptTest
         try
         {
             exports.executeMethod( "hello" );
-            fail( "Should throw ResourceProblemException" );
+            fail( "Should throw ProblemException" );
         }
         catch ( final ProblemException e )
         {

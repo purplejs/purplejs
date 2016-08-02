@@ -63,7 +63,7 @@ public final class ProblemException
 
         return getInnerError( cause.getCause() );
     }
-
+    
     public static class Builder
     {
         private String message;

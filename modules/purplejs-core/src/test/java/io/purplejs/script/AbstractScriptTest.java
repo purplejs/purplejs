@@ -6,6 +6,7 @@ import io.purplejs.Engine;
 import io.purplejs.EngineBinder;
 import io.purplejs.EngineBuilder;
 import io.purplejs.EngineModule;
+import io.purplejs.RunMode;
 import io.purplejs.resource.ResourceLoaderBuilder;
 import io.purplejs.resource.ResourcePath;
 import io.purplejs.value.ScriptExports;
@@ -23,6 +24,8 @@ public abstract class AbstractScriptTest
         configure( builder );
 
         this.engine = builder.build();
+
+        RunMode.TEST.set();
     }
 
     protected void configure( final EngineBuilder builder )
