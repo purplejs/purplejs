@@ -1,5 +1,6 @@
 package io.purplejs.impl.util;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -9,6 +10,7 @@ import org.junit.Test;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
+import io.purplejs.impl.nashorn.NashornHelper;
 import io.purplejs.impl.nashorn.NashornRuntime;
 import io.purplejs.impl.nashorn.NashornRuntimeFactory;
 import jdk.nashorn.api.scripting.ScriptObjectMirror;
@@ -35,6 +37,19 @@ public class JsObjectConverterTest
         final Object value = this.converter.toJs( 11 );
         assertNotNull( value );
         assertEquals( 11, value );
+    }
+
+    @Test
+    public void toJs_date()
+    {
+        final Date date = new Date();
+        final Object value = this.converter.toJs( date );
+
+        assertNotNull( value );
+        assertEquals( true, NashornHelper.isDateType( value ) );
+
+        final Date other = NashornHelper.toDate( value );
+        assertEquals( date, other );
     }
 
     @Test
