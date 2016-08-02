@@ -7,16 +7,16 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 
 import io.purplejs.value.ScriptValue;
-import jdk.nashorn.api.scripting.JSObject;
+import jdk.nashorn.api.scripting.ScriptObjectMirror;
 
 final class ArrayScriptValue
     extends AbstractScriptValue
 {
     private final ScriptValueFactory factory;
 
-    private final JSObject value;
+    private final ScriptObjectMirror value;
 
-    ArrayScriptValue( final ScriptValueFactory factory, final JSObject value )
+    ArrayScriptValue( final ScriptValueFactory factory, final ScriptObjectMirror value )
     {
         this.factory = factory;
         this.value = value;

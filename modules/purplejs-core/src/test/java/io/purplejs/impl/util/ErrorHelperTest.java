@@ -1,4 +1,4 @@
-package io.purplejs.impl.executor;
+package io.purplejs.impl.util;
 
 import javax.script.ScriptException;
 

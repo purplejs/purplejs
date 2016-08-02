@@ -8,7 +8,8 @@ import com.google.common.collect.ImmutableMap;
 
 import io.purplejs.Engine;
 import io.purplejs.impl.executor.ScriptExecutorImpl;
-import io.purplejs.impl.util.NashornHelper;
+import io.purplejs.impl.nashorn.NashornRuntime;
+import io.purplejs.impl.nashorn.NashornRuntimeFactory;
 import io.purplejs.impl.value.ScriptExportsImpl;
 import io.purplejs.registry.Registry;
 import io.purplejs.resource.ResourceLoader;
@@ -90,15 +91,6 @@ final class EngineImpl
         return new ScriptExportsImpl( resource, value );
     }
 
-    /*
-    @Override
-    public <R> R execute( final ResourcePath resource, final Function<ScriptExports, R> command )
-    {
-        final ScriptExports exports = require( resource );
-        return this.executor.executeCommand( exports, command );
-    }
-    */
-
     @Override
     public void dispose()
     {
@@ -108,8 +100,11 @@ final class EngineImpl
 
     void init()
     {
+        final NashornRuntimeFactory nashornRuntimeFactory = new NashornRuntimeFactory();
+        final NashornRuntime nashornRuntime = nashornRuntimeFactory.newRuntime( this.classLoader );
+
         this.executor.setEnvironment( this );
-        this.executor.setEngine( NashornHelper.getScriptEngine( this.classLoader, "-strict" ) );
+        this.executor.setNashornRuntime( nashornRuntime );
         this.executor.init();
         this.executor.addGlobalVariables( this.globalVariables );
 

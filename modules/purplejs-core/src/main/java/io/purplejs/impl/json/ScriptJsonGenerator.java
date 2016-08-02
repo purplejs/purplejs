@@ -1,32 +1,40 @@
 package io.purplejs.impl.json;
 
-import io.purplejs.impl.util.NashornHelper;
+import io.purplejs.impl.nashorn.NashornHelper;
+import io.purplejs.impl.nashorn.NashornRuntime;
 
 public final class ScriptJsonGenerator
     extends AbstractJsonGenerator
 {
+    private final NashornRuntime runtime;
+
+    public ScriptJsonGenerator( final NashornRuntime runtime )
+    {
+        this.runtime = runtime;
+    }
+
     @Override
     protected Object newMap()
     {
-        return NashornHelper.newNativeObject();
+        return this.runtime.newJsObject();
     }
 
     @Override
     protected Object newArray()
     {
-        return NashornHelper.newNativeArray();
+        return this.runtime.newJsArray();
     }
 
     @Override
     protected boolean isMap( final Object value )
     {
-        return NashornHelper.isNativeObject( value );
+        return NashornHelper.isObjectType( value );
     }
 
     @Override
     protected boolean isArray( final Object value )
     {
-        return NashornHelper.isNativeArray( value );
+        return NashornHelper.isArrayType( value );
     }
 
     @Override
@@ -34,19 +42,19 @@ public final class ScriptJsonGenerator
     {
         if ( value != null )
         {
-            NashornHelper.addToNativeObject( map, key, value );
+            NashornHelper.addToObject( map, key, value );
         }
     }
 
     @Override
     protected void addToArray( final Object array, final Object value )
     {
-        NashornHelper.addToNativeArray( array, value );
+        NashornHelper.addToArray( array, value );
     }
 
     @Override
     protected AbstractJsonGenerator newGenerator()
     {
-        return new ScriptJsonGenerator();
+        return new ScriptJsonGenerator( this.runtime );
     }
 }

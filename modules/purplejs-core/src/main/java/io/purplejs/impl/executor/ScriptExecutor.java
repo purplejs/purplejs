@@ -1,6 +1,7 @@
 package io.purplejs.impl.executor;
 
 import io.purplejs.Environment;
+import io.purplejs.impl.nashorn.NashornRuntime;
 import io.purplejs.resource.ResourcePath;
 import io.purplejs.value.ScriptValue;
 
@@ -10,7 +11,7 @@ public interface ScriptExecutor
 
     Object executeRequire( ResourcePath path );
 
-    // <R> R executeCommand( ScriptExports exports, Function<ScriptExports, R> command );
+    NashornRuntime getNashornRuntime();
 
     ScriptValue newScriptValue( Object value );
 

@@ -1,20 +1,18 @@
 package io.purplejs.impl.value;
 
-import javax.script.Bindings;
 import javax.script.ScriptEngine;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mockito;
 
 import com.google.common.base.Charsets;
 import com.google.common.base.Joiner;
 import com.google.gson.JsonNull;
 
-import io.purplejs.impl.util.NashornHelper;
+import io.purplejs.impl.nashorn.NashornRuntime;
+import io.purplejs.impl.nashorn.NashornRuntimeFactory;
 import io.purplejs.value.ScriptValue;
-import jdk.nashorn.api.scripting.JSObject;
-import jdk.nashorn.internal.runtime.Undefined;
+import jdk.nashorn.internal.runtime.ScriptRuntime;
 
 import static org.junit.Assert.*;
 
@@ -22,16 +20,15 @@ public class ScriptValueFactoryImplTest
 {
     private ScriptValueFactory factory;
 
-    private ScriptMethodInvoker invoker;
-
     private ScriptEngine engine;
 
     @Before
     public void setUp()
     {
-        this.invoker = Mockito.mock( ScriptMethodInvoker.class );
-        this.factory = new ScriptValueFactoryImpl( this.invoker );
-        this.engine = NashornHelper.getScriptEngine( getClass().getClassLoader() );
+        final NashornRuntime runtime = new NashornRuntimeFactory().newRuntime( getClass().getClassLoader() );
+        this.engine = runtime.getEngine();
+
+        this.factory = new ScriptValueFactoryImpl( runtime );
     }
 
     @Test
@@ -68,16 +65,15 @@ public class ScriptValueFactoryImplTest
     @Test
     public void newValue_undefined()
     {
-        final ScriptValue value = this.factory.newValue( Undefined.getEmpty() );
+        final ScriptValue value = this.factory.newValue( ScriptRuntime.UNDEFINED );
         assertNull( value );
     }
 
     @Test
     public void newValue_function()
+        throws Exception
     {
-        final JSObject obj = Mockito.mock( JSObject.class );
-        Mockito.when( obj.isFunction() ).thenReturn( true );
-
+        final Object obj = execute( "var result = function(a, b) { return a + b; }; result;" );
         final ScriptValue value = this.factory.newValue( obj );
 
         assertNotNull( value );
@@ -90,12 +86,10 @@ public class ScriptValueFactoryImplTest
         assertNonArray( value );
         assertNonObject( value );
 
-        Mockito.when( this.invoker.invoke( Mockito.same( obj ), Mockito.any() ) ).thenReturn( "a+b" );
-
-        final ScriptValue result = value.call( "a", "b" );
+        final ScriptValue result = value.call( 10, 11 );
         assertNotNull( result );
         assertEquals( true, result.isValue() );
-        assertEquals( "a+b", result.getValue() );
+        assertEquals( 21.0, result.getValue() );
 
         assertEquals( JsonNull.INSTANCE, value.toJson() );
     }
@@ -104,7 +98,7 @@ public class ScriptValueFactoryImplTest
     public void newValue_array()
         throws Exception
     {
-        final Object obj = execute( "result = ['1', '2'];" );
+        final Object obj = execute( "var result = ['1', '2']; result;" );
         final ScriptValue value = this.factory.newValue( obj );
 
         assertNotNull( value );
@@ -129,7 +123,7 @@ public class ScriptValueFactoryImplTest
     public void newValue_object()
         throws Exception
     {
-        final Object obj = execute( "result = {'a':1, 'b':2};" );
+        final Object obj = execute( "var result = {'a':1, 'b':2}; result;" );
         final ScriptValue value = this.factory.newValue( obj );
 
         assertNotNull( value );
@@ -182,8 +176,6 @@ public class ScriptValueFactoryImplTest
     private Object execute( final String script )
         throws Exception
     {
-        final Bindings bindings = this.engine.createBindings();
-        this.engine.eval( script, bindings );
-        return bindings.get( "result" );
+        return this.engine.eval( script );
     }
 }

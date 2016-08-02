@@ -4,7 +4,6 @@ import java.util.Map;
 import java.util.function.Function;
 
 import javax.script.Bindings;
-import javax.script.Invocable;
 import javax.script.ScriptContext;
 import javax.script.ScriptEngine;
 import javax.script.SimpleBindings;
@@ -14,7 +13,8 @@ import com.google.common.collect.Maps;
 
 import io.purplejs.Environment;
 import io.purplejs.impl.cache.ScriptExportsCache;
-import io.purplejs.impl.util.NashornHelper;
+import io.purplejs.impl.nashorn.NashornRuntime;
+import io.purplejs.impl.util.ErrorHelper;
 import io.purplejs.impl.value.ScriptValueFactory;
 import io.purplejs.impl.value.ScriptValueFactoryImpl;
 import io.purplejs.resource.Resource;
@@ -25,11 +25,7 @@ import jdk.nashorn.api.scripting.ScriptObjectMirror;
 public final class ScriptExecutorImpl
     implements ScriptExecutor
 {
-    // private final ThreadLocal<Object> currentCommand;
-
     private ScriptEngine engine;
-
-    private Bindings global;
 
     private Environment environment;
 
@@ -41,12 +37,14 @@ public final class ScriptExecutorImpl
 
     private ScriptValueFactory scriptValueFactory;
 
-    /*
+    private NashornRuntime nashornRuntime;
+
+    private Bindings global;
+
     public ScriptExecutorImpl()
     {
-        this.currentCommand = new ThreadLocal<>();
+        this.global = new SimpleBindings();
     }
-    */
 
     @Override
     public Environment getEnvironment()
@@ -54,9 +52,9 @@ public final class ScriptExecutorImpl
         return this.environment;
     }
 
-    public void setEngine( final ScriptEngine engine )
+    public void setNashornRuntime( final NashornRuntime nashornRuntime )
     {
-        this.engine = engine;
+        this.nashornRuntime = nashornRuntime;
     }
 
     public void setEnvironment( final Environment environment )
@@ -69,9 +67,10 @@ public final class ScriptExecutorImpl
         this.mocks = Maps.newHashMap();
         this.disposers = Maps.newHashMap();
         this.exportsCache = new ScriptExportsCache();
-        this.global = this.engine.createBindings();
-        new CallFunction().register( this.global );
-        this.scriptValueFactory = new ScriptValueFactoryImpl( this::invokeMethod );
+        this.scriptValueFactory = new ScriptValueFactoryImpl( this.nashornRuntime );
+
+        this.engine = this.nashornRuntime.getEngine();
+        this.engine.setBindings( this.global, ScriptContext.GLOBAL_SCOPE );
     }
 
     public void addGlobalVariables( final Map<String, Object> variables )
@@ -95,11 +94,10 @@ public final class ScriptExecutorImpl
             return cached;
         }
 
-        final ScriptContextImpl context = new ScriptContextImpl( path );
-        context.setEngineScope( this.global );
-        context.setGlobalScope( new SimpleBindings() );
+        final Bindings bindings = new SimpleBindings();
+        bindings.put( ScriptEngine.FILENAME, path.toString() );
 
-        final ScriptObjectMirror func = (ScriptObjectMirror) doExecute( context, resource );
+        final ScriptObjectMirror func = (ScriptObjectMirror) doExecute( bindings, resource );
         final Object result = executeRequire( path, func );
 
         this.exportsCache.put( resource, result );
@@ -110,18 +108,6 @@ public final class ScriptExecutorImpl
     public ScriptValue newScriptValue( final Object value )
     {
         return this.scriptValueFactory.newValue( value );
-    }
-
-    private Object invokeMethod( final Object func, final Object... args )
-    {
-        try
-        {
-            return ( (Invocable) this.engine ).invokeMethod( this.global, CallFunction.NAME, func, args );
-        }
-        catch ( final Exception e )
-        {
-            throw ErrorHelper.handleError( e );
-        }
     }
 
     private Resource loadIfNeeded( final ResourcePath key, final Object cached )
@@ -159,8 +145,7 @@ public final class ScriptExecutorImpl
             final Function<String, Object> requireFunc = context::require;
             final Function<String, ResourcePath> resolveFunc = context::resolve;
 
-            final Object result = func.call( null, context, requireFunc, resolveFunc );
-            return NashornHelper.unwrap( result );
+            return func.call( null, context, requireFunc, resolveFunc );
         }
         catch ( final Exception e )
         {
@@ -168,13 +153,13 @@ public final class ScriptExecutorImpl
         }
     }
 
-    private Object doExecute( final ScriptContext context, final Resource script )
+    private Object doExecute( final Bindings bindings, final Resource script )
     {
         try
         {
             final String text = script.getBytes().asCharSource( Charsets.UTF_8 ).read();
             final String source = InitScriptReader.getScript( text );
-            return this.engine.eval( source, context );
+            return this.engine.eval( source, bindings );
         }
         catch ( final Exception e )
         {
@@ -212,27 +197,9 @@ public final class ScriptExecutorImpl
         this.disposers.values().forEach( this::runDisposer );
     }
 
-    /*
     @Override
-    public <R> R executeCommand( final ScriptExports exports, final Function<ScriptExports, R> command )
+    public NashornRuntime getNashornRuntime()
     {
-        this.currentCommand.set( command );
-
-        try
-        {
-            return command.apply( exports );
-        }
-        finally
-        {
-            this.currentCommand.remove();
-        }
+        return null;
     }
-    */
-
-    /*
-    private Object getCurrentCommand()
-    {
-        return this.currentCommand.get();
-    }
-    */
 }

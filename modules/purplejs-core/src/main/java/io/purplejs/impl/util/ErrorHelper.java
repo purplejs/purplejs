@@ -1,4 +1,4 @@
-package io.purplejs.impl.executor;
+package io.purplejs.impl.util;
 
 import javax.script.ScriptException;
 
@@ -6,9 +6,9 @@ import io.purplejs.resource.ResourcePath;
 import io.purplejs.resource.ResourceProblemException;
 import jdk.nashorn.api.scripting.NashornException;
 
-final class ErrorHelper
+public final class ErrorHelper
 {
-    static RuntimeException handleError( final Exception e )
+    public static RuntimeException handleError( final Exception e )
     {
         if ( e instanceof ResourceProblemException )
         {

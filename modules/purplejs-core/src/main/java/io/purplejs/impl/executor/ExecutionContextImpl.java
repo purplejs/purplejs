@@ -22,12 +22,15 @@ final class ExecutionContextImpl
 
     private final Environment environment;
 
+    private final JsObjectConverter converter;
+
     ExecutionContextImpl( final ScriptExecutor executor, final ResourcePath resource )
     {
         this.executor = executor;
         this.resource = resource;
         this.environment = this.executor.getEnvironment();
         this.resourceResolver = new ResourceResolver( this.environment.getResourceLoader(), this.resource );
+        this.converter = new JsObjectConverter( this.executor.getNashornRuntime() );
     }
 
     @Override
@@ -82,7 +85,7 @@ final class ExecutionContextImpl
     @Override
     public Object toNativeObject( final Object value )
     {
-        return JsObjectConverter.toJs( value );
+        return this.converter.toJs( value );
     }
 
     @Override

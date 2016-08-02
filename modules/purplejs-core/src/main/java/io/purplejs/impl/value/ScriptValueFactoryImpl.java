@@ -1,24 +1,18 @@
 package io.purplejs.impl.value;
 
-import io.purplejs.impl.util.NashornHelper;
+import io.purplejs.impl.nashorn.NashornHelper;
+import io.purplejs.impl.nashorn.NashornRuntime;
 import io.purplejs.value.ScriptValue;
-
-import jdk.nashorn.api.scripting.JSObject;
+import jdk.nashorn.api.scripting.ScriptObjectMirror;
 
 public final class ScriptValueFactoryImpl
     implements ScriptValueFactory
 {
-    private final ScriptMethodInvoker invoker;
+    private final NashornRuntime runtime;
 
-    public ScriptValueFactoryImpl( final ScriptMethodInvoker invoker )
+    public ScriptValueFactoryImpl( final NashornRuntime runtime )
     {
-        this.invoker = invoker;
-    }
-
-    @Override
-    public ScriptMethodInvoker getInvoker()
-    {
-        return this.invoker;
+        this.runtime = runtime;
     }
 
     @Override
@@ -34,19 +28,24 @@ public final class ScriptValueFactoryImpl
             return null;
         }
 
-        if ( value instanceof JSObject )
+        if ( NashornHelper.isDateType( value ) )
         {
-            return newValue( (JSObject) value );
+            return new ScalarScriptValue( NashornHelper.toDate( value ) );
+        }
+
+        if ( value instanceof ScriptObjectMirror )
+        {
+            return newValue( (ScriptObjectMirror) value );
         }
 
         return new ScalarScriptValue( value );
     }
 
-    private ScriptValue newValue( final JSObject value )
+    private ScriptValue newValue( final ScriptObjectMirror value )
     {
         if ( value.isFunction() )
         {
-            return new FunctionScriptValue( this, value );
+            return new FunctionScriptValue( this, value, this.runtime );
         }
 
         if ( value.isArray() )
