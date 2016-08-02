@@ -29,6 +29,14 @@ public class EngineTest
     }
 
     @Test
+    public void devSourceDir()
+    {
+        EngineBuilder.newBuilder().
+            devSourceDir( this.temporaryFolder.getRoot() ).
+            build();
+    }
+
+    @Test
     public void getClassLoader()
     {
         final Engine engine1 = EngineBuilder.newBuilder().
