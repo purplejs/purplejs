@@ -1,24 +1,26 @@
-package io.purplejs.resource;
+package io.purplejs.exception;
 
 import org.junit.Test;
 
+import io.purplejs.resource.ResourcePath;
+
 import static org.junit.Assert.*;
 
-public class ResourceProblemExceptionTest
+public class ProblemExceptionTest
 {
     @Test
     public void testSimple()
     {
-        final ResourcePath resource = ResourcePath.from( "/test.js" );
+        final ResourcePath path = ResourcePath.from( "/test.js" );
 
-        final ResourceProblemException.Builder builder = ResourceProblemException.newBuilder();
-        builder.resource( resource );
+        final ProblemException.Builder builder = ProblemException.newBuilder();
+        builder.path( path );
         builder.lineNumber( 10 );
 
-        final ResourceProblemException ex = builder.build();
+        final ProblemException ex = builder.build();
         assertNotNull( ex );
         assertEquals( 10, ex.getLineNumber() );
-        assertEquals( resource, ex.getResource() );
+        assertEquals( path, ex.getPath() );
         assertNotNull( ex.getCallStack() );
         assertTrue( ex.getCallStack().isEmpty() );
         assertSame( ex, ex.getInnerError() );
@@ -28,10 +30,10 @@ public class ResourceProblemExceptionTest
     @Test
     public void testMessage()
     {
-        final ResourceProblemException.Builder builder = ResourceProblemException.newBuilder();
+        final ProblemException.Builder builder = ProblemException.newBuilder();
         builder.message( "A %s here" );
 
-        final ResourceProblemException ex = builder.build();
+        final ProblemException ex = builder.build();
         assertNotNull( ex );
         assertEquals( "A %s here", ex.getMessage() );
     }
@@ -39,10 +41,10 @@ public class ResourceProblemExceptionTest
     @Test
     public void testMessageWithArgs()
     {
-        final ResourceProblemException.Builder builder = ResourceProblemException.newBuilder();
+        final ProblemException.Builder builder = ProblemException.newBuilder();
         builder.message( "A %s here", "problem" );
 
-        final ResourceProblemException ex = builder.build();
+        final ProblemException ex = builder.build();
         assertNotNull( ex );
         assertEquals( "A problem here", ex.getMessage() );
     }
@@ -50,11 +52,11 @@ public class ResourceProblemExceptionTest
     @Test
     public void testCallStack()
     {
-        final ResourceProblemException.Builder builder = ResourceProblemException.newBuilder();
+        final ProblemException.Builder builder = ProblemException.newBuilder();
         builder.callLine( "first", 1 );
         builder.callLine( "second", 2 );
 
-        final ResourceProblemException ex = builder.build();
+        final ProblemException ex = builder.build();
         assertNotNull( ex );
         assertNotNull( ex.getCallStack() );
         assertEquals( 2, ex.getCallStack().size() );
@@ -64,18 +66,18 @@ public class ResourceProblemExceptionTest
     @Test
     public void testInnerError()
     {
-        final ResourceProblemException.Builder builder1 = ResourceProblemException.newBuilder();
-        ResourceProblemException cause1 = builder1.build();
+        final ProblemException.Builder builder1 = ProblemException.newBuilder();
+        ProblemException cause1 = builder1.build();
 
         final Throwable cause2 = new Throwable( cause1 );
 
-        final ResourceProblemException.Builder builder2 = ResourceProblemException.newBuilder();
+        final ProblemException.Builder builder2 = ProblemException.newBuilder();
         builder2.cause( cause2 );
 
-        final ResourceProblemException ex = builder2.build();
+        final ProblemException ex = builder2.build();
         assertNotNull( ex );
 
-        final ResourceProblemException inner = ex.getInnerError();
+        final ProblemException inner = ex.getInnerError();
         assertSame( cause1, inner );
     }
 }

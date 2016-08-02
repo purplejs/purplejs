@@ -2,8 +2,8 @@ package io.purplejs.impl.util;
 
 import javax.script.ScriptException;
 
+import io.purplejs.exception.ProblemException;
 import io.purplejs.resource.ResourcePath;
-import io.purplejs.resource.ResourceProblemException;
 import jdk.nashorn.api.scripting.NashornException;
 
 public final class ErrorHelper
@@ -12,9 +12,9 @@ public final class ErrorHelper
 
     public RuntimeException handleError( final Exception e )
     {
-        if ( e instanceof ResourceProblemException )
+        if ( e instanceof ProblemException )
         {
-            return (ResourceProblemException) e;
+            return (ProblemException) e;
         }
 
         if ( e instanceof ScriptException )
@@ -30,14 +30,14 @@ public final class ErrorHelper
         return new RuntimeException( e );
     }
 
-    private ResourceProblemException doHandleException( final ScriptException e )
+    private ProblemException doHandleException( final ScriptException e )
     {
-        final ResourceProblemException.Builder builder = ResourceProblemException.newBuilder();
+        final ProblemException.Builder builder = ProblemException.newBuilder();
         final Throwable cause = e.getCause();
 
         builder.cause( cause != null ? cause : e );
         builder.lineNumber( e.getLineNumber() );
-        builder.resource( toResourcePath( e.getFileName() ) );
+        builder.path( toResourcePath( e.getFileName() ) );
         return builder.build();
     }
 
@@ -49,10 +49,10 @@ public final class ErrorHelper
             return e;
         }
 
-        final ResourceProblemException.Builder builder = ResourceProblemException.newBuilder();
+        final ProblemException.Builder builder = ProblemException.newBuilder();
         builder.cause( e );
         builder.lineNumber( elem.getLineNumber() );
-        builder.resource( toResourcePath( elem.getFileName() ) );
+        builder.path( toResourcePath( elem.getFileName() ) );
         return builder.build();
     }
 

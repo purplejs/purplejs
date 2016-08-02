@@ -1,23 +1,25 @@
-package io.purplejs.resource;
+package io.purplejs.exception;
 
 import java.util.List;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 
-public final class ResourceProblemException
-    extends ResourceException
+import io.purplejs.resource.ResourcePath;
+
+public final class ProblemException
+    extends RuntimeException
 {
-    private final String message;
+    private ResourcePath path;
 
     private final int lineNumber;
 
     private final ImmutableList<String> callStack;
 
-    private ResourceProblemException( final Builder builder )
+    private ProblemException( final Builder builder )
     {
-        super( builder.resource );
-        this.message = builder.message;
+        super( builder.message );
+        this.path = builder.path;
         this.lineNumber = builder.lineNumber;
         this.callStack = ImmutableList.copyOf( builder.callStack );
 
@@ -27,10 +29,9 @@ public final class ResourceProblemException
         }
     }
 
-    @Override
-    public String getMessage()
+    public ResourcePath getPath()
     {
-        return this.message;
+        return this.path;
     }
 
     public int getLineNumber()
@@ -43,21 +44,21 @@ public final class ResourceProblemException
         return this.callStack;
     }
 
-    public ResourceProblemException getInnerError()
+    public ProblemException getInnerError()
     {
         return getInnerError( getCause() );
     }
 
-    private ResourceProblemException getInnerError( final Throwable cause )
+    private ProblemException getInnerError( final Throwable cause )
     {
         if ( cause == null )
         {
             return this;
         }
 
-        if ( cause instanceof ResourceProblemException )
+        if ( cause instanceof ProblemException )
         {
-            return (ResourceProblemException) cause;
+            return (ProblemException) cause;
         }
 
         return getInnerError( cause.getCause() );
@@ -69,7 +70,7 @@ public final class ResourceProblemException
 
         private Throwable cause;
 
-        private ResourcePath resource;
+        private ResourcePath path;
 
         private int lineNumber;
 
@@ -93,9 +94,9 @@ public final class ResourceProblemException
             return this;
         }
 
-        public Builder resource( final ResourcePath resource )
+        public Builder path( final ResourcePath path )
         {
-            this.resource = resource;
+            this.path = path;
             return this;
         }
 
@@ -111,7 +112,7 @@ public final class ResourceProblemException
             return this;
         }
 
-        public ResourceProblemException build()
+        public ProblemException build()
         {
             if ( this.message == null )
             {
@@ -123,7 +124,7 @@ public final class ResourceProblemException
                 this.message = "Empty message in exception";
             }
 
-            return new ResourceProblemException( this );
+            return new ProblemException( this );
         }
     }
 

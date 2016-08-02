@@ -2,8 +2,8 @@ package io.purplejs.script;
 
 import org.junit.Test;
 
+import io.purplejs.exception.ProblemException;
 import io.purplejs.resource.ResourcePath;
-import io.purplejs.resource.ResourceProblemException;
 import io.purplejs.value.ScriptExports;
 
 import static org.junit.Assert.*;
@@ -21,10 +21,10 @@ public class ErrorScriptTest
             run( path );
             fail( "Should throw ResourceProblemException" );
         }
-        catch ( final ResourceProblemException e )
+        catch ( final ProblemException e )
         {
             assertEquals( 1, e.getLineNumber() );
-            assertEquals( path, e.getResource() );
+            assertEquals( path, e.getPath() );
         }
     }
 
@@ -41,10 +41,10 @@ public class ErrorScriptTest
             exports.executeMethod( "hello" );
             fail( "Should throw ResourceProblemException" );
         }
-        catch ( final ResourceProblemException e )
+        catch ( final ProblemException e )
         {
             assertEquals( 2, e.getLineNumber() );
-            assertEquals( path, e.getResource() );
+            assertEquals( path, e.getPath() );
         }
     }
 
@@ -61,10 +61,10 @@ public class ErrorScriptTest
             exports.executeMethod( "hello" );
             fail( "Should throw ResourceProblemException" );
         }
-        catch ( final ResourceProblemException e )
+        catch ( final ProblemException e )
         {
             assertEquals( 1, e.getLineNumber() );
-            assertEquals( ResourcePath.from( "/error/compile-error.js" ), e.getResource() );
+            assertEquals( ResourcePath.from( "/error/compile-error.js" ), e.getPath() );
         }
     }
 }

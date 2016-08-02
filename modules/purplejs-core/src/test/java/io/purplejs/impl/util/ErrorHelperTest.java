@@ -4,7 +4,7 @@ import javax.script.ScriptException;
 
 import org.junit.Test;
 
-import io.purplejs.resource.ResourceProblemException;
+import io.purplejs.exception.ProblemException;
 
 import static org.junit.Assert.*;
 
@@ -13,7 +13,7 @@ public class ErrorHelperTest
     @Test
     public void handleError_resourceProblemException()
     {
-        final ResourceProblemException e = ResourceProblemException.newBuilder().
+        final ProblemException e = ProblemException.newBuilder().
             build();
 
         final RuntimeException result = ErrorHelper.INSTANCE.handleError( e );
@@ -27,9 +27,9 @@ public class ErrorHelperTest
         final RuntimeException result = ErrorHelper.INSTANCE.handleError( e );
 
         assertNotNull( result );
-        assertTrue( result instanceof ResourceProblemException );
+        assertTrue( result instanceof ProblemException );
 
-        final ResourceProblemException problem = (ResourceProblemException) result;
+        final ProblemException problem = (ProblemException) result;
         assertEquals( "Some problem in /a/b/test.js at line number 1", problem.getMessage() );
         assertEquals( 1, problem.getLineNumber() );
         assertSame( e, problem.getCause() );
@@ -45,9 +45,9 @@ public class ErrorHelperTest
         final RuntimeException result = ErrorHelper.INSTANCE.handleError( e );
 
         assertNotNull( result );
-        assertTrue( result instanceof ResourceProblemException );
+        assertTrue( result instanceof ProblemException );
 
-        final ResourceProblemException problem = (ResourceProblemException) result;
+        final ProblemException problem = (ProblemException) result;
         assertEquals( "Other error", problem.getMessage() );
         assertEquals( 1, problem.getLineNumber() );
         assertSame( cause, problem.getCause() );

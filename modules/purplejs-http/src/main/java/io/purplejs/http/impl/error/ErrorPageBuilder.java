@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
-import io.purplejs.resource.ResourceProblemException;
+import io.purplejs.exception.ProblemException;
 
 final class ErrorPageBuilder
 {
@@ -204,16 +204,16 @@ final class ErrorPageBuilder
 
     private void buildSourceInfo( final HtmlBuilder html )
     {
-        if ( this.cause == null || !( this.cause.getCause() instanceof ResourceProblemException ) )
+        if ( this.cause == null || !( this.cause.getCause() instanceof ProblemException ) )
         {
             return;
         }
 
-        final ResourceProblemException problem = ( (ResourceProblemException) this.cause.getCause() ).getInnerError();
-        if ( problem.getResource() != null )
+        final ProblemException problem = ( (ProblemException) this.cause.getCause() ).getInnerError();
+        if ( problem.getPath() != null )
         {
             html.open( "h2" );
-            html.escapedText( "In " + problem.getResource().toString() + " at line " + problem.getLineNumber() );
+            html.escapedText( "In " + problem.getPath().toString() + " at line " + problem.getLineNumber() );
             html.close();
         }
 
@@ -294,7 +294,7 @@ final class ErrorPageBuilder
         return list;
     }
 
-    private List<LineInfo> findSourceLines( final ResourceProblemException cause )
+    private List<LineInfo> findSourceLines( final ProblemException cause )
     {
         final int errorLine = cause.getLineNumber();
         final List<String> allLines = this.lines;
@@ -320,7 +320,7 @@ final class ErrorPageBuilder
         return all.subList( firstLine, lastLine );
     }
 
-    private static List<LineInfo> getCallStack( final ResourceProblemException cause )
+    private static List<LineInfo> getCallStack( final ProblemException cause )
     {
         final List<LineInfo> list = Lists.newArrayList();
         final List<String> callStack = cause.getCallStack();
