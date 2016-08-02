@@ -59,4 +59,16 @@ public class RunModeTest
         RunMode.PROD.set();
         assertTrue( RunMode.isProdMode() );
     }
+
+    @Test
+    public void setFromProp()
+    {
+        System.setProperty( "io.purplejs.runMode", "d" );
+        RunMode.init();
+        assertEquals( RunMode.PROD, RunMode.get() );
+
+        System.setProperty( "io.purplejs.runMode", "dev" );
+        RunMode.init();
+        assertEquals( RunMode.DEV, RunMode.get() );
+    }
 }
