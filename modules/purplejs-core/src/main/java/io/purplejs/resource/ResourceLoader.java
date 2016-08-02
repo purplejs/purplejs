@@ -1,5 +1,7 @@
 package io.purplejs.resource;
 
+import io.purplejs.exception.NotFoundException;
+
 public interface ResourceLoader
 {
     default Resource load( final ResourcePath path )
@@ -10,7 +12,7 @@ public interface ResourceLoader
             return result;
         }
 
-        throw new ResourceNotFoundException( path );
+        throw new NotFoundException( path );
     }
 
     default boolean exists( final ResourcePath path )

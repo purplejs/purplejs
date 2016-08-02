@@ -6,7 +6,7 @@ import io.purplejs.impl.resource.ResourceLoaderBuilderImpl;
 
 public interface ResourceLoaderBuilder
 {
-    ResourceLoaderBuilder add( ResourceLoader resolver );
+    ResourceLoaderBuilder add( ResourceLoader loader );
 
     ResourceLoaderBuilder from( File dir );
 

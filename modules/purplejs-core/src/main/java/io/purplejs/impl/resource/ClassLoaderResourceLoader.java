@@ -2,13 +2,13 @@ package io.purplejs.impl.resource;
 
 import java.net.URL;
 
-import io.purplejs.resource.Resource;
-import io.purplejs.resource.ResourceLoader;
-import io.purplejs.resource.ResourcePath;
-
 import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
+
+import io.purplejs.resource.Resource;
+import io.purplejs.resource.ResourceLoader;
+import io.purplejs.resource.ResourcePath;
 
 final class ClassLoaderResourceLoader
     implements ResourceLoader
@@ -17,7 +17,7 @@ final class ClassLoaderResourceLoader
 
     private final String basePath;
 
-    public ClassLoaderResourceLoader( final ClassLoader loader, final String basePath )
+    ClassLoaderResourceLoader( final ClassLoader loader, final String basePath )
     {
         this.loader = loader;
         this.basePath = normalizePath( basePath );

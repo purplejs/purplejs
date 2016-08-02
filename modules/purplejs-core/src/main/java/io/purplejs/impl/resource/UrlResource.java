@@ -4,27 +4,30 @@ import java.io.IOException;
 import java.net.URL;
 import java.net.URLConnection;
 
-import io.purplejs.resource.ResourcePath;
-
 import com.google.common.base.Throwables;
 import com.google.common.io.ByteSource;
 import com.google.common.io.Resources;
 
+import io.purplejs.resource.Resource;
+import io.purplejs.resource.ResourcePath;
+
 final class UrlResource
-    extends AbstractResource
+    implements Resource
 {
+    private final ResourcePath path;
+
     private final URL url;
 
-    public UrlResource( final ResourcePath path, final URL url )
+    UrlResource( final ResourcePath path, final URL url )
     {
-        super( path );
+        this.path = path;
         this.url = url;
     }
 
     @Override
-    public URL getUrl()
+    public ResourcePath getPath()
     {
-        return this.url;
+        return this.path;
     }
 
     @Override

@@ -61,7 +61,7 @@ public final class ErrorHelper
         return ResourcePath.from( name );
     }
 
-    private StackTraceElement findScriptTraceElement( final RuntimeException e )
+    private static StackTraceElement findScriptTraceElement( final RuntimeException e )
     {
         final StackTraceElement[] elements = NashornException.getScriptFrames( e );
         return elements.length > 0 ? elements[0] : null;

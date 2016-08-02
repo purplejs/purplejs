@@ -6,9 +6,10 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
-import io.purplejs.resource.ResourcePath;
 
 import com.google.common.base.Charsets;
+
+import io.purplejs.resource.ResourcePath;
 
 import static org.junit.Assert.*;
 
@@ -35,7 +36,6 @@ public class FileResourceTest
         final FileResource resource = new FileResource( path, this.file );
 
         assertEquals( path, resource.getPath() );
-        assertEquals( this.file.toURI().toURL(), resource.getUrl() );
         assertEquals( this.file.length(), resource.getSize() );
         assertEquals( this.file.lastModified(), resource.getLastModified() );
         assertNotNull( resource.getBytes() );

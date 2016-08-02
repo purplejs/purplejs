@@ -7,8 +7,9 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
+
+import io.purplejs.exception.NotFoundException;
 import io.purplejs.resource.Resource;
-import io.purplejs.resource.ResourceNotFoundException;
 import io.purplejs.resource.ResourcePath;
 
 import static org.junit.Assert.*;
@@ -35,7 +36,7 @@ public class ClassLoaderResourceLoaderTest
         this.loaderWithPrefix = new ClassLoaderResourceLoader( classLoader, "/a" );
     }
 
-    @Test(expected = ResourceNotFoundException.class)
+    @Test(expected = NotFoundException.class)
     public void load_not_found()
     {
         this.loader.load( ResourcePath.from( "/a/x.txt" ) );

@@ -16,9 +16,9 @@ public final class ResourceLoaderBuilderImpl
     }
 
     @Override
-    public ResourceLoaderBuilderImpl add( final ResourceLoader resolver )
+    public ResourceLoaderBuilderImpl add( final ResourceLoader loader )
     {
-        this.loader = new ChainedResourceLoader( this.loader, resolver );
+        this.loader = new ChainedResourceLoader( this.loader, loader );
         return this;
     }
 

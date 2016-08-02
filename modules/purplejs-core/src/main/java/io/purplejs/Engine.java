@@ -8,7 +8,10 @@ public interface Engine
 {
     ScriptExports require( ResourcePath resource );
 
-    // <R> R execute( ResourcePath resource, Function<ScriptExports, R> command );
+    // ScriptValue execute( ResourcePath resource );
+
+    // ScriptExports require( Resource resource );
+    // ScriptValue execute( Resource resource );
 
     void dispose();
 }

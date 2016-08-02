@@ -7,21 +7,21 @@ import org.junit.rules.TemporaryFolder;
 import com.google.common.base.Charsets;
 import com.google.common.io.Files;
 
-public class ResourceTestFixture
+final class ResourceTestFixture
 {
     private final TemporaryFolder temporaryFolder;
 
-    public ResourceTestFixture( final TemporaryFolder temporaryFolder )
+    ResourceTestFixture( final TemporaryFolder temporaryFolder )
     {
         this.temporaryFolder = temporaryFolder;
     }
 
-    public File getRootDir()
+    File getRootDir()
     {
         return this.temporaryFolder.getRoot();
     }
 
-    public void createFiles()
+    void createFiles()
         throws Exception
     {
         final File dir1 = createFolder( "a" );
@@ -42,7 +42,7 @@ public class ResourceTestFixture
         return file;
     }
 
-    public File createFile( final String name, final String content )
+    File createFile( final String name, final String content )
         throws Exception
     {
         return createFile( getRootDir(), name, content );

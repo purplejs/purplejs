@@ -4,7 +4,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-public class ResoucePathTest
+public class ResourcePathTest
 {
     @Test
     public void testRoot()

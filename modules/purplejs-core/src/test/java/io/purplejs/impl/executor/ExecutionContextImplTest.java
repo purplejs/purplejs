@@ -11,7 +11,6 @@ import io.purplejs.Engine;
 import io.purplejs.Environment;
 import io.purplejs.context.ExecutionContext;
 import io.purplejs.resource.ResourceLoader;
-import io.purplejs.resource.ResourceLoaderBuilder;
 import io.purplejs.resource.ResourcePath;
 
 import static org.junit.Assert.*;
@@ -28,18 +27,18 @@ public class ExecutionContextImplTest
 
     private ResourcePath resource;
 
+    private ResourceLoader resourceLoader;
+
     @Before
     public void setUp()
     {
-        final ResourceLoader resourceLoader = ResourceLoaderBuilder.newBuilder().
-            from( getClass().getClassLoader() ).
-            build();
+        this.resourceLoader = Mockito.mock( ResourceLoader.class );
 
         this.engine = Mockito.mock( Engine.class );
         this.environment = Mockito.mock( Environment.class );
         Mockito.when( this.environment.getInstance( Engine.class ) ).thenReturn( this.engine );
 
-        Mockito.when( this.environment.getResourceLoader() ).thenReturn( resourceLoader );
+        Mockito.when( this.environment.getResourceLoader() ).thenReturn( this.resourceLoader );
         Mockito.when( this.environment.getClassLoader() ).thenReturn( getClass().getClassLoader() );
 
         this.executor = Mockito.mock( ScriptExecutor.class );
@@ -76,6 +75,8 @@ public class ExecutionContextImplTest
     @Test
     public void require()
     {
+        Mockito.when( this.resourceLoader.exists( ResourcePath.from( "/a/b/other.js" ) ) ).thenReturn( true );
+
         final Object expected = new Object();
         Mockito.when( this.executor.executeRequire( ResourcePath.from( "/a/b/other.js" ) ) ).thenReturn( expected );
 

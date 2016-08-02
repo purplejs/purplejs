@@ -6,6 +6,10 @@ import java.util.function.Supplier;
 import io.purplejs.Engine;
 import io.purplejs.Environment;
 import io.purplejs.context.ExecutionContext;
+import io.purplejs.exception.NotFoundException;
+import io.purplejs.impl.resolver.RequirePathResolver;
+import io.purplejs.impl.resolver.ResourcePathResolver;
+import io.purplejs.impl.resolver.StandardPathResolver;
 import io.purplejs.impl.util.JsObjectConverter;
 import io.purplejs.registry.Registry;
 import io.purplejs.resource.ResourcePath;
@@ -18,7 +22,9 @@ final class ExecutionContextImpl
 
     private final ResourcePath resource;
 
-    private final ResourceResolver resourceResolver;
+    private final ResourcePathResolver requirePathResolver;
+
+    private final ResourcePathResolver standardPathResolver;
 
     private final Environment environment;
 
@@ -29,8 +35,11 @@ final class ExecutionContextImpl
         this.executor = executor;
         this.resource = resource;
         this.environment = this.executor.getEnvironment();
-        this.resourceResolver = new ResourceResolver( this.environment.getResourceLoader(), this.resource );
         this.converter = new JsObjectConverter( this.executor.getNashornRuntime() );
+
+        final ResourcePath dir = this.resource.resolve( ".." );
+        this.requirePathResolver = new RequirePathResolver( this.environment.getResourceLoader(), dir );
+        this.standardPathResolver = new StandardPathResolver( dir );
     }
 
     @Override
@@ -66,14 +75,19 @@ final class ExecutionContextImpl
     @Override
     public Object require( final String path )
     {
-        final ResourcePath key = this.resourceResolver.resolveJs( path );
-        return this.executor.executeRequire( key );
+        final ResourcePath resolved = this.requirePathResolver.resolve( path );
+        if ( resolved == null )
+        {
+            throw new NotFoundException( "Could not find [" + path + "] using base [" + this.resource + "]" );
+        }
+
+        return this.executor.executeRequire( resolved );
     }
 
     @Override
     public ResourcePath resolve( final String path )
     {
-        return this.resourceResolver.resolve( path );
+        return this.standardPathResolver.resolve( path );
     }
 
     @Override

@@ -4,8 +4,9 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
+
+import io.purplejs.exception.NotFoundException;
 import io.purplejs.resource.Resource;
-import io.purplejs.resource.ResourceNotFoundException;
 import io.purplejs.resource.ResourcePath;
 
 import static org.junit.Assert.*;
@@ -27,13 +28,13 @@ public class FileResourceLoaderTest
         this.loader = new FileResourceLoader( fixture.getRootDir() );
     }
 
-    @Test(expected = ResourceNotFoundException.class)
+    @Test(expected = NotFoundException.class)
     public void load_not_found()
     {
         this.loader.load( ResourcePath.from( "/a/x.txt" ) );
     }
 
-    @Test(expected = ResourceNotFoundException.class)
+    @Test(expected = NotFoundException.class)
     public void load_directory()
     {
         this.loader.load( ResourcePath.from( "/a" ) );

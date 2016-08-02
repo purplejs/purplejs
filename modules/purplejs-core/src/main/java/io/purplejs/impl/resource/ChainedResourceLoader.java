@@ -11,7 +11,7 @@ final class ChainedResourceLoader
 
     private final ResourceLoader next;
 
-    public ChainedResourceLoader( final ResourceLoader loader, final ResourceLoader next )
+    ChainedResourceLoader( final ResourceLoader loader, final ResourceLoader next )
     {
         this.loader = loader;
         this.next = next;

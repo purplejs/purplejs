@@ -11,7 +11,7 @@ final class FileResourceLoader
 {
     private final File dir;
 
-    public FileResourceLoader( final File dir )
+    FileResourceLoader( final File dir )
     {
         this.dir = dir;
     }

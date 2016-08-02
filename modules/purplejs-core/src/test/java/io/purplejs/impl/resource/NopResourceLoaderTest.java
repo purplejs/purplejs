@@ -2,6 +2,8 @@ package io.purplejs.impl.resource;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import io.purplejs.exception.NotFoundException;
 import io.purplejs.resource.ResourceNotFoundException;
 import io.purplejs.resource.ResourcePath;
 
@@ -15,7 +17,7 @@ public class NopResourceLoaderTest
         this.loader = new NopResourceLoader();
     }
 
-    @Test(expected = ResourceNotFoundException.class)
+    @Test(expected = NotFoundException.class)
     public void load()
     {
         final ResourcePath path = ResourcePath.from( "/a.txt" );

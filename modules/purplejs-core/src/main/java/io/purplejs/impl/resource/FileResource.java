@@ -1,36 +1,30 @@
 package io.purplejs.impl.resource;
 
 import java.io.File;
-import java.net.URL;
 
-import io.purplejs.resource.ResourcePath;
-
-import com.google.common.base.Throwables;
 import com.google.common.io.ByteSource;
 import com.google.common.io.Files;
 
+import io.purplejs.resource.Resource;
+import io.purplejs.resource.ResourcePath;
+
 final class FileResource
-    extends AbstractResource
+    implements Resource
 {
+    private final ResourcePath path;
+
     private final File file;
 
-    public FileResource( final ResourcePath path, final File file )
+    FileResource( final ResourcePath path, final File file )
     {
-        super( path );
+        this.path = path;
         this.file = file;
     }
 
     @Override
-    public URL getUrl()
+    public ResourcePath getPath()
     {
-        try
-        {
-            return this.file.toURI().toURL();
-        }
-        catch ( final Exception e )
-        {
-            throw Throwables.propagate( e );
-        }
+        return this.path;
     }
 
     @Override
