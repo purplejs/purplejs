@@ -2,21 +2,11 @@ package io.purplejs.impl.nashorn;
 
 import java.util.Date;
 
-import javax.script.ScriptEngine;
-
-import jdk.nashorn.api.scripting.NashornScriptEngineFactory;
 import jdk.nashorn.api.scripting.ScriptObjectMirror;
 import jdk.nashorn.internal.runtime.ScriptRuntime;
 
 public final class NashornHelper
 {
-    private final static NashornScriptEngineFactory FACTORY = new NashornScriptEngineFactory();
-
-    public static ScriptEngine newScriptEngine( final ClassLoader loader )
-    {
-        return FACTORY.getScriptEngine( new String[]{"--global-per-engine", "-strict"}, loader );
-    }
-
     public static boolean isUndefined( final Object value )
     {
         return ( value == null ) || ( value == ScriptRuntime.UNDEFINED );

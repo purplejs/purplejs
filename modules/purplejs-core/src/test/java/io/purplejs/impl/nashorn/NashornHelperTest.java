@@ -27,7 +27,9 @@ public class NashornHelperTest
     private ScriptEngine createEngine()
     {
         final ClassLoader classLoader = getClass().getClassLoader();
-        return NashornHelper.newScriptEngine( classLoader );
+        final NashornRuntimeFactory runtimeFactory = new NashornRuntimeFactory();
+
+        return runtimeFactory.newRuntime( classLoader ).getEngine();
     }
 
     @Test
@@ -87,6 +89,42 @@ public class NashornHelperTest
 
         final Object value3 = execute( "var result = []; result;" );
         assertTrue( NashornHelper.isArrayType( value3 ) );
+    }
+
+    @Test
+    public void isObjectType()
+        throws Exception
+    {
+        final Object value1 = execute( "var result = 11; result;" );
+        assertFalse( NashornHelper.isObjectType( value1 ) );
+
+        final Object value2 = execute( "var result = []; result;" );
+        assertFalse( NashornHelper.isObjectType( value2 ) );
+
+        final Object value3 = execute( "var result = {}; result;" );
+        assertTrue( NashornHelper.isObjectType( value3 ) );
+    }
+
+    @Test
+    public void addToArray()
+        throws Exception
+    {
+        final ScriptObjectMirror array = (ScriptObjectMirror) execute( "var result = []; result;" );
+        assertEquals( 0, array.size() );
+
+        NashornHelper.addToArray( array, 10 );
+        assertEquals( 1, array.size() );
+    }
+
+    @Test
+    public void addToObject()
+        throws Exception
+    {
+        final ScriptObjectMirror object = (ScriptObjectMirror) execute( "var result = {}; result;" );
+        assertEquals( 0, object.keySet().size() );
+
+        NashornHelper.addToObject( object, "a", 10 );
+        assertEquals( 1, object.keySet().size() );
     }
 
     private Object execute( final String script )

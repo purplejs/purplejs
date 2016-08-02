@@ -39,4 +39,16 @@ public class NashornRuntimeTest
         assertNotNull( value );
         assertEquals( "Object", value.getClassName() );
     }
+
+    @Test
+    public void toJsonString()
+    {
+        final ScriptObjectMirror array = this.runtime.newJsArray();
+        final String value1 = this.runtime.toJsonString( array );
+        assertEquals( "[]", value1 );
+
+        final ScriptObjectMirror object = this.runtime.newJsObject();
+        final String value2 = this.runtime.toJsonString( object );
+        assertEquals( "{}", value2 );
+    }
 }

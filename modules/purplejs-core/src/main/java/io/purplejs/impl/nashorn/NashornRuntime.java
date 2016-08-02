@@ -11,4 +11,6 @@ public interface NashornRuntime
     ScriptObjectMirror newJsObject();
 
     ScriptObjectMirror newJsArray();
+
+    String toJsonString( Object value );
 }

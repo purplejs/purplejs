@@ -33,7 +33,7 @@ final class FunctionScriptValue
     {
         try
         {
-            final Object[] jsArray = new JsObjectConverter( this.runtime ).toJsArray( args );
+            final Object[] jsArray = convertArgs( args );
             final Object result = this.value.call( null, jsArray );
             return this.factory.newValue( result );
         }
@@ -41,5 +41,18 @@ final class FunctionScriptValue
         {
             throw ErrorHelper.handleError( e );
         }
+    }
+
+    private Object[] convertArgs( final Object... args )
+    {
+        final JsObjectConverter converter = new JsObjectConverter( this.runtime );
+        final Object[] result = new Object[args.length];
+
+        for ( int i = 0; i < args.length; i++ )
+        {
+            result[i] = converter.toJs( args[i] );
+        }
+
+        return result;
     }
 }

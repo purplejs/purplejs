@@ -2,11 +2,22 @@ package io.purplejs.impl.nashorn;
 
 import javax.script.ScriptEngine;
 
+import jdk.nashorn.api.scripting.NashornScriptEngineFactory;
+
 public final class NashornRuntimeFactory
 {
-    public NashornRuntime newRuntime( final ClassLoader classLoader )
+    private final static String[] ENGINE_ARGS = {"--global-per-engine", "-strict"};
+
+    private final NashornScriptEngineFactory scriptEngineFactory;
+
+    public NashornRuntimeFactory()
     {
-        final ScriptEngine engine = NashornHelper.newScriptEngine( classLoader );
+        this.scriptEngineFactory = new NashornScriptEngineFactory();
+    }
+
+    public NashornRuntime newRuntime( final ClassLoader loader )
+    {
+        final ScriptEngine engine = this.scriptEngineFactory.getScriptEngine( ENGINE_ARGS, loader );
         return new NashornRuntimeImpl( engine );
     }
 }

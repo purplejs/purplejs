@@ -15,13 +15,16 @@ final class NashornRuntimeImpl
 
     private final ScriptObjectMirror objectProto;
 
-    public NashornRuntimeImpl( final ScriptEngine engine )
+    private final ScriptObjectMirror jsonProto;
+
+    NashornRuntimeImpl( final ScriptEngine engine )
     {
         this.engine = engine;
 
         final Bindings bindings = this.engine.getBindings( ScriptContext.ENGINE_SCOPE );
         this.arrayProto = (ScriptObjectMirror) bindings.get( "Array" );
         this.objectProto = (ScriptObjectMirror) bindings.get( "Object" );
+        this.jsonProto = (ScriptObjectMirror) bindings.get( "JSON" );
     }
 
     @Override
@@ -40,5 +43,11 @@ final class NashornRuntimeImpl
     public ScriptObjectMirror newJsArray()
     {
         return (ScriptObjectMirror) this.arrayProto.newObject();
+    }
+
+    @Override
+    public String toJsonString( final Object value )
+    {
+        return (String) this.jsonProto.callMember( "stringify", value );
     }
 }
