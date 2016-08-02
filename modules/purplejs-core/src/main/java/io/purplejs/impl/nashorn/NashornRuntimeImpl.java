@@ -1,7 +1,5 @@
 package io.purplejs.impl.nashorn;
 
-import java.util.Date;
-
 import javax.script.Bindings;
 import javax.script.ScriptContext;
 import javax.script.ScriptEngine;
@@ -19,8 +17,6 @@ final class NashornRuntimeImpl
 
     private final ScriptObjectMirror jsonProto;
 
-    private final ScriptObjectMirror dateProto;
-
     NashornRuntimeImpl( final ScriptEngine engine )
     {
         this.engine = engine;
@@ -29,7 +25,6 @@ final class NashornRuntimeImpl
         this.arrayProto = (ScriptObjectMirror) bindings.get( "Array" );
         this.objectProto = (ScriptObjectMirror) bindings.get( "Object" );
         this.jsonProto = (ScriptObjectMirror) bindings.get( "JSON" );
-        this.dateProto = (ScriptObjectMirror) bindings.get( "Date" );
     }
 
     @Override
@@ -54,11 +49,5 @@ final class NashornRuntimeImpl
     public String toJsonString( final Object value )
     {
         return (String) this.jsonProto.callMember( "stringify", value );
-    }
-
-    @Override
-    public ScriptObjectMirror toJsDate( final Date date )
-    {
-        return (ScriptObjectMirror) this.dateProto.newObject( (double) date.getTime() );
     }
 }

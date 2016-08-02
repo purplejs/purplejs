@@ -1,7 +1,5 @@
 package io.purplejs.impl.nashorn;
 
-import java.util.Date;
-
 import org.junit.Before;
 import org.junit.Test;
 
@@ -52,18 +50,6 @@ public class NashornRuntimeTest
         final ScriptObjectMirror object = this.runtime.newJsObject();
         final String value2 = this.runtime.toJsonString( object );
         assertEquals( "{}", value2 );
-    }
-
-    @Test
-    public void toJsDate()
-    {
-        final Date date = new Date();
-        final ScriptObjectMirror value = this.runtime.toJsDate( date );
-
-        assertEquals( true, NashornHelper.isDateType( value ) );
-
-        final Date other = NashornHelper.toDate( value );
-        assertEquals( date, other );
     }
 }
 

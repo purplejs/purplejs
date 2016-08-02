@@ -1,6 +1,5 @@
 package io.purplejs.impl.util;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -20,11 +19,6 @@ public final class JsObjectConverter
 
     public Object toJs( final Object value )
     {
-        if ( value instanceof Date )
-        {
-            return toJs( (Date) value );
-        }
-
         if ( value instanceof JsonSerializable )
         {
             return toJs( (JsonSerializable) value );
@@ -41,11 +35,6 @@ public final class JsObjectConverter
         }
 
         return value;
-    }
-
-    private Object toJs( final Date value )
-    {
-        return this.runtime.toJsDate( value );
     }
 
     private Object toJs( final JsonSerializable value )
