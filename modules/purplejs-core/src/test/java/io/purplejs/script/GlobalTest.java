@@ -4,9 +4,10 @@ import org.junit.Test;
 
 import io.purplejs.EngineBinder;
 import io.purplejs.resource.ResourcePath;
+import io.purplejs.testing.TestingSupport;
 
 public class GlobalTest
-    extends AbstractScriptTest
+    extends TestingSupport
 {
     @Override
     public void configure( final EngineBinder binder )

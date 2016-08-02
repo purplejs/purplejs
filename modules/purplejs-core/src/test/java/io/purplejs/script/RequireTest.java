@@ -3,12 +3,13 @@ package io.purplejs.script;
 import org.junit.Test;
 
 import io.purplejs.resource.ResourcePath;
+import io.purplejs.testing.TestingSupport;
 import io.purplejs.value.ScriptExports;
 
 import static org.junit.Assert.*;
 
 public class RequireTest
-    extends AbstractScriptTest
+    extends TestingSupport
 {
     @Test
     public void require()

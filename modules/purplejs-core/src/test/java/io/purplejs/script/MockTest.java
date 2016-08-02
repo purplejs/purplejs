@@ -3,9 +3,10 @@ package io.purplejs.script;
 import org.junit.Test;
 
 import io.purplejs.resource.ResourcePath;
+import io.purplejs.testing.TestingSupport;
 
 public class MockTest
-    extends AbstractScriptTest
+    extends TestingSupport
 {
     @Test
     public void resolve()

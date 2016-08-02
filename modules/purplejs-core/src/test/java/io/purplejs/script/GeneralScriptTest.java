@@ -4,12 +4,13 @@ import org.junit.Test;
 
 import io.purplejs.json.JsonSerializable;
 import io.purplejs.resource.ResourcePath;
+import io.purplejs.testing.TestingSupport;
 import io.purplejs.value.ScriptExports;
 
 import static org.junit.Assert.*;
 
 public class GeneralScriptTest
-    extends AbstractScriptTest
+    extends TestingSupport
 {
     @Test
     public void empty()
