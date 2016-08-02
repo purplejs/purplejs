@@ -1,5 +1,9 @@
 package io.purplejs.impl.value;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.TimeZone;
+
 import javax.script.ScriptEngine;
 
 import org.junit.Before;
@@ -98,7 +102,7 @@ public class ScriptValueFactoryImplTest
     public void newValue_array()
         throws Exception
     {
-        final Object obj = execute( "var result = ['1', '2']; result;" );
+        final Object obj = execute( "var result = ['1', '2', undefined]; result;" );
         final ScriptValue value = this.factory.newValue( obj );
 
         assertNotNull( value );
@@ -145,6 +149,26 @@ public class ScriptValueFactoryImplTest
         assertTrue( value.hasMember( "a" ) );
 
         assertEquals( "{\"a\":1,\"b\":2}", value.toJson().toString() );
+    }
+
+    @Test
+    public void newValue_date()
+        throws Exception
+    {
+        final Object obj = execute( "var result = new Date(Date.parse('1995-11-12T22:24:25Z')); result;" );
+        final ScriptValue value = this.factory.newValue( obj );
+
+        assertNotNull( value );
+        assertEquals( false, value.isArray() );
+        assertEquals( false, value.isFunction() );
+        assertEquals( false, value.isObject() );
+        assertEquals( true, value.isValue() );
+
+        final SimpleDateFormat format = new SimpleDateFormat( "yyyy-MM-dd'T'HH:mm:ssZ" );
+        format.setTimeZone( TimeZone.getTimeZone( "UTC" ) );
+
+        final Date date = (Date) value.getValue();
+        assertEquals( "1995-11-12T22:24:25+0000", format.format( date ) );
     }
 
     private void assertNonValue( final ScriptValue value )

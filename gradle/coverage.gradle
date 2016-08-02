@@ -10,6 +10,7 @@ jacocoTestReport {
 
 check.dependsOn jacocoTestReport
 
+/*
 test {
     jacoco {
         append = true
@@ -17,6 +18,7 @@ test {
         classDumpFile = file( "${rootProject.buildDir}/jacoco/classdumps" )
     }
 }
+*/
 
 /*
 

@@ -149,7 +149,7 @@ public final class ScriptExecutorImpl
         }
         catch ( final Exception e )
         {
-            throw ErrorHelper.handleError( e );
+            throw ErrorHelper.INSTANCE.handleError( e );
         }
     }
 
@@ -163,7 +163,7 @@ public final class ScriptExecutorImpl
         }
         catch ( final Exception e )
         {
-            throw ErrorHelper.handleError( e );
+            throw ErrorHelper.INSTANCE.handleError( e );
         }
     }
 

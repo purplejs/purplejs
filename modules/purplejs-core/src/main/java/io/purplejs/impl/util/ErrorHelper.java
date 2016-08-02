@@ -8,7 +8,9 @@ import jdk.nashorn.api.scripting.NashornException;
 
 public final class ErrorHelper
 {
-    public static RuntimeException handleError( final Exception e )
+    public final static ErrorHelper INSTANCE = new ErrorHelper();
+
+    public RuntimeException handleError( final Exception e )
     {
         if ( e instanceof ResourceProblemException )
         {
@@ -28,7 +30,7 @@ public final class ErrorHelper
         return new RuntimeException( e );
     }
 
-    private static ResourceProblemException doHandleException( final ScriptException e )
+    private ResourceProblemException doHandleException( final ScriptException e )
     {
         final ResourceProblemException.Builder builder = ResourceProblemException.newBuilder();
         final Throwable cause = e.getCause();
@@ -39,7 +41,7 @@ public final class ErrorHelper
         return builder.build();
     }
 
-    private static RuntimeException doHandleException( final RuntimeException e )
+    private RuntimeException doHandleException( final RuntimeException e )
     {
         final StackTraceElement elem = findScriptTraceElement( e );
         if ( elem == null )
@@ -54,12 +56,12 @@ public final class ErrorHelper
         return builder.build();
     }
 
-    private static ResourcePath toResourcePath( final String name )
+    private ResourcePath toResourcePath( final String name )
     {
         return ResourcePath.from( name );
     }
 
-    private static StackTraceElement findScriptTraceElement( final RuntimeException e )
+    private StackTraceElement findScriptTraceElement( final RuntimeException e )
     {
         final StackTraceElement[] elements = NashornException.getScriptFrames( e );
         return elements.length > 0 ? elements[0] : null;

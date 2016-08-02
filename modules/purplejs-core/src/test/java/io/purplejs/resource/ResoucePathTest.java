@@ -56,6 +56,12 @@ public class ResoucePathTest
         testEquals( "/a/b", "/a/b/c", false );
     }
 
+    @Test
+    public void testEquals_non_compliant()
+    {
+        assertFalse( ResourcePath.from( "/" ).equals( "other" ) );
+    }
+
     private void testEquals( final String path1, final String path2, final boolean flag )
     {
         final boolean result = ResourcePath.from( path1 ).equals( ResourcePath.from( path2 ) );

@@ -30,7 +30,7 @@ final class ScalarScriptValue
     @Override
     public <T> T getValue( final Class<T> type )
     {
-        return ConvertHelper.convert( this.value, type );
+        return ConvertHelper.INSTANCE.convert( this.value, type );
     }
 
     @Override

@@ -47,9 +47,9 @@ public class NashornHelperTest
     @Test
     public void isUndefined()
     {
-        assertFalse( NashornHelper.isUndefined( 11 ) );
-        assertTrue( NashornHelper.isUndefined( null ) );
-        assertTrue( NashornHelper.isUndefined( ScriptRuntime.UNDEFINED ) );
+        assertFalse( NashornHelper.INSTANCE.isUndefined( 11 ) );
+        assertTrue( NashornHelper.INSTANCE.isUndefined( null ) );
+        assertTrue( NashornHelper.INSTANCE.isUndefined( ScriptRuntime.UNDEFINED ) );
     }
 
     @Test
@@ -57,10 +57,10 @@ public class NashornHelperTest
         throws Exception
     {
         final Object value1 = execute( "var result = {}; result;" );
-        assertFalse( NashornHelper.isDateType( value1 ) );
+        assertFalse( NashornHelper.INSTANCE.isDateType( value1 ) );
 
         final Object value2 = execute( "var result = new Date(); result;" );
-        assertTrue( NashornHelper.isDateType( value2 ) );
+        assertTrue( NashornHelper.INSTANCE.isDateType( value2 ) );
     }
 
     @Test
@@ -69,7 +69,7 @@ public class NashornHelperTest
     {
         final ScriptObjectMirror value =
             (ScriptObjectMirror) execute( "var result = new Date(Date.parse('1995-11-12T22:24:25Z')); result;" );
-        final Date date = NashornHelper.toDate( value );
+        final Date date = NashornHelper.INSTANCE.toDate( value );
 
         final SimpleDateFormat format = new SimpleDateFormat( "yyyy-MM-dd'T'HH:mm:ssZ" );
         format.setTimeZone( TimeZone.getTimeZone( "UTC" ) );
@@ -82,13 +82,13 @@ public class NashornHelperTest
         throws Exception
     {
         final Object value1 = execute( "var result = 11; result;" );
-        assertFalse( NashornHelper.isArrayType( value1 ) );
+        assertFalse( NashornHelper.INSTANCE.isArrayType( value1 ) );
 
         final Object value2 = execute( "var result = {}; result;" );
-        assertFalse( NashornHelper.isArrayType( value2 ) );
+        assertFalse( NashornHelper.INSTANCE.isArrayType( value2 ) );
 
         final Object value3 = execute( "var result = []; result;" );
-        assertTrue( NashornHelper.isArrayType( value3 ) );
+        assertTrue( NashornHelper.INSTANCE.isArrayType( value3 ) );
     }
 
     @Test
@@ -96,13 +96,13 @@ public class NashornHelperTest
         throws Exception
     {
         final Object value1 = execute( "var result = 11; result;" );
-        assertFalse( NashornHelper.isObjectType( value1 ) );
+        assertFalse( NashornHelper.INSTANCE.isObjectType( value1 ) );
 
         final Object value2 = execute( "var result = []; result;" );
-        assertFalse( NashornHelper.isObjectType( value2 ) );
+        assertFalse( NashornHelper.INSTANCE.isObjectType( value2 ) );
 
         final Object value3 = execute( "var result = {}; result;" );
-        assertTrue( NashornHelper.isObjectType( value3 ) );
+        assertTrue( NashornHelper.INSTANCE.isObjectType( value3 ) );
     }
 
     @Test
@@ -112,7 +112,7 @@ public class NashornHelperTest
         final ScriptObjectMirror array = (ScriptObjectMirror) execute( "var result = []; result;" );
         assertEquals( 0, array.size() );
 
-        NashornHelper.addToArray( array, 10 );
+        NashornHelper.INSTANCE.addToArray( array, 10 );
         assertEquals( 1, array.size() );
     }
 
@@ -123,7 +123,7 @@ public class NashornHelperTest
         final ScriptObjectMirror object = (ScriptObjectMirror) execute( "var result = {}; result;" );
         assertEquals( 0, object.keySet().size() );
 
-        NashornHelper.addToObject( object, "a", 10 );
+        NashornHelper.INSTANCE.addToObject( object, "a", 10 );
         assertEquals( 1, object.keySet().size() );
     }
 

@@ -4,15 +4,17 @@ import java.util.function.Function;
 
 public final class ConvertHelper
 {
+    public final static ConvertHelper INSTANCE = new ConvertHelper();
+
     private final static String TRUE_FLAGS = "true|yes|on|1";
 
-    public static <T> T convert( final Object value, final Class<T> type )
+    public <T> T convert( final Object value, final Class<T> type )
     {
         final Object result = doConvert( value, type );
         return result != null ? type.cast( result ) : null;
     }
 
-    private static Object doConvert( final Object value, final Class type )
+    private Object doConvert( final Object value, final Class type )
     {
         if ( value == null )
         {
@@ -60,7 +62,7 @@ public final class ConvertHelper
         throw noSuchConverter( value.getClass(), type );
     }
 
-    private static Boolean convertToBoolean( final Object value )
+    private Boolean convertToBoolean( final Object value )
     {
         if ( value instanceof Number )
         {
@@ -70,8 +72,8 @@ public final class ConvertHelper
         return TRUE_FLAGS.contains( value.toString() );
     }
 
-    private static <T> T convertToNumber( final Class<T> type, final Object value, final Function<Number, T> fromNumber,
-                                          final Function<String, T> parser )
+    private <T> T convertToNumber( final Class<T> type, final Object value, final Function<Number, T> fromNumber,
+                                   final Function<String, T> parser )
     {
         if ( value instanceof Number )
         {
@@ -88,47 +90,47 @@ public final class ConvertHelper
         }
     }
 
-    private static Byte convertToByte( final Object value )
+    private Byte convertToByte( final Object value )
     {
         return convertToNumber( Byte.class, value, Number::byteValue, Byte::parseByte );
     }
 
-    private static Double convertToDouble( final Object value )
+    private Double convertToDouble( final Object value )
     {
         return convertToNumber( Double.class, value, Number::doubleValue, Double::parseDouble );
     }
 
-    private static Float convertToFloat( final Object value )
+    private Float convertToFloat( final Object value )
     {
         return convertToNumber( Float.class, value, Number::floatValue, Float::parseFloat );
     }
 
-    private static Integer convertToInteger( final Object value )
+    private Integer convertToInteger( final Object value )
     {
         return convertToNumber( Integer.class, value, Number::intValue, Integer::parseInt );
     }
 
-    private static Long convertToLong( final Object value )
+    private Long convertToLong( final Object value )
     {
         return convertToNumber( Long.class, value, Number::longValue, Long::parseLong );
     }
 
-    private static Short convertToShort( final Object value )
+    private Short convertToShort( final Object value )
     {
         return convertToNumber( Short.class, value, Number::shortValue, Short::parseShort );
     }
 
-    private static String convertToString( final Object value )
+    private String convertToString( final Object value )
     {
         return value.toString();
     }
 
-    private static IllegalArgumentException noSuchConverter( final Class<?> source, final Class<?> target )
+    private IllegalArgumentException noSuchConverter( final Class<?> source, final Class<?> target )
     {
         return new IllegalArgumentException( String.format( "No such converter for %s -> %s", source.getName(), target.getName() ) );
     }
 
-    private static IllegalArgumentException convertFailure( final Class<?> source, final Class<?> target, final Throwable cause )
+    private IllegalArgumentException convertFailure( final Class<?> source, final Class<?> target, final Throwable cause )
     {
         return new IllegalArgumentException( String.format( "Failed to convert %s -> %s", source.getName(), target.getName() ), cause );
     }

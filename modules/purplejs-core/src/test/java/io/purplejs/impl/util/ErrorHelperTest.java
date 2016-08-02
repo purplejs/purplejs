@@ -16,7 +16,7 @@ public class ErrorHelperTest
         final ResourceProblemException e = ResourceProblemException.newBuilder().
             build();
 
-        final RuntimeException result = ErrorHelper.handleError( e );
+        final RuntimeException result = ErrorHelper.INSTANCE.handleError( e );
         assertSame( e, result );
     }
 
@@ -24,7 +24,7 @@ public class ErrorHelperTest
     public void handleError_scriptException()
     {
         final ScriptException e = new ScriptException( "Some problem", "/a/b/test.js", 1 );
-        final RuntimeException result = ErrorHelper.handleError( e );
+        final RuntimeException result = ErrorHelper.INSTANCE.handleError( e );
 
         assertNotNull( result );
         assertTrue( result instanceof ResourceProblemException );
@@ -36,10 +36,28 @@ public class ErrorHelperTest
     }
 
     @Test
+    public void handleError_scriptException_withCause()
+    {
+        final RuntimeException cause = new RuntimeException( "Other error" );
+        final ScriptException e = new ScriptException( "Some problem", "/a/b/test.js", 1 );
+        e.initCause( cause );
+
+        final RuntimeException result = ErrorHelper.INSTANCE.handleError( e );
+
+        assertNotNull( result );
+        assertTrue( result instanceof ResourceProblemException );
+
+        final ResourceProblemException problem = (ResourceProblemException) result;
+        assertEquals( "Other error", problem.getMessage() );
+        assertEquals( 1, problem.getLineNumber() );
+        assertSame( cause, problem.getCause() );
+    }
+
+    @Test
     public void handleError_runtimeException()
     {
         final RuntimeException e = new RuntimeException( "Some problem" );
-        final RuntimeException result = ErrorHelper.handleError( e );
+        final RuntimeException result = ErrorHelper.INSTANCE.handleError( e );
 
         assertSame( e, result );
     }
@@ -48,7 +66,7 @@ public class ErrorHelperTest
     public void handleError_other()
     {
         final Exception e = new Exception( "Some problem" );
-        final RuntimeException result = ErrorHelper.handleError( e );
+        final RuntimeException result = ErrorHelper.INSTANCE.handleError( e );
 
         assertNotNull( result );
         assertSame( e, result.getCause() );

@@ -39,7 +39,7 @@ final class FunctionScriptValue
         }
         catch ( final Exception e )
         {
-            throw ErrorHelper.handleError( e );
+            throw ErrorHelper.INSTANCE.handleError( e );
         }
     }
 
