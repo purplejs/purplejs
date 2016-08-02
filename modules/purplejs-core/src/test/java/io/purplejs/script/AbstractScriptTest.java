@@ -1,6 +1,5 @@
-package io.purplejs.testing;
+package io.purplejs.script;
 
-import org.junit.After;
 import org.junit.Before;
 
 import io.purplejs.Engine;
@@ -12,13 +11,10 @@ import io.purplejs.resource.ResourcePath;
 import io.purplejs.value.ScriptExports;
 import io.purplejs.value.ScriptValue;
 
-// TODO: Move to testing project...
-public abstract class TestingSupport
+public abstract class AbstractScriptTest
     implements EngineModule
 {
     protected Engine engine;
-
-    protected boolean runDisposer = true;
 
     @Before
     public final void setUp()
@@ -27,15 +23,6 @@ public abstract class TestingSupport
         configure( builder );
 
         this.engine = builder.build();
-    }
-
-    @After
-    public final void tearDown()
-    {
-        if ( this.runDisposer )
-        {
-            this.engine.dispose();
-        }
     }
 
     protected void configure( final EngineBuilder builder )
@@ -50,7 +37,7 @@ public abstract class TestingSupport
 
     protected void configure( final ResourceLoaderBuilder builder )
     {
-        builder.from( getClass().getClassLoader() );
+        builder.from( getClass().getClassLoader(), "/io/purplejs/script" );
     }
 
     @Override

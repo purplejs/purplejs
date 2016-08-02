@@ -3,13 +3,12 @@ package io.purplejs.script;
 import org.junit.Test;
 
 import io.purplejs.resource.ResourcePath;
-import io.purplejs.testing.TestingSupport;
 
 public class MockTest
-    extends TestingSupport
+    extends AbstractScriptTest
 {
     @Test
-    public void resolve()
+    public void testMock()
     {
         run( ResourcePath.from( "/mock/mock-test.js" ) );
     }
