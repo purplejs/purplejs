@@ -33,7 +33,7 @@ public class FileResourceLoaderTest
     {
         this.loader.load( ResourcePath.from( "/a/x.txt" ) );
     }
-
+    
     @Test(expected = NotFoundException.class)
     public void load_directory()
     {

@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.net.URLConnection;
 
-import com.google.common.base.Throwables;
 import com.google.common.io.ByteSource;
 import com.google.common.io.Resources;
 
@@ -33,13 +32,15 @@ final class UrlResource
     @Override
     public long getSize()
     {
-        return openConnection().getContentLength();
+        final URLConnection conn = openConnection();
+        return conn != null ? conn.getContentLength() : -1;
     }
 
     @Override
     public long getLastModified()
     {
-        return openConnection().getLastModified();
+        final URLConnection conn = openConnection();
+        return conn != null ? conn.getLastModified() : -1;
     }
 
     @Override
@@ -58,7 +59,7 @@ final class UrlResource
         }
         catch ( final IOException e )
         {
-            throw Throwables.propagate( e );
+            return null;
         }
     }
 }

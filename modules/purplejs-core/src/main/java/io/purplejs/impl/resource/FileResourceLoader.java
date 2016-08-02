@@ -20,11 +20,11 @@ final class FileResourceLoader
     public Resource loadOrNull( final ResourcePath path )
     {
         final File file = new File( this.dir, path.getPath() );
-        if ( file.isFile() && file.exists() )
+        if ( !file.isFile() )
         {
-            return new FileResource( path, file );
+            return null;
         }
 
-        return null;
+        return new FileResource( path, file );
     }
 }

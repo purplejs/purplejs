@@ -4,7 +4,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import io.purplejs.exception.NotFoundException;
-import io.purplejs.resource.ResourceNotFoundException;
 import io.purplejs.resource.ResourcePath;
 
 public class NopResourceLoaderTest

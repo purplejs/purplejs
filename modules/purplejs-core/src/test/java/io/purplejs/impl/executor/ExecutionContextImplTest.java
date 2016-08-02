@@ -10,6 +10,7 @@ import org.mockito.Mockito;
 import io.purplejs.Engine;
 import io.purplejs.Environment;
 import io.purplejs.context.ExecutionContext;
+import io.purplejs.exception.NotFoundException;
 import io.purplejs.resource.ResourceLoader;
 import io.purplejs.resource.ResourcePath;
 
@@ -82,6 +83,12 @@ public class ExecutionContextImplTest
 
         final Object result = this.context.require( "/a/b/other.js" );
         assertSame( expected, result );
+    }
+
+    @Test(expected = NotFoundException.class)
+    public void require_not_found()
+    {
+        this.context.require( "/a/b/other.js" );
     }
 
     @Test

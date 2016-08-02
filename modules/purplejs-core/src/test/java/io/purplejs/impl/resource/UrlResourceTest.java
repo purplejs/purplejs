@@ -1,6 +1,7 @@
 package io.purplejs.impl.resource;
 
 import java.io.File;
+import java.net.URL;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -9,6 +10,7 @@ import org.junit.rules.TemporaryFolder;
 
 import com.google.common.base.Charsets;
 
+import io.purplejs.exception.NotFoundException;
 import io.purplejs.resource.ResourcePath;
 
 import static org.junit.Assert.*;
@@ -40,5 +42,16 @@ public class UrlResourceTest
         assertEquals( this.file.lastModified(), resource.getLastModified() );
         assertNotNull( resource.getBytes() );
         assertEquals( "hello", resource.getBytes().asCharSource( Charsets.UTF_8 ).read() );
+    }
+
+    @Test
+    public void url_problem()
+        throws Exception
+    {
+        final ResourcePath path = ResourcePath.from( "/a.txt" );
+        final UrlResource resource = new UrlResource( path, new URL( "file:not-found" ) );
+
+        assertEquals( -1, resource.getSize() );
+        assertEquals( -1, resource.getLastModified() );
     }
 }

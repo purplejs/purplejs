@@ -2,7 +2,9 @@ package io.purplejs;
 
 import java.util.function.Consumer;
 
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TemporaryFolder;
 import org.mockito.Mockito;
 
 import io.purplejs.resource.ResourceLoader;
@@ -12,6 +14,9 @@ import static org.junit.Assert.*;
 
 public class EngineTest
 {
+    @Rule
+    public TemporaryFolder temporaryFolder = new TemporaryFolder();
+
     @Test
     public void getConfig()
     {
@@ -33,6 +38,7 @@ public class EngineTest
 
         final Engine engine2 = EngineBuilder.newBuilder().
             devMode( true ).
+            devSourceDir( this.temporaryFolder.getRoot() ).
             build();
 
         assertTrue( engine2.isDevMode() );
