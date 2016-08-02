@@ -45,7 +45,6 @@ public class ScriptServlet
 
     private void configure( final ScriptServletConfig config, final EngineBuilder builder )
     {
-        builder.devMode( config.isDevMode() );
         builder.classLoader( getClass().getClassLoader() );
         config.getDevSourceDirs().forEach( builder::devSourceDir );
         builder.module( new HttpModule() );

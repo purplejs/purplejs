@@ -7,8 +7,6 @@ import io.purplejs.resource.ResourceLoader;
 
 public interface EngineBuilder
 {
-    EngineBuilder devMode( boolean devMode );
-
     EngineBuilder devSourceDir( File dir );
 
     EngineBuilder classLoader( ClassLoader classLoader );

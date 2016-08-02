@@ -12,6 +12,7 @@ import com.google.common.base.Charsets;
 import com.google.common.collect.Maps;
 
 import io.purplejs.Environment;
+import io.purplejs.RunMode;
 import io.purplejs.impl.cache.ScriptExportsCache;
 import io.purplejs.impl.nashorn.NashornRuntime;
 import io.purplejs.impl.util.ErrorHelper;
@@ -117,7 +118,7 @@ public final class ScriptExecutorImpl
             return loadResource( key );
         }
 
-        if ( !this.environment.isDevMode() )
+        if ( !RunMode.isDevMode() )
         {
             return null;
         }

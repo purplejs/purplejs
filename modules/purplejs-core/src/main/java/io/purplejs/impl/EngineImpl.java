@@ -20,8 +20,6 @@ import io.purplejs.value.ScriptValue;
 final class EngineImpl
     implements Engine
 {
-    boolean devMode;
-
     ResourceLoader resourceLoader;
 
     ClassLoader classLoader;
@@ -39,12 +37,6 @@ final class EngineImpl
     EngineImpl()
     {
         this.executor = new ScriptExecutorImpl();
-    }
-
-    @Override
-    public boolean isDevMode()
-    {
-        return this.devMode;
     }
 
     @Override

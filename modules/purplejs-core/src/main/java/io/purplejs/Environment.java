@@ -8,8 +8,6 @@ import io.purplejs.resource.ResourceLoader;
 public interface Environment
     extends Registry
 {
-    boolean isDevMode();
-
     ResourceLoader getResourceLoader();
 
     ClassLoader getClassLoader();

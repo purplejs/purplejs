@@ -20,8 +20,6 @@ final class ScriptServletConfig
 {
     private final static String CONFIG_PREFIX = "config.";
 
-    private final static String DEV_MODE_PROP = "devMode";
-
     private final static String DEV_SOURCE_DIRS_PROP = "devSourceDirs";
 
     private final static String RESOURCE_PROP = "resource";
@@ -31,11 +29,6 @@ final class ScriptServletConfig
     ScriptServletConfig( final ServletConfig config )
     {
         this.config = config;
-    }
-
-    boolean isDevMode()
-    {
-        return getValue( DEV_MODE_PROP ).map( Boolean::parseBoolean ).orElse( false );
     }
 
     List<File> getDevSourceDirs()

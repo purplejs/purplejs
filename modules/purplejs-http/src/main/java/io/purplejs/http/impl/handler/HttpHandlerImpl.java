@@ -3,6 +3,7 @@ package io.purplejs.http.impl.handler;
 import java.util.function.Function;
 
 import io.purplejs.Engine;
+import io.purplejs.RunMode;
 import io.purplejs.http.Request;
 import io.purplejs.http.Response;
 import io.purplejs.http.error.ExceptionHandler;
@@ -21,7 +22,7 @@ final class HttpHandlerImpl
 
     void init()
     {
-        if ( !this.engine.isDevMode() )
+        if ( !RunMode.isDevMode() )
         {
             this.engine.require( this.resource );
         }

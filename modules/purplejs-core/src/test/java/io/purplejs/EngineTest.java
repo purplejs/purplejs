@@ -29,22 +29,6 @@ public class EngineTest
     }
 
     @Test
-    public void isDevMode()
-    {
-        final Engine engine1 = EngineBuilder.newBuilder().
-            build();
-
-        assertFalse( engine1.isDevMode() );
-
-        final Engine engine2 = EngineBuilder.newBuilder().
-            devMode( true ).
-            devSourceDir( this.temporaryFolder.getRoot() ).
-            build();
-
-        assertTrue( engine2.isDevMode() );
-    }
-
-    @Test
     public void getClassLoader()
     {
         final Engine engine1 = EngineBuilder.newBuilder().

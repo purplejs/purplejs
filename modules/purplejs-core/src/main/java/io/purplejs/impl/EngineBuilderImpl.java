@@ -14,6 +14,7 @@ import io.purplejs.Engine;
 import io.purplejs.EngineBinder;
 import io.purplejs.EngineBuilder;
 import io.purplejs.EngineModule;
+import io.purplejs.RunMode;
 import io.purplejs.registry.RegistryBuilder;
 import io.purplejs.resource.ResourceLoader;
 import io.purplejs.resource.ResourceLoaderBuilder;
@@ -21,8 +22,6 @@ import io.purplejs.resource.ResourceLoaderBuilder;
 public final class EngineBuilderImpl
     implements EngineBuilder, EngineBinder
 {
-    private boolean devMode;
-
     private ClassLoader classLoader;
 
     private ResourceLoader resourceLoader;
@@ -46,13 +45,6 @@ public final class EngineBuilderImpl
 
         this.module = new CompositeModule();
         this.module.autoLoad();
-    }
-
-    @Override
-    public EngineBuilder devMode( final boolean devMode )
-    {
-        this.devMode = devMode;
-        return this;
     }
 
     @Override
@@ -140,7 +132,7 @@ public final class EngineBuilderImpl
 
     private ResourceLoader createResourceLoader()
     {
-        if ( !this.devMode )
+        if ( !RunMode.isDevMode() )
         {
             return this.resourceLoader;
         }
@@ -159,7 +151,6 @@ public final class EngineBuilderImpl
         this.module.configure( this );
 
         final EngineImpl engine = new EngineImpl();
-        engine.devMode = this.devMode;
         engine.classLoader = this.classLoader;
         engine.resourceLoader = createResourceLoader();
         engine.config = ImmutableMap.copyOf( this.config );
