@@ -1,8 +1,5 @@
 package io.purplejs.servlet.impl;
 
-import java.io.IOException;
-import java.io.InputStream;
-
 import javax.servlet.http.Part;
 
 import com.google.common.base.Charsets;
@@ -13,14 +10,16 @@ import com.google.common.net.MediaType;
 import io.purplejs.http.MultipartItem;
 
 final class MultipartItemImpl
-    extends ByteSource
     implements MultipartItem
 {
     private final Part part;
 
-    public MultipartItemImpl( final Part part )
+    private final ByteSource bytes;
+
+    MultipartItemImpl( final Part part )
     {
         this.part = part;
+        this.bytes = new PartByteSource( this.part );
     }
 
     @Override
@@ -45,7 +44,7 @@ final class MultipartItemImpl
     @Override
     public ByteSource getBytes()
     {
-        return this;
+        return this.bytes;
     }
 
     @Override
@@ -53,7 +52,7 @@ final class MultipartItemImpl
     {
         try
         {
-            return asCharSource( Charsets.UTF_8 ).read();
+            return this.bytes.asCharSource( Charsets.UTF_8 ).read();
         }
         catch ( final Exception e )
         {
@@ -65,25 +64,6 @@ final class MultipartItemImpl
     public long getSize()
     {
         return this.part.getSize();
-    }
-
-    @Override
-    public long size()
-    {
-        return getSize();
-    }
-
-    @Override
-    public boolean isEmpty()
-    {
-        return getSize() == 0;
-    }
-
-    @Override
-    public InputStream openStream()
-        throws IOException
-    {
-        return this.part.getInputStream();
     }
 
     public void delete()

@@ -17,7 +17,7 @@ final class MultipartFormImpl
 {
     private final Multimap<String, MultipartItem> map;
 
-    public MultipartFormImpl( final Iterable<Part> parts )
+    MultipartFormImpl( final Iterable<Part> parts )
     {
         this.map = HashMultimap.create();
         for ( final Part part : parts )
