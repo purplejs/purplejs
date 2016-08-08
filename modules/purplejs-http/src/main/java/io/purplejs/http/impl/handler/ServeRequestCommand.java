@@ -7,7 +7,7 @@ import io.purplejs.http.Response;
 import io.purplejs.http.Status;
 import io.purplejs.http.impl.RequestAccessor;
 import io.purplejs.http.impl.request.RequestWrapper;
-import io.purplejs.http.impl.response.ResponseBuilder;
+import io.purplejs.http.impl.response.ResponseBuilderImpl;
 import io.purplejs.http.impl.response.ScriptToResponse;
 import io.purplejs.value.ScriptExports;
 import io.purplejs.value.ScriptValue;
@@ -69,7 +69,7 @@ final class ServeRequestCommand
 
     private Response methodNotAllowed()
     {
-        return ResponseBuilder.newBuilder().
+        return ResponseBuilderImpl.newBuilder().
             status( Status.METHOD_NOT_ALLOWED ).
             build();
     }

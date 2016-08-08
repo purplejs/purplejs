@@ -12,7 +12,7 @@ import io.purplejs.http.Request;
 import io.purplejs.http.Response;
 import io.purplejs.http.error.ExceptionHandler;
 import io.purplejs.http.error.ExceptionInfo;
-import io.purplejs.http.impl.response.ResponseBuilder;
+import io.purplejs.http.impl.response.ResponseBuilderImpl;
 
 public final class DefaultExceptionHandler
     implements ExceptionHandler
@@ -21,7 +21,7 @@ public final class DefaultExceptionHandler
     public Response handle( final ExceptionInfo ex )
     {
         final MediaType type = findRenderType( ex.getRequest() );
-        final ResponseBuilder builder = ResponseBuilder.newBuilder();
+        final ResponseBuilderImpl builder = ResponseBuilderImpl.newBuilder();
         builder.status( ex.getStatus() );
         builder.contentType( type );
 
