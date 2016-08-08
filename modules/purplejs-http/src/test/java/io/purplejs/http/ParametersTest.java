@@ -31,13 +31,17 @@ public class ParametersTest
         final Collection<String> values2 = this.params.get( "mykey" );
         assertNotNull( values2 );
         assertEquals( 1, values2.size() );
-        assertEquals( "myvalue", values2.iterator().next() );
+        assertEquals( "[myvalue]", values2.toString() );
 
         this.params.remove( "mykey" );
 
         final Collection<String> values3 = this.params.get( "mykey" );
         assertNotNull( values3 );
         assertEquals( 0, values3.size() );
+
+        final Collection<String> values4 = this.params.get( "mykey" );
+        assertNotNull( values4 );
+        assertEquals( 0, values4.size() );
     }
 
     @Test

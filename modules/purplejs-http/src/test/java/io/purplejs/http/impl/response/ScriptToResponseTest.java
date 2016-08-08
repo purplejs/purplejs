@@ -160,7 +160,7 @@ public class ScriptToResponseTest
         final Response response = toResponse( "cookies" );
         final List<Cookie> cookies = response.getCookies();
 
-        assertEquals( 2, cookies.size() );
+        assertEquals( 3, cookies.size() );
 
         final Cookie cookie1 = cookies.get( 0 );
         assertEquals( "cookie1", cookie1.getName() );
@@ -181,5 +181,15 @@ public class ScriptToResponseTest
         assertEquals( 100, cookie2.getMaxAge() );
         assertEquals( true, cookie2.isSecure() );
         assertEquals( true, cookie2.isHttpOnly() );
+
+        final Cookie cookie3 = cookies.get( 2 );
+        assertEquals( "cookie3", cookie3.getName() );
+        assertEquals( "value3", cookie3.getValue() );
+        assertNull( cookie3.getComment() );
+        assertNull( cookie3.getPath() );
+        assertNull( cookie3.getDomain() );
+        assertEquals( -1, cookie3.getMaxAge() );
+        assertEquals( false, cookie3.isSecure() );
+        assertEquals( false, cookie3.isHttpOnly() );
     }
 }

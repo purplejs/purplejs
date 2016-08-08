@@ -103,6 +103,6 @@ public enum Status
             }
         }
 
-        return null;
+        throw new IllegalArgumentException( "Unknown status [" + value + "]" );
     }
 }

@@ -91,13 +91,19 @@ public final class ScriptToResponse
 
     private <T> T getValue( final ScriptValue value, final Class<T> type, final T defValue )
     {
+        if ( value == null )
+        {
+            return null;
+        }
+
         final T result = value.getValue( type );
         return result != null ? result : defValue;
     }
 
     private <T> T getMemberValue( final ScriptValue value, final String name, final Class<T> type, final T defValue )
     {
-        return getValue( value.getMember( name ), type, defValue );
+        final T result = getValue( value.getMember( name ), type, defValue );
+        return result != null ? result : defValue;
     }
 
     private Cookie newCookie( final ScriptValue value, final String key )

@@ -4,6 +4,7 @@ import io.purplejs.Engine;
 import io.purplejs.http.error.ExceptionHandler;
 import io.purplejs.http.handler.HttpHandler;
 import io.purplejs.http.handler.HttpHandlerFactory;
+import io.purplejs.http.impl.error.ExceptionRenderer;
 import io.purplejs.resource.ResourcePath;
 
 public final class HttpHandlerFactoryImpl
@@ -25,9 +26,7 @@ public final class HttpHandlerFactoryImpl
         final HttpHandlerImpl handler = new HttpHandlerImpl();
         handler.resource = resource;
         handler.engine = this.engine;
-        handler.exceptionHandler = this.exceptionHandler;
-
-        handler.init();
+        handler.exceptionRenderer = new ExceptionRenderer( this.exceptionHandler, this.engine.getResourceLoader() );
         return handler;
     }
 }

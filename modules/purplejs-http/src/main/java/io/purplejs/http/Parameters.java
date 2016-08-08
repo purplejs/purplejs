@@ -1,7 +1,6 @@
 package io.purplejs.http;
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Map;
 import java.util.Optional;
 
@@ -19,8 +18,7 @@ public final class Parameters
 
     public Collection<String> get( final String key )
     {
-        final Collection<String> values = this.map.get( key );
-        return values != null ? values : Collections.emptyList();
+        return this.map.get( key );
     }
 
     public Optional<String> getFirst( final String key )

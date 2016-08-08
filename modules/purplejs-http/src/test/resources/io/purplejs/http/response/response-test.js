@@ -85,9 +85,11 @@ exports.cookies = function () {
                 "maxAge": 100,
                 "secure": true,
                 "httpOnly": true
-            }
+            },
+            "cookie3": {
+                "value": "value3"
+            },
+            "cookie4": undefined
         }
     };
 };
-
-

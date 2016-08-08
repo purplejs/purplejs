@@ -3,11 +3,10 @@ package io.purplejs.http.impl.handler;
 import java.util.function.Function;
 
 import io.purplejs.Engine;
-import io.purplejs.RunMode;
 import io.purplejs.http.Request;
 import io.purplejs.http.Response;
-import io.purplejs.http.error.ExceptionHandler;
 import io.purplejs.http.handler.HttpHandler;
+import io.purplejs.http.impl.error.ExceptionRenderer;
 import io.purplejs.resource.ResourcePath;
 import io.purplejs.value.ScriptExports;
 
@@ -18,21 +17,20 @@ final class HttpHandlerImpl
 
     ResourcePath resource;
 
-    ExceptionHandler exceptionHandler;
-
-    void init()
-    {
-        if ( !RunMode.isDevMode() )
-        {
-            this.engine.require( this.resource );
-        }
-    }
+    ExceptionRenderer exceptionRenderer;
 
     @Override
     public Response serve( final Request request )
     {
-        final ServeRequestCommand command = new ServeRequestCommand( request );
-        return execute( command );
+        try
+        {
+            final ServeRequestCommand command = new ServeRequestCommand( request );
+            return execute( command );
+        }
+        catch ( final Exception e )
+        {
+            return this.exceptionRenderer.handle( request, e );
+        }
     }
 
     private <R> R execute( final Function<ScriptExports, R> command )

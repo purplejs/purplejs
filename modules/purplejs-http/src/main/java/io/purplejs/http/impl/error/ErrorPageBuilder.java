@@ -22,6 +22,8 @@ final class ErrorPageBuilder
 
     private List<String> lines;
 
+    private ProblemException problem;
+
     private final static class LineInfo
     {
         private final int line;
@@ -79,6 +81,18 @@ final class ErrorPageBuilder
     public ErrorPageBuilder cause( final Throwable cause )
     {
         this.cause = cause;
+        return this;
+    }
+
+    public ErrorPageBuilder lines( final List<String> lines )
+    {
+        this.lines = lines;
+        return this;
+    }
+
+    public ErrorPageBuilder problem( final ProblemException problem )
+    {
+        this.problem = problem;
         return this;
     }
 
@@ -204,24 +218,23 @@ final class ErrorPageBuilder
 
     private void buildSourceInfo( final HtmlBuilder html )
     {
-        if ( this.cause == null || !( this.cause.getCause() instanceof ProblemException ) )
+        if ( this.problem == null )
         {
             return;
         }
 
-        final ProblemException problem = ( (ProblemException) this.cause.getCause() ).getInnerError();
-        if ( problem.getPath() != null )
+        if ( this.problem.getPath() != null )
         {
             html.open( "h2" );
-            html.escapedText( "In " + problem.getPath().toString() + " at line " + problem.getLineNumber() );
+            html.escapedText( "In " + this.problem.getPath().toString() + " at line " + this.problem.getLineNumber() );
             html.close();
         }
 
         html.open( "div" ).attribute( "id", "source-code" );
-        buildLineInfo( html, findSourceLines( problem ) );
+        buildLineInfo( html, findSourceLines( this.problem ) );
         html.close();
 
-        final List<LineInfo> callStack = getCallStack( problem );
+        final List<LineInfo> callStack = getCallStack( this.problem );
         if ( !callStack.isEmpty() )
         {
             html.open( "h2" );

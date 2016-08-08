@@ -15,7 +15,7 @@ final class HtmlBuilder
 
     private boolean addedInner;
 
-    public HtmlBuilder()
+    HtmlBuilder()
     {
         this.escaper = HtmlEscapers.htmlEscaper();
         this.str = new StringBuilder();
@@ -31,7 +31,7 @@ final class HtmlBuilder
         }
     }
 
-    public HtmlBuilder open( final String name )
+    HtmlBuilder open( final String name )
     {
         closeIfNeeded();
 
@@ -44,7 +44,7 @@ final class HtmlBuilder
         return this;
     }
 
-    public HtmlBuilder close()
+    HtmlBuilder close()
     {
         this.str.append( "</" );
         this.str.append( this.openTags.pop() );
@@ -52,14 +52,14 @@ final class HtmlBuilder
         return this;
     }
 
-    public HtmlBuilder closeEmpty()
+    HtmlBuilder closeEmpty()
     {
         this.str.append( "/>" );
         this.openTags.pop();
         return this;
     }
 
-    public HtmlBuilder attribute( final String name, final String value )
+    HtmlBuilder attribute( final String name, final String value )
     {
         this.str.append( ' ' );
         this.str.append( name );
@@ -70,12 +70,12 @@ final class HtmlBuilder
         return this;
     }
 
-    public HtmlBuilder escapedText( final String text )
+    HtmlBuilder escapedText( final String text )
     {
         return text( this.escaper.escape( text ) );
     }
 
-    public HtmlBuilder text( final String text )
+    HtmlBuilder text( final String text )
     {
         closeIfNeeded();
         this.str.append( text );
