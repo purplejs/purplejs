@@ -45,7 +45,7 @@ public final class ResponseSerializer
         this.to.addCookie( translateCookie( cookie ) );
     }
 
-    private javax.servlet.http.Cookie translateCookie( final Cookie cookie )
+    static javax.servlet.http.Cookie translateCookie( final Cookie cookie )
     {
         final javax.servlet.http.Cookie result = new javax.servlet.http.Cookie( cookie.getName(), cookie.getValue() );
         result.setPath( cookie.getPath() );
