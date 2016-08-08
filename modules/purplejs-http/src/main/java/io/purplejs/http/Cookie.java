@@ -1,21 +1,120 @@
 package io.purplejs.http;
 
-// See io.netty.handler.codec.http.cookie.Cookie
-public interface Cookie
+import com.google.common.base.MoreObjects;
+import com.google.common.base.Preconditions;
+import com.google.common.base.Strings;
+
+public final class Cookie
 {
-    String getName();
+    private String name;
 
-    String getValue();
+    private String value;
 
-    String getDomain();
+    private String domain;
 
-    String getComment();
+    private String path;
 
-    boolean isHttpOnly();
+    private String comment;
 
-    boolean isSecure();
+    private boolean secure = false;
 
-    int getMaxAge();
+    private boolean httpOnly = false;
 
-    String getPath();
+    private int maxAge = -1;
+
+    public Cookie( final String name )
+    {
+        Preconditions.checkArgument( !Strings.isNullOrEmpty( name ), "name is required" );
+        this.name = name;
+    }
+
+    public String getName()
+    {
+        return name;
+    }
+
+    public String getValue()
+    {
+        return value;
+    }
+
+    public void setValue( final String value )
+    {
+        this.value = value;
+    }
+
+    public String getDomain()
+    {
+        return domain;
+    }
+
+    public void setDomain( final String domain )
+    {
+        this.domain = domain;
+    }
+
+    public String getPath()
+    {
+        return path;
+    }
+
+    public void setPath( final String path )
+    {
+        this.path = path;
+    }
+
+    public String getComment()
+    {
+        return comment;
+    }
+
+    public void setComment( final String comment )
+    {
+        this.comment = comment;
+    }
+
+    public boolean isSecure()
+    {
+        return secure;
+    }
+
+    public void setSecure( final boolean secure )
+    {
+        this.secure = secure;
+    }
+
+    public boolean isHttpOnly()
+    {
+        return httpOnly;
+    }
+
+    public void setHttpOnly( final boolean httpOnly )
+    {
+        this.httpOnly = httpOnly;
+    }
+
+    public int getMaxAge()
+    {
+        return maxAge;
+    }
+
+    public void setMaxAge( final int maxAge )
+    {
+        this.maxAge = maxAge;
+    }
+
+    @Override
+    public String toString()
+    {
+        return MoreObjects.toStringHelper( this ).
+            add( "name", this.name ).
+            add( "value", this.value ).
+            add( "domain", this.domain ).
+            add( "path", this.path ).
+            add( "comment", this.comment ).
+            add( "secure", this.secure ).
+            add( "httpOnly", this.httpOnly ).
+            add( "maxAge", this.maxAge ).
+            toString();
+    }
 }

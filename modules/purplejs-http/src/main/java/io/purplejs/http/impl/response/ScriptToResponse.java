@@ -108,22 +108,21 @@ public final class ScriptToResponse
 
     private Cookie newCookie( final ScriptValue value, final String key )
     {
-        final CookieImpl cookie = new CookieImpl();
-        cookie.name = key;
+        final Cookie cookie = new Cookie( key );
 
         if ( value.isObject() )
         {
-            cookie.value = getMemberValue( value, "value", String.class, "" );
-            cookie.path = getMemberValue( value, "path", String.class, null );
-            cookie.domain = getMemberValue( value, "domain", String.class, null );
-            cookie.comment = getMemberValue( value, "comment", String.class, null );
-            cookie.maxAge = getMemberValue( value, "maxAge", Integer.class, -1 );
-            cookie.secure = getMemberValue( value, "secure", Boolean.class, false );
-            cookie.httpOnly = getMemberValue( value, "httpOnly", Boolean.class, false );
+            cookie.setValue( getMemberValue( value, "value", String.class, "" ) );
+            cookie.setPath( getMemberValue( value, "path", String.class, null ) );
+            cookie.setDomain( getMemberValue( value, "domain", String.class, null ) );
+            cookie.setComment( getMemberValue( value, "comment", String.class, null ) );
+            cookie.setMaxAge( getMemberValue( value, "maxAge", Integer.class, -1 ) );
+            cookie.setSecure( getMemberValue( value, "secure", Boolean.class, false ) );
+            cookie.setHttpOnly( getMemberValue( value, "httpOnly", Boolean.class, false ) );
         }
         else
         {
-            cookie.value = getValue( value, String.class, "" );
+            cookie.setValue( getValue( value, String.class, "" ) );
         }
 
         return cookie;
