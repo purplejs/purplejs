@@ -7,6 +7,7 @@ import io.purplejs.Engine;
 import io.purplejs.EngineBinder;
 import io.purplejs.EngineBuilder;
 import io.purplejs.EngineModule;
+import io.purplejs.RunMode;
 import io.purplejs.resource.ResourceLoaderBuilder;
 import io.purplejs.resource.ResourcePath;
 import io.purplejs.value.ScriptExports;
@@ -16,9 +17,11 @@ import io.purplejs.value.ScriptValue;
 public abstract class TestingSupport
     implements EngineModule
 {
-    protected Engine engine;
+    private Engine engine;
 
-    protected boolean runDisposer = true;
+    private boolean runDisposer = true;
+
+    private String classLoaderPrefix;
 
     @Before
     public final void setUp()
@@ -27,6 +30,8 @@ public abstract class TestingSupport
         configure( builder );
 
         this.engine = builder.build();
+
+        RunMode.TEST.set();
     }
 
     @After
@@ -50,7 +55,7 @@ public abstract class TestingSupport
 
     protected void configure( final ResourceLoaderBuilder builder )
     {
-        builder.from( getClass().getClassLoader() );
+        builder.from( getClass().getClassLoader(), this.classLoaderPrefix );
     }
 
     @Override
@@ -69,14 +74,29 @@ public abstract class TestingSupport
         return this.engine.require( path );
     }
 
-    protected final ScriptValue run( final String path, final String func )
+    protected final ScriptValue run( final String path, final String func, final Object... args )
     {
-        return run( ResourcePath.from( path ), func );
+        return run( ResourcePath.from( path ), func, args );
     }
 
-    protected final ScriptValue run( final ResourcePath path, final String func )
+    protected final ScriptValue run( final ResourcePath path, final String func, final Object... args )
     {
         final ScriptExports exports = run( path );
-        return exports.executeMethod( func );
+        return exports.executeMethod( func, args );
+    }
+
+    protected final Engine getEngine()
+    {
+        return this.engine;
+    }
+
+    protected final void setRunDisposer( final boolean flag )
+    {
+        this.runDisposer = flag;
+    }
+
+    protected final void setClassLoaderPrefix( final String prefix )
+    {
+        this.classLoaderPrefix = prefix;
     }
 }

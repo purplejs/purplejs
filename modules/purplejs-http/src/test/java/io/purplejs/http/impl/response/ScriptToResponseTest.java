@@ -2,7 +2,6 @@ package io.purplejs.http.impl.response;
 
 import java.util.List;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -10,33 +9,26 @@ import com.google.common.base.Charsets;
 import com.google.common.io.ByteSource;
 import com.google.common.net.MediaType;
 
-import io.purplejs.Engine;
-import io.purplejs.EngineBuilder;
 import io.purplejs.http.Cookie;
 import io.purplejs.http.Response;
 import io.purplejs.http.Status;
 import io.purplejs.resource.Resource;
-import io.purplejs.resource.ResourcePath;
-import io.purplejs.value.ScriptExports;
+import io.purplejs.testing.TestingSupport;
 import io.purplejs.value.ScriptValue;
 
 import static org.junit.Assert.*;
 
 public class ScriptToResponseTest
+    extends TestingSupport
 {
-    private ScriptExports exports;
-
-    @Before
-    public void setUp()
+    public ScriptToResponseTest()
     {
-        final Engine engine = EngineBuilder.newBuilder().
-            build();
-        this.exports = engine.require( ResourcePath.from( "/response/response-test.js" ) );
+        setClassLoaderPrefix( "/io/purplejs/http" );
     }
 
     private Response toResponse( final String name, final Object... args )
     {
-        final ScriptValue value = this.exports.executeMethod( name, args );
+        final ScriptValue value = run( "/response/response-test.js", name, args );
         return new ScriptToResponse().toResponse( value );
     }
 

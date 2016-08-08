@@ -13,6 +13,8 @@ public class DisposerTest
     @Test
     public void testDispose()
     {
+        setRunDisposer( false );
+
         final ResourcePath path = ResourcePath.from( "/disposer/disposer-test.js" );
         final ScriptExports exports = run( path );
 
@@ -20,7 +22,7 @@ public class DisposerTest
         assertEquals( path, exports.getResource() );
         assertEquals( false, exports.executeMethod( "isExecuted" ).getValue() );
 
-        this.engine.dispose();
+        getEngine().dispose();
         assertEquals( true, exports.executeMethod( "isExecuted" ).getValue() );
     }
 }
