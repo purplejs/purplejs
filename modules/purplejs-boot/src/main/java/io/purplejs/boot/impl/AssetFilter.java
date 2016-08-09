@@ -1,4 +1,4 @@
-package io.purplejs.boot.internal;
+package io.purplejs.boot.impl;
 
 import java.io.IOException;
 import java.net.URL;
