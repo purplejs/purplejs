@@ -60,13 +60,8 @@ public class ScriptServlet
     {
         final RequestWrapper requestWrapper = new RequestWrapper( req );
         final Response response = this.handler.serve( requestWrapper );
-        serialize( resp, response );
-    }
 
-    private void serialize( final HttpServletResponse to, final Response from )
-        throws IOException
-    {
-        new ResponseSerializer( to ).serialize( from );
+        new ResponseSerializer( resp ).serialize( response );
     }
 
     @Override

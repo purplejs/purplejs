@@ -1,0 +1,22 @@
+{
+  "app": {
+    "key": "value"
+  },
+  "server": {
+    "maxThreads": 1024,
+    "minThreads": 8,
+    "connectors": [
+      {
+        "type": "http",
+        "port": 8080
+      },
+      {
+        "type": "https",
+        "port": 8443
+      }
+    ],
+    "requestLog": {
+      "timeZone": "UTC"
+    }
+  }
+}

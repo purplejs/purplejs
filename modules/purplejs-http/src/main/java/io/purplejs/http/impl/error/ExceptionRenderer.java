@@ -33,6 +33,12 @@ public final class ExceptionRenderer
         return this.handler.handle( info );
     }
 
+    public Response handle( final Request request, final Status status )
+    {
+        final ExceptionInfo info = toInfo( request, status );
+        return this.handler.handle( info );
+    }
+
     private ExceptionInfo toInfo( final Request request, final Exception ex )
     {
         final ExceptionInfoImpl info = new ExceptionInfoImpl();
@@ -45,6 +51,15 @@ public final class ExceptionRenderer
             populate( info, (ProblemException) ex );
         }
 
+        return info;
+    }
+
+    private ExceptionInfo toInfo( final Request request, final Status status )
+    {
+        final ExceptionInfoImpl info = new ExceptionInfoImpl();
+        info.cause = null;
+        info.request = request;
+        info.status = status;
         return info;
     }
 

@@ -8,26 +8,41 @@ import org.eclipse.jetty.servlet.ServletHolder;
 
 import com.google.common.io.Files;
 
+import io.purplejs.boot.internal.BannerPrinter;
 import io.purplejs.servlet.ScriptServlet;
 
-public final class Main
+public final class MainApp
 {
-    public static void main( final String... args )
+    private final String[] args;
+
+    public MainApp( final String... args )
+    {
+        this.args = args;
+    }
+
+    public void start()
         throws Exception
     {
+        new BannerPrinter().printBanner();
+
         final Server server = new Server( 8080 );
         final ServletContextHandler context = new ServletContextHandler( ServletContextHandler.SESSIONS );
         server.setHandler( context );
 
         final ServletHolder servlet = context.addServlet( ScriptServlet.class, "/*" );
         servlet.setInitParameter( "resource", "/app/main.js" );
-        servlet.setInitParameter( "devMode", "true" );
-        servlet.setInitParameter( "devSourceDirs", "/Users/srs/development/workspace/purplejs/modules/purplejs-boot/src/main/resources" );
+        servlet.setInitParameter( "devSourceDirs", System.getProperty( "io.purplejs.devSourceDirs" ) );
 
         final String location = Files.createTempDir().getAbsolutePath();
         final MultipartConfigElement multipartConfig = new MultipartConfigElement( location );
         servlet.getRegistration().setMultipartConfig( multipartConfig );
 
         server.start();
+    }
+
+    public static void main( final String... args )
+        throws Exception
+    {
+        new MainApp( args ).start();
     }
 }

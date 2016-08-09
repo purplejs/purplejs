@@ -4,10 +4,10 @@ import java.util.function.Function;
 
 import io.purplejs.http.Request;
 import io.purplejs.http.Response;
+import io.purplejs.http.ResponseBuilder;
 import io.purplejs.http.Status;
 import io.purplejs.http.impl.RequestAccessor;
 import io.purplejs.http.impl.request.RequestWrapper;
-import io.purplejs.http.impl.response.ResponseBuilderImpl;
 import io.purplejs.http.impl.response.ScriptToResponse;
 import io.purplejs.value.ScriptExports;
 import io.purplejs.value.ScriptValue;
@@ -15,6 +15,10 @@ import io.purplejs.value.ScriptValue;
 final class ServeRequestCommand
     implements Function<ScriptExports, Response>
 {
+    private final static String GET_METHOD = "get";
+
+    private final static String HEAD_METHOD = "head";
+
     private final static String SERVICE_METHOD = "service";
 
     private final Request request;
@@ -64,12 +68,20 @@ final class ServeRequestCommand
             return SERVICE_METHOD;
         }
 
+        if ( method.equals( HEAD_METHOD ) )
+        {
+            if ( exports.hasMethod( GET_METHOD ) )
+            {
+                return GET_METHOD;
+            }
+        }
+
         return null;
     }
 
     private Response methodNotAllowed()
     {
-        return ResponseBuilderImpl.newBuilder().
+        return ResponseBuilder.newBuilder().
             status( Status.METHOD_NOT_ALLOWED ).
             build();
     }

@@ -15,6 +15,7 @@ public final class ScriptToResponse
         final ResponseBuilderImpl builder = ResponseBuilderImpl.newBuilder();
         if ( value == null )
         {
+            builder.contentType( MediaType.PLAIN_TEXT_UTF_8 );
             return builder.build();
         }
 
@@ -38,7 +39,7 @@ public final class ScriptToResponse
     private void populateContentType( final ResponseBuilderImpl builder, final ScriptValue value )
     {
         final String type = ( value != null ) ? value.getValue( String.class ) : null;
-        builder.contentType( type != null ? MediaType.parse( type ) : MediaType.create( "text", "html" ) );
+        builder.contentType( type != null ? MediaType.parse( type ) : MediaType.PLAIN_TEXT_UTF_8 );
     }
 
     private void populateBody( final ResponseBuilderImpl builder, final ScriptValue value )

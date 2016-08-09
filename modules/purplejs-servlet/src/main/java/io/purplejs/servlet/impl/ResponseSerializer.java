@@ -27,7 +27,10 @@ public final class ResponseSerializer
         serializeHeaders( from.getHeaders() );
         serializeCookies( from.getCookies() );
 
-        from.getBody().copyTo( this.to.getOutputStream() );
+        if ( !from.getBody().isEmpty() )
+        {
+            from.getBody().copyTo( this.to.getOutputStream() );
+        }
     }
 
     private void serializeHeaders( final Headers headers )
