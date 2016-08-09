@@ -1,8 +1,9 @@
-package io.purplejs.http;
+package io.purplejs.http.impl;
 
 import io.purplejs.Engine;
 import io.purplejs.EngineBinder;
 import io.purplejs.EngineModule;
+import io.purplejs.http.Request;
 import io.purplejs.http.error.ExceptionHandler;
 import io.purplejs.http.handler.HttpHandlerFactory;
 import io.purplejs.http.impl.RequestAccessor;
