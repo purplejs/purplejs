@@ -39,7 +39,7 @@ public class ScriptToResponseTest
         assertNotNull( response );
         assertEquals( Status.OK, response.getStatus() );
         assertNotNull( response.getBody() );
-        assertEquals( MediaType.OCTET_STREAM, response.getContentType() );
+        assertEquals( MediaType.PLAIN_TEXT_UTF_8, response.getContentType() );
         assertNull( response.getValue() );
     }
 
