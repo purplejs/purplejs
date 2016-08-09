@@ -1,13 +1,18 @@
 package io.purplejs.boot;
 
+import java.util.EnumSet;
+
+import javax.servlet.DispatcherType;
 import javax.servlet.MultipartConfigElement;
 
 import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.server.handler.HandlerCollection;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 
 import com.google.common.io.Files;
 
+import io.purplejs.boot.internal.AssetFilter;
 import io.purplejs.boot.internal.BannerPrinter;
 import io.purplejs.servlet.ScriptServlet;
 
@@ -25,9 +30,9 @@ public final class MainApp
     {
         new BannerPrinter().printBanner();
 
-        final Server server = new Server( 8080 );
         final ServletContextHandler context = new ServletContextHandler( ServletContextHandler.SESSIONS );
-        server.setHandler( context );
+
+        context.addFilter( AssetFilter.class, "/*", EnumSet.of( DispatcherType.REQUEST ) );
 
         final ServletHolder servlet = context.addServlet( ScriptServlet.class, "/*" );
         servlet.setInitParameter( "resource", "/app/main.js" );
@@ -37,6 +42,11 @@ public final class MainApp
         final MultipartConfigElement multipartConfig = new MultipartConfigElement( location );
         servlet.getRegistration().setMultipartConfig( multipartConfig );
 
+        final HandlerCollection handlers = new HandlerCollection();
+        handlers.addHandler( context );
+
+        final Server server = new Server( 8080 );
+        server.setHandler( handlers );
         server.start();
     }
 
