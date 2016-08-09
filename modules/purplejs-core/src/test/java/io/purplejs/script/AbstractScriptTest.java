@@ -2,7 +2,7 @@ package io.purplejs.script;
 
 import io.purplejs.testing.TestingSupport;
 
-public abstract class AbstractScriptTest
+abstract class AbstractScriptTest
     extends TestingSupport
 {
     AbstractScriptTest()
