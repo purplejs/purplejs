@@ -5,7 +5,6 @@ import java.util.Enumeration;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.google.common.base.Throwables;
 import com.google.common.io.ByteSource;
 import com.google.common.io.ByteStreams;
 import com.google.common.net.MediaType;
@@ -14,6 +13,7 @@ import io.purplejs.http.Headers;
 import io.purplejs.http.MultipartForm;
 import io.purplejs.http.Parameters;
 import io.purplejs.http.Request;
+import io.purplejs.util.ExceptionHelper;
 
 public final class RequestWrapper
     implements Request
@@ -86,7 +86,7 @@ public final class RequestWrapper
             }
             catch ( final Exception e )
             {
-                throw Throwables.propagate( e );
+                throw ExceptionHelper.unchecked( e );
             }
         }
 
@@ -102,7 +102,7 @@ public final class RequestWrapper
         }
         catch ( final Exception e )
         {
-            throw Throwables.propagate( e );
+            throw ExceptionHelper.unchecked( e );
         }
     }
 

@@ -1,8 +1,6 @@
 package io.purplejs.http;
 
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -25,22 +23,19 @@ public class HeadersTest
     @Test
     public void get_set_remove()
     {
-        final Optional<String> value1 = this.headers.get( "mykey" );
-        assertNotNull( value1 );
-        assertFalse( value1.isPresent() );
+        final String value1 = this.headers.get( "mykey" );
+        assertNull( value1 );
 
         this.headers.set( "mykey", "myvalue" );
 
-        final Optional<String> value2 = this.headers.get( "mykey" );
+        final String value2 = this.headers.get( "mykey" );
         assertNotNull( value2 );
-        assertTrue( value2.isPresent() );
-        assertEquals( "myvalue", value2.get() );
+        assertEquals( "myvalue", value2 );
 
         this.headers.remove( "mykey" );
 
-        final Optional<String> value3 = this.headers.get( "mykey" );
-        assertNotNull( value3 );
-        assertFalse( value3.isPresent() );
+        final String value3 = this.headers.get( "mykey" );
+        assertNull( value3 );
     }
 
     @Test
@@ -53,16 +48,5 @@ public class HeadersTest
         final List<MediaType> list2 = this.headers.getAccept();
         assertEquals( 2, list2.size() );
         assertEquals( "[text/html, application/json]", list2.toString() );
-    }
-
-    @Test
-    public void asMap()
-    {
-        this.headers.set( "mykey", "myvalue" );
-
-        final Map<String, String> map = this.headers.asMap();
-        assertNotNull( map );
-        assertEquals( 1, map.size() );
-        assertEquals( "myvalue", map.get( "mykey" ) );
     }
 }

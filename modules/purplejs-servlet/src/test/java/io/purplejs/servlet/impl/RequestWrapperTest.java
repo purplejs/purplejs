@@ -4,7 +4,12 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.mock.web.MockHttpServletRequest;
 
+import com.google.common.base.Charsets;
+import com.google.common.io.ByteSource;
+
 import io.purplejs.http.Headers;
+import io.purplejs.http.Parameters;
+import io.purplejs.http.Request;
 
 import static org.junit.Assert.*;
 
@@ -12,26 +17,31 @@ public class RequestWrapperTest
 {
     private MockHttpServletRequest request;
 
-    private RequestWrapper wrapper;
-
     @Before
     public void setUp()
     {
         this.request = new MockHttpServletRequest();
-        this.wrapper = new RequestWrapper( this.request );
+    }
+
+    private Request createWrapper()
+    {
+        return new RequestWrapper( this.request );
     }
 
     @Test
     public void getMethod()
     {
         this.request.setMethod( "GET" );
-        assertEquals( "GET", this.wrapper.getMethod() );
+
+        final Request wrapper = createWrapper();
+        assertEquals( "GET", wrapper.getMethod() );
     }
 
     @Test
     public void getMultipart()
     {
-        assertNotNull( this.wrapper.getMultipart() );
+        final Request wrapper = createWrapper();
+        assertNotNull( wrapper.getMultipart() );
     }
 
     @Test
@@ -40,13 +50,75 @@ public class RequestWrapperTest
         this.request.addHeader( "X-Header1", "Value1" );
         this.request.addHeader( "X-Header2", "Value2" );
 
-        final Headers headers = this.wrapper.getHeaders();
+        final Request wrapper = createWrapper();
+        final Headers headers = wrapper.getHeaders();
         assertNotNull( headers );
+        assertEquals( 2, headers.size() );
+        assertEquals( "{X-Header1=Value1, X-Header2=Value2}", headers.toString() );
     }
 
     @Test
     public void getRaw()
     {
-        assertSame( this.request, this.wrapper.getRaw() );
+        final Request wrapper = createWrapper();
+        assertSame( this.request, wrapper.getRaw() );
+    }
+
+    @Test
+    public void getUri()
+    {
+        this.request.setServerPort( 8080 );
+        this.request.setRequestURI( "/test" );
+
+        final Request wrapper = createWrapper();
+        assertEquals( "http://localhost:8080/test", wrapper.getUri().toString() );
+    }
+
+    @Test
+    public void getParameters()
+    {
+        this.request.addParameter( "a", "1" );
+        this.request.addParameter( "b", "2" );
+        this.request.addParameter( "b", "3" );
+
+        final Request wrapper = createWrapper();
+        final Parameters parameters = wrapper.getParameters();
+        assertNotNull( parameters );
+        assertEquals( 3, parameters.size() );
+        assertEquals( "{a=[1], b=[2, 3]}", parameters.toString() );
+    }
+
+    @Test
+    public void getContentType()
+    {
+        final Request wrapper1 = createWrapper();
+        assertNull( wrapper1.getContentType() );
+
+        this.request.setContentType( "text/plain" );
+        final Request wrapper2 = createWrapper();
+        assertEquals( "text/plain", wrapper2.getContentType().toString() );
+    }
+
+    @Test
+    public void getContentLength()
+    {
+        this.request.setContent( "hello".getBytes( Charsets.UTF_8 ) );
+        final Request wrapper = createWrapper();
+        assertEquals( 5, wrapper.getContentLength() );
+    }
+
+    @Test
+    public void getBody()
+        throws Exception
+    {
+        this.request.setContent( null );
+        final Request wrapper1 = createWrapper();
+        assertEquals( ByteSource.empty(), wrapper1.getBody() );
+
+        this.request.setContent( "hello".getBytes( Charsets.UTF_8 ) );
+
+        final Request wrapper2 = createWrapper();
+        assertEquals( "hello", wrapper2.getBody().asCharSource( Charsets.UTF_8 ).read() );
+        assertEquals( "hello", wrapper2.getBody().asCharSource( Charsets.UTF_8 ).read() );
     }
 }

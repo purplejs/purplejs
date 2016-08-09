@@ -3,11 +3,11 @@ package io.purplejs.servlet.impl;
 import javax.servlet.http.Part;
 
 import com.google.common.base.Charsets;
-import com.google.common.base.Throwables;
 import com.google.common.io.ByteSource;
 import com.google.common.net.MediaType;
 
 import io.purplejs.http.MultipartItem;
+import io.purplejs.util.ExceptionHelper;
 
 final class MultipartItemImpl
     implements MultipartItem
@@ -56,7 +56,7 @@ final class MultipartItemImpl
         }
         catch ( final Exception e )
         {
-            throw Throwables.propagate( e );
+            throw ExceptionHelper.unchecked( e );
         }
     }
 
@@ -66,7 +66,7 @@ final class MultipartItemImpl
         return this.part.getSize();
     }
 
-    public void delete()
+    void delete()
     {
         try
         {

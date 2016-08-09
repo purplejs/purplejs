@@ -1,6 +1,7 @@
 package io.purplejs.servlet.impl;
 
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 
 import javax.servlet.http.Part;
 
@@ -58,9 +59,14 @@ public class MultipartItemImplTest
     {
         Mockito.when( this.part.getContentType() ).thenReturn( "text/plain" );
 
-        final MediaType type = this.item.getContentType();
-        assertNotNull( type );
-        assertEquals( "text/plain", type.toString() );
+        final MediaType type1 = this.item.getContentType();
+        assertNotNull( type1 );
+        assertEquals( "text/plain", type1.toString() );
+
+        Mockito.when( this.part.getContentType() ).thenReturn( null );
+
+        final MediaType type2 = this.item.getContentType();
+        assertNull( type2 );
     }
 
     @Test
@@ -88,11 +94,22 @@ public class MultipartItemImplTest
         assertEquals( "hello", value );
     }
 
+    @Test(expected = IOException.class)
+    public void getAsString_error()
+        throws Exception
+    {
+        Mockito.when( this.part.getInputStream() ).thenThrow( new IOException() );
+        this.item.getAsString();
+    }
+
     @Test
     public void delete()
         throws Exception
     {
         this.item.delete();
         Mockito.verify( this.part, Mockito.times( 1 ) ).delete();
+
+        Mockito.doThrow( new IOException() ).when( this.part ).delete();
+        this.item.delete();
     }
 }

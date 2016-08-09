@@ -61,7 +61,7 @@ public class ScriptToResponseTest
         assertEquals( Status.OK, response.getStatus() );
         assertEquals( "text", response.getBody().asCharSource( Charsets.UTF_8 ).read() );
         assertEquals( "text/plain", response.getContentType().toString() );
-        assertEquals( "{X-Header-2=value2, X-Header-1=value1}", response.getHeaders().asMap().toString() );
+        assertEquals( "{X-Header-2=value2, X-Header-1=value1}", response.getHeaders().toString() );
         assertNotNull( response.getValue() );
         assertEquals( 0, response.getCookies().size() );
     }
@@ -72,7 +72,7 @@ public class ScriptToResponseTest
         final Response response = toResponse( "redirect" );
         assertNotNull( response );
         assertEquals( Status.SEE_OTHER, response.getStatus() );
-        assertEquals( "{Location=http://foo.bar}", response.getHeaders().asMap().toString() );
+        assertEquals( "{Location=http://foo.bar}", response.getHeaders().toString() );
         assertNotNull( response.getValue() );
     }
 
@@ -135,7 +135,7 @@ public class ScriptToResponseTest
     {
         final Response response = toResponse( "wrong" );
         assertNotNull( response );
-        assertEquals( "{}", response.getHeaders().asMap().toString() );
+        assertEquals( "{}", response.getHeaders().toString() );
     }
 
     @Test

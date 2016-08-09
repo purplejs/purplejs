@@ -32,7 +32,7 @@ public final class ResponseSerializer
 
     private void serializeHeaders( final Headers headers )
     {
-        headers.asMap().forEach( this.to::addHeader );
+        headers.forEach( this.to::addHeader );
     }
 
     private void serializeCookies( final List<Cookie> cookies )

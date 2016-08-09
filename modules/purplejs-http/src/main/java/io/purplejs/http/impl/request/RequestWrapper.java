@@ -41,7 +41,7 @@ public final class RequestWrapper
 
         serializeParameters( gen, this.request.getParameters() );
         serializeHeaders( gen, this.request.getHeaders() );
-        serializeCookies( gen, this.request.getHeaders().get( HttpHeaders.COOKIE ).orElse( null ) );
+        serializeCookies( gen, this.request.getHeaders().get( HttpHeaders.COOKIE ) );
 
         gen.end();
     }
@@ -74,7 +74,7 @@ public final class RequestWrapper
     private void serializeHeaders( final JsonGenerator gen, final Headers headers )
     {
         gen.map( "headers" );
-        headers.asMap().entrySet().stream().filter( entry -> shouldSerializeHeader( entry.getKey() ) ).forEach(
+        headers.entrySet().stream().filter( entry -> shouldSerializeHeader( entry.getKey() ) ).forEach(
             entry -> gen.value( entry.getKey(), entry.getValue() ) );
         gen.end();
     }

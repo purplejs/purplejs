@@ -21,9 +21,9 @@ import io.purplejs.servlet.impl.ResponseSerializer;
 public class ScriptServlet
     extends HttpServlet
 {
-    private Engine engine;
+    Engine engine;
 
-    private HttpHandler handler;
+    HttpHandler handler;
 
     @Override
     public void init( final ServletConfig config )

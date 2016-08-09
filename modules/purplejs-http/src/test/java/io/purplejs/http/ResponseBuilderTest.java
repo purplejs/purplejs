@@ -39,8 +39,8 @@ public class ResponseBuilderTest
         assertEquals( rawValue, response.getValue() );
 
         final Headers headers = response.getHeaders();
-        assertEquals( "Value1", headers.get( "X-Header1" ).orElse( "" ) );
-        assertEquals( "Value2", headers.get( "X-Header2" ).orElse( "" ) );
+        assertEquals( "Value1", headers.getOrDefault( "X-Header1", "" ) );
+        assertEquals( "Value2", headers.getOrDefault( "X-Header2", "" ) );
 
         final List<Cookie> cookies = response.getCookies();
         assertEquals( 2, cookies.size() );
