@@ -1,5 +1,4 @@
 apply plugin: 'jacoco'
-apply plugin: 'com.github.kt3k.coveralls'
 
 jacocoTestReport {
     reports {
@@ -9,25 +8,3 @@ jacocoTestReport {
 }
 
 check.dependsOn jacocoTestReport
-
-/*
-test {
-    jacoco {
-        append = true
-        destinationFile = file( "${rootProject.buildDir}/jacoco/test.exec" )
-        classDumpFile = file( "${rootProject.buildDir}/jacoco/classdumps" )
-    }
-}
-*/
-
-/*
-
-integrationTest {
-    jacoco {
-        append = true
-        destinationFile = file( "${rootProject.buildDir}/jacoco/test.exec" )
-        classDumpFile = file( "${rootProject.buildDir}/jacoco/classdumps" )
-    }
-}
-
-*/

@@ -1,0 +1,32 @@
+apply plugin: 'maven-publish'
+apply plugin: 'com.jfrog.bintray'
+
+publishing {
+    publications {
+        mavenJava( MavenPublication ) {
+            from components.java
+        }
+    }
+}
+
+bintray {
+    user = getProperty( 'bintrayUser' )
+    key = getProperty( 'bintrayKey' )
+    publications = ['mavenJava']
+
+    pkg {
+        repo = 'maven'
+        name = 'purplejs'
+        userOrg = 'purplejs'
+        websiteUrl = 'http://purplejs.io'
+        issueTrackerUrl = 'https://github.com/purplejs/purplejs/issues'
+        vcsUrl = 'https://github.com/purplejs/purplejs.git'
+        licenses = ['Apache-2.0']
+        labels = ['purplejs', 'java', 'javascript']
+        publicDownloadNumbers = true
+
+        version {
+            vcsTag = "v$project.version"
+        }
+    }
+}

@@ -3,11 +3,6 @@ include ':purplejs-http'
 include ':purplejs-servlet'
 include ':purplejs-boot'
 include ':purplejs-example'
-// include ':purplejs-servlet-example'
-// include ':purplejs-ratpack'
-// include ':purplejs-dropwizard'
-// include ':purplejs-spring'
-// include ':purplejs-testing'
 
 rootProject.name = 'purplejs'
 
