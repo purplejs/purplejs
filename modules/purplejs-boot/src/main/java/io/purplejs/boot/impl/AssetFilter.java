@@ -41,7 +41,7 @@ public final class AssetFilter
         throws IOException, ServletException
     {
         final URL url = findResource( req );
-        if ( url == null )
+        if ( ( url == null ) || url.getPath().endsWith( "/" ) )
         {
             chain.doFilter( req, res );
             return;

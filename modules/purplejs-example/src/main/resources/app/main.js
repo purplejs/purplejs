@@ -1,6 +1,16 @@
+var http = require('/lib/http');
 
-module.exports.get = function (req) {
+exports.get = function (req) {
     return {
         body: req
+    };
+};
+
+exports.post = function (req) {
+
+
+
+    return {
+        body: http.bodyAsJson()
     };
 };

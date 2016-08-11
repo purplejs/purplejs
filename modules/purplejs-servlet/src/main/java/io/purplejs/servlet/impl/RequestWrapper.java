@@ -9,28 +9,85 @@ import com.google.common.io.ByteSource;
 import com.google.common.io.ByteStreams;
 import com.google.common.net.MediaType;
 
+import io.purplejs.exception.ExceptionHelper;
 import io.purplejs.http.Headers;
 import io.purplejs.http.MultipartForm;
 import io.purplejs.http.Parameters;
 import io.purplejs.http.Request;
-import io.purplejs.exception.ExceptionHelper;
 
 public final class RequestWrapper
     implements Request
 {
+    private final static MediaType MULTIPART_FORM = MediaType.create( "multipart", "form-data" );
+
     private final HttpServletRequest wrapped;
 
     private final Headers headers;
 
     private final Parameters parameters;
 
-    private ByteSource body;
+    private final ByteSource body;
+
+    private final MultipartForm multipart;
+
+    private final MediaType contentType;
+
+    private final long contentLength;
 
     public RequestWrapper( final HttpServletRequest wrapped )
     {
         this.wrapped = wrapped;
-        this.headers = createHeaders( this.wrapped );
+        this.contentLength = this.wrapped.getContentLength();
+
+        final String value = this.wrapped.getContentType();
+        this.contentType = value != null ? MediaType.parse( value ).withoutParameters() : null;
+
+        this.body = readBody();
+
         this.parameters = createParameters( this.wrapped );
+        this.headers = createHeaders( this.wrapped );
+
+        this.multipart = readMultipart();
+    }
+
+    private boolean isMultipartForm()
+    {
+        return ( this.contentType != null ) && this.contentType.is( MULTIPART_FORM );
+    }
+
+    private ByteSource readBody()
+    {
+        if ( isMultipartForm() )
+        {
+            return ByteSource.empty();
+        }
+
+        try
+        {
+            final byte[] data = ByteStreams.toByteArray( this.wrapped.getInputStream() );
+            return ByteSource.wrap( data );
+        }
+        catch ( final Exception e )
+        {
+            throw ExceptionHelper.unchecked( e );
+        }
+    }
+
+    private MultipartForm readMultipart()
+    {
+        if ( !isMultipartForm() )
+        {
+            return null;
+        }
+
+        try
+        {
+            return new MultipartFormImpl( this.wrapped.getParts() );
+        }
+        catch ( final Exception e )
+        {
+            throw ExceptionHelper.unchecked( e );
+        }
     }
 
     @Override
@@ -60,50 +117,25 @@ public final class RequestWrapper
     @Override
     public MediaType getContentType()
     {
-        final String value = this.wrapped.getContentType();
-        return value != null ? MediaType.parse( value ).withoutParameters() : null;
+        return this.contentType;
     }
 
     @Override
     public long getContentLength()
     {
-        return this.wrapped.getContentLength();
+        return this.contentLength;
     }
 
     @Override
     public ByteSource getBody()
     {
-        if ( getContentLength() <= 0 )
-        {
-            return ByteSource.empty();
-        }
-
-        if ( this.body == null )
-        {
-            try
-            {
-                this.body = ByteSource.wrap( ByteStreams.toByteArray( this.wrapped.getInputStream() ) );
-            }
-            catch ( final Exception e )
-            {
-                throw ExceptionHelper.unchecked( e );
-            }
-        }
-
         return this.body;
     }
 
     @Override
     public MultipartForm getMultipart()
     {
-        try
-        {
-            return new MultipartFormImpl( this.wrapped.getParts() );
-        }
-        catch ( final Exception e )
-        {
-            throw ExceptionHelper.unchecked( e );
-        }
+        return this.multipart;
     }
 
     @Override
