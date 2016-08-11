@@ -1,4 +1,4 @@
-package io.purplejs.util;
+package io.purplejs.exception;
 
 import java.io.IOException;
 

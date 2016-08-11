@@ -16,6 +16,7 @@ import com.google.gson.JsonNull;
 import io.purplejs.impl.nashorn.NashornRuntime;
 import io.purplejs.impl.nashorn.NashornRuntimeFactory;
 import io.purplejs.value.ScriptValue;
+import jdk.nashorn.api.scripting.ScriptObjectMirror;
 import jdk.nashorn.internal.runtime.ScriptRuntime;
 
 import static org.junit.Assert.*;
@@ -54,6 +55,7 @@ public class ScriptValueFactoryImplTest
         assertEquals( true, value.isValue() );
 
         assertEquals( "2", value.getValue() );
+        assertEquals( "2", value.getRaw() );
         assertEquals( new Integer( 2 ), value.getValue( Integer.class ) );
 
         assertNonArray( value );
@@ -85,6 +87,8 @@ public class ScriptValueFactoryImplTest
         assertEquals( true, value.isFunction() );
         assertEquals( false, value.isObject() );
         assertEquals( false, value.isValue() );
+        assertNotNull( value.getRaw() );
+        assertTrue( value.getRaw() instanceof ScriptObjectMirror );
 
         assertNonValue( value );
         assertNonArray( value );
@@ -110,6 +114,8 @@ public class ScriptValueFactoryImplTest
         assertEquals( false, value.isFunction() );
         assertEquals( false, value.isObject() );
         assertEquals( false, value.isValue() );
+        assertNotNull( value.getRaw() );
+        assertTrue( value.getRaw() instanceof ScriptObjectMirror );
 
         assertNonValue( value );
         assertNonObject( value );
@@ -135,6 +141,8 @@ public class ScriptValueFactoryImplTest
         assertEquals( false, value.isFunction() );
         assertEquals( true, value.isObject() );
         assertEquals( false, value.isValue() );
+        assertNotNull( value.getRaw() );
+        assertTrue( value.getRaw() instanceof ScriptObjectMirror );
 
         assertNonValue( value );
         assertNonArray( value );

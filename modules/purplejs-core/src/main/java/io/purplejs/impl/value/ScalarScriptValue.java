@@ -48,4 +48,10 @@ final class ScalarScriptValue
 
         return new JsonPrimitive( this.value.toString() );
     }
+
+    @Override
+    public Object getRaw()
+    {
+        return this.value;
+    }
 }

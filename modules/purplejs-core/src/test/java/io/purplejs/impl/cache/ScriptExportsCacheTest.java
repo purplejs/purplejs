@@ -35,14 +35,14 @@ public class ScriptExportsCacheTest
     @Test
     public void isExpired()
     {
-        final Resource resource = mockResource( "/a.txt" );
-        assertEquals( true, this.cache.isExpired( resource ) );
+        assertEquals( false, this.cache.isExpired() );
 
+        final Resource resource = mockResource( "/a.txt" );
         this.cache.put( resource, "value" );
-        assertEquals( false, this.cache.isExpired( resource ) );
+        assertEquals( false, this.cache.isExpired() );
 
         Mockito.when( resource.getLastModified() ).thenReturn( System.currentTimeMillis() + 1 );
-        assertEquals( true, this.cache.isExpired( resource ) );
+        assertEquals( true, this.cache.isExpired() );
     }
 
     private Resource mockResource( final String path )

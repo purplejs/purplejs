@@ -7,7 +7,7 @@ import com.google.common.io.ByteSource;
 import com.google.common.net.MediaType;
 
 import io.purplejs.http.MultipartItem;
-import io.purplejs.util.ExceptionHelper;
+import io.purplejs.exception.ExceptionHelper;
 
 final class MultipartItemImpl
     implements MultipartItem

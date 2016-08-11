@@ -16,10 +16,12 @@ import io.purplejs.RunMode;
 import io.purplejs.impl.cache.ScriptExportsCache;
 import io.purplejs.impl.nashorn.NashornRuntime;
 import io.purplejs.impl.util.ErrorHelper;
+import io.purplejs.impl.value.ScriptExportsImpl;
 import io.purplejs.impl.value.ScriptValueFactory;
 import io.purplejs.impl.value.ScriptValueFactoryImpl;
 import io.purplejs.resource.Resource;
 import io.purplejs.resource.ResourcePath;
+import io.purplejs.value.ScriptExports;
 import io.purplejs.value.ScriptValue;
 import jdk.nashorn.api.scripting.ScriptObjectMirror;
 
@@ -80,6 +82,30 @@ public final class ScriptExecutorImpl
     }
 
     @Override
+    public ScriptExports executeMain( final ResourcePath path )
+    {
+        expireCacheIfNeeded();
+
+        final Object exports = executeRequire( path );
+        final ScriptValue value = newScriptValue( exports );
+        return new ScriptExportsImpl( path, value );
+    }
+
+    private void expireCacheIfNeeded()
+    {
+        if ( !RunMode.isDevMode() )
+        {
+            return;
+        }
+
+        if ( this.exportsCache.isExpired() )
+        {
+            this.exportsCache.clear();
+            runDisposers();
+        }
+    }
+
+    @Override
     public Object executeRequire( final ResourcePath path )
     {
         final Object mock = this.mocks.get( path );
@@ -116,18 +142,6 @@ public final class ScriptExecutorImpl
         if ( cached == null )
         {
             return loadResource( key );
-        }
-
-        if ( !RunMode.isDevMode() )
-        {
-            return null;
-        }
-
-        final Resource resource = loadResource( key );
-        if ( this.exportsCache.isExpired( resource ) )
-        {
-            runDisposer( key );
-            return resource;
         }
 
         return null;
@@ -180,22 +194,14 @@ public final class ScriptExecutorImpl
         this.disposers.put( path, callback );
     }
 
-    private void runDisposer( final ResourcePath path )
+    private void runDisposers()
     {
-        runDisposer( this.disposers.get( path ) );
-    }
-
-    private void runDisposer( final Runnable callback )
-    {
-        if ( callback != null )
-        {
-            callback.run();
-        }
+        this.disposers.values().forEach( Runnable::run );
     }
 
     public void dispose()
     {
-        this.disposers.values().forEach( this::runDisposer );
+        runDisposers();
     }
 
     @Override

@@ -30,4 +30,6 @@ public interface ScriptValue
     ScriptValue call( Object... args );
 
     JsonElement toJson();
+
+    Object getRaw();
 }

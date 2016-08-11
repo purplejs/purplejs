@@ -3,48 +3,30 @@ package io.purplejs.impl.executor;
 import java.util.Optional;
 import java.util.function.Supplier;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
 import io.purplejs.Engine;
-import io.purplejs.Environment;
 import io.purplejs.context.ExecutionContext;
 import io.purplejs.exception.NotFoundException;
-import io.purplejs.resource.ResourceLoader;
 import io.purplejs.resource.ResourcePath;
+import io.purplejs.value.ScriptValue;
+import jdk.nashorn.api.scripting.ScriptObjectMirror;
 
 import static org.junit.Assert.*;
 
 public class ExecutionContextImplTest
+    extends AbstractExecutorTest
 {
     private ExecutionContext context;
 
-    private ScriptExecutor executor;
-
     private Engine engine;
-
-    private Environment environment;
 
     private ResourcePath resource;
 
-    private ResourceLoader resourceLoader;
-
-    @Before
-    public void setUp()
+    @Override
+    protected void doConfigure()
     {
-        this.resourceLoader = Mockito.mock( ResourceLoader.class );
-
-        this.engine = Mockito.mock( Engine.class );
-        this.environment = Mockito.mock( Environment.class );
-        Mockito.when( this.environment.getInstance( Engine.class ) ).thenReturn( this.engine );
-
-        Mockito.when( this.environment.getResourceLoader() ).thenReturn( this.resourceLoader );
-        Mockito.when( this.environment.getClassLoader() ).thenReturn( getClass().getClassLoader() );
-
-        this.executor = Mockito.mock( ScriptExecutor.class );
-        Mockito.when( this.executor.getEnvironment() ).thenReturn( this.environment );
-
         this.resource = ResourcePath.from( "/a/b/test.js" );
         this.context = new ExecutionContextImpl( this.executor, this.resource );
     }
@@ -76,13 +58,11 @@ public class ExecutionContextImplTest
     @Test
     public void require()
     {
-        Mockito.when( this.resourceLoader.exists( ResourcePath.from( "/a/b/other.js" ) ) ).thenReturn( true );
-
-        final Object expected = new Object();
-        Mockito.when( this.executor.executeRequire( ResourcePath.from( "/a/b/other.js" ) ) ).thenReturn( expected );
+        addResource( ResourcePath.from( "/a/b/other.js" ), "module.exports = {};" );
 
         final Object result = this.context.require( "/a/b/other.js" );
-        assertSame( expected, result );
+        assertNotNull( result );
+        assertTrue( result instanceof ScriptObjectMirror );
     }
 
     @Test(expected = NotFoundException.class)
@@ -101,20 +81,24 @@ public class ExecutionContextImplTest
     @Test
     public void disposer()
     {
-        final Runnable func = () -> {
-        };
+        final Runnable func = Mockito.mock( Runnable.class );
 
         this.context.disposer( func );
-        Mockito.verify( this.executor, Mockito.times( 1 ) ).registerDisposer( this.resource, func );
+        this.executor.dispose();
+
+        Mockito.verify( func, Mockito.times( 1 ) ).run();
     }
 
     @Test
     public void registerMock()
     {
+        addResource( ResourcePath.from( "/a/b/other.js" ), "module.exports = {};" );
+
         final Object mock = new Object();
         this.context.registerMock( "/a/b/other.js", mock );
 
-        Mockito.verify( this.executor, Mockito.times( 1 ) ).registerMock( ResourcePath.from( "/a/b/other.js" ), mock );
+        final Object result = this.context.require( "/a/b/other.js" );
+        assertSame( mock, result );
     }
 
     @Test
@@ -171,12 +155,16 @@ public class ExecutionContextImplTest
     @Test
     public void toScriptValue()
     {
-        // TODO: Test toScriptValue
+        final ScriptValue value = this.context.toScriptValue( 12 );
+        assertNotNull( value );
+        assertTrue( value.isValue() );
     }
 
     @Test
     public void toNativeObject()
     {
-        // TODO: Test toNativeObject
+        final Object value = this.context.toNativeObject( 12 );
+        assertNotNull( value );
+        assertEquals( 12, value );
     }
 }

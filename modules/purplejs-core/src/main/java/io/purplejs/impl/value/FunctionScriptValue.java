@@ -55,4 +55,10 @@ final class FunctionScriptValue
 
         return result;
     }
+
+    @Override
+    public Object getRaw()
+    {
+        return this.value;
+    }
 }

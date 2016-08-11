@@ -10,12 +10,10 @@ import io.purplejs.Engine;
 import io.purplejs.impl.executor.ScriptExecutorImpl;
 import io.purplejs.impl.nashorn.NashornRuntime;
 import io.purplejs.impl.nashorn.NashornRuntimeFactory;
-import io.purplejs.impl.value.ScriptExportsImpl;
 import io.purplejs.registry.Registry;
 import io.purplejs.resource.ResourceLoader;
 import io.purplejs.resource.ResourcePath;
 import io.purplejs.value.ScriptExports;
-import io.purplejs.value.ScriptValue;
 
 final class EngineImpl
     implements Engine
@@ -76,11 +74,9 @@ final class EngineImpl
     }
 
     @Override
-    public ScriptExports require( final ResourcePath resource )
+    public ScriptExports require( final ResourcePath path )
     {
-        final Object exports = this.executor.executeRequire( resource );
-        final ScriptValue value = this.executor.newScriptValue( exports );
-        return new ScriptExportsImpl( resource, value );
+        return this.executor.executeMain( path );
     }
 
     @Override

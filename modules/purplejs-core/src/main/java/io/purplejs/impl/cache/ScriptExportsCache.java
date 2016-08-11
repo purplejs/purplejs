@@ -2,10 +2,10 @@ package io.purplejs.impl.cache;
 
 import java.util.Map;
 
+import com.google.common.collect.Maps;
+
 import io.purplejs.resource.Resource;
 import io.purplejs.resource.ResourcePath;
-
-import com.google.common.collect.Maps;
 
 public final class ScriptExportsCache
 {
@@ -25,13 +25,24 @@ public final class ScriptExportsCache
     public void put( final Resource resource, final Object value )
     {
         final ResourcePath key = resource.getPath();
-        this.cache.put( key, new ScriptExportEntry( value, resource.getLastModified() ) );
+        this.cache.put( key, new ScriptExportEntry( resource, value ) );
     }
 
-    public boolean isExpired( final Resource resource )
+    public void clear()
     {
-        final ResourcePath key = resource.getPath();
-        final ScriptExportEntry entry = this.cache.get( key );
-        return entry == null || resource.getLastModified() > entry.timestamp;
+        this.cache.clear();
+    }
+
+    public boolean isExpired()
+    {
+        for ( final ScriptExportEntry entry : this.cache.values() )
+        {
+            if ( entry.isExpired() )
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

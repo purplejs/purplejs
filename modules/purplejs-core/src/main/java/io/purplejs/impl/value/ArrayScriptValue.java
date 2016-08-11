@@ -55,4 +55,10 @@ final class ArrayScriptValue
 
         return json;
     }
+
+    @Override
+    public Object getRaw()
+    {
+        return this.value;
+    }
 }

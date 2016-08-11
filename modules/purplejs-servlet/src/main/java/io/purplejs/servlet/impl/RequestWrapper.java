@@ -13,7 +13,7 @@ import io.purplejs.http.Headers;
 import io.purplejs.http.MultipartForm;
 import io.purplejs.http.Parameters;
 import io.purplejs.http.Request;
-import io.purplejs.util.ExceptionHelper;
+import io.purplejs.exception.ExceptionHelper;
 
 public final class RequestWrapper
     implements Request

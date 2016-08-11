@@ -6,7 +6,6 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import io.purplejs.value.ScriptValue;
-import jdk.nashorn.api.scripting.JSObject;
 import jdk.nashorn.api.scripting.ScriptObjectMirror;
 
 final class ObjectScriptValue
@@ -56,5 +55,11 @@ final class ObjectScriptValue
         }
 
         return json;
+    }
+
+    @Override
+    public Object getRaw()
+    {
+        return this.value;
     }
 }
