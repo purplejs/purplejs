@@ -5,7 +5,6 @@ import org.junit.Test;
 import org.springframework.mock.web.MockHttpServletRequest;
 
 import com.google.common.base.Charsets;
-import com.google.common.io.ByteSource;
 
 import io.purplejs.http.Headers;
 import io.purplejs.http.Parameters;
@@ -39,9 +38,20 @@ public class RequestWrapperTest
 
     @Test
     public void getMultipart()
+        throws Exception
     {
+        this.request.setContentType( "multipart/form-data" );
+
         final Request wrapper = createWrapper();
         assertNotNull( wrapper.getMultipart() );
+        assertEquals( 0, wrapper.getBody().size() );
+    }
+
+    @Test
+    public void getMultipart_notMultipart()
+    {
+        final Request wrapper = createWrapper();
+        assertNull( wrapper.getMultipart() );
     }
 
     @Test
@@ -113,7 +123,7 @@ public class RequestWrapperTest
     {
         this.request.setContent( null );
         final Request wrapper1 = createWrapper();
-        assertEquals( ByteSource.empty(), wrapper1.getBody() );
+        assertEquals( 0, wrapper1.getBody().size() );
 
         this.request.setContent( "hello".getBytes( Charsets.UTF_8 ) );
 
