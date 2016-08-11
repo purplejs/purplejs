@@ -9,10 +9,17 @@ publishing {
     }
 }
 
+def propOrEnv( String prop, String env )
+{
+    project.hasProperty( prop ) ? project.property( prop ) : System.getenv( env )
+}
+
 bintray {
-    user = getProperty( 'bintrayUser' )
-    key = getProperty( 'bintrayKey' )
+    user = propOrEnv( 'bintrayUser', 'BINTRAY_USER' )
+    key = propOrEnv( 'bintrayKey', 'BINTRAY_KEY' )
     publications = ['mavenJava']
+    publish = true
+    override = false
 
     pkg {
         repo = 'maven'
@@ -24,6 +31,7 @@ bintray {
         licenses = ['Apache-2.0']
         labels = ['purplejs', 'java', 'javascript']
         publicDownloadNumbers = true
+        githubRepo = 'purplejs/purplejs'
 
         version {
             vcsTag = "v$project.version"
