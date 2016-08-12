@@ -5,8 +5,8 @@ import org.mockito.Mockito;
 
 import io.purplejs.RunMode;
 import io.purplejs.exception.NotFoundException;
-import io.purplejs.resource.Resource;
 import io.purplejs.resource.ResourcePath;
+import io.purplejs.testing.MockResource;
 import io.purplejs.value.ScriptExports;
 
 import static org.junit.Assert.*;
@@ -59,7 +59,7 @@ public class ScriptExecutorImplTest
 
         final ResourcePath path = ResourcePath.from( "/a.js" );
         this.executor.registerDisposer( path, disposer );
-        final Resource resource = addResource( path, "module.exports = {};" );
+        final MockResource resource = addResource( path.toString(), "module.exports = {};" );
 
         final ScriptExports exports1 = this.executor.executeMain( path );
         Mockito.verify( disposer, Mockito.times( 0 ) ).run();
@@ -68,13 +68,12 @@ public class ScriptExecutorImplTest
         assertSame( exports1.getValue().getRaw(), exports2.getValue().getRaw() );
         Mockito.verify( disposer, Mockito.times( 0 ) ).run();
 
-        Mockito.when( resource.getLastModified() ).thenReturn( System.currentTimeMillis() + 1000 );
+        resource.setLastModified( System.currentTimeMillis() + 1000 );
 
         final ScriptExports exports3 = this.executor.executeMain( path );
 
         if ( shoudRefresh )
         {
-            System.out.println( exports2.getValue().getValue() );
             assertNotSame( exports2.getValue().getRaw(), exports3.getValue().getRaw() );
             Mockito.verify( disposer, Mockito.times( 1 ) ).run();
         }

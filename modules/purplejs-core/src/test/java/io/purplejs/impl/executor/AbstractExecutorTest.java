@@ -1,25 +1,18 @@
 package io.purplejs.impl.executor;
 
-import java.util.Map;
-
 import org.junit.Before;
 import org.mockito.Mockito;
 
-import com.google.common.base.Charsets;
-import com.google.common.collect.Maps;
-import com.google.common.io.ByteSource;
-
 import io.purplejs.Environment;
 import io.purplejs.impl.nashorn.NashornRuntimeFactory;
-import io.purplejs.resource.Resource;
-import io.purplejs.resource.ResourceLoader;
-import io.purplejs.resource.ResourcePath;
+import io.purplejs.testing.MockResource;
+import io.purplejs.testing.MockResourceLoader;
 
 public abstract class AbstractExecutorTest
 {
     ScriptExecutorImpl executor;
 
-    private Map<ResourcePath, Resource> resources;
+    private MockResourceLoader resources;
 
     Environment environment;
 
@@ -28,9 +21,8 @@ public abstract class AbstractExecutorTest
     {
         this.environment = Mockito.mock( Environment.class );
 
-        this.resources = Maps.newHashMap();
-        final ResourceLoader loader = path -> resources.get( path );
-        Mockito.when( this.environment.getResourceLoader() ).thenReturn( loader );
+        this.resources = new MockResourceLoader();
+        Mockito.when( this.environment.getResourceLoader() ).thenReturn( this.resources );
         Mockito.when( this.environment.getClassLoader() ).thenReturn( getClass().getClassLoader() );
 
         this.executor = new ScriptExecutorImpl();
@@ -41,16 +33,9 @@ public abstract class AbstractExecutorTest
         this.executor.init();
     }
 
-    final Resource addResource( final ResourcePath path, final String value )
+    final MockResource addResource( final String path, final String text )
     {
-        final Resource resource = Mockito.mock( Resource.class );
-        Mockito.when( resource.getBytes() ).thenReturn( ByteSource.wrap( value.getBytes( Charsets.UTF_8 ) ) );
-        Mockito.when( resource.getLastModified() ).thenReturn( 0L );
-        Mockito.when( resource.getPath() ).thenReturn( path );
-        Mockito.when( resource.getSize() ).thenReturn( (long) value.length() );
-
-        this.resources.put( path, resource );
-        return resource;
+        return this.resources.addResource( path, text );
     }
 
     protected abstract void doConfigure();

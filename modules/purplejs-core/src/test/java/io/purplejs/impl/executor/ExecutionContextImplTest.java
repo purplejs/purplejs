@@ -20,8 +20,6 @@ public class ExecutionContextImplTest
 {
     private ExecutionContext context;
 
-    private Engine engine;
-
     private ResourcePath resource;
 
     @Override
@@ -46,7 +44,10 @@ public class ExecutionContextImplTest
     @Test
     public void getEngine()
     {
-        assertSame( this.engine, this.context.getEngine() );
+        final Engine engine = Mockito.mock( Engine.class );
+        Mockito.when( this.environment.getInstance( Engine.class ) ).thenReturn( engine );
+
+        assertSame( engine, this.context.getEngine() );
     }
 
     @Test
@@ -58,7 +59,7 @@ public class ExecutionContextImplTest
     @Test
     public void require()
     {
-        addResource( ResourcePath.from( "/a/b/other.js" ), "module.exports = {};" );
+        addResource( "/a/b/other.js", "module.exports = {};" );
 
         final Object result = this.context.require( "/a/b/other.js" );
         assertNotNull( result );
@@ -92,7 +93,7 @@ public class ExecutionContextImplTest
     @Test
     public void registerMock()
     {
-        addResource( ResourcePath.from( "/a/b/other.js" ), "module.exports = {};" );
+        addResource( "/a/b/other.js", "module.exports = {};" );
 
         final Object mock = new Object();
         this.context.registerMock( "/a/b/other.js", mock );
