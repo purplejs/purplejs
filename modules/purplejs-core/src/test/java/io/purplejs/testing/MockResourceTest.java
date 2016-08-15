@@ -19,7 +19,7 @@ public class MockResourceTest
 
         assertEquals( path, resource.getPath() );
         assertEquals( 5, resource.getSize() );
-        assertTrue( resource.getLastModified() >= System.currentTimeMillis() );
+        assertTrue( resource.getLastModified() > 0 );
         assertEquals( "hello", resource.getBytes().asCharSource( Charsets.UTF_8 ).read() );
 
         resource.setLastModified( 0 );
