@@ -1,11 +1,14 @@
-var http = require('/lib/http');
+// var http = require('/lib/http');
 
 exports.get = function (req) {
+    print(req.uri);
+
     return {
-        body: req
+        body: 'ss'
     };
 };
 
+/*
 exports.post = function (req) {
 
 
@@ -14,3 +17,4 @@ exports.post = function (req) {
         body: http.bodyAsJson()
     };
 };
+*/
