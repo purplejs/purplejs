@@ -1,4 +1,5 @@
 /* global __ */
+var assert = Java.type('org.junit.Assert');
 
 var executed = false;
 
@@ -6,6 +7,6 @@ __.disposer(function () {
     executed = true;
 });
 
-exports.isExecuted = function () {
-    return executed;
-};
+assert.assertFalse(executed);
+__.engine.dispose();
+assert.assertTrue(executed);

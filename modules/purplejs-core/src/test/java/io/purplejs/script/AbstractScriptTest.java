@@ -17,8 +17,6 @@ public abstract class AbstractScriptTest
 {
     private Engine engine;
 
-    private boolean runDisposer = true;
-
     @Before
     public final void setUp()
     {
@@ -33,10 +31,7 @@ public abstract class AbstractScriptTest
     @After
     public final void tearDown()
     {
-        if ( this.runDisposer )
-        {
-            this.engine.dispose();
-        }
+        this.engine.dispose();
     }
 
     private void configure( final EngineBuilder builder )
@@ -68,15 +63,5 @@ public abstract class AbstractScriptTest
     protected final ScriptExports run( final ResourcePath path )
     {
         return this.engine.require( path );
-    }
-
-    final Engine getEngine()
-    {
-        return this.engine;
-    }
-
-    final void setRunDisposer( final boolean flag )
-    {
-        this.runDisposer = flag;
     }
 }
