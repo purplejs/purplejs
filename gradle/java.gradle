@@ -1,6 +1,5 @@
 apply plugin: 'java'
 apply plugin: 'jacoco'
-apply from: "$rootDir/gradle/dependencies.gradle"
 
 def defaultEncoding = 'UTF-8'
 

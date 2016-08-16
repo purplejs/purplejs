@@ -1,5 +1,3 @@
-apply from: "$rootDir/gradle/java.gradle"
-
 dependencies {
     compile "com.google.guava:guava:19.0"
     compile "com.google.code.gson:gson:2.7"

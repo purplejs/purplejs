@@ -4,7 +4,6 @@ buildscript {
 
 apply plugin: 'java-base'
 apply plugin: 'build-dashboard'
-apply plugin: 'jacoco'
 
 ext {
     leafProjects = subprojects
@@ -24,10 +23,7 @@ ext {
     isCi = System.getenv( "TRAVIS" ) != null
 }
 
-/*
 configure( javaProjects ) {
+    apply from: "$rootDir/gradle/dependencies.gradle"
     apply from: "$rootDir/gradle/java.gradle"
-    apply from: "$rootDir/gradle/coverage.gradle"
-    apply from: "$rootDir/gradle/publish.gradle"
 }
-*/
