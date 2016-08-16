@@ -6,7 +6,7 @@ import org.mockito.Mockito;
 import io.purplejs.RunMode;
 import io.purplejs.exception.NotFoundException;
 import io.purplejs.resource.ResourcePath;
-import io.purplejs.testing.MockResource;
+import io.purplejs.testing.mock.MockResource;
 import io.purplejs.value.ScriptExports;
 
 import static org.junit.Assert.*;

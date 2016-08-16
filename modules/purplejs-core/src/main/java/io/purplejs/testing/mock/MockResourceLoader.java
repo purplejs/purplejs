@@ -1,4 +1,4 @@
-package io.purplejs.testing;
+package io.purplejs.testing.mock;
 
 import java.util.Map;
 

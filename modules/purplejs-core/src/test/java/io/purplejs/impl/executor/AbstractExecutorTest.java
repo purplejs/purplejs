@@ -5,8 +5,8 @@ import org.mockito.Mockito;
 
 import io.purplejs.Environment;
 import io.purplejs.impl.nashorn.NashornRuntimeFactory;
-import io.purplejs.testing.MockResource;
-import io.purplejs.testing.MockResourceLoader;
+import io.purplejs.testing.mock.MockResource;
+import io.purplejs.testing.mock.MockResourceLoader;
 
 public abstract class AbstractExecutorTest
 {

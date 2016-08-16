@@ -1,4 +1,4 @@
-package io.purplejs.testing;
+package io.purplejs.testing.mock;
 
 import org.junit.Before;
 import org.junit.Test;

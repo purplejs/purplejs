@@ -3,6 +3,7 @@ include ':purplejs-http'
 include ':purplejs-servlet'
 include ':purplejs-boot'
 include ':purplejs-example'
+include ':purplejs-testing'
 
 rootProject.name = 'purplejs'
 
