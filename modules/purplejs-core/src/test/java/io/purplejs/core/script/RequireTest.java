@@ -25,4 +25,12 @@ public class RequireTest
         final ScriptExports exports = run( script );
         assertNotNull( exports );
     }
+
+    @Test
+    public void require_json()
+    {
+        final ResourcePath script = ResourcePath.from( "/require/file.json" );
+        final ScriptExports exports = run( script );
+        assertNotNull( exports );
+    }
 }

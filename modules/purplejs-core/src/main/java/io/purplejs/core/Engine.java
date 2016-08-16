@@ -8,10 +8,5 @@ public interface Engine
 {
     ScriptExports require( ResourcePath resource );
 
-    // ScriptValue execute( ResourcePath resource );
-
-    // ScriptExports require( Resource resource );
-    // ScriptValue execute( Resource resource );
-
     void dispose();
 }

@@ -121,14 +121,44 @@ public final class ScriptExecutorImpl
             return cached;
         }
 
+        final Object result = requireJsOrJson( resource );
+        this.exportsCache.put( resource, result );
+        return result;
+    }
+
+    private Object requireJsOrJson( final Resource resource )
+    {
+        final String ext = resource.getPath().getExtension();
+        if ( ext.equals( "json" ) )
+        {
+            return requireJson( resource );
+        }
+
+        return requireJs( resource );
+    }
+
+    private Object requireJs( final Resource resource )
+    {
+        final ResourcePath path = resource.getPath();
+
         final Bindings bindings = new SimpleBindings();
         bindings.put( ScriptEngine.FILENAME, path.toString() );
 
         final ScriptObjectMirror func = (ScriptObjectMirror) doExecute( bindings, resource );
-        final Object result = executeRequire( path, func );
+        return executeRequire( path, func );
+    }
 
-        this.exportsCache.put( resource, result );
-        return result;
+    private Object requireJson( final Resource resource )
+    {
+        try
+        {
+            final String text = resource.getBytes().asCharSource( Charsets.UTF_8 ).read();
+            return this.nashornRuntime.parseJson( text );
+        }
+        catch ( final Exception e )
+        {
+            throw ErrorHelper.INSTANCE.handleError( e );
+        }
     }
 
     @Override

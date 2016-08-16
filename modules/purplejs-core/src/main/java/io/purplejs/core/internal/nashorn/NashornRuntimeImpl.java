@@ -50,4 +50,10 @@ final class NashornRuntimeImpl
     {
         return (String) this.jsonProto.callMember( "stringify", value );
     }
+
+    @Override
+    public ScriptObjectMirror parseJson( final String value )
+    {
+        return (ScriptObjectMirror) this.jsonProto.callMember( "parse", value );
+    }
 }
