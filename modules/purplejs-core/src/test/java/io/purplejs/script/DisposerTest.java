@@ -16,7 +16,7 @@ public class DisposerTest
         setRunDisposer( false );
 
         final ResourcePath path = ResourcePath.from( "/disposer/disposer-test.js" );
-        final ScriptExports exports = run( path );
+        final ScriptExports exports = run(  "/disposer/disposer-test.js" );
 
         assertNotNull( exports );
         assertEquals( path, exports.getResource() );

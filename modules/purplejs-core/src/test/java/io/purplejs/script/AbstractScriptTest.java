@@ -11,7 +11,6 @@ import io.purplejs.core.RunMode;
 import io.purplejs.core.resource.ResourceLoaderBuilder;
 import io.purplejs.core.resource.ResourcePath;
 import io.purplejs.core.value.ScriptExports;
-import io.purplejs.core.value.ScriptValue;
 
 public abstract class AbstractScriptTest
     implements EngineModule
@@ -71,23 +70,12 @@ public abstract class AbstractScriptTest
         return this.engine.require( path );
     }
 
-    protected final ScriptValue run( final String path, final String func, final Object... args )
-    {
-        return run( ResourcePath.from( path ), func, args );
-    }
-
-    protected final ScriptValue run( final ResourcePath path, final String func, final Object... args )
-    {
-        final ScriptExports exports = run( path );
-        return exports.executeMethod( func, args );
-    }
-
-    protected final Engine getEngine()
+    final Engine getEngine()
     {
         return this.engine;
     }
 
-    protected final void setRunDisposer( final boolean flag )
+    final void setRunDisposer( final boolean flag )
     {
         this.runDisposer = flag;
     }
