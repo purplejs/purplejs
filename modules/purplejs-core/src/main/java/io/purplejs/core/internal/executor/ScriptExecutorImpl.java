@@ -160,7 +160,7 @@ public final class ScriptExecutorImpl
             final Function<String, Object> requireFunc = context::require;
             final Function<String, ResourcePath> resolveFunc = context::resolve;
 
-            return func.call( null, context, requireFunc, resolveFunc );
+            return func.call( null, context, requireFunc, resolveFunc, context.getLogger() );
         }
         catch ( final Exception e )
         {

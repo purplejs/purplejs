@@ -1,4 +1,4 @@
-package io.purplejs.boot.impl;
+package io.purplejs.boot.internal.servlet;
 
 import java.io.IOException;
 import java.net.URL;
@@ -53,6 +53,7 @@ public final class AssetFilter
     @Override
     public void destroy()
     {
+        // Do nothing
     }
 
     private URL findResource( final HttpServletRequest req )

@@ -11,11 +11,9 @@ import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 
 import com.google.common.io.Files;
-import com.typesafe.config.Config;
-import com.typesafe.config.ConfigFactory;
 
-import io.purplejs.boot.impl.AssetFilter;
-import io.purplejs.boot.impl.BannerPrinter;
+import io.purplejs.boot.internal.servlet.AssetFilter;
+import io.purplejs.boot.internal.util.BannerPrinter;
 import io.purplejs.servlet.ScriptServlet;
 
 public final class MainApp

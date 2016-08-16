@@ -8,6 +8,7 @@ import org.mockito.Mockito;
 
 import io.purplejs.core.Engine;
 import io.purplejs.core.context.ExecutionContext;
+import io.purplejs.core.context.ScriptLogger;
 import io.purplejs.core.exception.NotFoundException;
 import io.purplejs.core.resource.ResourcePath;
 import io.purplejs.core.value.ScriptValue;
@@ -167,5 +168,12 @@ public class ExecutionContextImplTest
         final Object value = this.context.toNativeObject( 12 );
         assertNotNull( value );
         assertEquals( 12, value );
+    }
+
+    @Test
+    public void getLogger()
+    {
+        final ScriptLogger logger = this.context.getLogger();
+        assertNotNull( logger );
     }
 }

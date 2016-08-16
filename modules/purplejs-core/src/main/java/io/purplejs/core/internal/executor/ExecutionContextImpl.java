@@ -6,6 +6,7 @@ import java.util.function.Supplier;
 import io.purplejs.core.Engine;
 import io.purplejs.core.Environment;
 import io.purplejs.core.context.ExecutionContext;
+import io.purplejs.core.context.ScriptLogger;
 import io.purplejs.core.exception.NotFoundException;
 import io.purplejs.core.internal.resolver.RequirePathResolver;
 import io.purplejs.core.internal.resolver.ResourcePathResolver;
@@ -30,6 +31,8 @@ final class ExecutionContextImpl
 
     private final JsObjectConverter converter;
 
+    private final ScriptLogger logger;
+
     ExecutionContextImpl( final ScriptExecutor executor, final ResourcePath resource )
     {
         this.executor = executor;
@@ -40,6 +43,7 @@ final class ExecutionContextImpl
         final ResourcePath dir = this.resource.resolve( ".." );
         this.requirePathResolver = new RequirePathResolver( this.environment.getResourceLoader(), dir );
         this.standardPathResolver = new StandardPathResolver( dir );
+        this.logger = new ScriptLoggerImpl( this.resource );
     }
 
     @Override
@@ -64,6 +68,12 @@ final class ExecutionContextImpl
     public Registry getRegistry()
     {
         return this.environment;
+    }
+
+    @Override
+    public ScriptLogger getLogger()
+    {
+        return this.logger;
     }
 
     @Override

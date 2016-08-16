@@ -17,6 +17,8 @@ public interface ExecutionContext
 
     Environment getEnvironment();
 
+    ScriptLogger getLogger();
+
     Registry getRegistry();
 
     Object require( String path );

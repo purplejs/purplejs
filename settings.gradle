@@ -4,6 +4,8 @@ include ':purplejs-servlet'
 include ':purplejs-boot'
 include ':purplejs-example'
 include ':purplejs-testing'
+include ':purplejs-mustache'
+include ':purplejs-router'
 
 rootProject.name = 'purplejs'
 

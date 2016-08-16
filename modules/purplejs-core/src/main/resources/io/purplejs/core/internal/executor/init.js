@@ -1,4 +1,4 @@
-(function (__, require, resolve) {
+(function (__, require, resolve, log) {
     var exports = {};
 
     var module = {};

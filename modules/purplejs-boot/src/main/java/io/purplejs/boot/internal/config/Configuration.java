@@ -1,4 +1,4 @@
-package io.purplejs.boot.impl.config;
+package io.purplejs.boot.internal.config;
 
 import java.util.Map;
 
