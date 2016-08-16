@@ -6,7 +6,7 @@ import com.google.common.net.MediaType;
 import io.purplejs.http.Cookie;
 import io.purplejs.http.Response;
 import io.purplejs.http.Status;
-import io.purplejs.value.ScriptValue;
+import io.purplejs.core.value.ScriptValue;
 
 public final class ScriptToResponse
 {

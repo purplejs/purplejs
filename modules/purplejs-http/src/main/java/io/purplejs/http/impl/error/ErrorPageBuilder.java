@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
-import io.purplejs.exception.ProblemException;
+import io.purplejs.core.exception.ProblemException;
 
 final class ErrorPageBuilder
 {

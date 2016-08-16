@@ -1,11 +1,11 @@
 package io.purplejs.http.impl.handler;
 
-import io.purplejs.Engine;
+import io.purplejs.core.Engine;
 import io.purplejs.http.error.ExceptionHandler;
 import io.purplejs.http.handler.HttpHandler;
 import io.purplejs.http.handler.HttpHandlerFactory;
 import io.purplejs.http.impl.error.ExceptionRenderer;
-import io.purplejs.resource.ResourcePath;
+import io.purplejs.core.resource.ResourcePath;
 
 public final class HttpHandlerFactoryImpl
     implements HttpHandlerFactory

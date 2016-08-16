@@ -7,8 +7,8 @@ import com.google.common.collect.Lists;
 import io.purplejs.http.Request;
 import io.purplejs.http.Status;
 import io.purplejs.http.error.ExceptionInfo;
-import io.purplejs.resource.Resource;
-import io.purplejs.resource.ResourcePath;
+import io.purplejs.core.resource.Resource;
+import io.purplejs.core.resource.ResourcePath;
 
 final class ExceptionInfoImpl
     implements ExceptionInfo

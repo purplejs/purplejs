@@ -9,8 +9,8 @@ import io.purplejs.http.Status;
 import io.purplejs.http.impl.RequestAccessor;
 import io.purplejs.http.impl.request.RequestWrapper;
 import io.purplejs.http.impl.response.ScriptToResponse;
-import io.purplejs.value.ScriptExports;
-import io.purplejs.value.ScriptValue;
+import io.purplejs.core.value.ScriptExports;
+import io.purplejs.core.value.ScriptValue;
 
 final class ServeRequestCommand
     implements Function<ScriptExports, Response>

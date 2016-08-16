@@ -7,7 +7,7 @@ import com.google.common.io.ByteSource;
 import com.google.common.net.MediaType;
 import com.google.gson.JsonObject;
 
-import io.purplejs.exception.ProblemException;
+import io.purplejs.core.exception.ProblemException;
 import io.purplejs.http.Request;
 import io.purplejs.http.Response;
 import io.purplejs.http.error.ExceptionHandler;

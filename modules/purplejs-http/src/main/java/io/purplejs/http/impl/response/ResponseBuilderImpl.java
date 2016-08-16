@@ -11,7 +11,7 @@ import io.purplejs.http.Headers;
 import io.purplejs.http.Response;
 import io.purplejs.http.ResponseBuilder;
 import io.purplejs.http.Status;
-import io.purplejs.value.ScriptValue;
+import io.purplejs.core.value.ScriptValue;
 
 public final class ResponseBuilderImpl
     implements ResponseBuilder

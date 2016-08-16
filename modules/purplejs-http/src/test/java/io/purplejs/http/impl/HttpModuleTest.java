@@ -2,8 +2,8 @@ package io.purplejs.http.impl;
 
 import org.junit.Test;
 
-import io.purplejs.Engine;
-import io.purplejs.EngineBuilder;
+import io.purplejs.core.Engine;
+import io.purplejs.core.EngineBuilder;
 import io.purplejs.http.handler.HttpHandlerFactory;
 
 import static org.junit.Assert.*;

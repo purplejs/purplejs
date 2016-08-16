@@ -2,7 +2,7 @@ package io.purplejs.script;
 
 import org.junit.Test;
 
-import io.purplejs.resource.ResourcePath;
+import io.purplejs.core.resource.ResourcePath;
 
 public class MockTest
     extends AbstractScriptTest

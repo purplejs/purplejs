@@ -3,15 +3,15 @@ package io.purplejs.testing;
 import org.junit.After;
 import org.junit.Before;
 
-import io.purplejs.Engine;
-import io.purplejs.EngineBinder;
-import io.purplejs.EngineBuilder;
-import io.purplejs.EngineModule;
-import io.purplejs.RunMode;
-import io.purplejs.resource.ResourceLoaderBuilder;
-import io.purplejs.resource.ResourcePath;
-import io.purplejs.value.ScriptExports;
-import io.purplejs.value.ScriptValue;
+import io.purplejs.core.Engine;
+import io.purplejs.core.EngineBinder;
+import io.purplejs.core.EngineBuilder;
+import io.purplejs.core.EngineModule;
+import io.purplejs.core.RunMode;
+import io.purplejs.core.resource.ResourceLoaderBuilder;
+import io.purplejs.core.resource.ResourcePath;
+import io.purplejs.core.value.ScriptExports;
+import io.purplejs.core.value.ScriptValue;
 
 // TODO: Move to testing project...
 public abstract class TestingSupport

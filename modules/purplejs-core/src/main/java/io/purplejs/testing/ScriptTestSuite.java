@@ -2,9 +2,9 @@ package io.purplejs.testing;
 
 import java.util.List;
 
-import io.purplejs.Engine;
-import io.purplejs.EngineBuilder;
-import io.purplejs.EngineModule;
+import io.purplejs.core.Engine;
+import io.purplejs.core.EngineBuilder;
+import io.purplejs.core.EngineModule;
 
 public interface ScriptTestSuite
     extends EngineModule

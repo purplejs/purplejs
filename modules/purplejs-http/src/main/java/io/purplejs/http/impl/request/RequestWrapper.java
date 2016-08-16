@@ -9,8 +9,8 @@ import com.google.common.net.HttpHeaders;
 import io.purplejs.http.Headers;
 import io.purplejs.http.Parameters;
 import io.purplejs.http.Request;
-import io.purplejs.json.JsonGenerator;
-import io.purplejs.json.JsonSerializable;
+import io.purplejs.core.json.JsonGenerator;
+import io.purplejs.core.json.JsonSerializable;
 
 public final class RequestWrapper
     implements JsonSerializable

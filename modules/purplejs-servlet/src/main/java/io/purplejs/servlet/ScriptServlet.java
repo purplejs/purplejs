@@ -8,9 +8,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import io.purplejs.Engine;
-import io.purplejs.EngineBinder;
-import io.purplejs.EngineBuilder;
+import io.purplejs.core.Engine;
+import io.purplejs.core.EngineBinder;
+import io.purplejs.core.EngineBuilder;
 import io.purplejs.http.Response;
 import io.purplejs.http.handler.HttpHandler;
 import io.purplejs.http.handler.HttpHandlerFactory;

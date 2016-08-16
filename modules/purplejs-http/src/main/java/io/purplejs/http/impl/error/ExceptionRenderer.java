@@ -5,15 +5,15 @@ import java.util.List;
 
 import com.google.common.base.Charsets;
 
-import io.purplejs.exception.ProblemException;
+import io.purplejs.core.exception.ProblemException;
 import io.purplejs.http.Request;
 import io.purplejs.http.Response;
 import io.purplejs.http.Status;
 import io.purplejs.http.error.ExceptionHandler;
 import io.purplejs.http.error.ExceptionInfo;
-import io.purplejs.resource.Resource;
-import io.purplejs.resource.ResourceLoader;
-import io.purplejs.resource.ResourcePath;
+import io.purplejs.core.resource.Resource;
+import io.purplejs.core.resource.ResourceLoader;
+import io.purplejs.core.resource.ResourcePath;
 
 public final class ExceptionRenderer
 {

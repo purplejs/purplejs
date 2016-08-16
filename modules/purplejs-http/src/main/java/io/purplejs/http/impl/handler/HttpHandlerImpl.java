@@ -4,14 +4,14 @@ import java.util.function.Function;
 
 import com.google.common.io.ByteSource;
 
-import io.purplejs.Engine;
+import io.purplejs.core.Engine;
 import io.purplejs.http.Request;
 import io.purplejs.http.Response;
 import io.purplejs.http.Status;
 import io.purplejs.http.handler.HttpHandler;
 import io.purplejs.http.impl.error.ExceptionRenderer;
-import io.purplejs.resource.ResourcePath;
-import io.purplejs.value.ScriptExports;
+import io.purplejs.core.resource.ResourcePath;
+import io.purplejs.core.value.ScriptExports;
 
 final class HttpHandlerImpl
     implements HttpHandler

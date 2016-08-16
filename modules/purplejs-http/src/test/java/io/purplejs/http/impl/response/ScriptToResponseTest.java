@@ -12,9 +12,9 @@ import com.google.common.net.MediaType;
 import io.purplejs.http.Cookie;
 import io.purplejs.http.Response;
 import io.purplejs.http.Status;
-import io.purplejs.resource.Resource;
+import io.purplejs.core.resource.Resource;
 import io.purplejs.testing.TestingSupport;
-import io.purplejs.value.ScriptValue;
+import io.purplejs.core.value.ScriptValue;
 
 import static org.junit.Assert.*;
 

@@ -9,7 +9,7 @@ import io.purplejs.http.Cookie;
 import io.purplejs.http.Headers;
 import io.purplejs.http.Response;
 import io.purplejs.http.Status;
-import io.purplejs.value.ScriptValue;
+import io.purplejs.core.value.ScriptValue;
 
 final class ResponseImpl
     implements Response

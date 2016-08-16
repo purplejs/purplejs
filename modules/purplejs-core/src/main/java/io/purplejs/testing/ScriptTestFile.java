@@ -5,8 +5,8 @@ import java.util.Set;
 
 import com.google.common.collect.Maps;
 
-import io.purplejs.Engine;
-import io.purplejs.resource.ResourcePath;
+import io.purplejs.core.Engine;
+import io.purplejs.core.resource.ResourcePath;
 
 public final class ScriptTestFile
 {

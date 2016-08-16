@@ -9,7 +9,7 @@ import com.google.common.io.ByteSource;
 import com.google.common.io.ByteStreams;
 import com.google.common.net.MediaType;
 
-import io.purplejs.exception.ExceptionHelper;
+import io.purplejs.core.exception.ExceptionHelper;
 import io.purplejs.http.Headers;
 import io.purplejs.http.MultipartForm;
 import io.purplejs.http.Parameters;

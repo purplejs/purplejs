@@ -5,7 +5,7 @@ import java.util.List;
 import com.google.common.io.ByteSource;
 import com.google.common.net.MediaType;
 
-import io.purplejs.value.ScriptValue;
+import io.purplejs.core.value.ScriptValue;
 
 public interface Response
 {

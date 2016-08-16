@@ -8,7 +8,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.mock.web.MockServletConfig;
 
-import io.purplejs.resource.ResourcePath;
+import io.purplejs.core.resource.ResourcePath;
 
 import static org.junit.Assert.*;
 

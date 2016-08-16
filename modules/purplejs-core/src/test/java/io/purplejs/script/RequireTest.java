@@ -2,8 +2,8 @@ package io.purplejs.script;
 
 import org.junit.Test;
 
-import io.purplejs.resource.ResourcePath;
-import io.purplejs.value.ScriptExports;
+import io.purplejs.core.resource.ResourcePath;
+import io.purplejs.core.value.ScriptExports;
 
 import static org.junit.Assert.*;
 

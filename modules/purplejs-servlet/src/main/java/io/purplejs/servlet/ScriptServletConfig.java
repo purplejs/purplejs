@@ -14,7 +14,7 @@ import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
-import io.purplejs.resource.ResourcePath;
+import io.purplejs.core.resource.ResourcePath;
 
 final class ScriptServletConfig
 {

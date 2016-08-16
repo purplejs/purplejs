@@ -4,7 +4,7 @@ import com.google.common.io.ByteSource;
 import com.google.common.net.MediaType;
 
 import io.purplejs.http.impl.response.ResponseBuilderImpl;
-import io.purplejs.value.ScriptValue;
+import io.purplejs.core.value.ScriptValue;
 
 public interface ResponseBuilder
 {

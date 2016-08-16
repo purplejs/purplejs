@@ -2,8 +2,8 @@ package io.purplejs.script;
 
 import org.junit.Test;
 
-import io.purplejs.EngineBinder;
-import io.purplejs.resource.ResourcePath;
+import io.purplejs.core.EngineBinder;
+import io.purplejs.core.resource.ResourcePath;
 
 public class GlobalTest
     extends AbstractScriptTest

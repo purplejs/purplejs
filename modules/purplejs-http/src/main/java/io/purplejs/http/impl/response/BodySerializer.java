@@ -3,8 +3,8 @@ package io.purplejs.http.impl.response;
 import com.google.common.base.Charsets;
 import com.google.common.io.ByteSource;
 
-import io.purplejs.resource.Resource;
-import io.purplejs.value.ScriptValue;
+import io.purplejs.core.resource.Resource;
+import io.purplejs.core.value.ScriptValue;
 
 final class BodySerializer
 {

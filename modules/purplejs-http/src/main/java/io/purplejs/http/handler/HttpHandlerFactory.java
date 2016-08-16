@@ -1,6 +1,6 @@
 package io.purplejs.http.handler;
 
-import io.purplejs.resource.ResourcePath;
+import io.purplejs.core.resource.ResourcePath;
 
 public interface HttpHandlerFactory
 {

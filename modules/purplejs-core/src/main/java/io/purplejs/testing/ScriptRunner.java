@@ -12,9 +12,9 @@ import org.junit.runner.notification.RunNotifier;
 import com.google.common.collect.Lists;
 import com.google.common.reflect.ClassPath;
 
-import io.purplejs.Engine;
-import io.purplejs.EngineBuilder;
-import io.purplejs.resource.ResourcePath;
+import io.purplejs.core.Engine;
+import io.purplejs.core.EngineBuilder;
+import io.purplejs.core.resource.ResourcePath;
 
 public final class ScriptRunner
     extends Runner

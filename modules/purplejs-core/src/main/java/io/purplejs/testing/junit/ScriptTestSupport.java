@@ -6,9 +6,9 @@ import org.junit.runner.RunWith;
 
 import com.google.common.collect.Lists;
 
-import io.purplejs.Engine;
-import io.purplejs.EngineBinder;
-import io.purplejs.EngineBuilder;
+import io.purplejs.core.Engine;
+import io.purplejs.core.EngineBinder;
+import io.purplejs.core.EngineBuilder;
 
 @RunWith(ScriptRunner.class)
 public abstract class ScriptTestSupport

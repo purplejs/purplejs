@@ -11,7 +11,7 @@ import org.springframework.mock.web.MockServletConfig;
 import com.google.common.base.Charsets;
 import com.google.common.io.ByteSource;
 
-import io.purplejs.Engine;
+import io.purplejs.core.Engine;
 import io.purplejs.http.Request;
 import io.purplejs.http.Response;
 import io.purplejs.http.ResponseBuilder;
