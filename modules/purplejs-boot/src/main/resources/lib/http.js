@@ -1,6 +1,6 @@
 /* global __ */
 
-var helper = __.newBean('io.purplejs.http.impl.lib.RequestHelper');
+var helper = __.newBean('io.purplejs.http.internal.lib.RequestHelper');
 helper.init(__.registry);
 
 function rawRequest() {

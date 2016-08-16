@@ -1,1 +1,1 @@
-io.purplejs.http.impl.HttpModule
+io.purplejs.http.internal.HttpModule

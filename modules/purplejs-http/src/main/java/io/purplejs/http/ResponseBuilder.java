@@ -3,7 +3,7 @@ package io.purplejs.http;
 import com.google.common.io.ByteSource;
 import com.google.common.net.MediaType;
 
-import io.purplejs.http.impl.response.ResponseBuilderImpl;
+import io.purplejs.http.internal.response.ResponseBuilderImpl;
 import io.purplejs.core.value.ScriptValue;
 
 public interface ResponseBuilder

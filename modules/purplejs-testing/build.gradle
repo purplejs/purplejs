@@ -1,3 +1,4 @@
 dependencies {
     compile project( ':purplejs-http' )
+    compile 'junit:junit:4.12'
 }
