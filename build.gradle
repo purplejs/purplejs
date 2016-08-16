@@ -19,9 +19,15 @@ allprojects {
     }
 }
 
+ext {
+    isSnapshot = version.endsWith( "SNAPSHOT" )
+    isCi = System.getenv( "TRAVIS" ) != null
+}
+
+/*
 configure( javaProjects ) {
     apply from: "$rootDir/gradle/java.gradle"
-    // apply from: "$rootDir/gradle/integration-test.gradle"
     apply from: "$rootDir/gradle/coverage.gradle"
     apply from: "$rootDir/gradle/publish.gradle"
 }
+*/

@@ -1,6 +1,8 @@
+apply from: "$rootDir/gradle/java.gradle"
+
 dependencies {
-    compile 'com.google.guava:guava:19.0'
-    compile 'com.google.code.gson:gson:2.7'
-    compile 'org.slf4j:slf4j-api:1.7.12'
-    testRuntime 'org.slf4j:slf4j-simple:1.7.12'
+    compile "com.google.guava:guava:${versions.guava}"
+    compile "com.google.code.gson:gson:${versions.gson}"
+    compile "org.slf4j:slf4j-api:${versions.slf4j}"
+    testRuntime "org.slf4j:slf4j-simple:${versions.slf4j}"
 }

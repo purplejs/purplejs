@@ -1,33 +1,20 @@
 apply plugin: 'java'
 apply plugin: 'jacoco'
+apply from: "$rootDir/gradle/dependencies.gradle"
 
 def defaultEncoding = 'UTF-8'
 
-compileJava {
+sourceCompatibility = '1.8'
+targetCompatibility = sourceCompatibility
+
+tasks.withType( AbstractCompile ) {
     options.encoding = defaultEncoding
     options.compilerArgs = ['-Xlint:-options']
-}
-
-compileTestJava {
-    options.encoding = defaultEncoding
-    options.compilerArgs = ['-Xlint:-options']
-}
-
-configurations {
-    testOutput.extendsFrom testRuntime
 }
 
 dependencies {
-    testCompile 'junit:junit:4.12'
-    testCompile 'org.mockito:mockito-core:1.10.19'
-    testOutput sourceSets.test.output
-}
-
-task testJar( type: Jar ) {
-    group 'build'
-    description 'Creates a jar file with all test sources.'
-    from sourceSets.test.output
-    classifier = 'test'
+    testCompile "junit:junit:${versions.junit}"
+    testCompile "org.mockito:mockito-core:${versions.mockito}"
 }
 
 task sourceJar( type: Jar ) {
@@ -36,16 +23,16 @@ task sourceJar( type: Jar ) {
 }
 
 artifacts {
-    testOutput testJar
     archives sourceJar
 }
-
-sourceCompatibility = '1.8'
-targetCompatibility = sourceCompatibility
 
 test {
     systemProperty 'java.awt.headless', 'true'
     jvmArgs '-Xmx2048m'
+
+    testLogging {
+        exceptionFormat "full"
+    }
 }
 
 jar {
