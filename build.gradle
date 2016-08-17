@@ -11,7 +11,7 @@ ext {
 }
 
 allprojects {
-    group = 'io.purlplejs'
+    group = 'io.purplejs'
 
     repositories {
         jcenter()
@@ -26,4 +26,5 @@ ext {
 configure( javaProjects ) {
     apply from: "$rootDir/gradle/dependencies.gradle"
     apply from: "$rootDir/gradle/java.gradle"
+    apply from: "$rootDir/gradle/maven.gradle"
 }

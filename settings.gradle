@@ -1,10 +1,10 @@
 include ':purplejs-core'
 include ':purplejs-http'
-// include ':purplejs-servlet'
-// include ':purplejs-boot'
+include ':purplejs-servlet'
+include ':purplejs-boot'
 // include ':purplejs-example'
 // include ':purplejs-testing'
-// include ':purplejs-gradle'
+include ':purplejs-gradle'
 
 rootProject.name = 'purplejs'
 

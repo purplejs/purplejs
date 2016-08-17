@@ -1,1 +1,4 @@
-dependencies {}
+dependencies {
+    compile gradleApi()
+    testCompile gradleTestKit()
+}
