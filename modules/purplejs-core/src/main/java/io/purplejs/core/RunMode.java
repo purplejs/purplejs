@@ -2,9 +2,7 @@ package io.purplejs.core;
 
 public enum RunMode
 {
-    PROD,
-    TEST,
-    DEV;
+    PROD, TEST, DEV;
 
     private static RunMode MODE;
 
@@ -29,21 +27,6 @@ public enum RunMode
         {
             PROD.set();
         }
-    }
-
-    public static boolean isDevMode()
-    {
-        return get() == DEV;
-    }
-
-    public static boolean isTestMode()
-    {
-        return get() == TEST;
-    }
-
-    public static boolean isProdMode()
-    {
-        return get() == PROD;
     }
 
     public void set()

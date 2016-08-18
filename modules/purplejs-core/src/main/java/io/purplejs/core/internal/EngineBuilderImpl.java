@@ -132,7 +132,7 @@ public final class EngineBuilderImpl
 
     private ResourceLoader createResourceLoader()
     {
-        if ( !RunMode.isDevMode() )
+        if ( RunMode.get() != RunMode.DEV )
         {
             return this.resourceLoader;
         }

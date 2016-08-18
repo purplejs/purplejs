@@ -50,7 +50,7 @@ public final class ErrorHelper
             return e;
         }
 
-        if ( RunMode.isTestMode() )
+        if ( RunMode.get() == RunMode.TEST )
         {
             rewriteScriptReferences( e );
         }

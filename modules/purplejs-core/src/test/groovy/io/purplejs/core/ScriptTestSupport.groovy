@@ -1,20 +1,20 @@
-package io.purplejs.core.script
+package io.purplejs.core
 
-import io.purplejs.core.*
+import io.purplejs.core.mock.MockResource
 import io.purplejs.core.mock.MockResourceLoader
 import io.purplejs.core.resource.ResourceLoaderBuilder
 import io.purplejs.core.resource.ResourcePath
+import io.purplejs.core.value.ScriptExports
 import spock.lang.Specification
 
-class SomeTest
+abstract class ScriptTestSupport
     extends Specification
-    implements EngineModule
 {
     private Engine engine;
 
     private MockResourceLoader resourceLoader;
 
-    def setup()
+    public final void setup()
     {
         final EngineBuilder builder = EngineBuilder.newBuilder();
         configureEngine( builder );
@@ -24,7 +24,7 @@ class SomeTest
         RunMode.TEST.set();
     }
 
-    def cleanup()
+    public final void cleanup()
     {
         this.engine.dispose();
     }
@@ -33,44 +33,37 @@ class SomeTest
     {
         this.resourceLoader = new MockResourceLoader();
 
-        builder.module( this );
-
         final ResourceLoaderBuilder resourceLoaderBuilder = ResourceLoaderBuilder.newBuilder();
         resourceLoaderBuilder.from( getClass().getClassLoader() );
         resourceLoaderBuilder.add( this.resourceLoader );
 
         builder.resourceLoader( resourceLoaderBuilder.build() );
+        builder.module( new EngineModule() {
+            @Override
+            void configure( final EngineBinder binder )
+            {
+                configureModule( binder );
+            }
+        } );
     }
 
-    @Override
-    public void configure( final EngineBinder binder )
+    protected void configureModule( final EngineBinder binder )
     {
-        binder.globalVariable( "__TEST__", this );
+        binder.globalVariable( "t", this );
     }
 
-    protected final void file( final String path, final String content )
+    protected final MockResource file( final String path, final String content )
     {
-        this.resourceLoader.addResource( path, content );
+        return this.resourceLoader.addResource( path, content.trim() );
     }
 
-    protected final void run( final String path )
+    protected final ScriptExports run( final String path )
     {
-        this.engine.require( ResourcePath.from( path ) );
+        return this.engine.require( ResourcePath.from( path ) );
     }
 
-    def "test something"()
+    public void assertEquals( final Object expected, final Object actual )
     {
-        setup:
-        file( '/a/b.js', '''
-            log.debug('debug message');
-            log.info('%s message', 'info');
-            log.warning('%s %s', 'warning', 'message');
-            log.error('error %s', 'message');
-        ''' );
-
-        when:
-        run( '/a/b.js' );
-
-        then: true;
+        assert expected == actual;
     }
 }

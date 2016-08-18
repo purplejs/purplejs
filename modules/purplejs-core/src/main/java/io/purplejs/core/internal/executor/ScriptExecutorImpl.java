@@ -93,7 +93,7 @@ public final class ScriptExecutorImpl
 
     private void expireCacheIfNeeded()
     {
-        if ( !RunMode.isDevMode() )
+        if ( RunMode.get() != RunMode.DEV )
         {
             return;
         }

@@ -6,20 +6,8 @@
  * @module lib/core
  */
 
-var ByteSource = Java.type('com.google.common.io.ByteSource');
-var Charsets = Java.type('com.google.common.base.Charsets');
-
-function isByteSource(value) {
-    return value instanceof ByteSource;
-}
-
-function toCharSource(value) {
-    if (isByteSource(value)) {
-        return value.asCharSource(Charsets.UTF_8);
-    }
-
-    return undefined;
-}
+var helper = __.newBean('io.purplejs.core.internal.lib.CoreLibHelper');
+var resourceLoader = __.environment.resourceLoader;
 
 /**
  * Read text from a stream.
@@ -28,8 +16,7 @@ function toCharSource(value) {
  * @returns {string} Returns the text read from stream.
  */
 exports.readText = function (stream) {
-    var chars = toCharSource(stream);
-    return chars ? chars.read() : '';
+    return helper.readText(stream);
 };
 
 /**
@@ -39,8 +26,7 @@ exports.readText = function (stream) {
  * @returns {string[]} Returns lines as an array.
  */
 exports.readLines = function (stream) {
-    var chars = toCharSource(stream);
-    return chars ? __.toNativeObject(chars.readLines()) : [];
+    return __.toNativeObject(helper.readLines(stream));
 };
 
 /**
@@ -50,6 +36,7 @@ exports.readLines = function (stream) {
  * @param {function} func Callback function to be called for each line.
  */
 exports.processLines = function (stream, func) {
+    helper.processLines(stream, func);
 };
 
 /**
@@ -59,11 +46,7 @@ exports.processLines = function (stream, func) {
  * @returns {number} Returns the size of a stream.
  */
 exports.streamSize = function (stream) {
-    if (isByteSource(stream)) {
-        return stream.size();
-    }
-
-    return 0;
+    return helper.streamSize(stream);
 };
 
 /**
@@ -73,8 +56,7 @@ exports.streamSize = function (stream) {
  * @returns {*} A new stream.
  */
 exports.newStream = function (text) {
-    var bytes = text.getBytes();
-    return ByteSource.wrap(bytes);
+    return helper.newStream(text);
 };
 
 /**
@@ -89,8 +71,9 @@ exports.mimeType = function (name) {
 /**
  * Loads a resource.
  *
- * @param {*} key Resource key, string or url to load.
+ * @param {*} path Resource path to load.
  * @returns {*} A stream for the resource or undefined.
  */
-exports.loadResource = function (key) {
+exports.loadResource = function (path) {
+    return helper.loadResource(resourceLoader, path);
 };
