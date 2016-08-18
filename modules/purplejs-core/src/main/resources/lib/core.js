@@ -6,6 +6,21 @@
  * @module lib/core
  */
 
+var ByteSource = Java.type('com.google.common.io.ByteSource');
+var Charsets = Java.type('com.google.common.base.Charsets');
+
+function isByteSource(value) {
+    return value instanceof ByteSource;
+}
+
+function toCharSource(value) {
+    if (isByteSource(value)) {
+        return value.asCharSource(Charsets.UTF_8);
+    }
+
+    return undefined;
+}
+
 /**
  * Read text from a stream.
  *
@@ -13,6 +28,8 @@
  * @returns {string} Returns the text read from stream.
  */
 exports.readText = function (stream) {
+    var chars = toCharSource(stream);
+    return chars ? chars.read() : '';
 };
 
 /**
@@ -22,6 +39,8 @@ exports.readText = function (stream) {
  * @returns {string[]} Returns lines as an array.
  */
 exports.readLines = function (stream) {
+    var chars = toCharSource(stream);
+    return chars ? __.toNativeObject(chars.readLines()) : [];
 };
 
 /**
@@ -40,6 +59,11 @@ exports.processLines = function (stream, func) {
  * @returns {number} Returns the size of a stream.
  */
 exports.streamSize = function (stream) {
+    if (isByteSource(stream)) {
+        return stream.size();
+    }
+
+    return 0;
 };
 
 /**
@@ -49,6 +73,8 @@ exports.streamSize = function (stream) {
  * @returns {*} A new stream.
  */
 exports.newStream = function (text) {
+    var bytes = text.getBytes();
+    return ByteSource.wrap(bytes);
 };
 
 /**

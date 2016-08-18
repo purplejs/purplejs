@@ -13,7 +13,7 @@ public class ResolveTest
     @Test
     public void resolve()
     {
-        final ResourcePath path = ResourcePath.from( "/resolve/resolve-test.js" );
+        final ResourcePath path = ResourcePath.from( "/app/resolve/resolve-test.js" );
         final ScriptExports exports = run( path );
 
         assertNotNull( exports );

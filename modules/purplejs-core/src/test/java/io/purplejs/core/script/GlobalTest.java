@@ -18,12 +18,12 @@ public class GlobalTest
     @Test
     public void testScope()
     {
-        run( ResourcePath.from( "/global/scope-test.js" ) );
+        run( ResourcePath.from( "/app/global/scope-test.js" ) );
     }
 
     @Test
     public void testVariable()
     {
-        run( ResourcePath.from( "/global/variable-test.js" ) );
+        run( ResourcePath.from( "/app/global/variable-test.js" ) );
     }
 }

@@ -10,6 +10,6 @@ public class MockTest
     @Test
     public void testMock()
     {
-        run( ResourcePath.from( "/mock/mock-test.js" ) );
+        run( ResourcePath.from( "/app/mock/mock-test.js" ) );
     }
 }

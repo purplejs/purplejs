@@ -46,7 +46,7 @@ public abstract class AbstractScriptTest
 
     private void configure( final ResourceLoaderBuilder builder )
     {
-        builder.from( getClass().getClassLoader(), "/app" );
+        builder.from( getClass().getClassLoader() );
     }
 
     @Override
@@ -63,5 +63,10 @@ public abstract class AbstractScriptTest
     protected final ScriptExports run( final ResourcePath path )
     {
         return this.engine.require( path );
+    }
+
+    protected final void run( final String path, final String name )
+    {
+        run( path ).executeMethod( name );
     }
 }

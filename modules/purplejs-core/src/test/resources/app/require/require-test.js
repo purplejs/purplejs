@@ -4,11 +4,8 @@ var assert = Java.type('org.junit.Assert');
 var other = require('./other.js');
 assert.assertEquals('Hello World!', other.hello('World'));
 
-other = require('/require/other.js');
+other = require('/app/require/other.js');
 assert.assertEquals('Hello World!', other.hello('World'));
-
-var util = require('util');
-assert.assertEquals('Hello from Lib!', util.hello());
 
 var all1 = require('./export/all1');
 assert.assertEquals('1', all1.a);

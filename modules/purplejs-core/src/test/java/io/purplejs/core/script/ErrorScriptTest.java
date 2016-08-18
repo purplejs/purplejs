@@ -14,7 +14,7 @@ public class ErrorScriptTest
     @Test
     public void compileError()
     {
-        final ResourcePath path = ResourcePath.from( "/error/compile-error.js" );
+        final ResourcePath path = ResourcePath.from( "/app/error/compile-error.js" );
 
         try
         {
@@ -31,7 +31,7 @@ public class ErrorScriptTest
     @Test
     public void runtimeError()
     {
-        final ResourcePath path = ResourcePath.from( "/error/runtime-error.js" );
+        final ResourcePath path = ResourcePath.from( "/app/error/runtime-error.js" );
         final ScriptExports exports = run( path );
 
         assertNotNull( exports );
@@ -51,7 +51,7 @@ public class ErrorScriptTest
     @Test
     public void runtimeErrorInRequire()
     {
-        final ResourcePath path = ResourcePath.from( "/error/runtime-error-require.js" );
+        final ResourcePath path = ResourcePath.from( "/app/error/runtime-error-require.js" );
         final ScriptExports exports = run( path );
 
         assertNotNull( exports );
@@ -64,7 +64,7 @@ public class ErrorScriptTest
         catch ( final ProblemException e )
         {
             assertEquals( 1, e.getLineNumber() );
-            assertEquals( ResourcePath.from( "/error/compile-error.js" ), e.getPath() );
+            assertEquals( ResourcePath.from( "/app/error/compile-error.js" ), e.getPath() );
         }
     }
 }

@@ -13,7 +13,7 @@ public class RequireTest
     @Test
     public void require()
     {
-        final ResourcePath script = ResourcePath.from( "/require/require-test.js" );
+        final ResourcePath script = ResourcePath.from( "/app/require/require-test.js" );
         final ScriptExports exports = run( script );
         assertNotNull( exports );
     }
@@ -21,7 +21,7 @@ public class RequireTest
     @Test
     public void require_3rd()
     {
-        final ResourcePath script = ResourcePath.from( "/require/3rd/require-3rd-test.js" );
+        final ResourcePath script = ResourcePath.from( "/app/require/3rd/require-3rd-test.js" );
         final ScriptExports exports = run( script );
         assertNotNull( exports );
     }
@@ -29,7 +29,7 @@ public class RequireTest
     @Test
     public void require_json()
     {
-        final ResourcePath script = ResourcePath.from( "/require/file.json" );
+        final ResourcePath script = ResourcePath.from( "/app/require/file.json" );
         final ScriptExports exports = run( script );
         assertNotNull( exports );
     }

@@ -14,7 +14,7 @@ public class GeneralScriptTest
     @Test
     public void empty()
     {
-        final ResourcePath path = ResourcePath.from( "/empty-test.js" );
+        final ResourcePath path = ResourcePath.from( "/app/empty-test.js" );
         final ScriptExports exports = run( path );
 
         assertNotNull( exports );
@@ -25,7 +25,7 @@ public class GeneralScriptTest
     @Test
     public void executeExported()
     {
-        final ResourcePath path = ResourcePath.from( "/export-test.js" );
+        final ResourcePath path = ResourcePath.from( "/app/export-test.js" );
         final ScriptExports exports = run( path );
 
         assertNotNull( exports );
@@ -37,7 +37,7 @@ public class GeneralScriptTest
     @Test
     public void executeExported_objectArg()
     {
-        final ResourcePath path = ResourcePath.from( "/export-test.js" );
+        final ResourcePath path = ResourcePath.from( "/app/export-test.js" );
         final ScriptExports exports = run( path );
 
         assertNotNull( exports );
@@ -56,7 +56,7 @@ public class GeneralScriptTest
     @Test
     public void cacheTest()
     {
-        final ResourcePath path = ResourcePath.from( "/empty-test.js" );
+        final ResourcePath path = ResourcePath.from( "/app/empty-test.js" );
 
         final ScriptExports exports1 = run( path );
         final ScriptExports exports2 = run( path );

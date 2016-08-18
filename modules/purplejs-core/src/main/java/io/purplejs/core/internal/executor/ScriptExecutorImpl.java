@@ -237,6 +237,6 @@ public final class ScriptExecutorImpl
     @Override
     public NashornRuntime getNashornRuntime()
     {
-        return null;
+        return this.nashornRuntime;
     }
 }
