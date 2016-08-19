@@ -7,22 +7,22 @@ import spock.lang.Specification
 class MockResourceTest
     extends Specification
 {
-    def "getters"()
+    def "accessors"()
     {
         when:
         def path = ResourcePath.from( "/a/b.js" );
         def resource = new MockResource( path, "hello".getBytes( Charsets.UTF_8 ) );
 
         then:
-        resource.getPath() == path;
-        resource.getSize() == 5;
-        resource.getLastModified() > 0;
-        resource.getBytes().asCharSource( Charsets.UTF_8 ).read() == 'hello';
+        resource.path == path;
+        resource.size == 5;
+        resource.lastModified > 0;
+        resource.bytes.asCharSource( Charsets.UTF_8 ).read() == 'hello';
 
         when:
-        resource.setLastModified( 0 );
+        resource.lastModified = 0;
 
         then:
-        resource.getLastModified() == 0
+        resource.lastModified == 0
     }
 }

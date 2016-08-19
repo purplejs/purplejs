@@ -25,12 +25,12 @@ final class ClassLoaderResourceLoader
         final String location = resolveLocation( path );
 
         final URL url = this.loader.getResource( location );
-        if ( url != null )
+        if ( url == null )
         {
-            return new UrlResource( path, url );
+            return null;
         }
 
-        return null;
+        return new UrlResource( path, url );
     }
 
     private String normalizePath( final String path )
