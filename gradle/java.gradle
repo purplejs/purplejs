@@ -11,10 +11,7 @@ tasks.withType( AbstractCompile ) {
     options.compilerArgs = ['-Xlint:-options']
 }
 
-dependencies {
-    testCompile "junit:junit:${versions.junit}"
-    testCompile "org.mockito:mockito-core:${versions.mockito}"
-}
+dependencies {}
 
 task sourceJar( type: Jar ) {
     classifier 'sources'
