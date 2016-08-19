@@ -14,7 +14,7 @@ public final class MockResource
 
     private long lastModified;
 
-    MockResource( final ResourcePath path, final byte[] bytes )
+    public MockResource( final ResourcePath path, final byte[] bytes )
     {
         this.path = path;
         this.bytes = bytes;
