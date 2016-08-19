@@ -2,7 +2,6 @@ package io.purplejs.core.internal.resolver;
 
 import java.util.List;
 
-import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.Lists;
 
 import io.purplejs.core.resource.ResourceLoader;
@@ -29,7 +28,7 @@ public final class RequirePathResolver
             return resolveFileOrDir( this.baseDir, path );
         }
 
-        return resolveSearchPath( this.baseDir, path );
+        return resolveSearchPath( path );
     }
 
     private boolean exists( final ResourcePath path )
@@ -93,9 +92,9 @@ public final class RequirePathResolver
         return null;
     }
 
-    private ResourcePath resolveSearchPath( final ResourcePath dir, final String path )
+    private ResourcePath resolveSearchPath( final String path )
     {
-        for ( final ResourcePath searchPath : findSearchPaths( dir ) )
+        for ( final ResourcePath searchPath : findSearchPaths() )
         {
             final ResourcePath resourcePath = resolveFileOrDir( searchPath, path );
             if ( resourcePath != null )
@@ -107,23 +106,10 @@ public final class RequirePathResolver
         return null;
     }
 
-    @VisibleForTesting
-    static List<ResourcePath> findSearchPaths( final ResourcePath dir )
+    private static List<ResourcePath> findSearchPaths()
     {
         final List<ResourcePath> paths = Lists.newArrayList();
         paths.add( ResourcePath.from( "/lib" ) );
-
-        ResourcePath current = dir;
-        while ( current != null )
-        {
-            if ( !current.getName().equals( "node_modules" ) )
-            {
-                paths.add( current.resolve( "./node_modules" ) );
-            }
-
-            current = current.getParent();
-        }
-
         return paths;
     }
 }

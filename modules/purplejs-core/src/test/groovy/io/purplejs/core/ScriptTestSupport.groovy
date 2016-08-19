@@ -38,13 +38,7 @@ abstract class ScriptTestSupport
         resourceLoaderBuilder.add( this.resourceLoader );
 
         builder.resourceLoader( resourceLoaderBuilder.build() );
-        builder.module( new EngineModule() {
-            @Override
-            void configure( final EngineBinder binder )
-            {
-                configureModule( binder );
-            }
-        } );
+        builder.module { binder -> configureModule( binder ) };
     }
 
     protected void configureModule( final EngineBinder binder )

@@ -17,9 +17,9 @@ class ErrorScriptTest
         run( '/test.js' );
 
         then:
-        ProblemException ex = thrown()
-        ex.lineNumber == 1
-        ex.path.path == '/test.js'
+        ProblemException ex = thrown();
+        ex.lineNumber == 1;
+        ex.path.path == '/test.js';
     }
 
     def "runtime error"()
@@ -35,9 +35,9 @@ class ErrorScriptTest
         run( '/test.js' ).executeMethod( 'hello' );
 
         then:
-        ProblemException ex = thrown()
-        ex.lineNumber == 2
-        ex.path.path == '/test.js'
+        ProblemException ex = thrown();
+        ex.lineNumber == 2;
+        ex.path.path == '/test.js';
     }
 
     def "compile error in require"()
@@ -57,9 +57,9 @@ class ErrorScriptTest
         run( '/test.js' ).executeMethod( 'hello' );
 
         then:
-        ProblemException ex = thrown()
-        ex.lineNumber == 1
-        ex.path.path == '/error.js'
+        ProblemException ex = thrown();
+        ex.lineNumber == 1;
+        ex.path.path == '/error.js';
     }
 }
 

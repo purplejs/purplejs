@@ -35,13 +35,13 @@ public final class ScriptValueFactoryImpl
 
         if ( value instanceof ScriptObjectMirror )
         {
-            return newValue( (ScriptObjectMirror) value );
+            return newValueFromObjectMirror( (ScriptObjectMirror) value );
         }
 
         return new ScalarScriptValue( value );
     }
 
-    private ScriptValue newValue( final ScriptObjectMirror value )
+    private ScriptValue newValueFromObjectMirror( final ScriptObjectMirror value )
     {
         if ( value.isFunction() )
         {
