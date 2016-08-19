@@ -1,6 +1,5 @@
 package io.purplejs.http;
 
-import com.google.common.base.MoreObjects;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 
@@ -101,20 +100,5 @@ public final class Cookie
     public void setMaxAge( final int maxAge )
     {
         this.maxAge = maxAge;
-    }
-
-    @Override
-    public String toString()
-    {
-        return MoreObjects.toStringHelper( this ).
-            add( "name", this.name ).
-            add( "value", this.value ).
-            add( "domain", this.domain ).
-            add( "path", this.path ).
-            add( "comment", this.comment ).
-            add( "secure", this.secure ).
-            add( "httpOnly", this.httpOnly ).
-            add( "maxAge", this.maxAge ).
-            toString();
     }
 }

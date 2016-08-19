@@ -1,5 +1,5 @@
 include ':purplejs-core'
-// include ':purplejs-http'
+include ':purplejs-http'
 // include ':purplejs-servlet'
 // include ':purplejs-boot'
 // include ':purplejs-example'

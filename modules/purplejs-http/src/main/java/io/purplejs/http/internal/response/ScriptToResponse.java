@@ -3,10 +3,10 @@ package io.purplejs.http.internal.response;
 import com.google.common.net.HttpHeaders;
 import com.google.common.net.MediaType;
 
+import io.purplejs.core.value.ScriptValue;
 import io.purplejs.http.Cookie;
 import io.purplejs.http.Response;
 import io.purplejs.http.Status;
-import io.purplejs.core.value.ScriptValue;
 
 public final class ScriptToResponse
 {
@@ -21,13 +21,28 @@ public final class ScriptToResponse
 
         builder.value( value );
         populateStatus( builder, value.getMember( "status" ) );
-        populateContentType( builder, value.getMember( "contentType" ) );
-        populateBody( builder, value.getMember( "body" ) );
+
+        final ScriptValue body = value.getMember( "body" );
+        final MediaType type = findContentType( value.getMember( "contentType" ), body );
+        populateContentType( builder, type );
+
+        populateBody( builder, body );
         populateHeaders( builder, value.getMember( "headers" ) );
         populateCookies( builder, value.getMember( "cookies" ) );
         setRedirect( builder, value.getMember( "redirect" ) );
 
         return builder.build();
+    }
+
+    private MediaType findContentType( final ScriptValue value, final ScriptValue body )
+    {
+        final String type = ( value != null ) ? value.getValue( String.class ) : null;
+        if ( type != null )
+        {
+            return MediaType.parse( type );
+        }
+
+        return new BodySerializer().findType( body );
     }
 
     private void populateStatus( final ResponseBuilderImpl builder, final ScriptValue value )
@@ -36,10 +51,9 @@ public final class ScriptToResponse
         builder.status( status != null ? Status.from( status ) : Status.OK );
     }
 
-    private void populateContentType( final ResponseBuilderImpl builder, final ScriptValue value )
+    private void populateContentType( final ResponseBuilderImpl builder, final MediaType type )
     {
-        final String type = ( value != null ) ? value.getValue( String.class ) : null;
-        builder.contentType( type != null ? MediaType.parse( type ) : MediaType.PLAIN_TEXT_UTF_8 );
+        builder.contentType( type != null ? type : MediaType.PLAIN_TEXT_UTF_8 );
     }
 
     private void populateBody( final ResponseBuilderImpl builder, final ScriptValue value )

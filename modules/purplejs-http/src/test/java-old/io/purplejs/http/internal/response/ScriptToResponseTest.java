@@ -21,6 +21,9 @@ import static org.junit.Assert.*;
 public class ScriptToResponseTest
     extends AbstractScriptTest
 {
+    private void mockScript(final String content){
+
+    }
     private Response toResponse( final String name, final Object... args )
     {
         final ScriptValue value = run( "/response/response-test.js", name, args );
