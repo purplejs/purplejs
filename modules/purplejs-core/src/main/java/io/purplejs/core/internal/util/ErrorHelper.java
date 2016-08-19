@@ -2,7 +2,6 @@ package io.purplejs.core.internal.util;
 
 import javax.script.ScriptException;
 
-import io.purplejs.core.RunMode;
 import io.purplejs.core.exception.ProblemException;
 import io.purplejs.core.resource.ResourcePath;
 import jdk.nashorn.api.scripting.NashornException;
@@ -50,11 +49,6 @@ public final class ErrorHelper
             return e;
         }
 
-        if ( RunMode.get() == RunMode.TEST )
-        {
-            rewriteScriptReferences( e );
-        }
-
         final ProblemException.Builder builder = ProblemException.newBuilder();
         builder.cause( e );
         builder.lineNumber( elem.getLineNumber() );
@@ -71,28 +65,5 @@ public final class ErrorHelper
     {
         final StackTraceElement[] elements = NashornException.getScriptFrames( e );
         return elements.length > 0 ? elements[0] : null;
-    }
-
-    private void rewriteScriptReferences( final Throwable e )
-    {
-        final StackTraceElement[] list = e.getStackTrace();
-        for ( int i = 0; i < list.length; i++ )
-        {
-            list[i] = rewriteScriptReference( list[i] );
-        }
-
-        e.setStackTrace( list );
-    }
-
-    private StackTraceElement rewriteScriptReference( final StackTraceElement elem )
-    {
-        final String fileName = elem.getFileName();
-        if ( ( fileName != null ) && !fileName.startsWith( "/" ) )
-        {
-            return elem;
-        }
-
-        final String name = ResourcePath.from( fileName ).getName();
-        return new StackTraceElement( elem.getClassName(), elem.getMethodName(), name, elem.getLineNumber() );
     }
 }

@@ -10,7 +10,7 @@ class ErrorScriptTest
     {
         setup:
         file( '/test.js', '''
-            unknown.variable;
+            %
         ''' );
 
         when:
@@ -60,6 +60,26 @@ class ErrorScriptTest
         ProblemException ex = thrown();
         ex.lineNumber == 1;
         ex.path.path == '/error.js';
+    }
+
+    def "error in require json"()
+    {
+        setup:
+        file( '/error.json', '''
+            {...
+        ''' );
+
+        file( '/test.js', '''
+            require('./error.json');
+        ''' );
+
+        when:
+        run( '/test.js' );
+
+        then:
+        ProblemException ex = thrown();
+        ex.lineNumber == 1;
+        ex.path.path == '/test.js';
     }
 }
 
