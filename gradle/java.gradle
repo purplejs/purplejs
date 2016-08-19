@@ -1,4 +1,5 @@
 apply plugin: 'java'
+apply plugin: 'groovy'
 apply plugin: 'jacoco'
 
 def defaultEncoding = 'UTF-8'
@@ -11,7 +12,12 @@ tasks.withType( AbstractCompile ) {
     options.compilerArgs = ['-Xlint:-options']
 }
 
-dependencies {}
+dependencies {
+    testRuntime "org.slf4j:slf4j-simple:${versions.slf4j}"
+    testCompile 'org.codehaus.groovy:groovy-all:2.4.7'
+    testCompile 'org.spockframework:spock-core:1.0-groovy-2.4'
+    testCompile 'cglib:cglib-nodep:3.2.4'
+}
 
 task sourceJar( type: Jar ) {
     classifier 'sources'
