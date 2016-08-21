@@ -60,15 +60,6 @@ exports.newStream = function (text) {
 };
 
 /**
- * Returns the mime-type from a name or extension.
- *
- * @param {string} name Name of file or extension.
- * @returns {string} Mime-type of name or extension.
- */
-exports.mimeType = function (name) {
-};
-
-/**
  * Loads a resource.
  *
  * @param {*} path Resource path to load.
