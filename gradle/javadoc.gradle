@@ -16,3 +16,14 @@ task allJavadoc( type: Javadoc ) {
         links( "https://google.github.io/guava/releases/${versions.guava}/api/docs/" )
     }
 }
+
+task javadocJar( type: Jar ) {
+    classifier 'javadoc'
+    from allJavadoc
+}
+
+artifacts {
+    archives javadocJar
+}
+
+jar.enabled = false
