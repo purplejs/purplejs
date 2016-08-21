@@ -171,14 +171,14 @@ class ExecutionContextImplTest
         result == expected;
     }
 
-    def "test getOptional"()
+    def "test getInstanceOrNull"()
     {
         setup:
         def expected = Optional.of( new MyTestBean() );
-        this.environment.getOptional( MyTestBean.class ) >> expected;
+        this.environment.getInstanceOrNull( MyTestBean.class ) >> expected;
 
         when:
-        def result = this.context.getOptional( MyTestBean.class.name );
+        def result = this.context.getInstanceOrNull( MyTestBean.class.name );
 
         then:
         result == expected;

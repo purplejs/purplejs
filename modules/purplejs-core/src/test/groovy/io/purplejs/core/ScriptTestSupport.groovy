@@ -20,8 +20,6 @@ abstract class ScriptTestSupport
         configureEngine( builder );
 
         this.engine = builder.build();
-
-        RunMode.TEST.set();
     }
 
     public final void cleanup()

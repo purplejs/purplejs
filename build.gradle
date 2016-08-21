@@ -23,8 +23,16 @@ ext {
     isCi = System.getenv( "TRAVIS" ) != null
 }
 
-configure( javaProjects ) {
+configure( allprojects ) {
     apply from: "$rootDir/gradle/dependencies.gradle"
+}
+
+configure( javaProjects ) {
     apply from: "$rootDir/gradle/java.gradle"
     apply from: "$rootDir/gradle/maven.gradle"
+}
+
+configure( rootProject ) {
+    apply from: "$rootDir/gradle/javadoc.gradle"
+    apply from: "$rootDir/gradle/coverage.gradle"
 }

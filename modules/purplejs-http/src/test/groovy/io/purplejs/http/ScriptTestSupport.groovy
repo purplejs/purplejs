@@ -3,7 +3,6 @@ package io.purplejs.http
 import io.purplejs.core.Engine
 import io.purplejs.core.EngineBinder
 import io.purplejs.core.EngineBuilder
-import io.purplejs.core.RunMode
 import io.purplejs.core.mock.MockResource
 import io.purplejs.core.mock.MockResourceLoader
 import io.purplejs.core.resource.ResourceLoaderBuilder
@@ -24,8 +23,6 @@ abstract class ScriptTestSupport
         configureEngine( builder );
 
         this.engine = builder.build();
-
-        RunMode.TEST.set();
     }
 
     public final void cleanup()

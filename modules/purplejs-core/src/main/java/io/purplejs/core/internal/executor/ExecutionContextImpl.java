@@ -1,6 +1,5 @@
 package io.purplejs.core.internal.executor;
 
-import java.util.Optional;
 import java.util.function.Supplier;
 
 import io.purplejs.core.Engine;
@@ -132,17 +131,17 @@ final class ExecutionContextImpl
     }
 
     @Override
+    public Object getInstanceOrNull( final String type )
+        throws Exception
+    {
+        return this.environment.getInstanceOrNull( forName( type ) );
+    }
+
+    @Override
     public Supplier<?> getProvider( final String type )
         throws Exception
     {
         return this.environment.getProvider( forName( type ) );
-    }
-
-    @Override
-    public Optional<?> getOptional( final String type )
-        throws Exception
-    {
-        return this.environment.getOptional( forName( type ) );
     }
 
     @Override

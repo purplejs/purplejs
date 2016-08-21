@@ -12,7 +12,7 @@ class RunModeTest
         def values = RunMode.values();
 
         then:
-        values.length == 3;
+        values.length == 2;
     }
 
     @Unroll
@@ -25,7 +25,6 @@ class RunModeTest
         expected     | value
         RunMode.DEV  | 'DEV'
         RunMode.PROD | 'PROD'
-        RunMode.TEST | 'TEST'
     }
 
     def "getCurrent"()
@@ -54,6 +53,5 @@ class RunModeTest
         value     | mode
         'unknown' | RunMode.PROD
         'dev'     | RunMode.DEV
-        'test'    | RunMode.TEST
     }
 }

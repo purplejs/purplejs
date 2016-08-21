@@ -92,31 +92,25 @@ class RegistryTest
         supplier3 == supplier4;
     }
 
-    def "getOptional"()
+    def "getInstanceOrNull"()
     {
         when:
-        def optional1 = this.registry.getOptional( MyObject1.class );
+        def instance1 = this.registry.getInstanceOrNull( MyObject1.class );
 
         then:
-        optional1 != null;
-        optional1.isPresent();
-        optional1.orElse( null ) != null;
+        instance1 != null;
 
         when:
-        def optional2 = this.registry.getOptional( MyObject2.class );
+        def instance2 = this.registry.getInstanceOrNull( MyObject2.class );
 
         then:
-        optional2 != null;
-        optional2.isPresent();
-        optional2.orElse( null ) != null;
+        instance2 != null;
 
         when:
-        def optional3 = this.registry.getOptional( MyObject3.class );
+        def instance3 = this.registry.getInstanceOrNull( MyObject3.class );
 
         then:
-        optional3 != null;
-        !optional3.isPresent();
-        optional3.orElse( null ) == null;
+        instance3 == null;
     }
 
     def "getInstance not found"()

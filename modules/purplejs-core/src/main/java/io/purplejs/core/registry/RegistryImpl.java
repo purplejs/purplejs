@@ -1,11 +1,8 @@
 package io.purplejs.core.registry;
 
-import java.util.Optional;
 import java.util.function.Supplier;
 
 import com.google.common.collect.ImmutableMap;
-
-import io.purplejs.core.registry.Registry;
 
 final class RegistryImpl
     implements Registry
@@ -24,10 +21,10 @@ final class RegistryImpl
     }
 
     @Override
-    public <T> Optional<T> getOptional( final Class<T> type )
+    public <T> T getInstanceOrNull( final Class<T> type )
     {
         final Supplier<T> binding = getBindingOrNull( type );
-        return binding != null ? Optional.ofNullable( binding.get() ) : Optional.empty();
+        return binding != null ? binding.get() : null;
     }
 
     @Override

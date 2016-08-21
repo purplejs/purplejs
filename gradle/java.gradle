@@ -41,3 +41,8 @@ jar {
         attributes( ['Implementation-Version': project.version] )
     }
 }
+
+jacocoTestReport {
+    group = 'Coverage'
+    description = 'Generates a single report from single project.'
+}

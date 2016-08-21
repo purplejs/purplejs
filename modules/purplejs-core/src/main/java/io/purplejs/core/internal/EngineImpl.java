@@ -1,7 +1,6 @@
 package io.purplejs.core.internal;
 
 import java.util.Map;
-import java.util.Optional;
 import java.util.function.Supplier;
 
 import com.google.common.collect.ImmutableMap;
@@ -62,9 +61,9 @@ final class EngineImpl
     }
 
     @Override
-    public <T> Optional<T> getOptional( final Class<T> type )
+    public <T> T getInstanceOrNull( final Class<T> type )
     {
-        return this.registry.getOptional( type );
+        return this.registry.getInstanceOrNull( type );
     }
 
     @Override

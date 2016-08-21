@@ -1,6 +1,5 @@
 package io.purplejs.core.context;
 
-import java.util.Optional;
 import java.util.function.Supplier;
 
 import io.purplejs.core.Engine;
@@ -36,10 +35,10 @@ public interface ExecutionContext
     Object getInstance( String type )
         throws Exception;
 
-    Supplier<?> getProvider( String type )
+    Object getInstanceOrNull( String type )
         throws Exception;
 
-    Optional<?> getOptional( String type )
+    Supplier<?> getProvider( String type )
         throws Exception;
 
     <T> T newBean( Class<T> type )

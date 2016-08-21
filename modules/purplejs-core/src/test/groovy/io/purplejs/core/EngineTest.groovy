@@ -90,7 +90,7 @@ class EngineTest
         engine.getProvider( String.class ).get() == "hello";
     }
 
-    def "getOptional"()
+    def "getInstanceOrNull"()
     {
         when:
         def engine = EngineBuilder.newBuilder().
@@ -99,7 +99,7 @@ class EngineTest
 
         then:
         engine != null;
-        engine.getOptional( String.class ).orElse( null ) == "hello";
+        engine.getInstanceOrNull( String.class ) == "hello";
     }
 
     def "initializer"()
