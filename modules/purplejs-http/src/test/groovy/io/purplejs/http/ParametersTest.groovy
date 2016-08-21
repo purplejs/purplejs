@@ -46,8 +46,7 @@ class ParametersTest
         def value = this.params.getFirst( "key" );
 
         then:
-        value != null;
-        !value.isPresent();
+        value == null;
 
         when:
         this.params.put( "key", "value1" );
@@ -55,28 +54,13 @@ class ParametersTest
         value = this.params.getFirst( "key" );
 
         then:
-        value != null;
-        value.isPresent();
-        value.get() == 'value2';
+        value == 'value2';
 
         when:
         this.params.remove( "key" );
         value = this.params.getFirst( "key" );
 
         then:
-        value != null;
-        !value.isPresent();
-    }
-
-    def "asMap"()
-    {
-        when:
-        this.params.put( "key", "value" );
-        def map = this.params.asMap();
-
-        then:
-        map != null;
-        map.size() == 1;
-        map.toString() == '{key=[value]}';
+        value == null;
     }
 }

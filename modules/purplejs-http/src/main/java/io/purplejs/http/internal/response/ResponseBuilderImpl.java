@@ -6,12 +6,12 @@ import com.google.common.collect.Lists;
 import com.google.common.io.ByteSource;
 import com.google.common.net.MediaType;
 
+import io.purplejs.core.value.ScriptValue;
 import io.purplejs.http.Cookie;
 import io.purplejs.http.Headers;
 import io.purplejs.http.Response;
 import io.purplejs.http.ResponseBuilder;
 import io.purplejs.http.Status;
-import io.purplejs.core.value.ScriptValue;
 
 public final class ResponseBuilderImpl
     implements ResponseBuilder
@@ -52,7 +52,7 @@ public final class ResponseBuilderImpl
     @Override
     public ResponseBuilder header( final String name, final String value )
     {
-        this.headers.set( name, value );
+        this.headers.put( name, value );
         return this;
     }
 

@@ -1,7 +1,6 @@
 package io.purplejs.http;
 
 import java.util.Collection;
-import java.util.Optional;
 
 import com.google.common.collect.ForwardingMultimap;
 import com.google.common.collect.HashMultimap;
@@ -23,10 +22,10 @@ public final class Parameters
         return this.map;
     }
 
-    public Optional<String> getFirst( final String key )
+    public String getFirst( final String key )
     {
         final Collection<String> values = get( key );
-        return values.isEmpty() ? Optional.empty() : Optional.of( values.iterator().next() );
+        return values.isEmpty() ? null : values.iterator().next();
     }
 
     public void remove( final String key )

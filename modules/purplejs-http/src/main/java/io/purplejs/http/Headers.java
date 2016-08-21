@@ -28,11 +28,6 @@ public final class Headers
         return this.map;
     }
 
-    public void set( final String key, final String value )
-    {
-        this.map.put( key, value );
-    }
-
     public List<MediaType> getAccept()
     {
         return parseList( ACCEPT, MediaType::parse );

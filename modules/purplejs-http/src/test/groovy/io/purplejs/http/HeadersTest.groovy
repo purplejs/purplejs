@@ -13,7 +13,7 @@ class HeadersTest
         this.headers = new Headers();
     }
 
-    def "get/set/remove"()
+    def "get/put/remove"()
     {
         when:
         def value = this.headers.get( "key" );
@@ -22,7 +22,7 @@ class HeadersTest
         value == null;
 
         when:
-        this.headers.set( "key", "value" );
+        this.headers.put( "key", "value" );
         value = this.headers.get( "key" );
 
         then:
@@ -46,7 +46,7 @@ class HeadersTest
         list.isEmpty();
 
         when:
-        this.headers.set( HttpHeaders.ACCEPT, "text/html,application/json" );
+        this.headers.put( HttpHeaders.ACCEPT, "text/html,application/json" );
         list = this.headers.getAccept();
 
         then:

@@ -21,25 +21,21 @@ class AttributesTest
         def value = this.attrs.get( "key" );
 
         then:
-        value != null;
-        !value.isPresent();
+        value == null;
 
         when:
-        this.attrs.set( "key", "value" );
+        this.attrs.put( "key", "value" );
         value = this.attrs.get( "key" );
 
         then:
-        value != null;
-        value.isPresent();
-        value.get() == 'value';
+        value == 'value';
 
         when:
         this.attrs.remove( "key" );
         value = this.attrs.get( "key" );
 
         then:
-        value != null;
-        !value.isPresent();
+        value == null;
     }
 
     def "typed access"()
@@ -51,41 +47,20 @@ class AttributesTest
         def value = this.attrs.get( TypedValue.class );
 
         then:
-        value != null;
-        !value.isPresent();
+        value == null;
 
         when:
-        this.attrs.set( TypedValue.class, typedValue );
+        this.attrs.put( TypedValue.class, typedValue );
         value = this.attrs.get( TypedValue.class );
 
         then:
-        value != null;
-        value.isPresent();
-        value.get() == typedValue;
+        value == typedValue;
 
         when:
         this.attrs.remove( TypedValue.class );
         value = this.attrs.get( TypedValue.class );
 
         then:
-        value != null;
-        !value.isPresent();
-    }
-
-    def "asMap"()
-    {
-        setup:
-        def typedValue = new TypedValue();
-        this.attrs.set( "key", "value" );
-        this.attrs.set( TypedValue.class, typedValue );
-
-        when:
-        def map = this.attrs.asMap();
-
-        then:
-        map != null;
-        map.size() == 2;
-        map.get( "key" ) == 'value';
-        map.get( TypedValue.class.name ) == typedValue;
+        value == null;
     }
 }
