@@ -46,7 +46,7 @@ class EngineTest
     def "getClassLoader"()
     {
         setup:
-        def classLoader = Mock( ClassLoader.class );
+        def classLoader = new URLClassLoader();
 
         when:
         def engine = EngineBuilder.newBuilder().
