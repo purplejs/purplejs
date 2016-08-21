@@ -10,9 +10,9 @@ import com.google.gson.JsonObject;
 import io.purplejs.core.exception.ProblemException;
 import io.purplejs.http.Request;
 import io.purplejs.http.Response;
+import io.purplejs.http.ResponseBuilder;
 import io.purplejs.http.error.ExceptionHandler;
 import io.purplejs.http.error.ExceptionInfo;
-import io.purplejs.http.internal.response.ResponseBuilderImpl;
 
 public final class DefaultExceptionHandler
     implements ExceptionHandler
@@ -21,7 +21,7 @@ public final class DefaultExceptionHandler
     public Response handle( final ExceptionInfo ex )
     {
         final MediaType type = findRenderType( ex.getRequest() );
-        final ResponseBuilderImpl builder = ResponseBuilderImpl.newBuilder();
+        final ResponseBuilder builder = ResponseBuilder.newBuilder();
         builder.status( ex.getStatus() );
         builder.contentType( type );
 

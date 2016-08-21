@@ -1,30 +1,77 @@
 package io.purplejs.http;
 
-import java.util.ServiceLoader;
+import java.util.List;
 
+import com.google.common.collect.Lists;
 import com.google.common.io.ByteSource;
 import com.google.common.net.MediaType;
 
 import io.purplejs.core.value.ScriptValue;
 
-public interface ResponseBuilder
+public final class ResponseBuilder
 {
-    ResponseBuilder status( Status status );
+    private Status status;
 
-    ResponseBuilder contentType( MediaType contentType );
+    private MediaType contentType;
 
-    ResponseBuilder body( ByteSource body );
+    private ByteSource body;
 
-    ResponseBuilder header( String name, String value );
+    private final Headers headers = new Headers();
 
-    ResponseBuilder value( ScriptValue value );
+    private final List<Cookie> cookies = Lists.newArrayList();
 
-    ResponseBuilder cookie( Cookie cookie );
+    private ScriptValue value;
 
-    Response build();
-
-    static ResponseBuilder newBuilder()
+    public ResponseBuilder status( final Status status )
     {
-        return ServiceLoader.load( ResponseBuilder.class ).iterator().next();
+        this.status = status;
+        return this;
+    }
+
+    public ResponseBuilder contentType( final MediaType contentType )
+    {
+        this.contentType = contentType;
+        return this;
+    }
+
+    public ResponseBuilder body( final ByteSource body )
+    {
+        this.body = body;
+        return this;
+    }
+
+    public ResponseBuilder header( final String name, final String value )
+    {
+        this.headers.put( name, value );
+        return this;
+    }
+
+    public ResponseBuilder value( final ScriptValue value )
+    {
+        this.value = value;
+        return this;
+    }
+
+    public ResponseBuilder cookie( final Cookie cookie )
+    {
+        this.cookies.add( cookie );
+        return this;
+    }
+
+    public Response build()
+    {
+        final ResponseImpl response = new ResponseImpl();
+        response.status = this.status != null ? this.status : Status.OK;
+        response.contentType = this.contentType != null ? this.contentType : MediaType.OCTET_STREAM;
+        response.body = this.body != null ? this.body : ByteSource.empty();
+        response.headers = this.headers;
+        response.value = this.value;
+        response.cookies = this.cookies;
+        return response;
+    }
+
+    public static ResponseBuilder newBuilder()
+    {
+        return new ResponseBuilder();
     }
 }

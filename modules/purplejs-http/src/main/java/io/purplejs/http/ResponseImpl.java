@@ -1,4 +1,4 @@
-package io.purplejs.http.internal.response;
+package io.purplejs.http;
 
 import java.util.List;
 

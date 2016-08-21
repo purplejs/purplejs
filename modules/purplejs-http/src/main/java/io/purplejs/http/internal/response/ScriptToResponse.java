@@ -6,13 +6,14 @@ import com.google.common.net.MediaType;
 import io.purplejs.core.value.ScriptValue;
 import io.purplejs.http.Cookie;
 import io.purplejs.http.Response;
+import io.purplejs.http.ResponseBuilder;
 import io.purplejs.http.Status;
 
 public final class ScriptToResponse
 {
     public Response toResponse( final ScriptValue value )
     {
-        final ResponseBuilderImpl builder = ResponseBuilderImpl.newBuilder();
+        final ResponseBuilder builder = ResponseBuilder.newBuilder();
         if ( value == null )
         {
             builder.contentType( MediaType.PLAIN_TEXT_UTF_8 );
@@ -45,23 +46,23 @@ public final class ScriptToResponse
         return new BodySerializer().findType( body );
     }
 
-    private void populateStatus( final ResponseBuilderImpl builder, final ScriptValue value )
+    private void populateStatus( final ResponseBuilder builder, final ScriptValue value )
     {
         final Integer status = ( value != null ) ? value.getValue( Integer.class ) : null;
         builder.status( status != null ? Status.from( status ) : Status.OK );
     }
 
-    private void populateContentType( final ResponseBuilderImpl builder, final MediaType type )
+    private void populateContentType( final ResponseBuilder builder, final MediaType type )
     {
         builder.contentType( type != null ? type : MediaType.PLAIN_TEXT_UTF_8 );
     }
 
-    private void populateBody( final ResponseBuilderImpl builder, final ScriptValue value )
+    private void populateBody( final ResponseBuilder builder, final ScriptValue value )
     {
         builder.body( new BodySerializer().toBody( value ) );
     }
 
-    private void populateHeaders( final ResponseBuilderImpl builder, final ScriptValue value )
+    private void populateHeaders( final ResponseBuilder builder, final ScriptValue value )
     {
         if ( value == null )
         {
@@ -79,7 +80,7 @@ public final class ScriptToResponse
         }
     }
 
-    private void setRedirect( final ResponseBuilderImpl builder, final ScriptValue value )
+    private void setRedirect( final ResponseBuilder builder, final ScriptValue value )
     {
         final String redirect = ( value != null ) ? value.getValue( String.class ) : null;
         if ( redirect == null )
@@ -91,7 +92,7 @@ public final class ScriptToResponse
         builder.header( HttpHeaders.LOCATION, redirect );
     }
 
-    private void populateCookies( final ResponseBuilderImpl builder, final ScriptValue value )
+    private void populateCookies( final ResponseBuilder builder, final ScriptValue value )
     {
         if ( value == null )
         {
@@ -143,7 +144,7 @@ public final class ScriptToResponse
         return cookie;
     }
 
-    private void addCookie( final ResponseBuilderImpl builder, final ScriptValue value, final String key )
+    private void addCookie( final ResponseBuilder builder, final ScriptValue value, final String key )
     {
         if ( value != null )
         {
