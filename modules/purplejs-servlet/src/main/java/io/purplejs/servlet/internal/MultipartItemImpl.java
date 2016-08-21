@@ -1,4 +1,4 @@
-package io.purplejs.servlet.impl;
+package io.purplejs.servlet.internal;
 
 import javax.servlet.http.Part;
 

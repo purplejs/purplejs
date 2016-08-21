@@ -1,4 +1,4 @@
-package io.purplejs.servlet.impl;
+package io.purplejs.servlet.internal;
 
 import java.net.URI;
 import java.util.Enumeration;
@@ -152,7 +152,7 @@ public final class RequestWrapper
         while ( e.hasMoreElements() )
         {
             final String key = e.nextElement();
-            headers.set( key, req.getHeader( key ) );
+            headers.put( key, req.getHeader( key ) );
         }
 
         return headers;

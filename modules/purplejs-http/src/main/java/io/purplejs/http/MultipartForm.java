@@ -9,6 +9,7 @@ public interface MultipartForm
 
     int getSize();
 
+    // TODO: Do not use Optional - use null instead
     Optional<MultipartItem> get( String name );
 
     void delete();

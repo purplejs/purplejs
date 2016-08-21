@@ -1,4 +1,4 @@
-package io.purplejs.servlet.impl;
+package io.purplejs.servlet.internal;
 
 import java.io.IOException;
 import java.io.InputStream;

@@ -14,8 +14,8 @@ import io.purplejs.core.EngineBuilder;
 import io.purplejs.http.Response;
 import io.purplejs.http.handler.HttpHandler;
 import io.purplejs.http.handler.HttpHandlerFactory;
-import io.purplejs.servlet.impl.RequestWrapper;
-import io.purplejs.servlet.impl.ResponseSerializer;
+import io.purplejs.servlet.internal.RequestWrapper;
+import io.purplejs.servlet.internal.ResponseSerializer;
 
 public class ScriptServlet
     extends HttpServlet
