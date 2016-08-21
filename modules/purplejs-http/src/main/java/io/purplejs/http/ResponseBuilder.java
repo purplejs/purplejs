@@ -1,9 +1,10 @@
 package io.purplejs.http;
 
+import java.util.ServiceLoader;
+
 import com.google.common.io.ByteSource;
 import com.google.common.net.MediaType;
 
-import io.purplejs.http.internal.response.ResponseBuilderImpl;
 import io.purplejs.core.value.ScriptValue;
 
 public interface ResponseBuilder
@@ -24,6 +25,6 @@ public interface ResponseBuilder
 
     static ResponseBuilder newBuilder()
     {
-        return new ResponseBuilderImpl();
+        return ServiceLoader.load( ResponseBuilder.class ).iterator().next();
     }
 }
