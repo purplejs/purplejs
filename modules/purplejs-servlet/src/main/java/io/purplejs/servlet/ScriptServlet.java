@@ -15,7 +15,7 @@ import io.purplejs.http.Request;
 import io.purplejs.http.Response;
 import io.purplejs.http.handler.HttpHandler;
 import io.purplejs.http.handler.HttpHandlerFactory;
-import io.purplejs.servlet.internal.RequestWrapper;
+import io.purplejs.servlet.internal.RequestImpl;
 import io.purplejs.servlet.internal.ResponseSerializer;
 
 public class ScriptServlet
@@ -59,7 +59,7 @@ public class ScriptServlet
     protected void service( final HttpServletRequest req, final HttpServletResponse resp )
         throws ServletException, IOException
     {
-        final RequestWrapper requestWrapper = new RequestWrapper( req );
+        final RequestImpl requestWrapper = new RequestImpl( req );
         final Response response = serve( requestWrapper );
         new ResponseSerializer( resp ).serialize( response );
     }

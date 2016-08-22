@@ -15,7 +15,7 @@ import io.purplejs.http.MultipartForm;
 import io.purplejs.http.Parameters;
 import io.purplejs.http.Request;
 
-public final class RequestWrapper
+public final class RequestImpl
     implements Request
 {
     private final static MediaType MULTIPART_FORM = MediaType.create( "multipart", "form-data" );
@@ -34,7 +34,7 @@ public final class RequestWrapper
 
     private final long contentLength;
 
-    public RequestWrapper( final HttpServletRequest wrapped )
+    public RequestImpl( final HttpServletRequest wrapped )
     {
         this.wrapped = wrapped;
         this.contentLength = this.wrapped.getContentLength();
@@ -62,15 +62,7 @@ public final class RequestWrapper
             return ByteSource.empty();
         }
 
-        try
-        {
-            final byte[] data = ByteStreams.toByteArray( this.wrapped.getInputStream() );
-            return ByteSource.wrap( data );
-        }
-        catch ( final Exception e )
-        {
-            throw ExceptionHelper.unchecked( e );
-        }
+        return readBody( this.wrapped );
     }
 
     private MultipartForm readMultipart()
@@ -80,14 +72,7 @@ public final class RequestWrapper
             return null;
         }
 
-        try
-        {
-            return new MultipartFormImpl( this.wrapped.getParts() );
-        }
-        catch ( final Exception e )
-        {
-            throw ExceptionHelper.unchecked( e );
-        }
+        return newMultipartForm( this.wrapped );
     }
 
     @Override
@@ -173,5 +158,30 @@ public final class RequestWrapper
         }
 
         return params;
+    }
+
+    static MultipartForm newMultipartForm( final HttpServletRequest req )
+    {
+        try
+        {
+            return new MultipartFormImpl( req.getParts() );
+        }
+        catch ( final Exception e )
+        {
+            throw ExceptionHelper.unchecked( e );
+        }
+    }
+
+    static ByteSource readBody( final HttpServletRequest req )
+    {
+        try
+        {
+            final byte[] data = ByteStreams.toByteArray( req.getInputStream() );
+            return ByteSource.wrap( data );
+        }
+        catch ( final Exception e )
+        {
+            throw ExceptionHelper.unchecked( e );
+        }
     }
 }

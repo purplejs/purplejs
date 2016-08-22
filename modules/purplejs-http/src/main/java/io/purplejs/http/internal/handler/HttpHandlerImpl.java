@@ -2,6 +2,9 @@ package io.purplejs.http.internal.handler;
 
 import java.util.function.Function;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.google.common.io.ByteSource;
 
 import io.purplejs.core.Engine;
@@ -16,6 +19,8 @@ import io.purplejs.http.internal.error.ExceptionRenderer;
 final class HttpHandlerImpl
     implements HttpHandler
 {
+    private final static Logger LOG = LoggerFactory.getLogger( HttpHandlerImpl.class );
+
     Engine engine;
 
     ResourcePath resource;
@@ -58,6 +63,7 @@ final class HttpHandlerImpl
     @Override
     public Response handleException( final Request request, final Throwable cause )
     {
+        LOG.error( "Request [" + request.getUri() + "] caused an exception", cause );
         return this.exceptionRenderer.handle( request, cause );
     }
 }

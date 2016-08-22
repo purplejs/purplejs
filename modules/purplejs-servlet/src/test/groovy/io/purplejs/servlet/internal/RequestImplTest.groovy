@@ -5,7 +5,9 @@ import io.purplejs.http.Request
 import org.springframework.mock.web.MockHttpServletRequest
 import spock.lang.Specification
 
-class RequestWrapperTest
+import javax.servlet.http.HttpServletRequest
+
+class RequestImplTest
     extends Specification
 {
     def MockHttpServletRequest request;
@@ -17,7 +19,7 @@ class RequestWrapperTest
 
     private Request createWrapper()
     {
-        return new RequestWrapper( this.request );
+        return new RequestImpl( this.request );
     }
 
     def "getMethod"()
@@ -154,5 +156,31 @@ class RequestWrapperTest
         then:
         wrapper.body != null;
         wrapper.body.asCharSource( Charsets.UTF_8 ).read() == 'hello';
+    }
+
+    def "readBody failure"()
+    {
+        setup:
+        def req = Mock( HttpServletRequest.class );
+        req.getInputStream() >> { throw new IOException() };
+
+        when:
+        RequestImpl.readBody( req );
+
+        then:
+        thrown IOException;
+    }
+
+    def "newMultipartForm failure"()
+    {
+        setup:
+        def req = Mock( HttpServletRequest.class );
+        req.getParts() >> { throw new IOException() };
+
+        when:
+        RequestImpl.newMultipartForm( req );
+
+        then:
+        thrown IOException;
     }
 }

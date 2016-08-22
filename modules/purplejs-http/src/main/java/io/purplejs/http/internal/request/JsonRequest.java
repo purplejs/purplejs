@@ -12,12 +12,12 @@ import io.purplejs.http.Request;
 import io.purplejs.core.json.JsonGenerator;
 import io.purplejs.core.json.JsonSerializable;
 
-public final class RequestWrapper
+public final class JsonRequest
     implements JsonSerializable
 {
     private final Request request;
 
-    public RequestWrapper( final Request request )
+    public JsonRequest( final Request request )
     {
         this.request = request;
     }

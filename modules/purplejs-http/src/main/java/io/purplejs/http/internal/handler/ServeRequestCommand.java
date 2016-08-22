@@ -7,7 +7,7 @@ import io.purplejs.http.Response;
 import io.purplejs.http.ResponseBuilder;
 import io.purplejs.http.Status;
 import io.purplejs.http.internal.RequestAccessor;
-import io.purplejs.http.internal.request.RequestWrapper;
+import io.purplejs.http.internal.request.JsonRequest;
 import io.purplejs.http.internal.response.ScriptToResponse;
 import io.purplejs.core.value.ScriptExports;
 import io.purplejs.core.value.ScriptValue;
@@ -50,7 +50,7 @@ final class ServeRequestCommand
             return methodNotAllowed();
         }
 
-        final RequestWrapper wrapper = new RequestWrapper( this.request );
+        final JsonRequest wrapper = new JsonRequest( this.request );
         final ScriptValue value = exports.executeMethod( method, wrapper );
         return new ScriptToResponse().toResponse( value );
     }
