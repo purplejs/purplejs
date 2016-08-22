@@ -8,3 +8,4 @@ PurpleJS Framework
 
 More info here later!
 
+![alt tag](https://raw.githubusercontent.com/purplejs/purplejs/master/misc/logo.png)
