@@ -14,7 +14,7 @@ import io.purplejs.http.Request;
 import io.purplejs.http.Response;
 import io.purplejs.http.Status;
 import io.purplejs.http.handler.HttpHandler;
-import io.purplejs.http.internal.error.ExceptionRenderer;
+import io.purplejs.http.internal.error.ErrorRenderer;
 
 final class HttpHandlerImpl
     implements HttpHandler
@@ -25,7 +25,7 @@ final class HttpHandlerImpl
 
     ResourcePath resource;
 
-    ExceptionRenderer exceptionRenderer;
+    ErrorRenderer errorRenderer;
 
     @Override
     public Response serve( final Request request )
@@ -57,13 +57,13 @@ final class HttpHandlerImpl
             return response;
         }
 
-        return this.exceptionRenderer.handle( request, status );
+        return this.errorRenderer.handle( request, status );
     }
 
     @Override
     public Response handleException( final Request request, final Throwable cause )
     {
         LOG.error( "Request [" + request.getUri() + "] caused an exception", cause );
-        return this.exceptionRenderer.handle( request, cause );
+        return this.errorRenderer.handle( request, cause );
     }
 }

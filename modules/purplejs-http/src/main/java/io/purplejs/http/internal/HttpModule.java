@@ -6,7 +6,7 @@ import io.purplejs.core.EngineModule;
 import io.purplejs.http.Request;
 import io.purplejs.http.error.ErrorHandler;
 import io.purplejs.http.handler.HttpHandlerFactory;
-import io.purplejs.http.internal.error.DefaultExceptionHandler;
+import io.purplejs.http.internal.error.DefaultErrorHandler;
 import io.purplejs.http.internal.handler.HttpHandlerFactoryImpl;
 
 public final class HttpModule
@@ -20,7 +20,7 @@ public final class HttpModule
         this.handlerFactory = new HttpHandlerFactoryImpl();
 
         binder.provider( Request.class, new RequestAccessor() );
-        binder.instance( ErrorHandler.class, new DefaultExceptionHandler() );
+        binder.instance( ErrorHandler.class, new DefaultErrorHandler() );
         binder.instance( HttpHandlerFactory.class, this.handlerFactory );
 
         binder.initializer( this::initialize );

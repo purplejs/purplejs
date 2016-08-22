@@ -8,31 +8,33 @@ import com.google.common.base.Charsets;
 import io.purplejs.core.exception.ProblemException;
 import io.purplejs.core.resource.Resource;
 import io.purplejs.core.resource.ResourceLoader;
-import io.purplejs.core.resource.ResourcePath;
 import io.purplejs.http.Request;
 import io.purplejs.http.Response;
 import io.purplejs.http.Status;
 import io.purplejs.http.error.ErrorHandler;
 import io.purplejs.http.error.ErrorInfo;
 
-public final class ExceptionRenderer
+public final class ErrorRendererImpl
+    implements ErrorRenderer
 {
     private final ErrorHandler handler;
 
     private final ResourceLoader resourceLoader;
 
-    public ExceptionRenderer( final ErrorHandler handler, final ResourceLoader resourceLoader )
+    public ErrorRendererImpl( final ErrorHandler handler, final ResourceLoader resourceLoader )
     {
-        this.handler = handler != null ? handler : new DefaultExceptionHandler();
+        this.handler = handler != null ? handler : new DefaultErrorHandler();
         this.resourceLoader = resourceLoader;
     }
 
+    @Override
     public Response handle( final Request request, final Throwable ex )
     {
         final ErrorInfo info = toInfo( request, ex );
         return this.handler.handle( info );
     }
 
+    @Override
     public Response handle( final Request request, final Status status )
     {
         final ErrorInfo info = toInfo( request, status );
@@ -41,7 +43,7 @@ public final class ExceptionRenderer
 
     private ErrorInfo toInfo( final Request request, final Throwable ex )
     {
-        final ExceptionInfoImpl info = new ExceptionInfoImpl();
+        final ErrorInfoImpl info = new ErrorInfoImpl();
         info.cause = ex;
         info.request = request;
         info.status = Status.INTERNAL_SERVER_ERROR;
@@ -56,30 +58,19 @@ public final class ExceptionRenderer
 
     private ErrorInfo toInfo( final Request request, final Status status )
     {
-        final ExceptionInfoImpl info = new ExceptionInfoImpl();
+        final ErrorInfoImpl info = new ErrorInfoImpl();
         info.cause = null;
         info.request = request;
         info.status = status;
         return info;
     }
 
-    private void populate( final ExceptionInfoImpl info, final ProblemException ex )
+    private void populate( final ErrorInfoImpl info, final ProblemException ex )
     {
         info.path = ex.getPath();
-        info.resource = loadResourceOrNull( info.path );
-        info.lines = loadLines( info.resource );
-    }
 
-    private Resource loadResourceOrNull( final ResourcePath path )
-    {
-        try
-        {
-            return this.resourceLoader.load( path );
-        }
-        catch ( final Exception e )
-        {
-            return null;
-        }
+        final Resource resource = this.resourceLoader.loadOrNull( info.path );
+        info.lines = loadLines( resource );
     }
 
     private List<String> loadLines( final Resource resource )

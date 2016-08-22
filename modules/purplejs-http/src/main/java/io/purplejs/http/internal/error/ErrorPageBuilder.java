@@ -10,7 +10,7 @@ final class ErrorPageBuilder
 {
     private final static int NUM_DELTA_LINES = 3;
 
-    private final static int NUM_STACK_ELEMENTS = 140;
+    private final static int NUM_STACK_ELEMENTS = 20;
 
     private int statusCode;
 
@@ -32,71 +32,71 @@ final class ErrorPageBuilder
 
         private final String text;
 
-        public LineInfo( final int line, final String text )
+        LineInfo( final int line, final String text )
         {
             this( line, text, false );
         }
 
-        public LineInfo( final int line, final String text, final boolean mark )
+        LineInfo( final int line, final String text, final boolean mark )
         {
             this.line = line;
             this.mark = mark;
             this.text = text;
         }
 
-        public int getLine()
+        int getLine()
         {
             return this.line;
         }
 
-        public boolean isMark()
+        boolean isMark()
         {
             return this.mark;
         }
 
-        public String getText()
+        String getText()
         {
             return this.text;
         }
     }
 
-    public ErrorPageBuilder status( final int value )
+    ErrorPageBuilder status( final int value )
     {
         this.statusCode = value;
         return this;
     }
 
-    public ErrorPageBuilder title( final String value )
+    ErrorPageBuilder title( final String value )
     {
         this.title = value;
         return this;
     }
 
-    public ErrorPageBuilder description( final String value )
+    ErrorPageBuilder description( final String value )
     {
         this.description = value;
         return this;
     }
 
-    public ErrorPageBuilder cause( final Throwable cause )
+    ErrorPageBuilder cause( final Throwable cause )
     {
         this.cause = cause;
         return this;
     }
 
-    public ErrorPageBuilder lines( final List<String> lines )
+    ErrorPageBuilder lines( final List<String> lines )
     {
         this.lines = lines;
         return this;
     }
 
-    public ErrorPageBuilder problem( final ProblemException problem )
+    ErrorPageBuilder problem( final ProblemException problem )
     {
         this.problem = problem;
         return this;
     }
 
-    public String build()
+    String build()
     {
         final HtmlBuilder html = new HtmlBuilder();
         html.text( "<!DOCTYPE html>" );

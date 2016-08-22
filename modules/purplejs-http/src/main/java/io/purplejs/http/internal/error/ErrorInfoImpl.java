@@ -4,13 +4,12 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
+import io.purplejs.core.resource.ResourcePath;
 import io.purplejs.http.Request;
 import io.purplejs.http.Status;
 import io.purplejs.http.error.ErrorInfo;
-import io.purplejs.core.resource.Resource;
-import io.purplejs.core.resource.ResourcePath;
 
-final class ExceptionInfoImpl
+final class ErrorInfoImpl
     implements ErrorInfo
 {
     Status status;
@@ -20,8 +19,6 @@ final class ExceptionInfoImpl
     Request request;
 
     ResourcePath path;
-
-    Resource resource;
 
     List<String> lines;
 
@@ -47,12 +44,6 @@ final class ExceptionInfoImpl
     public ResourcePath getPath()
     {
         return this.path;
-    }
-
-    @Override
-    public Resource getResource()
-    {
-        return this.resource;
     }
 
     @Override

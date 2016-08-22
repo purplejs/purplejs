@@ -2,10 +2,9 @@ package io.purplejs.http.error;
 
 import java.util.List;
 
+import io.purplejs.core.resource.ResourcePath;
 import io.purplejs.http.Request;
 import io.purplejs.http.Status;
-import io.purplejs.core.resource.Resource;
-import io.purplejs.core.resource.ResourcePath;
 
 public interface ErrorInfo
 {
@@ -16,8 +15,6 @@ public interface ErrorInfo
     Request getRequest();
 
     ResourcePath getPath();
-
-    Resource getResource();
 
     List<String> getLines();
 }

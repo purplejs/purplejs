@@ -1,23 +1,23 @@
 package io.purplejs.http.internal.handler;
 
 import io.purplejs.core.Engine;
+import io.purplejs.core.resource.ResourcePath;
 import io.purplejs.http.error.ErrorHandler;
 import io.purplejs.http.handler.HttpHandler;
 import io.purplejs.http.handler.HttpHandlerFactory;
-import io.purplejs.http.internal.error.ExceptionRenderer;
-import io.purplejs.core.resource.ResourcePath;
+import io.purplejs.http.internal.error.ErrorRendererImpl;
 
 public final class HttpHandlerFactoryImpl
     implements HttpHandlerFactory
 {
     private Engine engine;
 
-    private ErrorHandler exceptionHandler;
+    private ErrorHandler errorHandler;
 
     public void init( final Engine engine )
     {
         this.engine = engine;
-        this.exceptionHandler = this.engine.getInstance( ErrorHandler.class );
+        this.errorHandler = this.engine.getInstance( ErrorHandler.class );
     }
 
     @Override
@@ -26,7 +26,7 @@ public final class HttpHandlerFactoryImpl
         final HttpHandlerImpl handler = new HttpHandlerImpl();
         handler.resource = resource;
         handler.engine = this.engine;
-        handler.exceptionRenderer = new ExceptionRenderer( this.exceptionHandler, this.engine.getResourceLoader() );
+        handler.errorRenderer = new ErrorRendererImpl( this.errorHandler, this.engine.getResourceLoader() );
         return handler;
     }
 }
