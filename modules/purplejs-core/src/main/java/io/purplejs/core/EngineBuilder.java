@@ -1,8 +1,8 @@
 package io.purplejs.core;
 
 import java.io.File;
-import java.util.ServiceLoader;
 
+import io.purplejs.core.internal.EngineBuilderImpl;
 import io.purplejs.core.resource.ResourceLoader;
 
 /**
@@ -60,6 +60,6 @@ public interface EngineBuilder
      */
     static EngineBuilder newBuilder()
     {
-        return ServiceLoader.load( EngineBuilder.class ).iterator().next();
+        return new EngineBuilderImpl();
     }
 }

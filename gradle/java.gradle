@@ -18,13 +18,28 @@ dependencies {
     testCompile "org.spockframework:spock-core:${versions.spock}"
 }
 
+javadoc {
+    excludes = ['**/internal/**']
+
+    options {
+        links( "http://docs.oracle.com/javase/8/docs/api/" )
+        links( "https://google.github.io/guava/releases/${versions.guava}/api/docs/" )
+    }
+}
+
 task sourceJar( type: Jar ) {
     classifier 'sources'
     from sourceSets.main.allJava
 }
 
+task javadocJar( type: Jar ) {
+    classifier 'javadoc'
+    from javadoc
+}
+
 artifacts {
     archives sourceJar
+    archives javadocJar
 }
 
 test {

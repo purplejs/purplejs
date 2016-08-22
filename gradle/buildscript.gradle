@@ -5,4 +5,5 @@ repositories {
 dependencies {
     classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7'
     classpath 'org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.4.0'
+    classpath 'com.netflix.nebula:gradle-aggregate-javadocs-plugin:2.2.+'
 }
