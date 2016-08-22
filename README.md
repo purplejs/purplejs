@@ -1,5 +1,5 @@
-Project PurpleJS
-================
+PurpleJS Framework
+==================
 
 [![Build Status](https://travis-ci.org/purplejs/purplejs.svg?branch=master)](https://travis-ci.org/purplejs/purplejs)
 [![Coverage Status](https://coveralls.io/repos/github/purplejs/purplejs/badge.svg?branch=master)](https://coveralls.io/github/purplejs/purplejs?branch=master)
