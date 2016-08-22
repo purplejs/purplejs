@@ -12,8 +12,8 @@ import org.eclipse.jetty.servlet.ServletHolder;
 
 import com.google.common.io.Files;
 
-import io.purplejs.boot.internal.servlet.AssetFilter;
-import io.purplejs.boot.internal.util.BannerPrinter;
+import io.purplejs.boot.internal.AssetFilter;
+import io.purplejs.boot.internal.BannerPrinter;
 import io.purplejs.servlet.ScriptServlet;
 
 public final class MainApp

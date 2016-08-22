@@ -3,4 +3,5 @@ dependencies {
     compile 'javax.servlet:javax.servlet-api:3.1.0'
     testCompile 'org.springframework:spring-web:4.2.4.RELEASE'
     testCompile 'org.springframework:spring-test:4.2.4.RELEASE'
+    testRuntime "org.slf4j:slf4j-simple:${versions.slf4j}"
 }
