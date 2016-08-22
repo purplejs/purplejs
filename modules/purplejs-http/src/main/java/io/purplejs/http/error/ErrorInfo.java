@@ -7,7 +7,7 @@ import io.purplejs.http.Status;
 import io.purplejs.core.resource.Resource;
 import io.purplejs.core.resource.ResourcePath;
 
-public interface ExceptionInfo
+public interface ErrorInfo
 {
     Status getStatus();
 

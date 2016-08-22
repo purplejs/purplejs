@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import io.purplejs.core.Engine;
 import io.purplejs.core.EngineBinder;
 import io.purplejs.core.EngineBuilder;
+import io.purplejs.http.Request;
 import io.purplejs.http.Response;
 import io.purplejs.http.handler.HttpHandler;
 import io.purplejs.http.handler.HttpHandlerFactory;
@@ -59,9 +60,21 @@ public class ScriptServlet
         throws ServletException, IOException
     {
         final RequestWrapper requestWrapper = new RequestWrapper( req );
-        final Response response = this.handler.serve( requestWrapper );
-
+        final Response response = serve( requestWrapper );
         new ResponseSerializer( resp ).serialize( response );
+    }
+
+    private Response serve( final Request request )
+    {
+        try
+        {
+            final Response response = this.handler.serve( request );
+            return this.handler.errorIfNeeded( request, response );
+        }
+        catch ( final Exception e )
+        {
+            return this.handler.handleException( request, e );
+        }
     }
 
     @Override

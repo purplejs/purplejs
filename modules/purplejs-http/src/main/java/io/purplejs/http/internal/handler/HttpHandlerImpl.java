@@ -5,13 +5,13 @@ import java.util.function.Function;
 import com.google.common.io.ByteSource;
 
 import io.purplejs.core.Engine;
+import io.purplejs.core.resource.ResourcePath;
+import io.purplejs.core.value.ScriptExports;
 import io.purplejs.http.Request;
 import io.purplejs.http.Response;
 import io.purplejs.http.Status;
 import io.purplejs.http.handler.HttpHandler;
 import io.purplejs.http.internal.error.ExceptionRenderer;
-import io.purplejs.core.resource.ResourcePath;
-import io.purplejs.core.value.ScriptExports;
 
 final class HttpHandlerImpl
     implements HttpHandler
@@ -25,16 +25,8 @@ final class HttpHandlerImpl
     @Override
     public Response serve( final Request request )
     {
-        try
-        {
-            final ServeRequestCommand command = new ServeRequestCommand( request );
-            final Response response = execute( command );
-            return errorIfNeeded( request, response );
-        }
-        catch ( final Exception e )
-        {
-            return this.exceptionRenderer.handle( request, e );
-        }
+        final ServeRequestCommand command = new ServeRequestCommand( request );
+        return execute( command );
     }
 
     private <R> R execute( final Function<ScriptExports, R> command )
@@ -43,8 +35,8 @@ final class HttpHandlerImpl
         return command.apply( exports );
     }
 
-    private Response errorIfNeeded( final Request request, final Response response )
-        throws Exception
+    @Override
+    public Response errorIfNeeded( final Request request, final Response response )
     {
         final Status status = response.getStatus();
         final boolean isError = status.isServerError() || status.isClientError();
@@ -55,11 +47,17 @@ final class HttpHandlerImpl
         }
 
         final ByteSource body = response.getBody();
-        if ( !body.isEmpty() )
+        if ( body != null )
         {
             return response;
         }
 
         return this.exceptionRenderer.handle( request, status );
+    }
+
+    @Override
+    public Response handleException( final Request request, final Throwable cause )
+    {
+        return this.exceptionRenderer.handle( request, cause );
     }
 }

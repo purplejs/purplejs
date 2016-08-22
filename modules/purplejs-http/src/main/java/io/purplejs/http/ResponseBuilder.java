@@ -63,7 +63,7 @@ public final class ResponseBuilder
         final ResponseImpl response = new ResponseImpl();
         response.status = this.status != null ? this.status : Status.OK;
         response.contentType = this.contentType != null ? this.contentType : MediaType.OCTET_STREAM;
-        response.body = this.body != null ? this.body : ByteSource.empty();
+        response.body = this.body;
         response.headers = this.headers;
         response.value = this.value;
         response.cookies = this.cookies;

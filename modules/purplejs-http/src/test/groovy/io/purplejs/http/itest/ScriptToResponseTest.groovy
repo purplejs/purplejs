@@ -47,7 +47,7 @@ class ScriptToResponseTest
         then:
         res != null;
         res.status == Status.OK;
-        res.body != null;
+        res.body == null;
         res.contentType == MediaType.PLAIN_TEXT_UTF_8;
         res.value == null;
     }

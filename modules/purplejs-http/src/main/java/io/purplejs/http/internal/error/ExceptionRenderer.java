@@ -6,40 +6,40 @@ import java.util.List;
 import com.google.common.base.Charsets;
 
 import io.purplejs.core.exception.ProblemException;
-import io.purplejs.http.Request;
-import io.purplejs.http.Response;
-import io.purplejs.http.Status;
-import io.purplejs.http.error.ExceptionHandler;
-import io.purplejs.http.error.ExceptionInfo;
 import io.purplejs.core.resource.Resource;
 import io.purplejs.core.resource.ResourceLoader;
 import io.purplejs.core.resource.ResourcePath;
+import io.purplejs.http.Request;
+import io.purplejs.http.Response;
+import io.purplejs.http.Status;
+import io.purplejs.http.error.ErrorHandler;
+import io.purplejs.http.error.ErrorInfo;
 
 public final class ExceptionRenderer
 {
-    private final ExceptionHandler handler;
+    private final ErrorHandler handler;
 
     private final ResourceLoader resourceLoader;
 
-    public ExceptionRenderer( final ExceptionHandler handler, final ResourceLoader resourceLoader )
+    public ExceptionRenderer( final ErrorHandler handler, final ResourceLoader resourceLoader )
     {
         this.handler = handler != null ? handler : new DefaultExceptionHandler();
         this.resourceLoader = resourceLoader;
     }
 
-    public Response handle( final Request request, final Exception ex )
+    public Response handle( final Request request, final Throwable ex )
     {
-        final ExceptionInfo info = toInfo( request, ex );
+        final ErrorInfo info = toInfo( request, ex );
         return this.handler.handle( info );
     }
 
     public Response handle( final Request request, final Status status )
     {
-        final ExceptionInfo info = toInfo( request, status );
+        final ErrorInfo info = toInfo( request, status );
         return this.handler.handle( info );
     }
 
-    private ExceptionInfo toInfo( final Request request, final Exception ex )
+    private ErrorInfo toInfo( final Request request, final Throwable ex )
     {
         final ExceptionInfoImpl info = new ExceptionInfoImpl();
         info.cause = ex;
@@ -54,7 +54,7 @@ public final class ExceptionRenderer
         return info;
     }
 
-    private ExceptionInfo toInfo( final Request request, final Status status )
+    private ErrorInfo toInfo( final Request request, final Status status )
     {
         final ExceptionInfoImpl info = new ExceptionInfoImpl();
         info.cause = null;

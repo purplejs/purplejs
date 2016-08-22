@@ -66,7 +66,7 @@ class HttpHandlerTest
         then:
         res != null;
         res.status == Status.METHOD_NOT_ALLOWED;
-        res.contentType.subtype() == 'json';
+        res.body == null;
     }
 
     def "get method"()

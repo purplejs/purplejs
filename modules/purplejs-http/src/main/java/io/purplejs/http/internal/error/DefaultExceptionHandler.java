@@ -11,14 +11,14 @@ import io.purplejs.core.exception.ProblemException;
 import io.purplejs.http.Request;
 import io.purplejs.http.Response;
 import io.purplejs.http.ResponseBuilder;
-import io.purplejs.http.error.ExceptionHandler;
-import io.purplejs.http.error.ExceptionInfo;
+import io.purplejs.http.error.ErrorHandler;
+import io.purplejs.http.error.ErrorInfo;
 
 public final class DefaultExceptionHandler
-    implements ExceptionHandler
+    implements ErrorHandler
 {
     @Override
-    public Response handle( final ExceptionInfo ex )
+    public Response handle( final ErrorInfo ex )
     {
         final MediaType type = findRenderType( ex.getRequest() );
         final ResponseBuilder builder = ResponseBuilder.newBuilder();
@@ -31,7 +31,7 @@ public final class DefaultExceptionHandler
         return builder.build();
     }
 
-    private String renderBody( final ExceptionInfo ex, final MediaType type )
+    private String renderBody( final ErrorInfo ex, final MediaType type )
     {
         if ( isHtmlType( type ) )
         {
@@ -41,7 +41,7 @@ public final class DefaultExceptionHandler
         return renderJson( ex );
     }
 
-    private String renderHtml( final ExceptionInfo ex )
+    private String renderHtml( final ErrorInfo ex )
     {
         final ErrorPageBuilder builder = new ErrorPageBuilder();
         builder.cause( ex.getCause() );
@@ -54,7 +54,7 @@ public final class DefaultExceptionHandler
         return builder.build();
     }
 
-    private String renderJson( final ExceptionInfo ex )
+    private String renderJson( final ErrorInfo ex )
     {
         final JsonObject json = new JsonObject();
         json.addProperty( "status", ex.getStatus().getCode() );

@@ -6,12 +6,12 @@ import com.google.common.collect.Lists;
 
 import io.purplejs.http.Request;
 import io.purplejs.http.Status;
-import io.purplejs.http.error.ExceptionInfo;
+import io.purplejs.http.error.ErrorInfo;
 import io.purplejs.core.resource.Resource;
 import io.purplejs.core.resource.ResourcePath;
 
 final class ExceptionInfoImpl
-    implements ExceptionInfo
+    implements ErrorInfo
 {
     Status status;
 
