@@ -1,5 +1,8 @@
-package io.purplejs.core
+package io.purplejs.core.itest
 
+import io.purplejs.core.Engine
+import io.purplejs.core.EngineBinder
+import io.purplejs.core.EngineBuilder
 import io.purplejs.core.mock.MockResource
 import io.purplejs.core.mock.MockResourceLoader
 import io.purplejs.core.resource.ResourceLoaderBuilder
@@ -7,7 +10,7 @@ import io.purplejs.core.resource.ResourcePath
 import io.purplejs.core.value.ScriptExports
 import spock.lang.Specification
 
-abstract class ScriptTestSupport
+abstract class AbstractIntegrationTest
     extends Specification
 {
     private Engine engine;

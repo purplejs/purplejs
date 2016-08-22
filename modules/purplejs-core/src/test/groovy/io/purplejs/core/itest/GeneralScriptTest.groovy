@@ -1,11 +1,10 @@
-package io.purplejs.core.script
+package io.purplejs.core.itest
 
-import io.purplejs.core.ScriptTestSupport
 import io.purplejs.core.json.JsonGenerator
 import io.purplejs.core.json.JsonSerializable
 
 class GeneralScriptTest
-    extends ScriptTestSupport
+    extends AbstractIntegrationTest
 {
     def "empty script"()
     {

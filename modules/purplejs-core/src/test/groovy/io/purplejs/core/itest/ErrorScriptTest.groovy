@@ -1,10 +1,9 @@
-package io.purplejs.core.script
+package io.purplejs.core.itest
 
-import io.purplejs.core.ScriptTestSupport
 import io.purplejs.core.exception.ProblemException
 
 class ErrorScriptTest
-    extends ScriptTestSupport
+    extends AbstractIntegrationTest
 {
     def "compile error"()
     {

@@ -1,40 +1,48 @@
-package io.purplejs.http.internal.response
+package io.purplejs.http.itest
 
 import com.google.common.base.Charsets
 import com.google.common.io.ByteSource
 import com.google.common.net.MediaType
+import io.purplejs.core.mock.MockResource
 import io.purplejs.core.resource.Resource
-import io.purplejs.core.value.ScriptExports
-import io.purplejs.core.value.ScriptValue
+import io.purplejs.core.resource.ResourcePath
 import io.purplejs.http.Response
-import io.purplejs.http.ScriptTestSupport
 import io.purplejs.http.Status
 
 class ScriptToResponseTest
-    extends ScriptTestSupport
+    extends AbstractIntegrationTest
 {
-    private Response toResponse( final Object... args )
+    private Response executeGet()
     {
-        final ScriptExports exports = run( '/test.js' );
-        final ScriptValue value = exports.executeMethod( 'run', args );
-        return new ScriptToResponse().toResponse( value );
+        this.request.method = 'GET';
+        return serve();
     }
 
-    private void script( final String content )
+    def byte[] toBytes( final String text )
     {
-        file( '/test.js', content );
+        return text.bytes;
+    }
+
+    def ByteSource toByteSource( final String text )
+    {
+        return ByteSource.wrap( text.bytes );
+    }
+
+    def Resource toResource( final String text )
+    {
+        return new MockResource( ResourcePath.from( '/my/resource.txt' ), text.bytes );
     }
 
     def "no return"()
     {
         setup:
         script( '''
-            exports.run = function () {
+            exports.get = function () {
             };
         ''' );
 
         when:
-        def res = toResponse();
+        def res = executeGet();
 
         then:
         res != null;
@@ -48,13 +56,13 @@ class ScriptToResponseTest
     {
         setup:
         script( '''
-            exports.run = function () {
+            exports.get = function () {
                 return {};
             };
         ''' );
 
         when:
-        def res = toResponse();
+        def res = executeGet();
 
         then:
         res != null;
@@ -68,7 +76,7 @@ class ScriptToResponseTest
     {
         setup:
         script( '''
-            exports.run = function () {
+            exports.get = function () {
                 return {
                     status: 201
                 };
@@ -76,7 +84,7 @@ class ScriptToResponseTest
         ''' );
 
         when:
-        def res = toResponse();
+        def res = executeGet();
 
         then:
         res != null;
@@ -90,7 +98,7 @@ class ScriptToResponseTest
     {
         setup:
         script( '''
-            exports.run = function () {
+            exports.get = function () {
                 return {
                     status: 201,
                     body: 'text',
@@ -104,7 +112,7 @@ class ScriptToResponseTest
         ''' );
 
         when:
-        def res = toResponse();
+        def res = executeGet();
 
         then:
         res != null;
@@ -120,7 +128,7 @@ class ScriptToResponseTest
     {
         setup:
         script( '''
-            exports.run = function () {
+            exports.get = function () {
                 return {
                     redirect: 'http://foo.bar'
                 };
@@ -128,7 +136,7 @@ class ScriptToResponseTest
         ''' );
 
         when:
-        def res = toResponse();
+        def res = executeGet();
 
         then:
         res != null;
@@ -141,7 +149,7 @@ class ScriptToResponseTest
     {
         setup:
         script( '''
-            exports.run = function () {
+            exports.get = function () {
                 return {
                     body: 'text'
                 };
@@ -149,7 +157,7 @@ class ScriptToResponseTest
         ''' );
 
         when:
-        def res = toResponse();
+        def res = executeGet();
 
         then:
         res != null;
@@ -160,7 +168,7 @@ class ScriptToResponseTest
     {
         setup:
         script( '''
-            exports.run = function () {
+            exports.get = function () {
                 return {
                     body: function () {
                         return 'text-in-function';
@@ -170,7 +178,7 @@ class ScriptToResponseTest
         ''' );
 
         when:
-        def res = toResponse();
+        def res = executeGet();
 
         then:
         res != null;
@@ -180,70 +188,67 @@ class ScriptToResponseTest
     def "return bytes body"()
     {
         setup:
-        def bytes = ByteSource.wrap( "bytes".bytes );
+        def bytes = toBytes( 'hello' );
         script( '''
-            exports.run = function (obj) {
+            exports.get = function () {
                 return {
-                    body: obj.read()
+                    body: t.toBytes('hello')
                 };
             };
         ''' );
 
         when:
-        def res = toResponse( bytes );
+        def res = executeGet();
+
+        then:
+        res != null;
+        res.body.read() == bytes;
+    }
+
+    def "return byteSource body"()
+    {
+        setup:
+        def bytes = toByteSource( 'hello' );
+        script( '''
+            exports.get = function () {
+                return {
+                    body: t.toByteSource('hello')
+                };
+            };
+        ''' );
+
+        when:
+        def res = executeGet();
 
         then:
         res != null;
         res.body.read() == bytes.read();
     }
 
-    def "return byteSource body"()
-    {
-        setup:
-        def bytes = ByteSource.wrap( "bytes".bytes );
-        script( '''
-            exports.run = function (obj) {
-                return {
-                    body: obj
-                };
-            };
-        ''' );
-
-        when:
-        def res = toResponse( bytes );
-
-        then:
-        res != null;
-        res.body == bytes;
-    }
-
     def "return resource body"()
     {
         setup:
-        def resource = Mock( Resource.class );
-        def bytes = ByteSource.wrap( "bytes".bytes );
-        resource.getBytes() >> bytes;
-
+        def resource = toResource( 'hello' );
         script( '''
-            exports.run = function (obj) {
+            exports.get = function () {
                 return {
-                    body: obj
+                    body: t.toResource('hello')
                 };
             };
         ''' );
 
         when:
-        def res = toResponse( resource );
+        def res = executeGet();
 
         then:
         res != null;
-        res.body == bytes;
+        res.body.read() == resource.bytes.read();
     }
 
     def "return null body"()
     {
         script( '''
-            exports.run = function () {
+            exports.get = function () {
                 return {
                     body: undefined
                 };
@@ -251,7 +256,7 @@ class ScriptToResponseTest
         ''' );
 
         when:
-        def res = toResponse();
+        def res = executeGet();
 
         then:
         res != null;
@@ -261,7 +266,7 @@ class ScriptToResponseTest
     def "wrong return"()
     {
         script( '''
-            exports.run = function () {
+            exports.get = function () {
                 return {
                     headers: []
                 };
@@ -269,7 +274,7 @@ class ScriptToResponseTest
         ''' );
 
         when:
-        def res = toResponse();
+        def res = executeGet();
 
         then:
         res != null;
@@ -279,7 +284,7 @@ class ScriptToResponseTest
     def "return json array"()
     {
         script( '''
-            exports.run = function () {
+            exports.get = function () {
                 return {
                     body: [1, 2, 3, {
                         a: 1,
@@ -291,7 +296,7 @@ class ScriptToResponseTest
         ''' );
 
         when:
-        def res = toResponse();
+        def res = executeGet();
 
         then:
         res != null;
@@ -302,7 +307,7 @@ class ScriptToResponseTest
     def "return json object"()
     {
         script( '''
-            exports.run = function () {
+            exports.get = function () {
                 return {
                     body: {
                         a: 1,
@@ -315,7 +320,7 @@ class ScriptToResponseTest
         ''' );
 
         when:
-        def res = toResponse();
+        def res = executeGet();
 
         then:
         res != null;
@@ -326,7 +331,7 @@ class ScriptToResponseTest
     def "return cookies"()
     {
         script( '''
-            exports.run = function () {
+            exports.get = function () {
                 return {
                     cookies: {
                         "cookie1": "value1",
@@ -349,7 +354,7 @@ class ScriptToResponseTest
         ''' );
 
         when:
-        def res = toResponse();
+        def res = executeGet();
 
         then:
         res != null;

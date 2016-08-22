@@ -1,10 +1,9 @@
-package io.purplejs.core.script
+package io.purplejs.core.itest
 
 import io.purplejs.core.EngineBinder
-import io.purplejs.core.ScriptTestSupport
 
 class GlobalTest
-    extends ScriptTestSupport
+    extends AbstractIntegrationTest
 {
     @Override
     protected void configureModule( final EngineBinder binder )

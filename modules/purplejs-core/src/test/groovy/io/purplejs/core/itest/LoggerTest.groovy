@@ -1,9 +1,7 @@
-package io.purplejs.core.script
-
-import io.purplejs.core.ScriptTestSupport
+package io.purplejs.core.itest
 
 class LoggerTest
-    extends ScriptTestSupport
+    extends AbstractIntegrationTest
 {
     def "log levels"()
     {
