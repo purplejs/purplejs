@@ -4,6 +4,7 @@ import com.google.common.base.Charsets
 import com.google.common.io.ByteSource
 import io.purplejs.core.Engine
 import io.purplejs.http.Request
+import io.purplejs.http.Response
 import io.purplejs.http.ResponseBuilder
 import io.purplejs.http.Status
 import io.purplejs.http.handler.HttpHandler
@@ -78,6 +79,7 @@ class ScriptServletTest
         def servlet = newServlet();
         servlet.handler = Mock( HttpHandler.class );
         servlet.handler.serve( _ as Request ) >> response;
+        servlet.handler.errorIfNeeded( _ as Request, _ as Response ) >> response;
 
         def servletRequest = new MockHttpServletRequest();
         servletRequest.setMethod( "GET" );
