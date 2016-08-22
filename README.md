@@ -7,5 +7,3 @@ PurpleJS Framework
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/55c594d118e54c9d86412109fef765c7)](https://www.codacy.com/app/purplejs/purplejs)
 
 More info here later!
-
-![alt tag](https://raw.githubusercontent.com/purplejs/purplejs/master/misc/logo.png)
