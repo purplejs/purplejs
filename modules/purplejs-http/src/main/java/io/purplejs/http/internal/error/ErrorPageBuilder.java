@@ -122,23 +122,20 @@ final class ErrorPageBuilder
 
         html.text( "h1 {" );
         html.text( " margin: 0;" );
-        html.text( " background: #A31012;" );
+        html.text( " background: #7758B3;" );
         html.text( " padding: 20px 45px;" );
         html.text( " color: #fff;" );
-        html.text( " text-shadow: 1px 1px 1px rgba(0, 0, 0, .3);" );
-        html.text( " border-bottom: 1px solid #690000;" );
+        // html.text( " border-bottom: 1px solid #690000;" );
         html.text( " font-size: 28px;" );
         html.text( "}" );
 
         html.text( "p#detail {" );
         html.text( " margin: 0;" );
         html.text( " padding: 15px 45px;" );
-        html.text( " background: #F5A0A0;" );
-        html.text( " border-top: 4px solid #D36D6D;" );
-        html.text( " color: #730000;" );
-        html.text( " text-shadow: 1px 1px 1px rgba(255, 255, 255, .3);" );
+        html.text( " background: #C5B3E8;" );
+        html.text( " border-top: 4px solid #5D3C9D;" );
+        html.text( " color: #000000;" );
         html.text( " font-size: 14px;" );
-        html.text( " border-bottom: 1px solid #BA7A7A;" );
         html.text( "}" );
 
         html.text( "h2 {" );
@@ -147,14 +144,12 @@ final class ErrorPageBuilder
         html.text( " font-size: 12px;" );
         html.text( " background: #333;" );
         html.text( " color: #fff;" );
-        html.text( " text-shadow: 1px 1px 1px rgba(0, 0, 0, .3);" );
         html.text( " border-top: 4px solid #2a2a2a;" );
         html.text( "}" );
 
         html.text( "pre {" );
         html.text( " margin: 0;" );
         html.text( " border-bottom: 1px solid #DDD;" );
-        html.text( " text-shadow: 1px 1px 1px rgba(255, 255, 255, .5);" );
         html.text( " position: relative;" );
         html.text( " font-size: 12px;" );
         html.text( " overflow: hidden;" );
@@ -167,7 +162,6 @@ final class ErrorPageBuilder
         html.text( " width: 30px;" );
         html.text( " background: #D6D6D6;" );
         html.text( " color: #8B8B8B;" );
-        html.text( " text-shadow: 1px 1px 1px rgba(255, 255, 255, .5);" );
         html.text( " font-weight: bold;" );
         html.text( "}" );
 
@@ -187,9 +181,8 @@ final class ErrorPageBuilder
         html.text( "}" );
 
         html.text( "pre.error span.line {" );
-        html.text( " background: #A31012;" );
+        html.text( " background: #5D3C9D;" );
         html.text( " color: #fff;" );
-        html.text( " text-shadow: 1px 1px 1px rgba(0, 0, 0, .3);" );
         html.text( "}" );
 
         html.text( "pre.error {" );
@@ -197,9 +190,8 @@ final class ErrorPageBuilder
         html.text( "}" );
 
         html.text( "pre.error span.marker {" );
-        html.text( " background: #A31012;" );
+        html.text( " background: #5D3C9D;" );
         html.text( " color: #fff;" );
-        html.text( " text-shadow: 1px 1px 1px rgba(0, 0, 0, .3);" );
         html.text( "}" );
 
         html.close();
