@@ -45,8 +45,8 @@ exports.processLines = function (stream, func) {
  * @param stream Stream to get size of.
  * @returns {number} Returns the size of a stream.
  */
-exports.streamSize = function (stream) {
-    return helper.streamSize(stream);
+exports.getStreamSize = function (stream) {
+    return helper.getStreamSize(stream);
 };
 
 /**

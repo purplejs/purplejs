@@ -20,14 +20,14 @@ class CoreLibScriptTest
         exports != null;
     }
 
-    def "streamSize"()
+    def "getStreamSize"()
     {
         setup:
         file( '/test.js', '''
             var core = require('/lib/core');
 
             var stream = core.newStream('hello');
-            t.assertEquals(5, core.streamSize(stream));
+            t.assertEquals(5, core.getStreamSize(stream));
         ''' );
 
         when:

@@ -29,13 +29,13 @@ class CoreLibHelperTest
         stream != null
     }
 
-    def "streamSize"()
+    def "getStreamSize"()
     {
         setup:
         def stream = this.helper.newStream( 'hello' );
 
         when:
-        def size = this.helper.streamSize( stream );
+        def size = this.helper.getStreamSize( stream );
 
         then:
         size == 5L;
@@ -44,7 +44,7 @@ class CoreLibHelperTest
     def "streamSize not a stream"()
     {
         when:
-        def size = this.helper.streamSize( 'test' );
+        def size = this.helper.getStreamSize( 'test' );
 
         then:
         size == 4L;

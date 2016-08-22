@@ -47,7 +47,7 @@ public final class CoreLibHelper
         return toCharSource( stream ).readLines();
     }
 
-    public long streamSize( final Object stream )
+    public long getStreamSize( final Object stream )
         throws Exception
     {
         return toByteSource( stream ).size();

@@ -2,6 +2,8 @@ package io.purplejs.http.itest
 
 import com.google.common.io.ByteSource
 import com.google.common.net.MediaType
+import io.purplejs.http.MultipartForm
+import io.purplejs.http.Status
 import io.purplejs.http.mock.MockRequest
 
 class HttpLibScriptTest
@@ -12,14 +14,14 @@ class HttpLibScriptTest
         return this.request;
     }
 
-    def "test request"()
+    def "test getRequest"()
     {
         setup:
         script( '''
             var http = require('/lib/http');
 
             exports.get = function() {
-                var req = http.request();
+                var req = http.getRequest();
                 t.assertEquals(req, t.currentRequest());
             };
         ''' );
@@ -29,6 +31,7 @@ class HttpLibScriptTest
 
         then:
         res != null;
+        res.status == Status.OK;
     }
 
     def "test isJsonBody"()
@@ -50,6 +53,7 @@ class HttpLibScriptTest
 
         then:
         res != null;
+        res.status == Status.OK;
     }
 
     def "test isJsonBody, not json"()
@@ -71,6 +75,7 @@ class HttpLibScriptTest
 
         then:
         res != null;
+        res.status == Status.OK;
     }
 
     def "test bodyAsText"()
@@ -92,6 +97,7 @@ class HttpLibScriptTest
 
         then:
         res != null;
+        res.status == Status.OK;
     }
 
     def "test bodyAsText, no body"()
@@ -112,6 +118,7 @@ class HttpLibScriptTest
 
         then:
         res != null;
+        res.status == Status.OK;
     }
 
     def "test bodyAsJson"()
@@ -134,6 +141,7 @@ class HttpLibScriptTest
 
         then:
         res != null;
+        res.status == Status.OK;
     }
 
     def "test bodyAsJson, not json"()
@@ -154,6 +162,7 @@ class HttpLibScriptTest
 
         then:
         res != null;
+        res.status == Status.OK;
     }
 
     def "test bodyAsStream"()
@@ -175,5 +184,70 @@ class HttpLibScriptTest
 
         then:
         res != null;
+        res.status == Status.OK;
+    }
+
+    def "test isMultipart"()
+    {
+        setup:
+        this.request.method = 'POST';
+        this.request.multipartForm = Mock( MultipartForm.class );
+
+        script( '''
+            var http = require('/lib/http');
+
+            exports.post = function() {
+                t.assertEquals(true, http.isMultipart());
+            };
+        ''' );
+
+        when:
+        def res = serve();
+
+        then:
+        res != null;
+        res.status == Status.OK;
+    }
+
+    def "test isMultipart, no multipart"()
+    {
+        setup:
+        this.request.method = 'POST';
+
+        script( '''
+            var http = require('/lib/http');
+
+            exports.post = function() {
+                t.assertEquals(false, http.isMultipart());
+            };
+        ''' );
+
+        when:
+        def res = serve();
+
+        then:
+        res != null;
+        res.status == Status.OK;
+    }
+
+    def "test getMultipartForm, no multipart"()
+    {
+        setup:
+        this.request.method = 'POST';
+
+        script( '''
+            var http = require('/lib/http');
+
+            exports.post = function() {
+                t.assertEquals('{}', JSON.stringify(http.getMultipartForm()));
+            };
+        ''' );
+
+        when:
+        def res = serve();
+
+        then:
+        res != null;
+        res.status == Status.OK;
     }
 }

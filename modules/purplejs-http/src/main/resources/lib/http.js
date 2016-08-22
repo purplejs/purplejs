@@ -1,23 +1,20 @@
+/* global exports */
+
 var core = require('/lib/core');
 
-// Find request provider
-var requestProvider = __.getProvider('io.purplejs.http.Request');
+var helper = __.newBean('io.purplejs.http.internal.lib.HttpLibHelper');
+helper.init(__);
 
-function request() {
-    return requestProvider.get();
+function getRequest() {
+    return helper.getRequest();
 }
 
 function isJsonBody() {
-    var type = request().contentType.toString();
-    return isJsonType(type);
-}
-
-function isJsonType(type) {
-    return type.equals("application/json");
+    return helper.isJsonBody();
 }
 
 function bodyAsStream() {
-    return request().body;
+    return getRequest().body;
 }
 
 function bodyAsText() {
@@ -33,16 +30,32 @@ function bodyAsJson() {
 }
 
 // Returns the current request
-module.exports.request = request;
+exports.getRequest = getRequest;
 
 // Returns true if body is of type text.
-module.exports.isJsonBody = isJsonBody;
+exports.isJsonBody = isJsonBody;
 
 // Returns body as text if applicable.
-module.exports.bodyAsText = bodyAsText;
+exports.bodyAsText = bodyAsText;
 
 // Returns body as text if applicable.
-module.exports.bodyAsJson = bodyAsJson;
+exports.bodyAsJson = bodyAsJson;
 
 // Returns body as stream if applicable.
-module.exports.bodyAsStream = bodyAsStream;
+exports.bodyAsStream = bodyAsStream;
+
+exports.isMultipart = function () {
+    return helper.isMultipart();
+};
+
+exports.getMultipartForm = function () {
+    return __.toNativeObject(helper.getMultipartForm());
+};
+
+exports.getMultipartItem = function (name, index) {
+    return __.toNativeObject(helper.getMultipartItem(name, index || 0));
+};
+
+exports.getMultipartStream = function (name, index) {
+    return __.toNativeObject(helper.getMultipartStream(name, index || 0));
+};

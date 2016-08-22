@@ -126,4 +126,9 @@ public final class MockRequest
             throw ExceptionHelper.unchecked( e );
         }
     }
+
+    public void setMultipartForm( final MultipartForm multipartForm )
+    {
+        this.multipartForm = multipartForm;
+    }
 }
