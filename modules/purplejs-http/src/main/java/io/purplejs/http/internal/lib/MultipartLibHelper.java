@@ -71,7 +71,12 @@ final class MultipartLibHelper
             return emptyJson();
         }
 
-        return gen -> serializeItem( gen, item );
+        return gen ->
+        {
+            gen.map();
+            serializeItem( gen, item );
+            gen.end();
+        };
     }
 
     private JsonSerializable emptyJson()
@@ -82,7 +87,7 @@ final class MultipartLibHelper
             gen.end();
         };
     }
-    
+
     private void serializeForm( final JsonGenerator gen, final ListMultimap<String, MultipartItem> form )
     {
         gen.map();
