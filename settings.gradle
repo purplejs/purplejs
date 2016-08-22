@@ -1,8 +1,8 @@
 include ':purplejs-core'
 include ':purplejs-http'
 include ':purplejs-servlet'
-include ':purplejs-boot'
-include ':purplejs-gradle'
+// include ':purplejs-boot'
+// include ':purplejs-gradle'
 // include ':purplejs-example'
 // include ':purplejs-testing'
 

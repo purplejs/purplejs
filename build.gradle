@@ -34,4 +34,8 @@ configure( javaProjects ) {
 
 configure( rootProject ) {
     apply from: "$rootDir/gradle/coverage.gradle"
+
+    task ci {
+        dependsOn = ['clean', 'build', 'jacocoMergedReport']
+    }
 }
