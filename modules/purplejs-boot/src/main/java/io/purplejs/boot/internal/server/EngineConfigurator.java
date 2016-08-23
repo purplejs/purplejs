@@ -6,7 +6,6 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import io.purplejs.boot.internal.config.ConfigHelper;
 import io.purplejs.boot.internal.config.Configurable;
 import io.purplejs.core.Engine;
 import io.purplejs.core.EngineBuilder;
@@ -48,10 +47,12 @@ public final class EngineConfigurator
             return;
         }
 
-        final List<File> devSourceDirs = new ConfigHelper( settings ).getDevSourceDirs();
+        final List<File> devSourceDirs = settings.getAsArray( File.class, "devSourceDirs", File::new );
         devSourceDirs.forEach( builder::devSourceDir );
 
         LOG.info( "Running in DEV mode. Do not use in production!" );
-        LOG.debug( "Using devSourceDirs = " + devSourceDirs.toString() );
+
+        LOG.info( "Monitoring the following directories (devSourceDirs) for changes:" );
+        devSourceDirs.forEach( file -> LOG.info( "*#* {} ", file ) );
     }
 }

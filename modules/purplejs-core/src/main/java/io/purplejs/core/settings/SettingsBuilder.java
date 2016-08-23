@@ -35,7 +35,7 @@ public interface SettingsBuilder
 
     Settings build();
 
-    public static SettingsBuilder newBuilder()
+    static SettingsBuilder newBuilder()
     {
         return new SettingsBuilderImpl();
     }
