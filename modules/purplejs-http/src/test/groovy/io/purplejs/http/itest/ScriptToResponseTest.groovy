@@ -67,7 +67,7 @@ class ScriptToResponseTest
         then:
         res != null;
         res.status == Status.OK;
-        res.body != null;
+        res.body == null;
         res.contentType == MediaType.PLAIN_TEXT_UTF_8;
         res.value != null;
     }
@@ -89,7 +89,7 @@ class ScriptToResponseTest
         then:
         res != null;
         res.status == Status.CREATED;
-        res.body != null;
+        res.body == null;
         res.contentType == MediaType.PLAIN_TEXT_UTF_8;
         res.value != null;
     }
@@ -260,7 +260,7 @@ class ScriptToResponseTest
 
         then:
         res != null;
-        res.body == ByteSource.empty();
+        res.body == null;
     }
 
     def "wrong return"()

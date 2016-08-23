@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.common.io.ByteSource;
+
 import io.purplejs.http.Cookie;
 import io.purplejs.http.Headers;
 import io.purplejs.http.Response;
@@ -26,7 +28,14 @@ public final class ResponseSerializer
 
         serializeHeaders( from.getHeaders() );
         serializeCookies( from.getCookies() );
-        from.getBody().copyTo( this.to.getOutputStream() );
+
+        getBody( from ).copyTo( this.to.getOutputStream() );
+    }
+
+    private ByteSource getBody( final Response from )
+    {
+        final ByteSource body = from.getBody();
+        return body != null ? body : ByteSource.empty();
     }
 
     private void serializeHeaders( final Headers headers )

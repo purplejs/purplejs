@@ -81,7 +81,7 @@ class BasicHandlingTest
         then:
         res != null;
         res.status == Status.CREATED;
-        res.body.asCharSource( Charsets.UTF_8 ).read() == '';
+        res.body == null;
     }
 
     def "head with get method"()

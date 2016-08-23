@@ -7,6 +7,7 @@ import javax.servlet.MultipartConfigElement;
 
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.HandlerCollection;
+import org.eclipse.jetty.servlet.FilterHolder;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 
@@ -32,7 +33,8 @@ public final class MainApp
 
         final ServletContextHandler context = new ServletContextHandler( ServletContextHandler.SESSIONS );
 
-        context.addFilter( AssetFilter.class, "/*", EnumSet.of( DispatcherType.REQUEST ) );
+        final FilterHolder filter = context.addFilter( AssetFilter.class, "/*", EnumSet.of( DispatcherType.REQUEST ) );
+        filter.setInitParameter( "devSourceDirs", System.getProperty( "io.purplejs.devSourceDirs" ) );
 
         final ServletHolder servlet = context.addServlet( ScriptServlet.class, "/*" );
         servlet.setInitParameter( "resource", "/app/main.js" );

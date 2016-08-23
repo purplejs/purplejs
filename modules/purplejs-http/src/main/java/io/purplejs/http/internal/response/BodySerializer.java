@@ -15,7 +15,7 @@ final class BodySerializer
     {
         if ( value == null )
         {
-            return ByteSource.empty();
+            return null;
         }
 
         if ( value instanceof Resource )

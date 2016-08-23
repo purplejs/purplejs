@@ -3,6 +3,7 @@ include ':purplejs-http'
 include ':purplejs-servlet'
 include ':purplejs-boot'
 include ':purplejs-gradle'
+include ':purplejs-router'
 // include ':purplejs-example'
 // include ':purplejs-testing'
 
