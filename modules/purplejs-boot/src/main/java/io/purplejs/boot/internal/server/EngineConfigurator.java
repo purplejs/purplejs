@@ -35,7 +35,7 @@ public final class EngineConfigurator
     private void configure( final Settings settings, final EngineBuilder builder )
     {
         builder.classLoader( getClass().getClassLoader() );
-        builder.settings( settings );
+        builder.settings( settings.getAsSettings( "app" ) );
         configureDevMode( settings, builder );
     }
 

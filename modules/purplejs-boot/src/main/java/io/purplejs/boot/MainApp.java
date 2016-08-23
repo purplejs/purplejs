@@ -1,10 +1,11 @@
 package io.purplejs.boot;
 
+import org.eclipse.jetty.server.Server;
+
 import io.purplejs.boot.internal.BannerPrinter;
+import io.purplejs.boot.internal.config.ConfigBuilder;
 import io.purplejs.boot.internal.server.ServerConfigurator;
-import io.purplejs.boot.settings.SettingsLoader;
 import io.purplejs.core.settings.Settings;
-import io.purplejs.core.settings.SettingsBuilder;
 
 public final class MainApp
 {
@@ -14,19 +15,16 @@ public final class MainApp
         // Print banner
         new BannerPrinter().printBanner();
 
-        final SettingsBuilder builder = SettingsBuilder.newBuilder();
+        // Load settings
+        final Settings settings = new ConfigBuilder().build();
 
-        final SettingsLoader loader = new SettingsLoader( builder );
-        loader.load( getClass(), "default.properties" );
-        loader.load( getClass().getClassLoader(), "config.properties" );
-        loader.applyOverrides();
-
-        final Settings settings = builder.interpolate().build();
-
+        // Configure the server
         final ServerConfigurator serverConfigurator = new ServerConfigurator();
         serverConfigurator.configure( settings );
 
-        serverConfigurator.getServer().start();
+        // Start the server
+        final Server server = serverConfigurator.getServer();
+        server.start();
     }
 
     public static void main( final String... args )

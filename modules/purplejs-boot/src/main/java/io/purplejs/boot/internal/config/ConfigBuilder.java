@@ -1,4 +1,4 @@
-package io.purplejs.boot.settings;
+package io.purplejs.boot.internal.config;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -6,20 +6,30 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
+import io.purplejs.core.settings.Settings;
 import io.purplejs.core.settings.SettingsBuilder;
 
-public final class SettingsLoader
+public final class ConfigBuilder
 {
     private final SettingsBuilder builder;
 
-    public SettingsLoader( final SettingsBuilder builder )
+    public ConfigBuilder()
     {
-        this.builder = builder;
+        this.builder = SettingsBuilder.newBuilder();
         this.builder.put( System.getProperties() );
         this.builder.put( "env", System.getenv() );
+
+        load( getClass(), "default.properties" );
+        load( getClass().getClassLoader(), "config.properties" );
+        applyOverrides();
     }
 
-    public SettingsLoader load( final File file )
+    public Settings build()
+    {
+        return this.builder.interpolate().build();
+    }
+
+    private ConfigBuilder load( final File file )
     {
         if ( !file.isFile() )
         {
@@ -37,7 +47,7 @@ public final class SettingsLoader
         }
     }
 
-    public SettingsLoader load( final ClassLoader loader, final String path )
+    private ConfigBuilder load( final ClassLoader loader, final String path )
     {
         final InputStream in = loader.getResourceAsStream( path );
         if ( in == null )
@@ -49,7 +59,7 @@ public final class SettingsLoader
         return this;
     }
 
-    public SettingsLoader load( final Class context, final String path )
+    private ConfigBuilder load( final Class context, final String path )
     {
         final String fullPath = context.getName().replace( '.', '/' ) + "/" + path;
         return load( context.getClassLoader(), fullPath );
@@ -69,7 +79,7 @@ public final class SettingsLoader
         }
     }
 
-    public SettingsLoader applyOverrides()
+    private ConfigBuilder applyOverrides()
     {
         this.builder.put( SettingsBuilder.newBuilder().
             put( System.getProperties() ).
