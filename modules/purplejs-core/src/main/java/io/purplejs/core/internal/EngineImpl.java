@@ -8,6 +8,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 
 import io.purplejs.core.Engine;
+import io.purplejs.core.RunMode;
 import io.purplejs.core.internal.executor.ScriptExecutorImpl;
 import io.purplejs.core.internal.nashorn.NashornRuntime;
 import io.purplejs.core.internal.nashorn.NashornRuntimeFactory;

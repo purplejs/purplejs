@@ -6,20 +6,17 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import io.purplejs.core.settings.SettingsBuilder;
 
 public final class SettingsLoader
 {
-    private final static Logger LOG = LoggerFactory.getLogger( SettingsLoader.class );
-
     private final SettingsBuilder builder;
 
     public SettingsLoader( final SettingsBuilder builder )
     {
         this.builder = builder;
+        this.builder.put( System.getProperties() );
+        this.builder.put( "env", System.getenv() );
     }
 
     public SettingsLoader load( final File file )
@@ -70,5 +67,15 @@ public final class SettingsLoader
         {
             throw new RuntimeException( "Error loading [" + path + "]", e );
         }
+    }
+
+    public SettingsLoader applyOverrides()
+    {
+        this.builder.put( SettingsBuilder.newBuilder().
+            put( System.getProperties() ).
+            build().
+            getAsSettings( "io.purplejs" ) );
+
+        return this;
     }
 }

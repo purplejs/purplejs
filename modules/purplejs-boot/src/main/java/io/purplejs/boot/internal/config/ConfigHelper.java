@@ -24,8 +24,7 @@ public final class ConfigHelper
 
     public List<File> getDevSourceDirs()
     {
-        final String defValue = this.settings.get( DEV_SOURCE_DIRS_KEY, null );
-        final String value = this.settings.get( SYS_PROP_PREFIX + DEV_SOURCE_DIRS_KEY, defValue );
+        final String value = this.settings.get( DEV_SOURCE_DIRS_KEY ).orElse( null );
         return findDevSourceDirs( value );
     }
 

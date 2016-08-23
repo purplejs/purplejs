@@ -1,6 +1,7 @@
 package io.purplejs.core.settings;
 
 import java.util.Map;
+import java.util.Optional;
 
 import com.google.common.collect.ImmutableMap;
 
@@ -17,39 +18,27 @@ final class SettingsImpl
     }
 
     @Override
-    public String get( final String key )
+    public Optional<String> get( final String key )
     {
-        return this.map.get( key );
+        return Optional.ofNullable( this.map.get( key ) );
     }
 
     @Override
-    public String get( final String key, final String defValue )
+    public <T> Optional<T> get( final Class<T> type, final String key )
     {
-        return this.map.getOrDefault( key, defValue );
+        final Optional<String> value = get( key );
+        return value.flatMap( str -> convert( type, str ) );
     }
 
-    @Override
-    public <T> T get( final Class<T> type, final String key )
+    private <T> Optional<T> convert( final Class<T> type, final String value )
     {
-        return get( type, key, null );
-    }
-
-    @Override
-    public <T> T get( final Class<T> type, final String key, final T defValue )
-    {
-        final String value = get( key );
-        if ( value == null )
-        {
-            return defValue;
-        }
-
         try
         {
-            return ConvertHelper.INSTANCE.convert( value, type );
+            return Optional.ofNullable( ConvertHelper.INSTANCE.convert( value, type ) );
         }
         catch ( final Exception e )
         {
-            return defValue;
+            return Optional.empty();
         }
     }
 

@@ -1,16 +1,13 @@
 package io.purplejs.core.settings;
 
 import java.util.Map;
+import java.util.Optional;
 
 public interface Settings
 {
-    String get( String key );
+    Optional<String> get( String key );
 
-    String get( String key, String defValue );
-
-    <T> T get( Class<T> type, String key );
-
-    <T> T get( Class<T> type, String key, T defValue );
+    <T> Optional<T> get( Class<T> type, String key );
 
     Settings getAsSettings( String key );
 

@@ -37,7 +37,7 @@ public final class ServerConfigurator
 
     private void configureServer( final Settings settings )
     {
-        this.server = new Server( settings.get( Integer.class, "port", 8080 ) );
+        this.server = new Server( settings.get( Integer.class, "port" ).orElse( 8080 ) );
         this.server.setHandler( this.handlers );
     }
 }
