@@ -1,9 +1,11 @@
 package io.purplejs.core;
 
-import java.util.Map;
+import java.io.File;
+import java.util.List;
 
 import io.purplejs.core.registry.Registry;
 import io.purplejs.core.resource.ResourceLoader;
+import io.purplejs.core.settings.Settings;
 
 /**
  * The environment holds all engine configurations that was used to build the
@@ -26,10 +28,7 @@ public interface Environment
      */
     ClassLoader getClassLoader();
 
-    /**
-     * Returns the user-defined application configurations as a map.
-     *
-     * @return the application configuration.
-     */
-    Map<String, String> getConfig();
+    List<File> getDevSourceDirs();
+
+    Settings getSettings();
 }

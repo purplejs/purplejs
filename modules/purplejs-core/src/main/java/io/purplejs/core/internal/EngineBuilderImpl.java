@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -18,6 +19,8 @@ import io.purplejs.core.RunMode;
 import io.purplejs.core.registry.RegistryBuilder;
 import io.purplejs.core.resource.ResourceLoader;
 import io.purplejs.core.resource.ResourceLoaderBuilder;
+import io.purplejs.core.settings.Settings;
+import io.purplejs.core.settings.SettingsBuilder;
 
 public final class EngineBuilderImpl
     implements EngineBuilder, EngineBinder
@@ -35,6 +38,8 @@ public final class EngineBuilderImpl
     private final CompositeModule module;
 
     private final RegistryBuilder registryBuilder;
+
+    private Settings settings;
 
     public EngineBuilderImpl()
     {
@@ -83,9 +88,9 @@ public final class EngineBuilderImpl
     }
 
     @Override
-    public EngineBinder config( final String name, final String value )
+    public EngineBuilder settings( final Settings settings )
     {
-        this.config.put( name, value );
+        this.settings = settings;
         return this;
     }
 
@@ -128,6 +133,11 @@ public final class EngineBuilderImpl
         {
             this.resourceLoader = ResourceLoaderBuilder.newBuilder().from( this.classLoader ).build();
         }
+
+        if ( this.settings == null )
+        {
+            this.settings = SettingsBuilder.newBuilder().build();
+        }
     }
 
     private ResourceLoader createResourceLoader()
@@ -155,7 +165,9 @@ public final class EngineBuilderImpl
         engine.resourceLoader = createResourceLoader();
         engine.config = ImmutableMap.copyOf( this.config );
         engine.globalVariables = ImmutableMap.copyOf( this.globalVariables );
+        engine.devSourceDirs = ImmutableList.copyOf( this.devSourceDirs );
         engine.module = this.module;
+        engine.settings = this.settings;
 
         this.registryBuilder.instance( Engine.class, engine );
         this.registryBuilder.instance( ResourceLoader.class, this.resourceLoader );

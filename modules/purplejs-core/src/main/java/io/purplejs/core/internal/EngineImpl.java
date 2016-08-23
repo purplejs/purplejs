@@ -1,8 +1,10 @@
 package io.purplejs.core.internal;
 
-import java.util.Map;
+import java.io.File;
+import java.util.List;
 import java.util.function.Supplier;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 
 import io.purplejs.core.Engine;
@@ -12,6 +14,7 @@ import io.purplejs.core.internal.nashorn.NashornRuntimeFactory;
 import io.purplejs.core.registry.Registry;
 import io.purplejs.core.resource.ResourceLoader;
 import io.purplejs.core.resource.ResourcePath;
+import io.purplejs.core.settings.Settings;
 import io.purplejs.core.value.ScriptExports;
 
 final class EngineImpl
@@ -28,6 +31,10 @@ final class EngineImpl
     Registry registry;
 
     CompositeModule module;
+
+    Settings settings;
+
+    ImmutableList<File> devSourceDirs;
 
     private final ScriptExecutorImpl executor;
 
@@ -49,9 +56,9 @@ final class EngineImpl
     }
 
     @Override
-    public Map<String, String> getConfig()
+    public Settings getSettings()
     {
-        return this.config;
+        return this.settings;
     }
 
     @Override
@@ -76,6 +83,12 @@ final class EngineImpl
     public ScriptExports require( final ResourcePath path )
     {
         return this.executor.executeMain( path );
+    }
+
+    @Override
+    public List<File> getDevSourceDirs()
+    {
+        return this.devSourceDirs;
     }
 
     @Override

@@ -1,23 +1,21 @@
-package io.purplejs.boot.internal;
+package io.purplejs.boot.internal.servlet;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.google.common.base.Splitter;
-import com.google.common.collect.Lists;
+import org.eclipse.jetty.http.MimeTypes;
+
 import com.google.common.io.Resources;
 import com.google.common.net.MediaType;
 
@@ -28,53 +26,55 @@ public final class AssetFilter
 {
     private final static String ASSETS_ROOT = "/assets";
 
-    private ServletContext context;
-
     private List<File> devSourceDirs;
+
+    private MimeTypes mimeTypes;
+
+    public AssetFilter()
+    {
+        this.mimeTypes = new MimeTypes();
+    }
+
+    public void setDevSourceDirs( final List<File> devSourceDirs )
+    {
+        this.devSourceDirs = devSourceDirs;
+    }
 
     @Override
     public void init( final FilterConfig config )
         throws ServletException
     {
-        this.context = config.getServletContext();
-        this.devSourceDirs = findDevSourceDirs( config.getInitParameter( "devSourceDirs" ) );
-    }
-
-    private List<File> findDevSourceDirs( final String prop )
-    {
-        if ( prop == null )
-        {
-            return Lists.newArrayList();
-        }
-
-        final Iterable<String> items = Splitter.on( ',' ).omitEmptyStrings().trimResults().split( prop );
-        return Lists.newArrayList( items ).stream().map( File::new ).collect( Collectors.toList() );
+        // Do nothing
     }
 
     @Override
-    public void doFilter( final ServletRequest req, final ServletResponse res, final FilterChain chain )
+    public void doFilter( final ServletRequest request, final ServletResponse response, final FilterChain chain )
         throws IOException, ServletException
     {
-        doFilter( (HttpServletRequest) req, (HttpServletResponse) res, chain );
-    }
-
-    private void doFilter( final HttpServletRequest req, final HttpServletResponse res, final FilterChain chain )
-        throws IOException, ServletException
-    {
-        final URL url = findResource( req );
-        if ( ( url == null ) || url.getPath().endsWith( "/" ) )
+        final boolean served = serveResource( (HttpServletRequest) request, (HttpServletResponse) response );
+        if ( !served )
         {
-            chain.doFilter( req, res );
-            return;
+            chain.doFilter( request, response );
         }
-
-        serveResource( res, url );
     }
 
     @Override
     public void destroy()
     {
         // Do nothing
+    }
+
+    private boolean serveResource( final HttpServletRequest request, final HttpServletResponse response )
+        throws IOException, ServletException
+    {
+        final URL url = findResource( request );
+        if ( ( url == null ) || url.getPath().endsWith( "/" ) )
+        {
+            return false;
+        }
+
+        serveResource( response, url );
+        return true;
     }
 
     private URL findResource( final HttpServletRequest req )
@@ -120,7 +120,7 @@ public final class AssetFilter
 
     private String findMimeType( final String path )
     {
-        final String mimeType = this.context.getMimeType( path );
+        final String mimeType = this.mimeTypes.getMimeByExtension( path );
         if ( mimeType != null )
         {
             return mimeType;

@@ -1,6 +1,7 @@
 package io.purplejs.core
 
 import io.purplejs.core.resource.ResourceLoader
+import io.purplejs.core.settings.SettingsBuilder
 import org.junit.Rule
 import org.junit.rules.TemporaryFolder
 import spock.lang.Specification
@@ -13,17 +14,19 @@ class EngineTest
     @Rule
     def TemporaryFolder temporaryFolder = new TemporaryFolder();
 
-    def "getConfig"()
+    def "getSettings"()
     {
+        setup:
+        def settings = SettingsBuilder.newBuilder().build();
+
         when:
         def engine = EngineBuilder.newBuilder().
-            module { binder -> binder.config( "key", "value" ) }.
+            settings( settings ).
             build();
 
         then:
         engine != null;
-        engine.config != null;
-        engine.config.size() == 1;
+        engine.settings == settings;
     }
 
     def "devSourceDir"()

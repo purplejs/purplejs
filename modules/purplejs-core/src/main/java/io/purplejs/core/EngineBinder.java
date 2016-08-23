@@ -39,15 +39,6 @@ public interface EngineBinder
     EngineBinder globalVariable( String name, Object value );
 
     /**
-     * Adds a configuration value to the application configuration.
-     *
-     * @param name  name of setting.
-     * @param value setting value.
-     * @return the instance of this binder.
-     */
-    EngineBinder config( String name, String value );
-
-    /**
      * Binds an initializer that is executed when the engine is created.
      *
      * @param initializer initializer to bind.

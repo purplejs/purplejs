@@ -4,6 +4,7 @@ import java.io.File;
 
 import io.purplejs.core.internal.EngineBuilderImpl;
 import io.purplejs.core.resource.ResourceLoader;
+import io.purplejs.core.settings.Settings;
 
 /**
  * This is a builder of engines. It's the main entry point for developers wanted to use
@@ -45,6 +46,8 @@ public interface EngineBuilder
      * @return the instance of this builder.
      */
     EngineBuilder module( EngineModule module );
+
+    EngineBuilder settings( Settings settings );
 
     /**
      * Builds a new instance of engine. It will also run all initializes configured.
