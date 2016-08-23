@@ -31,6 +31,11 @@ public final class Router
             }
         }
 
+        if ( method.equals( "HEAD" ) )
+        {
+            return matches( "GET", path );
+        }
+
         return null;
     }
 

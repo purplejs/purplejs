@@ -1,5 +1,5 @@
 function Router() {
-    this.router = __.newBean('io.purplejs.router.Router');
+    this.router = __.newBean('io.purplejs.router.internal.Router');
     this.filters = [];
 }
 

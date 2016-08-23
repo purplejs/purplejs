@@ -6,7 +6,7 @@ import jdk.nashorn.api.scripting.ScriptObjectMirror;
 
 public final class Route
 {
-    private final String method;
+    final String method;
 
     private final RoutePattern pattern;
 
