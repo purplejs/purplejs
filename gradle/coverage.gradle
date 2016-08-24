@@ -18,4 +18,10 @@ task jacocoMergedReport( type: JacocoReport ) {
 
     sourceDirectories = files( subprojects.sourceSets.main.allSource.srcDirs )
     classDirectories = files( subprojects.sourceSets.main.output )
+
+    reports {
+        html.enabled = true
+        xml.enabled = true
+        csv.enabled = false
+    }
 }
