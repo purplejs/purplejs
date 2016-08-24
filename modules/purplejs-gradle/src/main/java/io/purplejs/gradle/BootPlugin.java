@@ -13,7 +13,7 @@ import org.gradle.api.tasks.JavaExec;
 public class BootPlugin
     implements Plugin<Project>
 {
-    private PurpleJsExtension ext;
+    private PurpleExtension ext;
 
     private Project project;
 
@@ -21,7 +21,7 @@ public class BootPlugin
     public void apply( final Project project )
     {
         this.project = project;
-        this.ext = this.project.getExtensions().create( "purplejs", PurpleJsExtension.class, this.project );
+        this.ext = this.project.getExtensions().create( "purplejs", PurpleExtension.class, this.project );
 
         addPlugins();
         addRepositories();

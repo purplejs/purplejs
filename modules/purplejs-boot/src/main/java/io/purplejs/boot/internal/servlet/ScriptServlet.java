@@ -7,24 +7,27 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.eclipse.jetty.websocket.api.WebSocketBehavior;
-import org.eclipse.jetty.websocket.api.WebSocketPolicy;
+import org.eclipse.jetty.websocket.server.WebSocketServerFactory;
+import org.eclipse.jetty.websocket.servlet.WebSocketCreator;
 import org.eclipse.jetty.websocket.servlet.WebSocketServletFactory;
 
 import io.purplejs.boot.internal.request.RequestImpl;
 import io.purplejs.boot.internal.response.ResponseSerializer;
+import io.purplejs.boot.internal.websocket.WebSocketHandler;
 import io.purplejs.core.Engine;
 import io.purplejs.core.resource.ResourcePath;
+import io.purplejs.http.Request;
 import io.purplejs.http.Response;
 import io.purplejs.http.handler.HttpHandler;
 import io.purplejs.http.handler.HttpHandlerFactory;
+import io.purplejs.http.websocket.WebSocketConfig;
 
 public final class ScriptServlet
     extends HttpServlet
 {
-    private Engine engine;
+    Engine engine;
 
-    private HttpHandler handler;
+    HttpHandler handler;
 
     private WebSocketServletFactory webSocketServletFactory;
 
@@ -48,12 +51,9 @@ public final class ScriptServlet
     private void initWebSocketFactory()
         throws ServletException
     {
-        // See WebSocketServlet for how to do websockets...
-
         try
         {
-            final WebSocketPolicy policy = new WebSocketPolicy( WebSocketBehavior.SERVER );
-            this.webSocketServletFactory = WebSocketServletFactory.Loader.create( policy );
+            this.webSocketServletFactory = new WebSocketServerFactory();
             this.webSocketServletFactory.getPolicy().setIdleTimeout( 10000 );
             this.webSocketServletFactory.init( getServletContext() );
         }
@@ -64,16 +64,31 @@ public final class ScriptServlet
     }
 
     @Override
-    protected void service( final HttpServletRequest req, final HttpServletResponse resp )
+    protected void service( final HttpServletRequest req, final HttpServletResponse res )
         throws ServletException, IOException
     {
         final RequestImpl actualRequest = new RequestImpl( req );
-        final Response actualResponse = serve( actualRequest );
 
-        new ResponseSerializer( resp ).serialize( actualResponse );
+        final boolean isWebSocket = this.webSocketServletFactory.isUpgradeRequest( req, res );
+        actualRequest.setWebSocket( isWebSocket );
+
+        final Response actualResponse = serve( actualRequest );
+        if ( actualResponse == null )
+        {
+            return;
+        }
+
+        if ( !isWebSocket )
+        {
+            new ResponseSerializer( res ).serialize( actualResponse );
+            return;
+        }
+
+        final WebSocketConfig config = actualResponse.getWebSocket();
+        acceptWebSocket( req, res, config );
     }
 
-    private Response serve( final io.purplejs.http.Request request )
+    private Response serve( final Request request )
     {
         try
         {
@@ -84,33 +99,13 @@ public final class ScriptServlet
         {
             return this.handler.handleException( request, e );
         }
+    }
 
-
-        // TODO: Custom serialize Object's in JsonSerializer (like session, ByteStream etc)
-        /**
-         *
-         * return {
-         *   webSocket: {
-         *     ... settings ...
-         *     attributes: {
-         *       ... custom attributes ...
-         *     }
-         *   }
-         * };
-         *
-         * onEvent(event)
-         *
-         *   event.type
-         *   event.session
-         *   event.sessionId
-         *   event.message
-         *
-         *   event.session.send(...);
-         *
-         *
-         * }
-         *
-         */
+    private void acceptWebSocket( final HttpServletRequest req, final HttpServletResponse res, final WebSocketConfig config )
+        throws IOException
+    {
+        final WebSocketCreator creator = new WebSocketHandler( this.handler, config );
+        this.webSocketServletFactory.acceptWebSocket( creator, req, res );
     }
 
     @Override

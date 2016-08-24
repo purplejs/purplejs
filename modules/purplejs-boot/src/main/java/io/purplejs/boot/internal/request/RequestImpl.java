@@ -34,8 +34,11 @@ public final class RequestImpl
 
     private final long contentLength;
 
+    private boolean webSocket;
+
     public RequestImpl( final HttpServletRequest wrapped )
     {
+        this.webSocket = false;
         this.wrapped = wrapped;
         this.contentLength = this.wrapped.getContentLength();
 
@@ -183,5 +186,16 @@ public final class RequestImpl
         {
             throw ExceptionHelper.unchecked( e );
         }
+    }
+
+    @Override
+    public boolean isWebSocket()
+    {
+        return this.webSocket;
+    }
+
+    public void setWebSocket( final boolean webSocket )
+    {
+        this.webSocket = webSocket;
     }
 }

@@ -6,6 +6,7 @@ import com.google.common.io.ByteSource;
 import com.google.common.net.MediaType;
 
 import io.purplejs.core.value.ScriptValue;
+import io.purplejs.http.websocket.WebSocketConfig;
 
 public interface Response
 {
@@ -18,6 +19,8 @@ public interface Response
     Headers getHeaders();
 
     List<Cookie> getCookies();
+
+    WebSocketConfig getWebSocket();
 
     ScriptValue getValue();
 }

@@ -7,7 +7,6 @@ import io.purplejs.core.Engine;
 import io.purplejs.core.EngineBinder;
 import io.purplejs.core.EngineBuilder;
 import io.purplejs.core.EngineModule;
-import io.purplejs.core.RunMode;
 import io.purplejs.core.resource.ResourceLoaderBuilder;
 import io.purplejs.core.resource.ResourcePath;
 import io.purplejs.core.value.ScriptExports;
@@ -30,8 +29,6 @@ public abstract class TestingSupport
         configure( builder );
 
         this.engine = builder.build();
-
-        RunMode.TEST.set();
     }
 
     @After

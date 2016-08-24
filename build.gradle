@@ -30,6 +30,7 @@ configure( allprojects ) {
 configure( javaProjects ) {
     apply from: "$rootDir/gradle/java.gradle"
     apply from: "$rootDir/gradle/maven.gradle"
+    apply from: "$rootDir/gradle/publish.gradle"
 }
 
 configure( rootProject ) {

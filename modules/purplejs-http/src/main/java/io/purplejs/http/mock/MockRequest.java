@@ -33,6 +33,8 @@ public final class MockRequest
 
     private Object raw;
 
+    private boolean webSocket;
+
     public MockRequest()
     {
         this.headers = new Headers();
@@ -130,5 +132,16 @@ public final class MockRequest
     public void setMultipartForm( final MultipartForm multipartForm )
     {
         this.multipartForm = multipartForm;
+    }
+
+    @Override
+    public boolean isWebSocket()
+    {
+        return this.webSocket;
+    }
+
+    public void setWebSocket( final boolean webSocket )
+    {
+        this.webSocket = webSocket;
     }
 }

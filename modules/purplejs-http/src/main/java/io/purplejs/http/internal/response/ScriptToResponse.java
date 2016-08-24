@@ -8,6 +8,7 @@ import io.purplejs.http.Cookie;
 import io.purplejs.http.Response;
 import io.purplejs.http.ResponseBuilder;
 import io.purplejs.http.Status;
+import io.purplejs.http.internal.websocket.WebSocketConfigFactory;
 
 public final class ScriptToResponse
 {
@@ -31,6 +32,7 @@ public final class ScriptToResponse
         populateHeaders( builder, value.getMember( "headers" ) );
         populateCookies( builder, value.getMember( "cookies" ) );
         setRedirect( builder, value.getMember( "redirect" ) );
+        setWebSocket( builder, value.getMember( "webSocket" ) );
 
         return builder.build();
     }
@@ -150,5 +152,10 @@ public final class ScriptToResponse
         {
             builder.cookie( newCookie( value, key ) );
         }
+    }
+
+    private void setWebSocket( final ResponseBuilder builder, final ScriptValue value )
+    {
+        builder.webSocket( new WebSocketConfigFactory().create( value ) );
     }
 }

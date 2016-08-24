@@ -1,4 +1,0 @@
-dependencies {
-    compile project( ':purplejs-http' )
-    testRuntime "org.slf4j:slf4j-simple:${versions.slf4j}"
-}

@@ -5,11 +5,8 @@ import java.util.List;
 import com.google.common.io.ByteSource;
 import com.google.common.net.MediaType;
 
-import io.purplejs.http.Cookie;
-import io.purplejs.http.Headers;
-import io.purplejs.http.Response;
-import io.purplejs.http.Status;
 import io.purplejs.core.value.ScriptValue;
+import io.purplejs.http.websocket.WebSocketConfig;
 
 final class ResponseImpl
     implements Response
@@ -25,6 +22,8 @@ final class ResponseImpl
     ScriptValue value;
 
     List<Cookie> cookies;
+
+    WebSocketConfig webSocket;
 
     @Override
     public Status getStatus()
@@ -60,5 +59,11 @@ final class ResponseImpl
     public ByteSource getBody()
     {
         return this.body;
+    }
+
+    @Override
+    public WebSocketConfig getWebSocket()
+    {
+        return this.webSocket;
     }
 }

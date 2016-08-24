@@ -4,6 +4,7 @@ import java.util.Stack;
 
 import io.purplejs.core.json.JsonGenerator;
 import io.purplejs.core.json.JsonSerializable;
+import io.purplejs.core.value.ScriptValue;
 
 public abstract class AbstractJsonGenerator
     implements JsonGenerator
@@ -157,6 +158,11 @@ public abstract class AbstractJsonGenerator
         if ( value instanceof JsonSerializable )
         {
             return convertValue( (JsonSerializable) value );
+        }
+
+        if ( value instanceof ScriptValue )
+        {
+            return convertValue( ( (ScriptValue) value ).getRaw() );
         }
 
         return value;

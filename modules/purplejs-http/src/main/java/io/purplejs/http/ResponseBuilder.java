@@ -7,6 +7,7 @@ import com.google.common.io.ByteSource;
 import com.google.common.net.MediaType;
 
 import io.purplejs.core.value.ScriptValue;
+import io.purplejs.http.websocket.WebSocketConfig;
 
 public final class ResponseBuilder
 {
@@ -19,6 +20,8 @@ public final class ResponseBuilder
     private final Headers headers = new Headers();
 
     private final List<Cookie> cookies = Lists.newArrayList();
+
+    private WebSocketConfig webSocket;
 
     private ScriptValue value;
 
@@ -58,6 +61,12 @@ public final class ResponseBuilder
         return this;
     }
 
+    public ResponseBuilder webSocket( final WebSocketConfig webSocket )
+    {
+        this.webSocket = webSocket;
+        return this;
+    }
+
     public Response build()
     {
         final ResponseImpl response = new ResponseImpl();
@@ -67,6 +76,7 @@ public final class ResponseBuilder
         response.headers = this.headers;
         response.value = this.value;
         response.cookies = this.cookies;
+        response.webSocket = this.webSocket;
         return response;
     }
 

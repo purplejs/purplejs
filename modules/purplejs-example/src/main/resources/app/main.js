@@ -1,16 +1,34 @@
-// var http = require('/lib/http');
-
-var ByteSource = Java.type('com.google.common.io.ByteSource');
+var http = require('/lib/http');
+var websocket = require('/lib/websocket');
 
 
 exports.get = function (req) {
 
+    if (!req.webSocket) {
+        websocket.sendToGroup('default', 'Hello from here!');
+
+        return {
+            body: req
+        };
+    }
+
     return {
-        body: {
-            m: req.peer.raw.remoteAddr
+        webSocket: {
+            // group: 'test',            // default is "default"
+            attributes: {
+                a: 3,
+                b: 4
+            }
+            // timeout: 2000
+            // subProtocols: ['text'],   // default is []
         }
     };
 
+};
+
+exports.webSocketEvent = function (event) {
+    websocket.send(event.session.id, 'Hello World!');
+    websocket.sendToGroup('default', 'Hello everyone!', event.session.id);
 };
 
 /*

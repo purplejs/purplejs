@@ -1,12 +1,10 @@
 include ':purplejs-core'
 include ':purplejs-http'
-include ':purplejs-websocket'
 include ':purplejs-router'
-// include ':purplejs-servlet'
 include ':purplejs-boot'
 include ':purplejs-gradle'
 include ':purplejs-example'
-// include ':purplejs-testing'
+include ':purplejs-testing'
 
 rootProject.name = 'purplejs'
 

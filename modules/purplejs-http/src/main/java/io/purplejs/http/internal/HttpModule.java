@@ -8,6 +8,9 @@ import io.purplejs.http.error.ErrorHandler;
 import io.purplejs.http.handler.HttpHandlerFactory;
 import io.purplejs.http.internal.error.DefaultErrorHandler;
 import io.purplejs.http.internal.handler.HttpHandlerFactoryImpl;
+import io.purplejs.http.internal.websocket.WebSocketRegistry;
+import io.purplejs.http.internal.websocket.WebSocketRegistryImpl;
+import io.purplejs.http.websocket.WebSocketManager;
 
 public final class HttpModule
     implements EngineModule
@@ -22,6 +25,10 @@ public final class HttpModule
         binder.provider( Request.class, new RequestAccessor() );
         binder.instance( ErrorHandler.class, new DefaultErrorHandler() );
         binder.instance( HttpHandlerFactory.class, this.handlerFactory );
+
+        final WebSocketRegistry webSocketRegistry = new WebSocketRegistryImpl();
+        binder.instance( WebSocketRegistry.class, webSocketRegistry );
+        binder.instance( WebSocketManager.class, webSocketRegistry );
 
         binder.initializer( this::initialize );
     }

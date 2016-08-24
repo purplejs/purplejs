@@ -24,5 +24,7 @@ public interface Request
 
     MultipartForm getMultipart();
 
+    boolean isWebSocket();
+
     Object getRaw();
 }

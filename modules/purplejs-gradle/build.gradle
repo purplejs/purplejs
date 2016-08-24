@@ -1,4 +1,23 @@
+apply plugin: 'com.gradle.plugin-publish'
+
+description = "Build time PurpleJS support for Gradle - http://gradle.org"
+
 dependencies {
     compile gradleApi()
     testCompile gradleTestKit()
+}
+
+pluginBundle {
+    website = 'http://purplejs.io/'
+    vcsUrl = 'https://github.com/purplejs/purplejs'
+    tags = ['application', 'web', 'http', 'javascript', 'purplejs']
+
+    plugins {
+        bootPlugin {
+            id = 'io.purplejs.boot'
+            displayName = 'PurpleJS Boot Gradle Plugin'
+            description = 'This plugin provides build time integration for PurpleJS Boot applications.'
+            tags = ['application', 'web', 'http', 'javascript', 'purplejs']
+        }
+    }
 }

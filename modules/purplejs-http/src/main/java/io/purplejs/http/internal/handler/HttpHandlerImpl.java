@@ -15,6 +15,9 @@ import io.purplejs.http.Response;
 import io.purplejs.http.Status;
 import io.purplejs.http.handler.HttpHandler;
 import io.purplejs.http.internal.error.ErrorRenderer;
+import io.purplejs.http.internal.websocket.WebSocketRegistry;
+import io.purplejs.http.websocket.WebSocketEvent;
+import io.purplejs.http.websocket.WebSocketSession;
 
 final class HttpHandlerImpl
     implements HttpHandler
@@ -26,6 +29,8 @@ final class HttpHandlerImpl
     ResourcePath resource;
 
     ErrorRenderer errorRenderer;
+
+    WebSocketRegistry webSocketRegistry;
 
     @Override
     public Response serve( final Request request )
@@ -43,6 +48,11 @@ final class HttpHandlerImpl
     @Override
     public Response errorIfNeeded( final Request request, final Response response )
     {
+        if ( request.isWebSocket() )
+        {
+            return response;
+        }
+
         final Status status = response.getStatus();
         final boolean isError = status.isServerError() || status.isClientError();
 
@@ -64,6 +74,29 @@ final class HttpHandlerImpl
     public Response handleException( final Request request, final Throwable cause )
     {
         LOG.error( "Request [" + request.getUri() + "] caused an exception", cause );
+        if ( request.isWebSocket() )
+        {
+            return null;
+        }
+
         return this.errorRenderer.handle( request, cause );
+    }
+
+    @Override
+    public boolean handleEvent( final WebSocketEvent event )
+    {
+        final WebSocketSession session = event.getSession();
+        switch ( event.getType() )
+        {
+            case OPEN:
+                this.webSocketRegistry.add( session );
+                break;
+            case CLOSE:
+                this.webSocketRegistry.remove( session );
+                break;
+        }
+
+        final HandleEventCommand command = new HandleEventCommand( event );
+        return execute( command );
     }
 }
