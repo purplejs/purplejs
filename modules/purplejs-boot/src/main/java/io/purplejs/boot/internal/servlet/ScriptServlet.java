@@ -7,6 +7,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.eclipse.jetty.websocket.api.WebSocketBehavior;
+import org.eclipse.jetty.websocket.api.WebSocketPolicy;
+import org.eclipse.jetty.websocket.servlet.WebSocketServletFactory;
+
 import io.purplejs.boot.internal.request.RequestImpl;
 import io.purplejs.boot.internal.response.ResponseSerializer;
 import io.purplejs.core.Engine;
@@ -22,6 +26,8 @@ public final class ScriptServlet
 
     private HttpHandler handler;
 
+    private WebSocketServletFactory webSocketServletFactory;
+
     public void setEngine( final Engine engine )
     {
         this.engine = engine;
@@ -35,6 +41,26 @@ public final class ScriptServlet
 
         final HttpHandlerFactory handlerFactory = this.engine.getInstance( HttpHandlerFactory.class );
         this.handler = handlerFactory.newHandler( ResourcePath.from( "/app/main.js" ) );
+
+        initWebSocketFactory();
+    }
+
+    private void initWebSocketFactory()
+        throws ServletException
+    {
+        // See WebSocketServlet for how to do websockets...
+
+        try
+        {
+            final WebSocketPolicy policy = new WebSocketPolicy( WebSocketBehavior.SERVER );
+            this.webSocketServletFactory = WebSocketServletFactory.Loader.create( policy );
+            this.webSocketServletFactory.getPolicy().setIdleTimeout( 10000 );
+            this.webSocketServletFactory.init( getServletContext() );
+        }
+        catch ( final Exception e )
+        {
+            throw new ServletException( e );
+        }
     }
 
     @Override
