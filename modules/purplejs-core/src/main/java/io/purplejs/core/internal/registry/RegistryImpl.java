@@ -1,8 +1,10 @@
-package io.purplejs.core.registry;
+package io.purplejs.core.internal.registry;
 
 import java.util.function.Supplier;
 
 import com.google.common.collect.ImmutableMap;
+
+import io.purplejs.core.registry.Registry;
 
 final class RegistryImpl
     implements Registry

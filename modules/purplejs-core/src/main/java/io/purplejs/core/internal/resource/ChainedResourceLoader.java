@@ -1,4 +1,8 @@
-package io.purplejs.core.resource;
+package io.purplejs.core.internal.resource;
+
+import io.purplejs.core.resource.Resource;
+import io.purplejs.core.resource.ResourceLoader;
+import io.purplejs.core.resource.ResourcePath;
 
 final class ChainedResourceLoader
     implements ResourceLoader

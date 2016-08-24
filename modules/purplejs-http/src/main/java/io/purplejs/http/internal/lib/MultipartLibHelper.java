@@ -123,5 +123,6 @@ final class MultipartLibHelper
         gen.value( "fileName", item.getFileName() );
         gen.value( "contentType", item.getContentType() );
         gen.value( "size", item.getSize() );
+        gen.value( "stream", item.getBytes() );
     }
 }

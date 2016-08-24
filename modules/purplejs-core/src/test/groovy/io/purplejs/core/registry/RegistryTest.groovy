@@ -1,6 +1,6 @@
 package io.purplejs.core.registry
 
-import io.purplejs.core.resource.ResourceTestSupport
+import io.purplejs.core.internal.resource.ResourceTestSupport
 
 import java.util.function.Supplier
 

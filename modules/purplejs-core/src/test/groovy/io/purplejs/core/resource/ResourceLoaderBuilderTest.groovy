@@ -1,5 +1,7 @@
 package io.purplejs.core.resource
 
+import io.purplejs.core.internal.resource.ResourceTestSupport
+
 class ResourceLoaderBuilderTest
     extends ResourceTestSupport
 {

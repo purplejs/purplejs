@@ -1,4 +1,4 @@
-package io.purplejs.core.registry;
+package io.purplejs.core.internal.registry;
 
 import java.util.Map;
 import java.util.function.Supplier;
@@ -6,12 +6,15 @@ import java.util.function.Supplier;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 
-final class RegistryBuilderImpl
+import io.purplejs.core.registry.Registry;
+import io.purplejs.core.registry.RegistryBuilder;
+
+public final class RegistryBuilderImpl
     implements RegistryBuilder
 {
     private final Map<Class, Supplier> map;
 
-    RegistryBuilderImpl()
+    public RegistryBuilderImpl()
     {
         this.map = Maps.newHashMap();
     }

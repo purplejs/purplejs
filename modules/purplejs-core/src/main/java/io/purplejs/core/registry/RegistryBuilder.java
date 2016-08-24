@@ -2,6 +2,8 @@ package io.purplejs.core.registry;
 
 import java.util.function.Supplier;
 
+import io.purplejs.core.internal.registry.RegistryBuilderImpl;
+
 /**
  * This is a builder of registries. It's possible to either bind an instance or a
  * provider of instances to the registry.

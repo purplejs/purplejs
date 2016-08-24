@@ -3,6 +3,8 @@ package io.purplejs.core.settings;
 import java.util.Map;
 import java.util.Properties;
 
+import io.purplejs.core.internal.settings.SettingsBuilderImpl;
+
 public interface SettingsBuilder
 {
     SettingsBuilder put( Properties properties );

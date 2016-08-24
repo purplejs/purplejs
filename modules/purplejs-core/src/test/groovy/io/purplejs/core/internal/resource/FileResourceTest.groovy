@@ -1,8 +1,9 @@
-package io.purplejs.core.resource
+package io.purplejs.core.internal.resource
 
 import com.google.common.base.Charsets
+import io.purplejs.core.resource.ResourcePath
 
-class UrlResourceTest
+class FileResourceTest
     extends ResourceTestSupport
 {
     def "accessors"()
@@ -12,7 +13,7 @@ class UrlResourceTest
         def path = ResourcePath.from( '/a/b/test.txt' );
 
         when:
-        def resource = new UrlResource( path, file.toURI().toURL() );
+        def resource = new FileResource( path, file );
 
         then:
         resource.path == path;
@@ -20,18 +21,5 @@ class UrlResourceTest
         resource.lastModified == file.lastModified();
         resource.bytes != null;
         resource.bytes.asCharSource( Charsets.UTF_8 ).read() == 'hello';
-    }
-
-    def "url problem"()
-    {
-        setup:
-        def path = ResourcePath.from( '/a/b/test.txt' );
-
-        when:
-        def resource = new UrlResource( path, new URL( 'file:not-found' ) );
-
-        then:
-        resource.size == -1;
-        resource.lastModified == -1;
     }
 }

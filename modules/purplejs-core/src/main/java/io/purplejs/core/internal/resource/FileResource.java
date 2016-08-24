@@ -1,9 +1,12 @@
-package io.purplejs.core.resource;
+package io.purplejs.core.internal.resource;
 
 import java.io.File;
 
 import com.google.common.io.ByteSource;
 import com.google.common.io.Files;
+
+import io.purplejs.core.resource.Resource;
+import io.purplejs.core.resource.ResourcePath;
 
 final class FileResource
     implements Resource

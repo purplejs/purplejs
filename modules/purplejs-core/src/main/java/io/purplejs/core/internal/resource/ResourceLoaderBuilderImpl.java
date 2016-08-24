@@ -1,13 +1,16 @@
-package io.purplejs.core.resource;
+package io.purplejs.core.internal.resource;
 
 import java.io.File;
 
-final class ResourceLoaderBuilderImpl
+import io.purplejs.core.resource.ResourceLoader;
+import io.purplejs.core.resource.ResourceLoaderBuilder;
+
+public final class ResourceLoaderBuilderImpl
     implements ResourceLoaderBuilder
 {
     private ResourceLoader loader;
 
-    ResourceLoaderBuilderImpl()
+    public ResourceLoaderBuilderImpl()
     {
         this.loader = new NopResourceLoader();
     }

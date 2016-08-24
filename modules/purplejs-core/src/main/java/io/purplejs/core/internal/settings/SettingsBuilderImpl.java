@@ -1,4 +1,4 @@
-package io.purplejs.core.settings;
+package io.purplejs.core.internal.settings;
 
 import java.util.Map;
 import java.util.Properties;
@@ -9,14 +9,17 @@ import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 
-final class SettingsBuilderImpl
+import io.purplejs.core.settings.Settings;
+import io.purplejs.core.settings.SettingsBuilder;
+
+public final class SettingsBuilderImpl
     implements SettingsBuilder
 {
     private final static Pattern INTERPOLATE = Pattern.compile( "(\\$\\{(\\S+)})", Pattern.MULTILINE );
 
     private final Map<String, String> map;
 
-    SettingsBuilderImpl()
+    public SettingsBuilderImpl()
     {
         this.map = Maps.newLinkedHashMap();
     }

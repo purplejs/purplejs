@@ -1,10 +1,14 @@
-package io.purplejs.core.resource;
+package io.purplejs.core.internal.resource;
 
 import java.net.URL;
 
 import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
+
+import io.purplejs.core.resource.Resource;
+import io.purplejs.core.resource.ResourceLoader;
+import io.purplejs.core.resource.ResourcePath;
 
 final class ClassLoaderResourceLoader
     implements ResourceLoader

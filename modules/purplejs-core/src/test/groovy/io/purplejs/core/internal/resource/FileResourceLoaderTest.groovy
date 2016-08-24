@@ -1,6 +1,7 @@
-package io.purplejs.core.resource
+package io.purplejs.core.internal.resource
 
 import io.purplejs.core.exception.NotFoundException
+import io.purplejs.core.resource.ResourcePath
 
 class FileResourceLoaderTest
     extends ResourceTestSupport

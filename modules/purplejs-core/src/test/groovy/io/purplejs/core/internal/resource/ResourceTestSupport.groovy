@@ -1,4 +1,4 @@
-package io.purplejs.core.resource
+package io.purplejs.core.internal.resource
 
 import org.junit.Rule
 import org.junit.rules.TemporaryFolder

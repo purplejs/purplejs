@@ -1,6 +1,10 @@
-package io.purplejs.core.resource;
+package io.purplejs.core.internal.resource;
 
 import java.io.File;
+
+import io.purplejs.core.resource.Resource;
+import io.purplejs.core.resource.ResourceLoader;
+import io.purplejs.core.resource.ResourcePath;
 
 final class FileResourceLoader
     implements ResourceLoader

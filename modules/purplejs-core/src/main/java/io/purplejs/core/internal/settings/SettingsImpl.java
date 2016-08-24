@@ -1,4 +1,4 @@
-package io.purplejs.core.settings;
+package io.purplejs.core.internal.settings;
 
 import java.util.List;
 import java.util.Map;
@@ -11,6 +11,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 
 import io.purplejs.core.internal.util.ConvertHelper;
+import io.purplejs.core.settings.Settings;
 
 final class SettingsImpl
     implements Settings
@@ -100,5 +101,11 @@ final class SettingsImpl
     public Map<String, String> asMap()
     {
         return this.map;
+    }
+
+    @Override
+    public String toString()
+    {
+        return this.map.toString();
     }
 }

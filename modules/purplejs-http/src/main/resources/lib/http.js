@@ -55,7 +55,3 @@ exports.getMultipartForm = function () {
 exports.getMultipartItem = function (name, index) {
     return __.toNativeObject(helper.getMultipartItem(name, index || 0));
 };
-
-exports.getMultipartStream = function (name, index) {
-    return __.toNativeObject(helper.getMultipartStream(name, index || 0));
-};

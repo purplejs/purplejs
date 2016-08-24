@@ -1,4 +1,4 @@
-package io.purplejs.core.resource;
+package io.purplejs.core.internal.resource;
 
 import java.io.IOException;
 import java.net.URL;
@@ -6,6 +6,9 @@ import java.net.URLConnection;
 
 import com.google.common.io.ByteSource;
 import com.google.common.io.Resources;
+
+import io.purplejs.core.resource.Resource;
+import io.purplejs.core.resource.ResourcePath;
 
 final class UrlResource
     implements Resource
