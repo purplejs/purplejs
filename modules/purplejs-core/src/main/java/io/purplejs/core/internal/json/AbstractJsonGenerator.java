@@ -159,17 +159,7 @@ public abstract class AbstractJsonGenerator
             return convertValue( (JsonSerializable) value );
         }
 
-        if ( value instanceof Number )
-        {
-            return value;
-        }
-
-        if ( value instanceof Boolean )
-        {
-            return value;
-        }
-
-        return value.toString();
+        return value;
     }
 
     private Object convertValue( final JsonSerializable value )

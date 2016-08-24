@@ -6,11 +6,11 @@ import java.util.Map;
 
 import com.google.common.net.HttpHeaders;
 
+import io.purplejs.core.json.JsonGenerator;
+import io.purplejs.core.json.JsonSerializable;
 import io.purplejs.http.Headers;
 import io.purplejs.http.Parameters;
 import io.purplejs.http.Request;
-import io.purplejs.core.json.JsonGenerator;
-import io.purplejs.core.json.JsonSerializable;
 
 public final class JsonRequest
     implements JsonSerializable
@@ -35,6 +35,7 @@ public final class JsonRequest
         gen.value( "uri", this.request.getUri() );
         gen.value( "contentType", this.request.getContentType() );
         gen.value( "contentLength", this.request.getContentLength() );
+        gen.value( "peer", this.request );
 
         //gen.value( "remoteAddress", this.request.getRemoteAddress() );
         //gen.value( "webSocket", this.request.isWebSocket() );

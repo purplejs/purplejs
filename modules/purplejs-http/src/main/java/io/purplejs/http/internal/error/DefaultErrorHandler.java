@@ -96,9 +96,10 @@ public final class DefaultErrorHandler
         return type.subtype().equalsIgnoreCase( "json" );
     }
 
+    // TODO: Do not display description of not needed. Also in json.
     private String getDescription( final Throwable cause )
     {
-        if ( cause == null )
+        if ( ( cause == null ) || ( cause.getMessage() == null ) )
         {
             return "No description";
         }

@@ -1,10 +1,14 @@
 // var http = require('/lib/http');
 
+var ByteSource = Java.type('com.google.common.io.ByteSource');
+
 
 exports.get = function (req) {
 
     return {
-        body: req
+        body: {
+            m: req.peer.raw.remoteAddr
+        }
     };
 
 };

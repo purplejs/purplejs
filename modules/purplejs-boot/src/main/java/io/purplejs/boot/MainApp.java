@@ -12,6 +12,8 @@ public final class MainApp
     public void start()
         throws Exception
     {
+        System.setProperty( "java.net.preferIPv4Stack", "true" );
+
         // Print banner
         new BannerPrinter().printBanner();
 

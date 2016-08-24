@@ -84,6 +84,33 @@ public final class ScriptServlet
         {
             return this.handler.handleException( request, e );
         }
+
+
+        // TODO: Custom serialize Object's in JsonSerializer (like session, ByteStream etc)
+        /**
+         *
+         * return {
+         *   webSocket: {
+         *     ... settings ...
+         *     attributes: {
+         *       ... custom attributes ...
+         *     }
+         *   }
+         * };
+         *
+         * onEvent(event)
+         *
+         *   event.type
+         *   event.session
+         *   event.sessionId
+         *   event.message
+         *
+         *   event.session.send(...);
+         *
+         *
+         * }
+         *
+         */
     }
 
     @Override
