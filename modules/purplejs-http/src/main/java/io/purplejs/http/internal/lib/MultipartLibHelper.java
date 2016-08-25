@@ -2,14 +2,12 @@ package io.purplejs.http.internal.lib;
 
 import java.util.List;
 
-import com.google.common.collect.LinkedListMultimap;
-import com.google.common.collect.ListMultimap;
-import com.google.common.io.ByteSource;
+import com.google.common.net.MediaType;
 
 import io.purplejs.core.json.JsonGenerator;
 import io.purplejs.core.json.JsonSerializable;
-import io.purplejs.http.MultipartForm;
-import io.purplejs.http.MultipartItem;
+import io.purplejs.http.multipart.MultipartForm;
+import io.purplejs.http.multipart.MultipartItem;
 
 final class MultipartLibHelper
 {
@@ -17,60 +15,22 @@ final class MultipartLibHelper
 
     MultipartLibHelper( final MultipartForm form )
     {
-        this.form = form;
+        this.form = form != null ? form : new MultipartForm();
     }
 
     JsonSerializable getFormAsJson()
     {
-        return gen -> serializeForm( gen, getItemsAsMap() );
+        return this::serializeForm;
     }
 
     JsonSerializable getItemAsJson( final String name, final int index )
     {
-        final MultipartItem item = findItem( name, index );
-        return itemToJson( item );
-    }
-
-    ByteSource getItemStream( final String name, final int index )
-    {
-        final MultipartItem item = findItem( name, index );
-        return item != null ? item.getBytes() : ByteSource.empty();
-    }
-
-    private MultipartItem findItem( final String name, final int index )
-    {
-        final List<MultipartItem> items = getItemsAsMap().get( name );
-        if ( !items.isEmpty() && ( items.size() > index ) )
-        {
-            return items.get( index );
-        }
-
-        return null;
-    }
-
-    private ListMultimap<String, MultipartItem> getItemsAsMap()
-    {
-        final ListMultimap<String, MultipartItem> items = LinkedListMultimap.create();
-        if ( form == null )
-        {
-            return items;
-        }
-
-        for ( final MultipartItem item : form )
-        {
-            items.put( item.getName(), item );
-        }
-
-        return items;
+        final MultipartItem item = this.form.get( name, index );
+        return item != null ? itemToJson( item ) : null;
     }
 
     private JsonSerializable itemToJson( final MultipartItem item )
     {
-        if ( item == null )
-        {
-            return emptyJson();
-        }
-
         return gen ->
         {
             gen.map();
@@ -79,22 +39,13 @@ final class MultipartLibHelper
         };
     }
 
-    private JsonSerializable emptyJson()
-    {
-        return gen ->
-        {
-            gen.map();
-            gen.end();
-        };
-    }
-
-    private void serializeForm( final JsonGenerator gen, final ListMultimap<String, MultipartItem> form )
+    private void serializeForm( final JsonGenerator gen )
     {
         gen.map();
 
-        for ( final String name : form.keySet() )
+        for ( final String name : this.form.getNames() )
         {
-            final List<MultipartItem> values = form.get( name );
+            final List<MultipartItem> values = this.form.getAll( name );
             if ( values.size() == 1 )
             {
                 gen.map( name );
@@ -104,12 +55,7 @@ final class MultipartLibHelper
             else
             {
                 gen.array( name );
-                values.forEach( ( item ) ->
-                                {
-                                    gen.map();
-                                    serializeItem( gen, item );
-                                    gen.end();
-                                } );
+                values.forEach( ( item ) -> itemToJson( item ).serialize( gen ) );
                 gen.end();
             }
         }
@@ -121,8 +67,13 @@ final class MultipartLibHelper
     {
         gen.value( "name", item.getName() );
         gen.value( "fileName", item.getFileName() );
-        gen.value( "contentType", item.getContentType() );
+        gen.value( "contentType", toString( item.getContentType() ) );
         gen.value( "size", item.getSize() );
         gen.value( "stream", item.getBytes() );
+    }
+
+    private String toString( final MediaType type )
+    {
+        return type != null ? type.withoutParameters().toString() : null;
     }
 }

@@ -1,6 +1,5 @@
 package io.purplejs.http.itest
 
-import com.google.common.base.Charsets
 import io.purplejs.http.Response
 import io.purplejs.http.Status
 
@@ -21,7 +20,7 @@ class RequestParameterTest
 
         final Response res = serve();
         assert res.status == Status.OK;
-        return res.body.asCharSource( Charsets.UTF_8 ).read();
+        return toStringBody( res );
     }
 
     def "no params"()

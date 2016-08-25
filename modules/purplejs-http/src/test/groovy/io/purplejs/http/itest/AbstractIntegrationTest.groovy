@@ -1,5 +1,9 @@
 package io.purplejs.http.itest
 
+import com.google.common.base.Charsets
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
+import com.google.gson.JsonElement
 import io.purplejs.core.Engine
 import io.purplejs.core.EngineBinder
 import io.purplejs.core.EngineBuilder
@@ -90,5 +94,19 @@ abstract class AbstractIntegrationTest
     protected final Response serve()
     {
         return serve( '/test.js', this.request );
+    }
+
+    protected final static String toStringBody( final Response response )
+    {
+        return response.body.asCharSource( Charsets.UTF_8 ).read();
+    }
+
+    protected final static String prettifyJson( final String json )
+    {
+        final Gson gson = new GsonBuilder().
+            setPrettyPrinting().
+            create();
+
+        return gson.toJson( gson.fromJson( json.trim(), JsonElement.class ) );
     }
 }

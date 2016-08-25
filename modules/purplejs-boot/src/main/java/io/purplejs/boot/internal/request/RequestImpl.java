@@ -11,9 +11,9 @@ import com.google.common.net.MediaType;
 
 import io.purplejs.core.exception.ExceptionHelper;
 import io.purplejs.http.Headers;
-import io.purplejs.http.MultipartForm;
 import io.purplejs.http.Parameters;
 import io.purplejs.http.Request;
+import io.purplejs.http.multipart.MultipartForm;
 
 public final class RequestImpl
     implements Request
@@ -167,7 +167,7 @@ public final class RequestImpl
     {
         try
         {
-            return new MultipartFormImpl( req.getParts() );
+            return new MultipartFormFactory().create( req.getParts() );
         }
         catch ( final Exception e )
         {

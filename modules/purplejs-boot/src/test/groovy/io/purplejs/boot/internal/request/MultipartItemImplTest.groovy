@@ -116,25 +116,4 @@ class MultipartItemImplTest
         then:
         thrown IOException;
     }
-
-    def "test delete"()
-    {
-        when:
-        this.item.delete();
-
-        then:
-        1 * this.part.delete();
-    }
-
-    def "test delete error"()
-    {
-        setup:
-        this.part.delete() >> { throw new IOException() };
-
-        when:
-        this.item.delete();
-
-        then:
-        1 * this.part.delete();
-    }
 }

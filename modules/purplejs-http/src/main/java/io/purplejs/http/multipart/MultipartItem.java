@@ -1,4 +1,4 @@
-package io.purplejs.http;
+package io.purplejs.http.multipart;
 
 import com.google.common.io.ByteSource;
 import com.google.common.net.MediaType;

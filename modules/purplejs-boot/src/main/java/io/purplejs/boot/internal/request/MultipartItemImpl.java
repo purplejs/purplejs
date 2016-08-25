@@ -7,7 +7,7 @@ import com.google.common.io.ByteSource;
 import com.google.common.net.MediaType;
 
 import io.purplejs.core.exception.ExceptionHelper;
-import io.purplejs.http.MultipartItem;
+import io.purplejs.http.multipart.MultipartItem;
 
 final class MultipartItemImpl
     implements MultipartItem
@@ -64,17 +64,5 @@ final class MultipartItemImpl
     public long getSize()
     {
         return this.part.getSize();
-    }
-
-    void delete()
-    {
-        try
-        {
-            this.part.delete();
-        }
-        catch ( final Exception e )
-        {
-            // Do nothing
-        }
     }
 }

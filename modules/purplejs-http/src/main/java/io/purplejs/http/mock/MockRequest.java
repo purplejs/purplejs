@@ -8,7 +8,7 @@ import com.google.common.net.MediaType;
 
 import io.purplejs.core.exception.ExceptionHelper;
 import io.purplejs.http.Headers;
-import io.purplejs.http.MultipartForm;
+import io.purplejs.http.multipart.MultipartForm;
 import io.purplejs.http.Parameters;
 import io.purplejs.http.Request;
 

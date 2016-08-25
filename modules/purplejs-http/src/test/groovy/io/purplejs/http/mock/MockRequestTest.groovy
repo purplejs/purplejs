@@ -2,7 +2,7 @@ package io.purplejs.http.mock
 
 import com.google.common.io.ByteSource
 import com.google.common.net.MediaType
-import io.purplejs.http.MultipartForm
+import io.purplejs.http.multipart.MultipartForm
 import spock.lang.Specification
 
 class MockRequestTest
@@ -12,7 +12,7 @@ class MockRequestTest
     {
         setup:
         def body = ByteSource.wrap( 'hello'.bytes );
-        def form = Mock( MultipartForm.class );
+        def form = new MultipartForm();
         def raw = new Object();
 
         when:

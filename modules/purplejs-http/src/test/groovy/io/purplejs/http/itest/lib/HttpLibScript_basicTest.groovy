@@ -1,12 +1,12 @@
-package io.purplejs.http.itest
+package io.purplejs.http.itest.lib
 
 import com.google.common.io.ByteSource
 import com.google.common.net.MediaType
-import io.purplejs.http.MultipartForm
 import io.purplejs.http.Status
+import io.purplejs.http.itest.AbstractIntegrationTest
 import io.purplejs.http.mock.MockRequest
 
-class HttpLibScriptTest
+class HttpLibScript_basicTest
     extends AbstractIntegrationTest
 {
     public MockRequest currentRequest()
@@ -176,70 +176,6 @@ class HttpLibScriptTest
 
             exports.post = function() {
                 t.assertEquals(5, http.bodyAsStream().size());
-            };
-        ''' );
-
-        when:
-        def res = serve();
-
-        then:
-        res != null;
-        res.status == Status.OK;
-    }
-
-    def "test isMultipart"()
-    {
-        setup:
-        this.request.method = 'POST';
-        this.request.multipartForm = Mock( MultipartForm.class );
-
-        script( '''
-            var http = require('/lib/http');
-
-            exports.post = function() {
-                t.assertEquals(true, http.isMultipart());
-            };
-        ''' );
-
-        when:
-        def res = serve();
-
-        then:
-        res != null;
-        res.status == Status.OK;
-    }
-
-    def "test isMultipart, no multipart"()
-    {
-        setup:
-        this.request.method = 'POST';
-
-        script( '''
-            var http = require('/lib/http');
-
-            exports.post = function() {
-                t.assertEquals(false, http.isMultipart());
-            };
-        ''' );
-
-        when:
-        def res = serve();
-
-        then:
-        res != null;
-        res.status == Status.OK;
-    }
-
-    def "test getMultipartForm, no multipart"()
-    {
-        setup:
-        this.request.method = 'POST';
-
-        script( '''
-            var http = require('/lib/http');
-
-            exports.post = function() {
-                t.assertEquals('{}', JSON.stringify(http.getMultipartForm()));
             };
         ''' );
 

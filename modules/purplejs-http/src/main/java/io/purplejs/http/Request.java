@@ -5,6 +5,8 @@ import java.net.URI;
 import com.google.common.io.ByteSource;
 import com.google.common.net.MediaType;
 
+import io.purplejs.http.multipart.MultipartForm;
+
 // TODO: Use optional on getContentType, getBody and getMultipart.
 public interface Request
 {

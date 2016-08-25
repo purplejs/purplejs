@@ -117,7 +117,7 @@ class ScriptToResponseTest
         then:
         res != null;
         res.status == Status.CREATED;
-        res.body.asCharSource( Charsets.UTF_8 ).read() == 'text';
+        toStringBody( res ) == 'text';
         res.contentType.toString() == 'text/html';
         res.headers.toString() == "{X-Header-2=value2, X-Header-1=value1}";
         res.value != null;
@@ -182,7 +182,7 @@ class ScriptToResponseTest
 
         then:
         res != null;
-        res.body.asCharSource( Charsets.UTF_8 ).read() == 'text-in-function';
+        toStringBody( res ) == 'text-in-function';
     }
 
     def "return bytes body"()
@@ -301,7 +301,7 @@ class ScriptToResponseTest
         then:
         res != null;
         res.contentType.withoutParameters().toString() == 'application/json';
-        res.body.asCharSource( Charsets.UTF_8 ).read() == '[1,2,3,{"a":1,"b":2,"c":3}]';
+        toStringBody( res ) == '[1,2,3,{"a":1,"b":2,"c":3}]';
     }
 
     def "return json object"()
@@ -325,7 +325,7 @@ class ScriptToResponseTest
         then:
         res != null;
         res.contentType.withoutParameters().toString() == 'application/json';
-        res.body.asCharSource( Charsets.UTF_8 ).read() == '{"a":1,"b":2,"c":3,"d":[1,2,3]}';
+        toStringBody( res ) == '{"a":1,"b":2,"c":3,"d":[1,2,3]}';
     }
 
     def "return cookies"()

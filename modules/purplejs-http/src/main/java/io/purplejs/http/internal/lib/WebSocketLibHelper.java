@@ -2,7 +2,6 @@ package io.purplejs.http.internal.lib;
 
 import com.google.common.io.ByteSource;
 
-import io.purplejs.core.context.ExecutionContext;
 import io.purplejs.http.websocket.WebSocketManager;
 import io.purplejs.http.websocket.WebSocketSession;
 
@@ -10,9 +9,9 @@ public final class WebSocketLibHelper
 {
     private WebSocketManager manager;
 
-    public void init( final ExecutionContext context )
+    public void setManager( final WebSocketManager manager )
     {
-        this.manager = context.getRegistry().getInstance( WebSocketManager.class );
+        this.manager = manager;
     }
 
     public void sendMessage( final String id, final Object message )

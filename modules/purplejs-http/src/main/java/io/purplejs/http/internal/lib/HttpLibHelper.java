@@ -2,10 +2,8 @@ package io.purplejs.http.internal.lib;
 
 import java.util.function.Supplier;
 
-import com.google.common.io.ByteSource;
 import com.google.common.net.MediaType;
 
-import io.purplejs.core.context.ExecutionContext;
 import io.purplejs.core.json.JsonSerializable;
 import io.purplejs.http.Request;
 
@@ -13,9 +11,9 @@ public final class HttpLibHelper
 {
     private Supplier<Request> currentRequest;
 
-    public void init( final ExecutionContext context )
+    public void setRequestProvider( final Supplier<Request> provider )
     {
-        this.currentRequest = context.getRegistry().getProvider( Request.class );
+        this.currentRequest = provider;
     }
 
     public Request getRequest()
@@ -47,10 +45,5 @@ public final class HttpLibHelper
     public JsonSerializable getMultipartItem( final String name, final int index )
     {
         return getMultipartHelper().getItemAsJson( name, index );
-    }
-
-    public ByteSource getMultipartStream( final String name, final int index )
-    {
-        return getMultipartHelper().getItemStream( name, index );
     }
 }

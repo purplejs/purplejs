@@ -1,6 +1,5 @@
 package io.purplejs.http.itest
 
-import com.google.common.base.Charsets
 import io.purplejs.http.Status
 
 class BasicHandlingTest
@@ -39,7 +38,7 @@ class BasicHandlingTest
         res != null;
         res.status == Status.OK;
         res.contentType.subtype() == 'json';
-        res.body.asCharSource( Charsets.UTF_8 ).read() == '{}';
+        toStringBody( res ) == '{}';
     }
 
     def "service method"()
@@ -60,7 +59,7 @@ class BasicHandlingTest
         res != null;
         res.status == Status.OK;
         res.contentType.type() == 'text';
-        res.body.asCharSource( Charsets.UTF_8 ).read() == 'hello';
+        toStringBody( res ) == 'hello';
     }
 
     def "post method"()
