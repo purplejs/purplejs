@@ -4,7 +4,7 @@ import io.purplejs.core.json.JsonGenerator
 import io.purplejs.core.json.JsonSerializable
 
 class GeneralScriptTest
-    extends AbstractIntegrationTest
+    extends AbstractCoreITest
 {
     def "empty script"()
     {

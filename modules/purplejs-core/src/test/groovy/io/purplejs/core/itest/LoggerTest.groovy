@@ -1,7 +1,7 @@
 package io.purplejs.core.itest
 
 class LoggerTest
-    extends AbstractIntegrationTest
+    extends AbstractCoreITest
 {
     def "log levels"()
     {

@@ -3,7 +3,7 @@ package io.purplejs.core.itest
 import io.purplejs.core.exception.ProblemException
 
 class ErrorScriptTest
-    extends AbstractIntegrationTest
+    extends AbstractCoreITest
 {
     def "compile error"()
     {

@@ -3,7 +3,7 @@ package io.purplejs.core.itest
 import io.purplejs.core.EngineBinder
 
 class GlobalTest
-    extends AbstractIntegrationTest
+    extends AbstractCoreITest
 {
     @Override
     protected void configureModule( final EngineBinder binder )

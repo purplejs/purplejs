@@ -5,4 +5,5 @@ dependencies {
     compile 'ch.qos.logback:logback-classic:1.1.7'
     testCompile 'org.springframework:spring-web:4.2.4.RELEASE'
     testCompile 'org.springframework:spring-test:4.2.4.RELEASE'
+    testCompile project( path: ':purplejs-http', configuration: 'testArchives' )
 }

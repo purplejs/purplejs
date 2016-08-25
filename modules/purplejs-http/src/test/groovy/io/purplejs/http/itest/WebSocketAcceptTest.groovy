@@ -1,7 +1,7 @@
 package io.purplejs.http.itest
 
 class WebSocketAcceptTest
-    extends AbstractIntegrationTest
+    extends AbstractHttpITest
 {
     def "webSocket accept"()
     {

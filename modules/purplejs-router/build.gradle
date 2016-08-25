@@ -1,3 +1,4 @@
 dependencies {
-    compile project( ':purplejs-core' )
+    compile project( ':purplejs-http' )
+    testCompile project( path: ':purplejs-http', configuration: 'testArchives' )
 }

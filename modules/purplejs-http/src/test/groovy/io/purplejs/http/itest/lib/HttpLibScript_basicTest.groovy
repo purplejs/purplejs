@@ -3,10 +3,10 @@ package io.purplejs.http.itest.lib
 import com.google.common.net.MediaType
 import io.purplejs.http.Request
 import io.purplejs.http.Status
-import io.purplejs.http.itest.AbstractIntegrationTest
+import io.purplejs.http.itest.AbstractHttpITest
 
 class HttpLibScript_basicTest
-    extends AbstractIntegrationTest
+    extends AbstractHttpITest
 {
     public Request currentRequest()
     {

@@ -1,7 +1,7 @@
 package io.purplejs.core.itest
 
 class ResolveTest
-    extends AbstractIntegrationTest
+    extends AbstractCoreITest
 {
     def "resolve relative"()
     {

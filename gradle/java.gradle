@@ -1,6 +1,7 @@
 apply plugin: 'java'
 apply plugin: 'groovy'
 apply plugin: 'jacoco'
+apply plugin: 'com.github.hauner.jarTest'
 
 def defaultEncoding = 'UTF-8'
 
@@ -10,11 +11,6 @@ targetCompatibility = sourceCompatibility
 tasks.withType( AbstractCompile ) {
     options.encoding = defaultEncoding
     options.compilerArgs = ['-Xlint:-options']
-}
-
-dependencies {
-    testCompile "org.codehaus.groovy:groovy-all:${versions.groovy}"
-    testCompile "org.spockframework:spock-core:${versions.spock}"
 }
 
 javadoc {

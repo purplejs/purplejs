@@ -4,8 +4,9 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
-import jdk.nashorn.api.scripting.ScriptObjectMirror;
+import jdk.nashorn.api.scripting.JSObject;
 
+@SuppressWarnings("WeakerAccess")
 public final class Router
 {
     private final List<Route> list;
@@ -15,7 +16,7 @@ public final class Router
         this.list = Lists.newArrayList();
     }
 
-    public void add( final String method, final String pattern, final ScriptObjectMirror handler )
+    public void add( final String method, final String pattern, final JSObject handler )
     {
         final RoutePattern routePattern = RoutePattern.compile( pattern );
         this.list.add( new Route( method, routePattern, handler ) );
@@ -41,6 +42,6 @@ public final class Router
 
     private RouteMatch newRouteMatch( final Route route, final String path )
     {
-        return new RouteMatch( route.getPathParams( path ), route.getHandler() );
+        return new RouteMatchImpl( route.getPathParams( path ), route.getHandler() );
     }
 }

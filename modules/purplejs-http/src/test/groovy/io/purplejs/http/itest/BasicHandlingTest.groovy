@@ -3,7 +3,7 @@ package io.purplejs.http.itest
 import io.purplejs.http.Status
 
 class BasicHandlingTest
-    extends AbstractIntegrationTest
+    extends AbstractHttpITest
 {
     def "no methods"()
     {

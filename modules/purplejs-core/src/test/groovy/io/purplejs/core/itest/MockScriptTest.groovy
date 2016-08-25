@@ -1,7 +1,7 @@
 package io.purplejs.core.itest
 
 class MockScriptTest
-    extends AbstractIntegrationTest
+    extends AbstractCoreITest
 {
     def "test mocking"()
     {

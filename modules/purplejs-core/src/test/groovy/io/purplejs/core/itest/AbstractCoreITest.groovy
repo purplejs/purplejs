@@ -10,14 +10,14 @@ import io.purplejs.core.resource.ResourcePath
 import io.purplejs.core.value.ScriptExports
 import spock.lang.Specification
 
-abstract class AbstractIntegrationTest
+abstract class AbstractCoreITest
     extends Specification
 {
-    private Engine engine;
+    protected Engine engine;
 
-    private MockResourceLoader resourceLoader;
+    protected MockResourceLoader resourceLoader;
 
-    public final void setup()
+    public void setup()
     {
         final EngineBuilder builder = EngineBuilder.newBuilder();
         configureEngine( builder );
@@ -25,7 +25,7 @@ abstract class AbstractIntegrationTest
         this.engine = builder.build();
     }
 
-    public final void cleanup()
+    public void cleanup()
     {
         this.engine.dispose();
     }

@@ -1,7 +1,6 @@
 apply plugin: 'jacoco'
 
-def testProjects = subprojects - project( ':purplejs-testing' ) - project( ':purplejs-example' ) - project( ':purplejs-gradle' ) -
-    project( ':purplejs-router' )
+def testProjects = subprojects - project( ':purplejs-gradle' )
 
 task jacocoMerge( type: JacocoMerge ) {
     group = 'Coverage'

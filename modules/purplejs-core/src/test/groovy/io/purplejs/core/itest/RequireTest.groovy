@@ -1,7 +1,7 @@
 package io.purplejs.core.itest
 
 class RequireTest
-    extends AbstractIntegrationTest
+    extends AbstractCoreITest
 {
     def "require relative"()
     {

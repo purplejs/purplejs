@@ -8,7 +8,7 @@ import io.purplejs.core.resource.ResourcePath
 import io.purplejs.http.Status
 
 class ScriptToResponseTest
-    extends AbstractIntegrationTest
+    extends AbstractHttpITest
 {
     def byte[] toBytes( final String text )
     {

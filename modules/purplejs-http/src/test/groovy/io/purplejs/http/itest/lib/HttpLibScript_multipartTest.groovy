@@ -3,12 +3,12 @@ package io.purplejs.http.itest.lib
 import com.google.common.io.ByteSource
 import com.google.common.net.MediaType
 import io.purplejs.http.Status
-import io.purplejs.http.itest.AbstractIntegrationTest
+import io.purplejs.http.itest.AbstractHttpITest
 import io.purplejs.http.multipart.MultipartForm
 import io.purplejs.http.multipart.MultipartItem
 
 class HttpLibScript_multipartTest
-    extends AbstractIntegrationTest
+    extends AbstractHttpITest
 {
     def "test isMultipart"()
     {

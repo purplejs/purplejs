@@ -3,8 +3,6 @@ include ':purplejs-http'
 include ':purplejs-router'
 include ':purplejs-boot'
 include ':purplejs-gradle'
-include ':purplejs-example'
-include ':purplejs-testing'
 
 rootProject.name = 'purplejs'
 

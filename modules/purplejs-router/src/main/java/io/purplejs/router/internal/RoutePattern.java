@@ -9,7 +9,7 @@ import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
-public final class RoutePattern
+final class RoutePattern
 {
     private final static Pattern PARAM = Pattern.compile( "\\{(\\w+)(:(.+))?\\}" );
 
@@ -23,12 +23,12 @@ public final class RoutePattern
         this.pathParams = pathParams;
     }
 
-    public boolean matches( final String path )
+    boolean matches( final String path )
     {
         return this.pattern.matcher( path ).matches();
     }
 
-    public Map<String, String> getPathParams( final String path )
+    Map<String, String> getPathParams( final String path )
     {
         final Map<String, String> map = Maps.newHashMap();
         final Matcher matcher = this.pattern.matcher( path );
@@ -46,7 +46,7 @@ public final class RoutePattern
         return map;
     }
 
-    public static RoutePattern compile( final String pattern )
+    static RoutePattern compile( final String pattern )
     {
         String regexp = "";
         final List<String> pathParams = Lists.newArrayList();

@@ -2,11 +2,11 @@ package io.purplejs.http.itest.lib
 
 import io.purplejs.http.Status
 import io.purplejs.http.internal.websocket.WebSocketRegistry
-import io.purplejs.http.itest.AbstractIntegrationTest
+import io.purplejs.http.itest.AbstractHttpITest
 import io.purplejs.http.websocket.WebSocketSession
 
 class WebSocketLibScriptTest
-    extends AbstractIntegrationTest
+    extends AbstractHttpITest
 {
     def WebSocketRegistry webSocketRegistry;
 

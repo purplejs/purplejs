@@ -4,7 +4,7 @@ import io.purplejs.http.Response
 import io.purplejs.http.Status
 
 class RequestParameterTest
-    extends AbstractIntegrationTest
+    extends AbstractHttpITest
 {
     private String executeGet()
     {

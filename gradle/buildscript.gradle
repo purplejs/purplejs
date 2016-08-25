@@ -9,4 +9,5 @@ dependencies {
     classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7'
     classpath 'org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.4.0'
     classpath 'com.gradle.publish:plugin-publish-plugin:0.9.5'
+    classpath 'gradle.plugin.gradle-plugins:jartest:1.0'
 }

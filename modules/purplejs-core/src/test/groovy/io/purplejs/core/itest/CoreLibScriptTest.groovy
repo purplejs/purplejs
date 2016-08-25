@@ -1,7 +1,7 @@
 package io.purplejs.core.itest
 
 class CoreLibScriptTest
-    extends AbstractIntegrationTest
+    extends AbstractCoreITest
 {
     def "newStream"()
     {

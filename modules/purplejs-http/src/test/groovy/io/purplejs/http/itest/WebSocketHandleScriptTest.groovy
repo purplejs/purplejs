@@ -5,7 +5,7 @@ import io.purplejs.http.websocket.WebSocketEventBuilder
 import io.purplejs.http.websocket.WebSocketSession
 
 class WebSocketHandleScriptTest
-    extends AbstractIntegrationTest
+    extends AbstractHttpITest
 {
     def String eventJson;
 

@@ -2,35 +2,35 @@ package io.purplejs.router.internal;
 
 import java.util.Map;
 
-import jdk.nashorn.api.scripting.ScriptObjectMirror;
+import jdk.nashorn.api.scripting.JSObject;
 
-public final class Route
+final class Route
 {
-    final String method;
+    private final String method;
 
     private final RoutePattern pattern;
 
-    private final ScriptObjectMirror handler;
+    private final JSObject handler;
 
-    public Route( final String method, final RoutePattern pattern, final ScriptObjectMirror handler )
+    Route( final String method, final RoutePattern pattern, final JSObject handler )
     {
         this.method = method.equals( "*" ) ? null : method;
         this.pattern = pattern;
         this.handler = handler;
     }
 
-    public boolean matches( final String method, final String path )
+    boolean matches( final String method, final String path )
     {
         final boolean matchesMethod = ( this.method == null ) || this.method.equals( method );
         return matchesMethod && this.pattern.matches( path );
     }
 
-    public Map<String, String> getPathParams( final String path )
+    Map<String, String> getPathParams( final String path )
     {
         return this.pattern.getPathParams( path );
     }
 
-    public ScriptObjectMirror getHandler()
+    JSObject getHandler()
     {
         return this.handler;
     }

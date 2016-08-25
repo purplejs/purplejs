@@ -1,7 +1,7 @@
 package io.purplejs.core.itest
 
 class DisposerTest
-    extends AbstractIntegrationTest
+    extends AbstractCoreITest
 {
     def "run disposers"()
     {
