@@ -4,6 +4,7 @@ import io.purplejs.core.internal.nashorn.NashornRuntime
 import io.purplejs.core.internal.nashorn.NashornRuntimeFactory
 import io.purplejs.core.json.JsonGenerator
 import io.purplejs.core.json.JsonSerializable
+import io.purplejs.core.value.ScriptValue
 import spock.lang.Specification
 
 class ScriptJsonGeneratorTest
@@ -97,6 +98,23 @@ class ScriptJsonGeneratorTest
 
         then:
         json == '[1,{},[],{"a":true}]';
+    }
+
+    def "serialize ScriptValue"()
+    {
+        setup:
+        def value = Mock( ScriptValue.class );
+        value.raw >> 11;
+
+        when:
+        def json = serialize( { gen ->
+            gen.map();
+            gen.value( 'a', value );
+            gen.end();
+        } );
+
+        then:
+        json == '{"a":11}';
     }
 
     private String serialize( final JsonSerializable serializable )

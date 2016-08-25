@@ -23,17 +23,9 @@ public interface SettingsBuilder
 
     SettingsBuilder put( String key, boolean value );
 
-    SettingsBuilder put( String key, int value );
-
-    SettingsBuilder put( String key, long value );
-
-    SettingsBuilder put( String key, float value );
-
-    SettingsBuilder put( String key, double value );
+    SettingsBuilder put( String key, Number value );
 
     SettingsBuilder putArray( String key, String... values );
-
-    SettingsBuilder interpolate();
 
     Settings build();
 

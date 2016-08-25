@@ -2,8 +2,6 @@ package io.purplejs.core.internal.settings;
 
 import java.util.Map;
 import java.util.Properties;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableMap;
@@ -15,13 +13,11 @@ import io.purplejs.core.settings.SettingsBuilder;
 public final class SettingsBuilderImpl
     implements SettingsBuilder
 {
-    private final static Pattern INTERPOLATE = Pattern.compile( "(\\$\\{(\\S+)})", Pattern.MULTILINE );
-
     private final Map<String, String> map;
 
     public SettingsBuilderImpl()
     {
-        this.map = Maps.newLinkedHashMap();
+        this.map = Maps.newTreeMap();
     }
 
     @Override
@@ -80,25 +76,7 @@ public final class SettingsBuilderImpl
     }
 
     @Override
-    public SettingsBuilder put( final String key, final int value )
-    {
-        return put( key, String.valueOf( value ) );
-    }
-
-    @Override
-    public SettingsBuilder put( final String key, final long value )
-    {
-        return put( key, String.valueOf( value ) );
-    }
-
-    @Override
-    public SettingsBuilder put( final String key, final float value )
-    {
-        return put( key, String.valueOf( value ) );
-    }
-
-    @Override
-    public SettingsBuilder put( final String key, final double value )
+    public SettingsBuilder put( final String key, final Number value )
     {
         return put( key, String.valueOf( value ) );
     }
@@ -107,42 +85,6 @@ public final class SettingsBuilderImpl
     public SettingsBuilder putArray( final String key, final String... values )
     {
         return put( key, Joiner.on( ',' ).join( values ) );
-    }
-
-    public SettingsBuilder interpolate()
-    {
-        this.map.forEach( this::interpolate );
-        return this;
-    }
-
-    private void interpolate( final String key, final String value )
-    {
-        this.map.put( key, interpolateValue( key, value ) );
-    }
-
-    private String interpolateValue( final String key, final String value )
-    {
-        final Matcher matcher = INTERPOLATE.matcher( value );
-
-        final StringBuffer str = new StringBuffer();
-        while ( matcher.find() )
-        {
-            final String replaceKey = matcher.group( 2 );
-            if ( key.equals( replaceKey ) )
-            {
-                continue;
-            }
-
-            final String replaceValue = this.map.get( replaceKey );
-            if ( replaceValue != null )
-            {
-                final String interpolated = interpolateValue( replaceKey, replaceValue );
-                matcher.appendReplacement( str, interpolated.replace( "$", "\\$" ) );
-            }
-        }
-
-        matcher.appendTail( str );
-        return str.toString();
     }
 
     @Override

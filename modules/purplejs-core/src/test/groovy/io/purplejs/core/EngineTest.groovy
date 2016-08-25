@@ -41,6 +41,7 @@ class EngineTest
 
         then:
         engine != null;
+        engine.getDevSourceDirs() == [this.temporaryFolder.root];
 
         cleanup:
         RunMode.PROD.set();

@@ -4,7 +4,6 @@ import com.google.common.base.Charsets
 import com.google.common.io.ByteSource
 import com.google.common.net.MediaType
 import io.purplejs.http.Cookie
-import io.purplejs.http.Response
 import io.purplejs.http.ResponseBuilder
 import io.purplejs.http.Status
 import org.springframework.mock.web.MockHttpServletResponse
@@ -13,9 +12,12 @@ import spock.lang.Specification
 class ResponseSerializerTest
     extends Specification
 {
-    private static Response newResponse()
+    def "serialize"()
     {
-        return ResponseBuilder.newBuilder().
+        setup:
+        def response = new MockHttpServletResponse();
+        def serializer = new ResponseSerializer( response );
+        def from = ResponseBuilder.newBuilder().
             status( Status.OK ).
             contentType( MediaType.PLAIN_TEXT_UTF_8 ).
             header( "X-Header1", "Value1" ).
@@ -24,16 +26,9 @@ class ResponseSerializerTest
             cookie( new Cookie( "cookie1" ) ).
             cookie( new Cookie( "cookie2" ) ).
             build();
-    }
-
-    def "serialize"()
-    {
-        setup:
-        def response = new MockHttpServletResponse();
-        def serializer = new ResponseSerializer( response );
 
         when:
-        serializer.serialize( newResponse() );
+        serializer.serialize( from );
 
         then:
         response.contentType == 'text/plain; charset=utf-8';
@@ -43,6 +38,22 @@ class ResponseSerializerTest
         response.contentAsString == 'hello';
         response.getCookie( 'cookie1' ) != null;
         response.getCookie( 'cookie2' ) != null;
+    }
+
+    def "serialize null body"()
+    {
+        setup:
+        def response = new MockHttpServletResponse();
+        def serializer = new ResponseSerializer( response );
+        def from = ResponseBuilder.newBuilder().
+            status( Status.OK ).
+            build();
+
+        when:
+        serializer.serialize( from );
+
+        then:
+        response.contentAsString == '';
     }
 
     def "translateCookie"()
