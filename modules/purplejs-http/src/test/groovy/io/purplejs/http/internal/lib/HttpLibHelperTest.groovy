@@ -1,7 +1,6 @@
 package io.purplejs.http.internal.lib
 
-import com.google.common.net.MediaType
-import io.purplejs.http.mock.MockRequest
+import io.purplejs.http.RequestBuilder
 import io.purplejs.http.multipart.MultipartForm
 import spock.lang.Specification
 
@@ -10,14 +9,14 @@ class HttpLibHelperTest
 {
     def HttpLibHelper helper;
 
-    def MockRequest request;
+    def RequestBuilder requestBuilder;
 
     def setup()
     {
         this.helper = new HttpLibHelper();
-        this.request = new MockRequest();
+        this.requestBuilder = RequestBuilder.newBuilder();
 
-        this.helper.setRequestProvider( { this.request } );
+        this.helper.setRequestProvider( { requestBuilder.build() } );
     }
 
     def "getRequest"()
@@ -26,13 +25,13 @@ class HttpLibHelperTest
         def actual = this.helper.getRequest();
 
         then:
-        actual == this.request;
+        actual != null;
     }
 
     def "isJsonBody"()
     {
         when:
-        this.request.setContentType( type != null ? MediaType.parse( type ) : null );
+        this.requestBuilder.contentType( (String) type );
 
         then:
         this.helper.isJsonBody() == expected;
@@ -48,13 +47,13 @@ class HttpLibHelperTest
     def "isMultipart"()
     {
         when:
-        this.request.setMultipart( null );
+        this.requestBuilder.multipart( null );
 
         then:
         !this.helper.isMultipart();
 
         when:
-        this.request.setMultipart( new MultipartForm() );
+        this.requestBuilder.multipart( new MultipartForm() );
 
         then:
         this.helper.isMultipart();
@@ -63,7 +62,7 @@ class HttpLibHelperTest
     def "getMultipartForm"()
     {
         when:
-        this.request.setMultipart( null );
+        this.requestBuilder.multipart( null );
         def form = this.helper.getMultipartForm();
 
         then:
@@ -73,7 +72,7 @@ class HttpLibHelperTest
     def "getMultipartItem"()
     {
         when:
-        this.request.setMultipart( null );
+        this.requestBuilder.multipart( null );
         def item = this.helper.getMultipartItem( 'test', 0 );
 
         then:

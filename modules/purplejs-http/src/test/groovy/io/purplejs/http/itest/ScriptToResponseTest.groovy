@@ -1,23 +1,15 @@
 package io.purplejs.http.itest
 
-import com.google.common.base.Charsets
 import com.google.common.io.ByteSource
 import com.google.common.net.MediaType
 import io.purplejs.core.mock.MockResource
 import io.purplejs.core.resource.Resource
 import io.purplejs.core.resource.ResourcePath
-import io.purplejs.http.Response
 import io.purplejs.http.Status
 
 class ScriptToResponseTest
     extends AbstractIntegrationTest
 {
-    private Response executeGet()
-    {
-        this.request.method = 'GET';
-        return serve();
-    }
-
     def byte[] toBytes( final String text )
     {
         return text.bytes;
@@ -42,7 +34,7 @@ class ScriptToResponseTest
         ''' );
 
         when:
-        def res = executeGet();
+        def res = serve();
 
         then:
         res != null;
@@ -62,7 +54,7 @@ class ScriptToResponseTest
         ''' );
 
         when:
-        def res = executeGet();
+        def res = serve();
 
         then:
         res != null;
@@ -84,7 +76,7 @@ class ScriptToResponseTest
         ''' );
 
         when:
-        def res = executeGet();
+        def res = serve();
 
         then:
         res != null;
@@ -105,14 +97,14 @@ class ScriptToResponseTest
                     contentType: 'text/html',
                     headers: {
                         'X-Header-1': 'value1',
-                        'X-Header-2': 'value2\'
+                        'X-Header-2': 'value2'
                     }
                 };
             };
         ''' );
 
         when:
-        def res = executeGet();
+        def res = serve();
 
         then:
         res != null;
@@ -136,7 +128,7 @@ class ScriptToResponseTest
         ''' );
 
         when:
-        def res = executeGet();
+        def res = serve();
 
         then:
         res != null;
@@ -157,11 +149,11 @@ class ScriptToResponseTest
         ''' );
 
         when:
-        def res = executeGet();
+        def res = serve();
 
         then:
         res != null;
-        res.body.asCharSource( Charsets.UTF_8 ).read() == 'text';
+        toStringBody( res ) == 'text';
     }
 
     def "return function body"()
@@ -178,7 +170,7 @@ class ScriptToResponseTest
         ''' );
 
         when:
-        def res = executeGet();
+        def res = serve();
 
         then:
         res != null;
@@ -198,7 +190,7 @@ class ScriptToResponseTest
         ''' );
 
         when:
-        def res = executeGet();
+        def res = serve();
 
         then:
         res != null;
@@ -218,7 +210,7 @@ class ScriptToResponseTest
         ''' );
 
         when:
-        def res = executeGet();
+        def res = serve();
 
         then:
         res != null;
@@ -238,7 +230,7 @@ class ScriptToResponseTest
         ''' );
 
         when:
-        def res = executeGet();
+        def res = serve();
 
         then:
         res != null;
@@ -256,7 +248,7 @@ class ScriptToResponseTest
         ''' );
 
         when:
-        def res = executeGet();
+        def res = serve();
 
         then:
         res != null;
@@ -274,7 +266,7 @@ class ScriptToResponseTest
         ''' );
 
         when:
-        def res = executeGet();
+        def res = serve();
 
         then:
         res != null;
@@ -296,7 +288,7 @@ class ScriptToResponseTest
         ''' );
 
         when:
-        def res = executeGet();
+        def res = serve();
 
         then:
         res != null;
@@ -320,7 +312,7 @@ class ScriptToResponseTest
         ''' );
 
         when:
-        def res = executeGet();
+        def res = serve();
 
         then:
         res != null;
@@ -354,7 +346,7 @@ class ScriptToResponseTest
         ''' );
 
         when:
-        def res = executeGet();
+        def res = serve();
 
         then:
         res != null;
@@ -366,7 +358,7 @@ class ScriptToResponseTest
         cookies.size() == 3;
 
         when:
-        def cookie = cookies.get( 0 );
+        def cookie = cookies.get( 'cookie1' );
 
         then:
         cookie.name == 'cookie1';
@@ -379,7 +371,7 @@ class ScriptToResponseTest
         !cookie.isHttpOnly();
 
         when:
-        cookie = cookies.get( 1 );
+        cookie = cookies.get( 'cookie2' );
 
         then:
         cookie.name == 'cookie2';
@@ -392,7 +384,7 @@ class ScriptToResponseTest
         cookie.isHttpOnly();
 
         when:
-        cookie = cookies.get( 2 );
+        cookie = cookies.get( 'cookie3' );
 
         then:
         cookie.name == 'cookie3';

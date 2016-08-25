@@ -16,8 +16,6 @@ class RequestHeaderTest
             };
         ''' );
 
-        this.request.method = 'GET';
-
         final Response res = serve();
         assert res.status == Status.OK;
         return toStringBody( res );
@@ -35,13 +33,25 @@ class RequestHeaderTest
     def "simple headers"()
     {
         setup:
-        this.request.headers.put( 'a', '1' );
-        this.request.headers.put( 'b', '2' );
+        this.requestBuilder.header( 'a', '1' );
+        this.requestBuilder.header( 'b', '2' );
 
         when:
         def res = executeGet();
 
         then:
         res == '{"a":"1","b":"2"}';
+    }
+
+    def "ignore headers"()
+    {
+        setup:
+        this.requestBuilder.header( 'Cookie', 'a=1' );
+
+        when:
+        def res = executeGet();
+
+        then:
+        res == '{}';
     }
 }

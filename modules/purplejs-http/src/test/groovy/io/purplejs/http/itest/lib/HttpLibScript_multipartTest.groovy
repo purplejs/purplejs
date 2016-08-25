@@ -13,7 +13,7 @@ class HttpLibScript_multipartTest
     def "test isMultipart"()
     {
         setup:
-        this.request.method = 'POST';
+        this.requestBuilder.method( 'POST' );
         mockForm();
 
         script( '''
@@ -35,7 +35,7 @@ class HttpLibScript_multipartTest
     def "test isMultipart, no multipart"()
     {
         setup:
-        this.request.method = 'POST';
+        this.requestBuilder.method( 'POST' );
 
         script( '''
             var http = require('/lib/http');
@@ -56,7 +56,7 @@ class HttpLibScript_multipartTest
     def "test getMultipartForm, no multipart"()
     {
         setup:
-        this.request.method = 'POST';
+        this.requestBuilder.method( 'POST' );
 
         script( '''
             var http = require('/lib/http');
@@ -80,7 +80,7 @@ class HttpLibScript_multipartTest
     def "test getMultipartForm"()
     {
         setup:
-        this.request.method = 'POST';
+        this.requestBuilder.method( 'POST' );
         mockForm( mockItem( 'item1', 'test.txt', 'hello', MediaType.PLAIN_TEXT_UTF_8 ), mockItem( 'item2', 'other.txt', 'world', null ) );
 
         script( '''
@@ -120,7 +120,7 @@ class HttpLibScript_multipartTest
     def "test getMultipartForm, list of items"()
     {
         setup:
-        this.request.method = 'POST';
+        this.requestBuilder.method( 'POST' );
         mockForm( mockItem( 'item1', 'test.txt', 'hello', MediaType.PLAIN_TEXT_UTF_8 ), mockItem( 'item1', 'other.txt', 'world', null ) );
 
         script( '''
@@ -162,7 +162,7 @@ class HttpLibScript_multipartTest
     def "test getMultipartItem"()
     {
         setup:
-        this.request.method = 'POST';
+        this.requestBuilder.method( 'POST' );
         mockForm( mockItem( 'item1', 'test.txt', 'hello', null ) );
 
         script( '''
@@ -205,7 +205,7 @@ class HttpLibScript_multipartTest
             form.add( item );
         }
 
-        this.request.setMultipart( form );
+        this.requestBuilder.multipart( form );
     }
 
     private MultipartItem mockItem( final String name, final String fileName, final String content, final MediaType type )

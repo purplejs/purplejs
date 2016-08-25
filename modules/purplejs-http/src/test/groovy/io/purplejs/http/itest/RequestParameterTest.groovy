@@ -16,8 +16,6 @@ class RequestParameterTest
             };
         ''' );
 
-        this.request.method = 'GET';
-
         final Response res = serve();
         assert res.status == Status.OK;
         return toStringBody( res );
@@ -35,8 +33,8 @@ class RequestParameterTest
     def "simple params"()
     {
         setup:
-        this.request.parameters.put( 'a', '1' );
-        this.request.parameters.put( 'b', '2' );
+        this.requestBuilder.parameter( 'a', '1' );
+        this.requestBuilder.parameter( 'b', '2' );
 
         when:
         def res = executeGet();
@@ -48,9 +46,9 @@ class RequestParameterTest
     def "multiple values"()
     {
         setup:
-        this.request.parameters.put( 'a', '1' );
-        this.request.parameters.put( 'b', '2' );
-        this.request.parameters.put( 'b', '3' );
+        this.requestBuilder.parameter( 'a', '1' );
+        this.requestBuilder.parameter( 'b', '2' );
+        this.requestBuilder.parameter( 'b', '3' );
 
         when:
         def res = executeGet();

@@ -3,7 +3,7 @@
 var core = require('/lib/core');
 
 var helper = __.newBean('io.purplejs.http.internal.lib.HttpLibHelper');
-helper.setRequestProvider(__.getProvider('io.purplejs.http.Request'));
+helper.requestProvider = __.getProvider('io.purplejs.http.Request');
 
 function getRequest() {
     return helper.getRequest();

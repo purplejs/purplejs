@@ -74,7 +74,7 @@ class BasicHandlingTest
         ''' );
 
         when:
-        this.request.method = 'POST';
+        this.requestBuilder.method( 'POST' );
         def res = serve();
 
         then:
@@ -95,7 +95,7 @@ class BasicHandlingTest
         ''' );
 
         when:
-        this.request.method >> 'HEAD';
+        this.requestBuilder.method( 'HEAD' );
         def res = serve();
 
         then:
@@ -116,7 +116,7 @@ class BasicHandlingTest
         ''' );
 
         when:
-        this.request.method >> 'GET';
+        this.requestBuilder.method( 'GET' );
         def res = serve();
 
         then:

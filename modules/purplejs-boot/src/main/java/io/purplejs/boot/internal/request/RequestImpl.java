@@ -2,6 +2,7 @@ package io.purplejs.boot.internal.request;
 
 import java.net.URI;
 import java.util.Enumeration;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -197,5 +198,11 @@ public final class RequestImpl
     public void setWebSocket( final boolean webSocket )
     {
         this.webSocket = webSocket;
+    }
+
+    @Override
+    public Map<String, String> getCookies()
+    {
+        return null;
     }
 }

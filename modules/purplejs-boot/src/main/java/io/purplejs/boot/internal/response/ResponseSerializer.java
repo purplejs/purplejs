@@ -1,7 +1,6 @@
 package io.purplejs.boot.internal.response;
 
 import java.io.IOException;
-import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -27,7 +26,7 @@ public final class ResponseSerializer
         this.to.setContentType( from.getContentType().toString() );
 
         serializeHeaders( from.getHeaders() );
-        serializeCookies( from.getCookies() );
+        serializeCookies( from.getCookies().values() );
 
         getBody( from ).copyTo( this.to.getOutputStream() );
     }
@@ -43,7 +42,7 @@ public final class ResponseSerializer
         headers.forEach( this.to::addHeader );
     }
 
-    private void serializeCookies( final List<Cookie> cookies )
+    private void serializeCookies( final Iterable<Cookie> cookies )
     {
         cookies.forEach( this::serializeCookie );
     }

@@ -12,23 +12,24 @@ import io.purplejs.core.mock.MockResourceLoader
 import io.purplejs.core.resource.ResourceLoaderBuilder
 import io.purplejs.core.resource.ResourcePath
 import io.purplejs.http.Request
+import io.purplejs.http.RequestBuilder
 import io.purplejs.http.Response
 import io.purplejs.http.handler.HttpHandlerFactory
-import io.purplejs.http.mock.MockRequest
+import io.purplejs.http.websocket.WebSocketEvent
 import spock.lang.Specification
 
 abstract class AbstractIntegrationTest
     extends Specification
 {
-    private Engine engine;
+    protected Engine engine;
 
     private MockResourceLoader resourceLoader;
 
     private HttpHandlerFactory handlerFactory;
 
-    protected MockRequest request;
+    protected RequestBuilder requestBuilder;
 
-    public final void setup()
+    public void setup()
     {
         final EngineBuilder builder = EngineBuilder.newBuilder();
         configureEngine( builder );
@@ -36,7 +37,7 @@ abstract class AbstractIntegrationTest
         this.engine = builder.build();
         this.handlerFactory = this.engine.getInstance( HttpHandlerFactory.class );
 
-        this.request = new MockRequest();
+        this.requestBuilder = RequestBuilder.newBuilder();
     }
 
     public final void cleanup()
@@ -86,14 +87,14 @@ abstract class AbstractIntegrationTest
         file( '/test.js', content );
     }
 
-    protected final Response serve( final Request request )
+    protected final boolean handleEvent( final WebSocketEvent event )
     {
-        return serve( '/test.js', request );
+        return this.handlerFactory.newHandler( ResourcePath.from( '/test.js' ) ).handleEvent( event );
     }
 
     protected final Response serve()
     {
-        return serve( '/test.js', this.request );
+        return serve( '/test.js', this.requestBuilder.build() );
     }
 
     protected final static String toStringBody( final Response response )

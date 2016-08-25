@@ -1,6 +1,6 @@
 package io.purplejs.http;
 
-import java.util.List;
+import java.util.Map;
 
 import com.google.common.io.ByteSource;
 import com.google.common.net.MediaType;
@@ -21,7 +21,7 @@ final class ResponseImpl
 
     ScriptValue value;
 
-    List<Cookie> cookies;
+    Map<String, Cookie> cookies;
 
     WebSocketConfig webSocket;
 
@@ -44,7 +44,7 @@ final class ResponseImpl
     }
 
     @Override
-    public List<Cookie> getCookies()
+    public Map<String, Cookie> getCookies()
     {
         return this.cookies;
     }

@@ -1,8 +1,8 @@
 package io.purplejs.http;
 
-import java.util.List;
+import java.util.Map;
 
-import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.google.common.io.ByteSource;
 import com.google.common.net.MediaType;
 
@@ -19,7 +19,7 @@ public final class ResponseBuilder
 
     private final Headers headers = new Headers();
 
-    private final List<Cookie> cookies = Lists.newArrayList();
+    private final Map<String, Cookie> cookies = Maps.newHashMap();
 
     private WebSocketConfig webSocket;
 
@@ -57,7 +57,7 @@ public final class ResponseBuilder
 
     public ResponseBuilder cookie( final Cookie cookie )
     {
-        this.cookies.add( cookie );
+        this.cookies.put( cookie.getName(), cookie );
         return this;
     }
 

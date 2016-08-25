@@ -2,8 +2,8 @@ package io.purplejs.http.internal.error
 
 import com.google.common.collect.Lists
 import io.purplejs.core.resource.ResourcePath
+import io.purplejs.http.RequestBuilder
 import io.purplejs.http.Status
-import io.purplejs.http.mock.MockRequest
 import spock.lang.Specification
 
 class ErrorInfoImplTest
@@ -18,7 +18,7 @@ class ErrorInfoImplTest
         info.lines = Lists.newArrayList( '1', '2' );
         info.path = ResourcePath.from( '/test.js' );
         info.cause = new IOException();
-        info.request = new MockRequest();
+        info.request = RequestBuilder.newBuilder().build();
         info.status = Status.NOT_FOUND;
 
         then:

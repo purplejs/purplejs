@@ -17,6 +17,7 @@ import io.purplejs.http.handler.HttpHandler;
 import io.purplejs.http.internal.error.ErrorRenderer;
 import io.purplejs.http.internal.websocket.WebSocketRegistry;
 import io.purplejs.http.websocket.WebSocketEvent;
+import io.purplejs.http.websocket.WebSocketEventType;
 import io.purplejs.http.websocket.WebSocketSession;
 
 final class HttpHandlerImpl
@@ -86,14 +87,15 @@ final class HttpHandlerImpl
     public boolean handleEvent( final WebSocketEvent event )
     {
         final WebSocketSession session = event.getSession();
-        switch ( event.getType() )
+        final WebSocketEventType type = event.getType();
+
+        if ( type == WebSocketEventType.OPEN )
         {
-            case OPEN:
-                this.webSocketRegistry.add( session );
-                break;
-            case CLOSE:
-                this.webSocketRegistry.remove( session );
-                break;
+            this.webSocketRegistry.add( session );
+        }
+        else if ( type == WebSocketEventType.CLOSE )
+        {
+            this.webSocketRegistry.remove( session );
         }
 
         final HandleEventCommand command = new HandleEventCommand( event );

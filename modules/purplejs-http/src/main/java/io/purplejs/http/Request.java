@@ -1,13 +1,13 @@
 package io.purplejs.http;
 
 import java.net.URI;
+import java.util.Map;
 
 import com.google.common.io.ByteSource;
 import com.google.common.net.MediaType;
 
 import io.purplejs.http.multipart.MultipartForm;
 
-// TODO: Use optional on getContentType, getBody and getMultipart.
 public interface Request
 {
     String getMethod();
@@ -17,6 +17,8 @@ public interface Request
     Parameters getParameters();
 
     Headers getHeaders();
+
+    Map<String, String> getCookies();
 
     MediaType getContentType();
 

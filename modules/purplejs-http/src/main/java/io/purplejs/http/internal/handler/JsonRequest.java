@@ -1,6 +1,5 @@
 package io.purplejs.http.internal.handler;
 
-import java.net.HttpCookie;
 import java.util.Collection;
 import java.util.Map;
 
@@ -42,7 +41,7 @@ final class JsonRequest
 
         serializeParameters( gen, this.request.getParameters() );
         serializeHeaders( gen, this.request.getHeaders() );
-        serializeCookies( gen, this.request.getHeaders().get( HttpHeaders.COOKIE ) );
+        serializeCookies( gen, this.request.getCookies() );
 
         gen.end();
     }
@@ -80,17 +79,10 @@ final class JsonRequest
         gen.end();
     }
 
-    private void serializeCookies( final JsonGenerator gen, final String value )
+    private void serializeCookies( final JsonGenerator gen, final Map<String, String> cookies )
     {
         gen.map( "cookies" );
-        if ( value != null )
-        {
-            for ( final HttpCookie cookie : HttpCookie.parse( value ) )
-            {
-                gen.value( cookie.getName(), cookie.getValue() );
-            }
-        }
-
+        cookies.forEach( gen::value );
         gen.end();
     }
 }

@@ -1,7 +1,7 @@
 /* global exports */
 
 var helper = __.newBean('io.purplejs.http.internal.lib.WebSocketLibHelper');
-helper.init(__);
+helper.manager = __.getInstance('io.purplejs.http.websocket.WebSocketManager');
 
 exports.send = function (id, message) {
     helper.sendMessage(id, message);

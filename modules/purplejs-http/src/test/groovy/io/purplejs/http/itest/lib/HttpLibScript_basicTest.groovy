@@ -1,17 +1,16 @@
 package io.purplejs.http.itest.lib
 
-import com.google.common.io.ByteSource
 import com.google.common.net.MediaType
+import io.purplejs.http.Request
 import io.purplejs.http.Status
 import io.purplejs.http.itest.AbstractIntegrationTest
-import io.purplejs.http.mock.MockRequest
 
 class HttpLibScript_basicTest
     extends AbstractIntegrationTest
 {
-    public MockRequest currentRequest()
+    public Request currentRequest()
     {
-        return this.request;
+        return this.requestBuilder.build();
     }
 
     def "test getRequest"()
@@ -22,7 +21,7 @@ class HttpLibScript_basicTest
 
             exports.get = function() {
                 var req = http.getRequest();
-                t.assertEquals(req, t.currentRequest());
+                t.assertEquals(true, req != null);
             };
         ''' );
 
@@ -37,8 +36,8 @@ class HttpLibScript_basicTest
     def "test isJsonBody"()
     {
         setup:
-        this.request.method = 'POST';
-        this.request.contentType = MediaType.create( 'application', 'json' );
+        this.requestBuilder.method( 'POST' );
+        this.requestBuilder.contentType( 'application/json' );
 
         script( '''
             var http = require('/lib/http');
@@ -59,8 +58,8 @@ class HttpLibScript_basicTest
     def "test isJsonBody, not json"()
     {
         setup:
-        this.request.method = 'POST';
-        this.request.contentType = MediaType.PLAIN_TEXT_UTF_8;
+        this.requestBuilder.method( 'POST' );
+        this.requestBuilder.contentType( MediaType.PLAIN_TEXT_UTF_8 );
 
         script( '''
             var http = require('/lib/http');
@@ -81,8 +80,8 @@ class HttpLibScript_basicTest
     def "test bodyAsText"()
     {
         setup:
-        this.request.method = 'POST';
-        this.request.body = ByteSource.wrap( 'hello'.bytes );
+        this.requestBuilder.method( 'POST' );
+        this.requestBuilder.body( 'hello' );
 
         script( '''
             var http = require('/lib/http');
@@ -103,7 +102,7 @@ class HttpLibScript_basicTest
     def "test bodyAsText, no body"()
     {
         setup:
-        this.request.method = 'POST';
+        this.requestBuilder.method( 'POST' );
 
         script( '''
             var http = require('/lib/http');
@@ -124,9 +123,9 @@ class HttpLibScript_basicTest
     def "test bodyAsJson"()
     {
         setup:
-        this.request.method = 'POST';
-        this.request.body = ByteSource.wrap( '{"a":1}'.bytes );
-        this.request.contentType = MediaType.create( 'application', 'json' );
+        this.requestBuilder.method( 'POST' );
+        this.requestBuilder.body( '{"a":1}' );
+        this.requestBuilder.contentType( 'application/json' );
 
         script( '''
             var http = require('/lib/http');
@@ -147,7 +146,7 @@ class HttpLibScript_basicTest
     def "test bodyAsJson, not json"()
     {
         setup:
-        this.request.method = 'POST';
+        this.requestBuilder.method( 'POST' );
 
         script( '''
             var http = require('/lib/http');
@@ -168,8 +167,8 @@ class HttpLibScript_basicTest
     def "test bodyAsStream"()
     {
         setup:
-        this.request.method = 'POST';
-        this.request.body = ByteSource.wrap( 'hello'.bytes );
+        this.requestBuilder.method( 'POST' );
+        this.requestBuilder.body( 'hello' );
 
         script( '''
             var http = require('/lib/http');

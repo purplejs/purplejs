@@ -1,6 +1,6 @@
 package io.purplejs.http;
 
-import java.util.List;
+import java.util.Map;
 
 import com.google.common.io.ByteSource;
 import com.google.common.net.MediaType;
@@ -18,7 +18,7 @@ public interface Response
 
     Headers getHeaders();
 
-    List<Cookie> getCookies();
+    Map<String, Cookie> getCookies();
 
     WebSocketConfig getWebSocket();
 

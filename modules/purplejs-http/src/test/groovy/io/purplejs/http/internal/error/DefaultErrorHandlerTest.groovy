@@ -5,8 +5,8 @@ import com.google.common.net.HttpHeaders
 import com.google.common.net.MediaType
 import io.purplejs.core.exception.ProblemException
 import io.purplejs.core.resource.ResourcePath
+import io.purplejs.http.RequestBuilder
 import io.purplejs.http.Status
-import io.purplejs.http.mock.MockRequest
 import spock.lang.Specification
 
 class DefaultErrorHandlerTest
@@ -16,22 +16,19 @@ class DefaultErrorHandlerTest
 
     def ErrorInfoImpl info;
 
-    def MockRequest request;
-
     def setup()
     {
         this.handler = new DefaultErrorHandler();
         this.info = new ErrorInfoImpl();
-
-        this.request = new MockRequest();
-        this.info.request = this.request;
     }
 
     def "error page"()
     {
         setup:
         this.info.status = Status.NOT_FOUND;
-        this.request.headers.put( HttpHeaders.ACCEPT, accept );
+        this.info.request = RequestBuilder.newBuilder().
+            header( HttpHeaders.ACCEPT, accept ).
+            build();
 
         when:
         def res = this.handler.handle( this.info );
@@ -56,7 +53,9 @@ class DefaultErrorHandlerTest
     {
         setup:
         this.info.status = Status.NOT_FOUND;
-        this.request.headers.put( HttpHeaders.ACCEPT, 'text/html' );
+        this.info.request = RequestBuilder.newBuilder().
+            header( HttpHeaders.ACCEPT, 'text/html' ).
+            build();
         this.info.cause = new IOException( 'Some error' );
 
         when:
@@ -72,7 +71,9 @@ class DefaultErrorHandlerTest
     def "error with problem"()
     {
         setup:
-        this.request.headers.put( HttpHeaders.ACCEPT, 'text/html' );
+        this.info.request = RequestBuilder.newBuilder().
+            header( HttpHeaders.ACCEPT, 'text/html' ).
+            build();
         this.info.status = Status.NOT_FOUND;
         this.info.path = ResourcePath.from( '/test.js' );
         this.info.lines = Lists.newArrayList( 'line1', 'line2' );
@@ -96,7 +97,9 @@ class DefaultErrorHandlerTest
     def "error with problem, no path or call-stack"()
     {
         setup:
-        this.request.headers.put( HttpHeaders.ACCEPT, 'text/html' );
+        this.info.request = RequestBuilder.newBuilder().
+            header( HttpHeaders.ACCEPT, 'text/html' ).
+            build();
         this.info.status = Status.NOT_FOUND;
         this.info.cause = ProblemException.newBuilder().
             build();

@@ -4,8 +4,9 @@ import com.google.common.net.MediaType
 import io.purplejs.core.exception.ProblemException
 import io.purplejs.core.mock.MockResourceLoader
 import io.purplejs.core.resource.ResourcePath
+import io.purplejs.http.Request
+import io.purplejs.http.RequestBuilder
 import io.purplejs.http.Status
-import io.purplejs.http.mock.MockRequest
 import spock.lang.Specification
 
 class ErrorRendererImplTest
@@ -15,13 +16,13 @@ class ErrorRendererImplTest
 
     def MockResourceLoader resourceLoader;
 
-    def MockRequest request;
+    def Request request;
 
     def setup()
     {
         this.resourceLoader = new MockResourceLoader();
         this.renderer = new ErrorRendererImpl( null, this.resourceLoader );
-        this.request = new MockRequest();
+        this.request = RequestBuilder.newBuilder().build();
     }
 
     def "handle exception"()
