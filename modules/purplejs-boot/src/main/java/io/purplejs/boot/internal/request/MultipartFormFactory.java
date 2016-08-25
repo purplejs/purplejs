@@ -6,7 +6,7 @@ import io.purplejs.http.multipart.MultipartForm;
 
 final class MultipartFormFactory
 {
-    public MultipartForm create( final Iterable<Part> parts )
+    MultipartForm create( final Iterable<Part> parts )
     {
         final MultipartForm form = new MultipartForm();
         for ( final Part part : parts )

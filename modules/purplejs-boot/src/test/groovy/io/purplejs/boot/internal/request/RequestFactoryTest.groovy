@@ -5,12 +5,15 @@ import io.purplejs.http.Request
 import org.springframework.mock.web.MockHttpServletRequest
 import spock.lang.Specification
 
+import javax.servlet.http.Cookie
 import javax.servlet.http.HttpServletRequest
 
-class RequestImplTest
+class RequestFactoryTest
     extends Specification
 {
     def MockHttpServletRequest request;
+
+    def boolean webSocket;
 
     def setup()
     {
@@ -19,7 +22,10 @@ class RequestImplTest
 
     private Request createWrapper()
     {
-        return new RequestImpl( this.request );
+        final RequestFactory factory = new RequestFactory();
+        factory.request = this.request;
+        factory.webSocket = this.webSocket;
+        return factory.create();
     }
 
     def "getMethod"()
@@ -165,22 +171,39 @@ class RequestImplTest
         req.getInputStream() >> { throw new IOException() };
 
         when:
-        RequestImpl.readBody( req );
+        RequestFactory.readBody( req );
 
         then:
         thrown IOException;
     }
 
-    def "newMultipartForm failure"()
+    def "readMultipart failure"()
     {
         setup:
         def req = Mock( HttpServletRequest.class );
         req.getParts() >> { throw new IOException() };
 
         when:
-        RequestImpl.newMultipartForm( req );
+        RequestFactory.readMultipart( req );
 
         then:
         thrown IOException;
+    }
+
+    def "getCookies"()
+    {
+        setup:
+        def cookie1 = new Cookie( 'cookie1', 'value1' );
+        def cookie2 = new Cookie( 'cookie2', 'value2' );
+        this.request.setCookies( cookie1, cookie2 );
+
+        when:
+        def wrapper = createWrapper();
+        def cookies = wrapper.getCookies();
+
+        then:
+        cookies != null;
+        cookies.size() == 2;
+        cookies.toString() == '[cookie1:value1, cookie2:value2]';
     }
 }

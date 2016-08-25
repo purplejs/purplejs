@@ -11,7 +11,7 @@ import org.eclipse.jetty.websocket.server.WebSocketServerFactory;
 import org.eclipse.jetty.websocket.servlet.WebSocketCreator;
 import org.eclipse.jetty.websocket.servlet.WebSocketServletFactory;
 
-import io.purplejs.boot.internal.request.RequestImpl;
+import io.purplejs.boot.internal.request.RequestFactory;
 import io.purplejs.boot.internal.response.ResponseSerializer;
 import io.purplejs.boot.internal.websocket.WebSocketHandler;
 import io.purplejs.core.Engine;
@@ -67,11 +67,13 @@ public final class ScriptServlet
     protected void service( final HttpServletRequest req, final HttpServletResponse res )
         throws ServletException, IOException
     {
-        final RequestImpl actualRequest = new RequestImpl( req );
-
         final boolean isWebSocket = this.webSocketServletFactory.isUpgradeRequest( req, res );
-        actualRequest.setWebSocket( isWebSocket );
 
+        final RequestFactory requestFactory = new RequestFactory();
+        requestFactory.setRequest( req );
+        requestFactory.setWebSocket( isWebSocket );
+
+        final Request actualRequest = requestFactory.create();
         final Response actualResponse = serve( actualRequest );
         if ( actualResponse == null )
         {

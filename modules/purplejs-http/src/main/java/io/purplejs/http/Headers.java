@@ -12,6 +12,7 @@ import com.google.common.net.MediaType;
 
 import static com.google.common.net.HttpHeaders.ACCEPT;
 
+// TODO: Support multiple headers with same key!
 public final class Headers
     extends ForwardingMap<String, String>
 {
