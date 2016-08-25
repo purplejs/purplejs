@@ -5,6 +5,8 @@ dependencies {
     compile 'ch.qos.logback:logback-classic:1.1.7'
     testCompile 'org.springframework:spring-web:4.2.4.RELEASE'
     testCompile 'org.springframework:spring-test:4.2.4.RELEASE'
+    testCompile 'com.squareup.okhttp3:okhttp:3.4.1'
+    testCompile 'com.squareup.okhttp3:okhttp-ws:3.4.1'
 
     testCompile( project( path: ':purplejs-http', configuration: 'testArchives' ) ) {
         exclude module: 'slf4j-simple'
