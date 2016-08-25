@@ -1,6 +1,7 @@
 package io.purplejs.http.internal.websocket;
 
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 import com.google.common.collect.Sets;
@@ -10,6 +11,8 @@ import io.purplejs.http.websocket.WebSocketConfig;
 
 public final class WebSocketConfigFactory
 {
+    private final static long DEFAULT_TIMEOUT = TimeUnit.SECONDS.toMillis( 30 );
+
     public WebSocketConfig create( final ScriptValue value )
     {
         if ( value == null )
@@ -21,7 +24,7 @@ public final class WebSocketConfigFactory
         config.subProtocols = parseSubProtocols( value.getMember( "subProtocols" ) );
         config.attributes = value.getMember( "attributes" );
         config.group = getString( value.getMember( "group" ), "default" );
-        config.timeout = getLong( value.getMember( "timeout" ), 30000 );
+        config.timeout = getLong( value.getMember( "timeout" ), DEFAULT_TIMEOUT );
         return config;
     }
 

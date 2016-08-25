@@ -49,6 +49,7 @@ class DefaultErrorHandlerTest
         'text/html,application/json' | MediaType.HTML_UTF_8
         'application/json'           | MediaType.JSON_UTF_8
         'application/json,text/html' | MediaType.JSON_UTF_8
+        'unknown/other'              | MediaType.JSON_UTF_8
     }
 
     def "error with cause"()
@@ -80,6 +81,24 @@ class DefaultErrorHandlerTest
             callLine( 'test1', 1 ).
             callLine( 'test2', 2 ).
             path( ResourcePath.from( '/test.js' ) ).
+            build();
+
+        when:
+        def res = this.handler.handle( this.info );
+
+        then:
+        res != null;
+        res.status == Status.NOT_FOUND;
+        res.contentType == MediaType.HTML_UTF_8;
+        res.body.size() > 0;
+    }
+
+    def "error with problem, no path or call-stack"()
+    {
+        setup:
+        this.request.headers.put( HttpHeaders.ACCEPT, 'text/html' );
+        this.info.status = Status.NOT_FOUND;
+        this.info.cause = ProblemException.newBuilder().
             build();
 
         when:

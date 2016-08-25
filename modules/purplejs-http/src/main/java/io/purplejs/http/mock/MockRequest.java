@@ -94,7 +94,7 @@ public final class MockRequest
     @Override
     public Object getRaw()
     {
-        return null;
+        return this.raw;
     }
 
     public void setMethod( final String method )
@@ -129,9 +129,9 @@ public final class MockRequest
         }
     }
 
-    public void setMultipartForm( final MultipartForm multipartForm )
+    public void setMultipart( final MultipartForm form )
     {
-        this.multipartForm = multipartForm;
+        this.multipartForm = form;
     }
 
     @Override
@@ -143,5 +143,10 @@ public final class MockRequest
     public void setWebSocket( final boolean webSocket )
     {
         this.webSocket = webSocket;
+    }
+
+    public void setRaw( final Object raw )
+    {
+        this.raw = raw;
     }
 }

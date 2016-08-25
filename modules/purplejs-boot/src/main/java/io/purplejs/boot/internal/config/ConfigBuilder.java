@@ -26,7 +26,7 @@ public final class ConfigBuilder
 
     public Settings build()
     {
-        return this.builder.interpolate().build();
+        return this.builder.build();
     }
 
     private ConfigBuilder load( final File file )
