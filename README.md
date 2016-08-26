@@ -6,6 +6,8 @@ PurpleJS Framework
 [![Build Status](https://travis-ci.org/purplejs/purplejs.svg?branch=master)](https://travis-ci.org/purplejs/purplejs)
 [![License](https://img.shields.io/github/license/purplejs/purplejs.svg)](http://www.apache.org/licenses/LICENSE-2.0.html)
 [![codecov](https://codecov.io/gh/purplejs/purplejs/branch/master/graph/badge.svg)](https://codecov.io/gh/purplejs/purplejs)
+[![Download](https://api.bintray.com/packages/purplejs/maven/purplejs/images/download.svg)](https://bintray.com/purplejs/maven/purplejs/_latestVersion)
+
 
 PurpleJS is a simple and capable framework for creating performant web applications without leaving Javascript. It is created in Java to give the flexibility and performance Java provides. It's optional to use Java but it's required if you need to embed PurpleJS in existing applications.
 
