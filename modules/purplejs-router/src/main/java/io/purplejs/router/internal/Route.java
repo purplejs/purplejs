@@ -21,6 +21,11 @@ final class Route
 
     boolean matches( final String method, final String path )
     {
+        if ( path.equals( "/" ) )
+        {
+            return matches( method, "" );
+        }
+
         final boolean matchesMethod = ( this.method == null ) || this.method.equals( method );
         return matchesMethod && this.pattern.matches( path );
     }

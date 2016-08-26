@@ -24,6 +24,42 @@ class RouterLibTest
         res.status == Status.NOT_FOUND;
     }
 
+
+    def "root route"()
+    {
+        setup:
+        script( '''
+            var router = require('/lib/router')();
+
+            router.get('/', function(req) {
+                return {
+                    body: 'hello root'
+                };
+            });
+
+            exports.service = function(req) {
+                return router.dispatch(req);
+            };
+        ''' );
+
+        when:
+        this.requestBuilder.method( 'GET' );
+        this.requestBuilder.uri( 'http://localhost:8080' );
+        def res = serve();
+
+        then:
+        res.status == Status.OK;
+        toStringBody( res ) == 'hello root';
+
+        when:
+        this.requestBuilder.uri( 'http://localhost:8080/' );
+        res = serve();
+
+        then:
+        res.status == Status.OK;
+        toStringBody( res ) == 'hello root';
+    }
+
     def "simple routes"()
     {
         setup:
