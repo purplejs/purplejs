@@ -10,6 +10,24 @@ PurpleJS Framework
 PurpleJS is a simple and capable framework for creating performant web applications without leaving Javascript. It is created in Java to give the flexibility and performance Java provides. It's optional to use Java but it's required if you need to embed PurpleJS in existing applications.
 
 
+Building
+--------
+
+PurpleJS builds with [Gradle](http://gradle.org). You do not need to install Gradle to build the project, as Gradle can install itself. To build, run this in the checkout:
+
+```
+./gradlew build
+```
+
+That will build the entire project and run all the tests.
+
+
+Documentation
+-------------
+
+Documentation is vital for this kind of project. We are working on the docs as you are reading this and promise that the initial documentation will be available very soon.  
+
+
 Contributing
 ------------
 
