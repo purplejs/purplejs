@@ -4,6 +4,7 @@ PurpleJS Framework
 ==================
 
 [![Build Status](https://travis-ci.org/purplejs/purplejs.svg?branch=master)](https://travis-ci.org/purplejs/purplejs)
+[![Build status](https://ci.appveyor.com/api/projects/status/ivr97k669mih6tec?svg=true)](https://ci.appveyor.com/project/srs/purplejs)
 [![License](https://img.shields.io/github/license/purplejs/purplejs.svg)](http://www.apache.org/licenses/LICENSE-2.0.html)
 [![codecov](https://codecov.io/gh/purplejs/purplejs/branch/master/graph/badge.svg)](https://codecov.io/gh/purplejs/purplejs)
 [![Download](https://api.bintray.com/packages/purplejs/maven/purplejs/images/download.svg)](https://bintray.com/purplejs/maven/purplejs/_latestVersion)
