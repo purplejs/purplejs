@@ -3,9 +3,10 @@
 /**
  * Core javascript functions.
  *
- * @module lib/core
+ * @module core
  */
 
+// Create a new instance of helper and get hold of a resource-loader.
 var helper = __.newBean('io.purplejs.core.internal.lib.CoreLibHelper');
 var resourceLoader = __.environment.resourceLoader;
 
