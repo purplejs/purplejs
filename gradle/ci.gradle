@@ -1,0 +1,4 @@
+task ci {
+    description = 'Builds and generates coverage report.'
+    dependsOn = ['clean', 'build', 'jacocoMergedReport']
+}

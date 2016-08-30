@@ -25,6 +25,7 @@ ext {
 
 configure( allprojects ) {
     apply from: "$rootDir/gradle/dependencies.gradle"
+    apply from: "$rootDir/gradle/release.gradle"
 }
 
 configure( javaProjects ) {
@@ -35,8 +36,5 @@ configure( javaProjects ) {
 
 configure( rootProject ) {
     apply from: "$rootDir/gradle/coverage.gradle"
-
-    task ci {
-        dependsOn = ['clean', 'build', 'jacocoMergedReport']
-    }
+    apply from: "$rootDir/gradle/ci.gradle"
 }
