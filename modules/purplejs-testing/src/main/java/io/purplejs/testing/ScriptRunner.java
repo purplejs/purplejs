@@ -9,6 +9,7 @@ import org.junit.runner.Runner;
 import org.junit.runner.notification.Failure;
 import org.junit.runner.notification.RunNotifier;
 
+import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.common.reflect.ClassPath;
 
@@ -19,33 +20,34 @@ import io.purplejs.core.resource.ResourcePath;
 public final class ScriptRunner
     extends Runner
 {
+    private static final ClassPath CP = initClassPath();
+
     private final Class<?> testClass;
 
-    private final ScriptTestSuite testInstance;
+    private final List<ScriptTestInstance> testFiles;
 
-    private final List<ScriptTestFile> testFiles;
+    private final ScriptTestSuite testInstance;
 
     public ScriptRunner( final Class<?> testClass )
         throws Exception
     {
         this.testClass = testClass;
-        this.testInstance = (ScriptTestSuite) testClass.newInstance();
+        this.testInstance = (ScriptTestSuite) this.testClass.newInstance();
         this.testFiles = findTestFiles();
-
     }
 
     @Override
     public Description getDescription()
     {
         final Description suite = Description.createSuiteDescription( this.testClass );
-        for ( final ScriptTestFile file : this.testFiles )
+        for ( final ScriptTestInstance file : this.testFiles )
         {
             final Description desc = Description.createTestDescription( file.getName(), file.getName() );
             suite.addChild( desc );
 
-            for ( final String method : file.getTestMethods() )
+            for ( final ScriptTestMethod method : file.getTestMethods() )
             {
-                final Description methodDesc = Description.createTestDescription( file.getName(), method );
+                final Description methodDesc = Description.createTestDescription( file.getName(), method.getName() );
                 desc.addChild( methodDesc );
             }
         }
@@ -56,35 +58,56 @@ public final class ScriptRunner
     @Override
     public void run( final RunNotifier notifier )
     {
-        for ( final ScriptTestFile file : this.testFiles )
+        for ( final ScriptTestInstance file : this.testFiles )
         {
-            for ( final String method : file.getTestMethods() )
+            for ( final ScriptTestMethod method : file.getTestMethods() )
             {
-                final Description desc = Description.createTestDescription( file.getName(), method );
+                final Description desc = Description.createTestDescription( file.getName(), method.getName() );
                 notifier.fireTestStarted( desc );
 
                 try
                 {
-                    file.runTestMethod( method );
-                    notifier.fireTestFinished( desc );
+                    runBefore( file );
+                    method.runTest( this.testInstance );
+                    runAfter( file );
                 }
                 catch ( final Throwable e )
                 {
                     notifier.fireTestFailure( new Failure( desc, e ) );
                 }
+                finally
+                {
+                    notifier.fireTestFinished( desc );
+                }
             }
+
+            file.dispose();
         }
     }
 
-    private List<ScriptTestFile> findTestFiles()
+    private void runBefore( final ScriptTestInstance file )
+        throws Exception
+    {
+        this.testInstance.setUp();
+        file.runBefore();
+    }
+
+    private void runAfter( final ScriptTestInstance file )
+        throws Exception
+    {
+        file.runAfter();
+        this.testInstance.tearDown();
+    }
+
+    private List<ScriptTestInstance> findTestFiles()
         throws Exception
     {
         return findResources().stream().map( this::createScriptTestFile ).collect( Collectors.toList() );
     }
 
-    private ScriptTestFile createScriptTestFile( final ResourcePath path )
+    private ScriptTestInstance createScriptTestFile( final ResourcePath path )
     {
-        final ScriptTestFile result = new ScriptTestFile( path );
+        final ScriptTestInstance result = new ScriptTestInstance( path );
         final Engine engine = createEngine( result );
         result.setEngine( engine );
 
@@ -92,17 +115,24 @@ public final class ScriptRunner
         return result;
     }
 
-    private Engine createEngine( final Object test )
+    private Engine createEngine( final ScriptTestInstance testFile )
     {
         final EngineBuilder builder = EngineBuilder.newBuilder();
-        builder.module( binder -> binder.globalVariable( "t", test ) );
-        this.testInstance.configure( builder );
+        this.testInstance.initialize( builder );
+        builder.module( this.testInstance );
+        builder.module( binder -> binder.globalVariable( "__RUNNER__", testFile ) );
         return builder.build();
+    }
+
+    private List<String> getTestFiles()
+    {
+        final List<String> files = Lists.newArrayList( this.testInstance.getTestFiles() );
+        return files.stream().map( String::trim ).filter( ( str ) -> !Strings.isNullOrEmpty( str ) ).collect( Collectors.toList() );
     }
 
     private List<Pattern> compileFilePatterns()
     {
-        return this.testInstance.getTestFiles().stream().map( this::compileFilePattern ).collect( Collectors.toList() );
+        return getTestFiles().stream().map( this::compileFilePattern ).collect( Collectors.toList() );
     }
 
     private Pattern compileFilePattern( final String path )
@@ -121,8 +151,7 @@ public final class ScriptRunner
         final List<Pattern> patterns = compileFilePatterns();
         final List<ResourcePath> list = Lists.newArrayList();
 
-        final ClassPath cp = ClassPath.from( getClass().getClassLoader() );
-        for ( final ClassPath.ResourceInfo info : cp.getResources() )
+        for ( final ClassPath.ResourceInfo info : CP.getResources() )
         {
             matchesResource( info, patterns, list );
         }
@@ -134,5 +163,17 @@ public final class ScriptRunner
     {
         final String path = "/" + info.getResourceName();
         patterns.stream().filter( pattern -> pattern.matcher( path ).find() ).forEach( pattern -> list.add( ResourcePath.from( path ) ) );
+    }
+
+    private static ClassPath initClassPath()
+    {
+        try
+        {
+            return ClassPath.from( ScriptRunner.class.getClassLoader() );
+        }
+        catch ( final Exception e )
+        {
+            throw new Error( e );
+        }
     }
 }

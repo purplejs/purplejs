@@ -1,25 +1,25 @@
-package io.purplejs.testing.junit;
+package io.purplejs.testing;
 
 import java.util.function.Consumer;
 
-public final class ScriptTestMethod
+final class ScriptTestMethod
 {
     private final String name;
 
     private final Consumer<Object[]> executor;
 
-    public ScriptTestMethod( final String name, final Consumer<Object[]> executor )
+    ScriptTestMethod( final String name, final Consumer<Object[]> executor )
     {
         this.name = name;
         this.executor = executor;
     }
 
-    public String getName()
+    String getName()
     {
         return this.name;
     }
 
-    public void runTest( final Object... args )
+    void runTest( final Object... args )
     {
         this.executor.accept( args );
     }

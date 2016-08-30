@@ -1,12 +1,7 @@
 package io.purplejs.testing;
 
-import java.util.List;
-
 import org.junit.runner.RunWith;
 
-import com.google.common.collect.Lists;
-
-import io.purplejs.core.Engine;
 import io.purplejs.core.EngineBinder;
 import io.purplejs.core.EngineBuilder;
 
@@ -14,34 +9,27 @@ import io.purplejs.core.EngineBuilder;
 public abstract class ScriptTestSupport
     implements ScriptTestSuite
 {
-    protected Engine engine;
+    private String[] testFiles;
 
-    private final List<String> testFiles;
-
+    @SuppressWarnings("all")
     public ScriptTestSupport()
     {
-        this.testFiles = Lists.newArrayList();
+        setTestFiles( "**/*-test.js" );
     }
 
     @Override
-    public List<String> getTestFiles()
+    public final String[] getTestFiles()
     {
         return this.testFiles;
     }
 
-    protected final void addTestFile( final String file )
+    public final void setTestFiles( final String... files )
     {
-        this.testFiles.add( file );
+        this.testFiles = files;
     }
 
     @Override
-    public void initialize( final Engine engine )
-    {
-        this.engine = engine;
-    }
-
-    @Override
-    public void configure( final EngineBuilder builder )
+    public void initialize( final EngineBuilder builder )
     {
         builder.classLoader( getClass().getClassLoader() );
         builder.module( this );
@@ -49,12 +37,14 @@ public abstract class ScriptTestSupport
 
     @Override
     public void setUp()
+        throws Exception
     {
         // Do nothing
     }
 
     @Override
     public void tearDown()
+        throws Exception
     {
         // Do nothing
     }
@@ -62,6 +52,6 @@ public abstract class ScriptTestSupport
     @Override
     public void configure( final EngineBinder binder )
     {
-        binder.globalVariable( "__TEST__", this );
+        // Do nothing
     }
 }
