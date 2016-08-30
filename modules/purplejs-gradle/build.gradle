@@ -1,7 +1,5 @@
 apply plugin: 'com.gradle.plugin-publish'
 
-description = "Build time PurpleJS support for Gradle - http://gradle.org"
-
 dependencies {
     compile gradleApi()
     testCompile gradleTestKit()

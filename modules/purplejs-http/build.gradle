@@ -1,4 +1,4 @@
 dependencies {
     compile project( ':purplejs-core' )
-    testCompile project( path: ':purplejs-core', configuration: 'testArchives' )
+    testCompile project( path: ':purplejs-core', configuration: 'testOutput' )
 }

@@ -9,7 +9,7 @@ dependencies {
     testCompile 'com.squareup.okhttp3:okhttp:3.4.1'
     testCompile 'com.squareup.okhttp3:okhttp-ws:3.4.1'
 
-    testCompile( project( path: ':purplejs-http', configuration: 'testArchives' ) ) {
+    testCompile( project( path: ':purplejs-http', configuration: 'testOutput' ) ) {
         exclude module: 'slf4j-simple'
     }
 }

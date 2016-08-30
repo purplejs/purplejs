@@ -6,8 +6,7 @@ apply plugin: 'java-base'
 apply plugin: 'build-dashboard'
 
 ext {
-    leafProjects = subprojects
-    javaProjects = leafProjects
+    javaProjects = subprojects
 }
 
 allprojects {
@@ -25,16 +24,15 @@ ext {
 
 configure( allprojects ) {
     apply from: "$rootDir/gradle/dependencies.gradle"
-    apply from: "$rootDir/gradle/release.gradle"
+    apply from: "$rootDir/gradle/bintray.gradle"
 }
 
 configure( javaProjects ) {
     apply from: "$rootDir/gradle/java.gradle"
-    apply from: "$rootDir/gradle/maven.gradle"
-    apply from: "$rootDir/gradle/publish.gradle"
 }
 
 configure( rootProject ) {
-    apply from: "$rootDir/gradle/coverage.gradle"
     apply from: "$rootDir/gradle/ci.gradle"
+    apply from: "$rootDir/gradle/coverage.gradle"
+    apply from: "$rootDir/gradle/javadoc.gradle"
 }

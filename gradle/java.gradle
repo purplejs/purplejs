@@ -1,15 +1,22 @@
 apply plugin: 'java'
 apply plugin: 'groovy'
 apply plugin: 'jacoco'
-apply plugin: 'com.github.hauner.jarTest'
+apply plugin: 'maven'
+apply plugin: 'maven-publish'
 
-def defaultEncoding = 'UTF-8'
+configurations {
+    testOutput.extendsFrom testRuntime
+}
+
+dependencies {
+    testOutput sourceSets.test.output
+}
 
 sourceCompatibility = '1.8'
 targetCompatibility = sourceCompatibility
 
 tasks.withType( AbstractCompile ) {
-    options.encoding = defaultEncoding
+    options.encoding = 'UTF-8'
     options.compilerArgs = ['-Xlint:-options']
 }
 
@@ -55,4 +62,14 @@ jar {
 jacocoTestReport {
     group = 'Coverage'
     description = 'Generates a single report from single project.'
+}
+
+publishing {
+    publications {
+        mavenJava( MavenPublication ) {
+            from components.java
+            artifact sourceJar
+            artifact javadocJar
+        }
+    }
 }

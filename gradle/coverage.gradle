@@ -1,22 +1,18 @@
 apply plugin: 'jacoco'
 
-def testProjects = subprojects - project( ':purplejs-gradle' )
-
-task jacocoMerge( type: JacocoMerge ) {
-    group = 'Coverage'
-    description = 'Merges jacoco coverage data from sub-projects.'
-    testProjects.each { subproject -> executionData subproject.tasks.withType( Test ) }
-}
+evaluationDependsOnChildren()
 
 task jacocoMergedReport( type: JacocoReport ) {
     group = 'Coverage'
     description = 'Generates a merged report all sub-projects.'
 
-    executionData jacocoMerge.destinationFile
-    dependsOn jacocoMerge
+    def projects = subprojects.findAll { it.plugins.hasPlugin( JacocoPlugin ) && it.file( "src/test" ).exists() }
 
-    sourceDirectories = files( subprojects.sourceSets.main.allSource.srcDirs )
-    classDirectories = files( subprojects.sourceSets.main.output )
+    dependsOn projects*.test
+
+    sourceDirectories = files( projects*.sourceSets*.main*.allSource )
+    classDirectories = files( projects*.sourceSets*.main*.output )
+    executionData = files( projects*.jacocoTestReport*.executionData )
 
     reports {
         html.enabled = true
