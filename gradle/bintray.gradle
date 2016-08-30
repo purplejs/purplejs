@@ -1,14 +1,14 @@
 apply plugin: 'maven-publish'
 apply plugin: 'com.jfrog.bintray'
 
-def propOrEnv( String prop, String env )
+def prop( String prop )
 {
-    project.hasProperty( prop ) ? project.property( prop ) : System.getenv( env )
+    project.hasProperty( prop ) ? project.property( prop ) : ''
 }
 
 bintray {
-    user = propOrEnv( 'bintrayUser', 'BINTRAY_USER' )
-    key = propOrEnv( 'bintrayKey', 'BINTRAY_KEY' )
+    user = prop( 'bintrayUser' )
+    key = prop( 'bintrayKey' )
     publications = ['mavenJava']
     override = true
     dryRun = false
@@ -27,6 +27,14 @@ bintray {
 
         version {
             vcsTag = "v$project.version"
+
+            gpg {
+                sign = true
+            }
         }
     }
+}
+
+bintrayUpload.onlyIf {
+    !( version ==~ /.*SNAPSHOT/ )
 }
