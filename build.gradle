@@ -17,18 +17,13 @@ allprojects {
     }
 }
 
-ext {
-    isSnapshot = version.endsWith( "SNAPSHOT" )
-    isCi = System.getenv( "TRAVIS" ) != null
-}
-
 configure( allprojects ) {
     apply from: "$rootDir/gradle/dependencies.gradle"
-    apply from: "$rootDir/gradle/bintray.gradle"
 }
 
 configure( javaProjects ) {
     apply from: "$rootDir/gradle/java.gradle"
+    apply from: "$rootDir/gradle/bintray.gradle"
 }
 
 configure( rootProject ) {

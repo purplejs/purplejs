@@ -1,4 +1,4 @@
-apply plugin: 'maven-publish'
+apply plugin: 'org.ajoberstar.github-pages'
 
 task allJavadoc( type: Javadoc ) {
     source subprojects.javadoc.source
@@ -11,15 +11,11 @@ task allJavadoc( type: Javadoc ) {
     }
 }
 
-task allJavadocJar( type: Jar ) {
-    classifier 'javadoc'
-    from allJavadoc
-}
-
-publishing {
-    publications {
-        mavenJava( MavenPublication ) {
-            artifact allJavadocJar
-        }
+githubPages {
+    pages {
+        from allJavadoc
+        // by default this will copy into the root of the gh-pages branch and delete any previous files
+        // customizing the destination will only delete files within that target dir
+        into "javadoc/${version}"
     }
 }
