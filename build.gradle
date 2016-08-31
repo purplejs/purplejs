@@ -6,7 +6,10 @@ apply plugin: 'java-base'
 apply plugin: 'build-dashboard'
 
 ext {
-    javaProjects = subprojects
+    docProjects = project( ':purplejs-docs' )
+    javaProjects = subprojects - docProjects
+    publishProjects = subprojects
+    isSnapshot = ( version ==~ /.*SNAPSHOT/ )
 }
 
 allprojects {
@@ -23,11 +26,13 @@ configure( allprojects ) {
 
 configure( javaProjects ) {
     apply from: "$rootDir/gradle/java.gradle"
+}
+
+configure( publishProjects ) {
     apply from: "$rootDir/gradle/bintray.gradle"
 }
 
 configure( rootProject ) {
     apply from: "$rootDir/gradle/ci.gradle"
     apply from: "$rootDir/gradle/coverage.gradle"
-    apply from: "$rootDir/gradle/javadoc.gradle"
 }

@@ -1,0 +1,31 @@
+apply plugin: 'java'
+apply plugin: 'maven-publish'
+apply from: "$rootDir/gradle/pom.gradle"
+
+task allJavadoc( type: Javadoc ) {
+    source javaProjects.javadoc.source
+    classpath = rootProject.files( javaProjects.javadoc.classpath )
+    dependsOn javaProjects.javadoc
+
+    options {
+        links( "http://docs.oracle.com/javase/8/docs/api/" )
+        links( "https://google.github.io/guava/releases/${versions.guava}/api/docs/" )
+    }
+}
+
+task allJavadocJar( type: Jar ) {
+    classifier 'javadoc'
+    from allJavadoc
+}
+
+artifacts {
+    archives allJavadocJar
+}
+
+publishing {
+    publications {
+        mavenJava( MavenPublication ) {
+            artifact allJavadocJar
+        }
+    }
+}

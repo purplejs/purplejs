@@ -4,6 +4,7 @@ include ':purplejs-router'
 include ':purplejs-boot'
 include ':purplejs-gradle'
 include ':purplejs-testing'
+include ':purplejs-docs'
 
 rootProject.name = 'purplejs'
 

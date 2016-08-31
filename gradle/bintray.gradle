@@ -10,8 +10,8 @@ bintray {
     user = prop( 'bintrayUser' )
     key = prop( 'bintrayKey' )
     publications = ['mavenJava']
-    override = true
-    dryRun = false
+    override = false
+    dryRun = isSnapshot
 
     pkg {
         repo = 'maven'
@@ -33,8 +33,4 @@ bintray {
             }
         }
     }
-}
-
-bintrayUpload.onlyIf {
-    !( version ==~ /.*SNAPSHOT/ )
 }

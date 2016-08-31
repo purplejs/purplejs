@@ -1,8 +1,8 @@
 apply plugin: 'java'
 apply plugin: 'groovy'
 apply plugin: 'jacoco'
-apply plugin: 'maven'
 apply plugin: 'maven-publish'
+apply from: "$rootDir/gradle/pom.gradle"
 
 configurations {
     testOutput.extendsFrom testRuntime
