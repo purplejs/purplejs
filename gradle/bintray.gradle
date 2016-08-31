@@ -27,10 +27,6 @@ bintray {
 
         version {
             vcsTag = "v$project.version"
-
-            gpg {
-                sign = true
-            }
         }
     }
 }

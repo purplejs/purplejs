@@ -1,6 +1,5 @@
-apply plugin: 'java'
-apply plugin: 'maven-publish'
-apply from: "$rootDir/gradle/pom.gradle"
+apply plugin: 'java-base'
+apply plugin: 'org.ajoberstar.github-pages'
 
 task allJavadoc( type: Javadoc ) {
     source javaProjects.javadoc.source
@@ -13,19 +12,10 @@ task allJavadoc( type: Javadoc ) {
     }
 }
 
-task allJavadocJar( type: Jar ) {
-    classifier 'javadoc'
-    from allJavadoc
-}
-
-artifacts {
-    archives allJavadocJar
-}
-
-publishing {
-    publications {
-        mavenJava( MavenPublication ) {
-            artifact allJavadocJar
-        }
+githubPages {
+    pages {
+        from allJavadoc
+        into "javadoc/${version}"
+        into "javadoc/current"
     }
 }

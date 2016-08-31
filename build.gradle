@@ -8,7 +8,6 @@ apply plugin: 'build-dashboard'
 ext {
     docProjects = project( ':purplejs-docs' )
     javaProjects = subprojects - docProjects
-    publishProjects = subprojects
     isSnapshot = ( version ==~ /.*SNAPSHOT/ )
 }
 
@@ -26,9 +25,6 @@ configure( allprojects ) {
 
 configure( javaProjects ) {
     apply from: "$rootDir/gradle/java.gradle"
-}
-
-configure( publishProjects ) {
     apply from: "$rootDir/gradle/bintray.gradle"
 }
 
