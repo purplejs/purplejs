@@ -28,7 +28,17 @@ public interface Environment
      */
     ClassLoader getClassLoader();
 
+    /**
+     * Returns a list of all development source directories. It's only used when RunMode is DEV.
+     *
+     * @return a list of all development source directories.
+     */
     List<File> getDevSourceDirs();
 
+    /**
+     * Returns the settings object.
+     *
+     * @return settings object.
+     */
     Settings getSettings();
 }

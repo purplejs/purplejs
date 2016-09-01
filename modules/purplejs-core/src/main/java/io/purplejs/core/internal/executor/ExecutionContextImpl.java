@@ -145,16 +145,10 @@ final class ExecutionContextImpl
     }
 
     @Override
-    public <T> T newBean( final Class<T> type )
-        throws Exception
-    {
-        return type.newInstance();
-    }
-
-    @Override
     public Object newBean( final String type )
         throws Exception
     {
-        return newBean( forName( type ) );
+        final Class<?> clz = forName( type );
+        return clz.newInstance();
     }
 }

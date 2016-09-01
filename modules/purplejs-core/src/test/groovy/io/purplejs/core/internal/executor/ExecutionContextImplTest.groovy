@@ -124,13 +124,7 @@ class ExecutionContextImplTest
     def "test newBean"()
     {
         when:
-        def bean = this.context.newBean( MyTestBean.class );
-
-        then:
-        bean != null;
-
-        when:
-        bean = this.context.newBean( MyTestBean.class.name );
+        def bean = this.context.newBean( MyTestBean.class.name );
 
         then:
         bean != null;

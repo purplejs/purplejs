@@ -47,6 +47,12 @@ public interface EngineBuilder
      */
     EngineBuilder module( EngineModule module );
 
+    /**
+     * Add settings to this engine.
+     *
+     * @param settings settings object to add.
+     * @return the instance of this builder.
+     */
     EngineBuilder settings( Settings settings );
 
     /**
