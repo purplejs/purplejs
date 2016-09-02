@@ -28,7 +28,10 @@ That will build the entire project and run all the tests.
 Documentation
 -------------
 
-Documentation is vital for this kind of project. We are working on the docs as you are reading this and promise that the initial documentation will be available very soon.  
+To get started with PurpleJS, please look at the following links:
+
+* [PurpleJS Wiki](https://github.com/purplejs/purplejs/wiki)
+* [PurpleJS Examples](https://github.com/purplejs/purplejs-examples)
 
 
 Contributing
