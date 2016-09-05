@@ -15,6 +15,17 @@ public final class MainApp
     public void start()
         throws Exception
     {
+        // Add shutdown-hook
+        Runtime.getRuntime().addShutdownHook( new Thread()
+        {
+            @Override
+            public void run()
+            {
+                MainApp.this.stop();
+            }
+        } );
+
+        // Set some system properties
         System.setProperty( "java.net.preferIPv4Stack", "true" );
 
         // Print banner
@@ -38,11 +49,17 @@ public final class MainApp
     }
 
     public void stop()
-        throws Exception
     {
-        if ( this.server != null )
+        try
         {
-            this.server.stop();
+            if ( this.server != null )
+            {
+                this.server.stop();
+            }
+        }
+        catch ( final Exception e )
+        {
+            // Ignore
         }
     }
 
