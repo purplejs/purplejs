@@ -31,7 +31,7 @@ final class ScriptTestInstance
 
     String getName()
     {
-        return this.path.getPath().replaceAll( "(.+)\\.(.+)", "$2.$1" );
+        return this.path.getPath().replaceAll( "(.+)\\.(.+)", "$1" );
     }
 
     List<ScriptTestMethod> getTestMethods()
