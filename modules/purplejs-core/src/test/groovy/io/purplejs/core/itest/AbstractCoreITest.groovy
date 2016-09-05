@@ -61,4 +61,9 @@ abstract class AbstractCoreITest
     {
         assert expected == actual;
     }
+
+    public void assertNotEquals( final Object expected, final Object actual )
+    {
+        assert expected != actual;
+    }
 }

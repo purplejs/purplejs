@@ -107,4 +107,24 @@ class GlobalTest
         then:
         exports != null;
     }
+
+    def "test execute export"()
+    {
+        setup:
+        file( '/test.js', '''
+            exports.func = function() {
+                this.a = 11;
+
+                t.assertNotEquals(undefined, this);
+                return this.a;
+            };
+        ''' );
+
+        when:
+        def exports = run( '/test.js' );
+        def result = exports.executeMethod( 'func' );
+
+        then:
+        result.getValue() == 11;
+    }
 }

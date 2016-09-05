@@ -13,6 +13,8 @@ final class FunctionScriptValue
 
     private final ScriptObjectMirror value;
 
+    private final Object scope;
+
     private final NashornRuntime runtime;
 
     FunctionScriptValue( final ScriptValueFactory factory, final ScriptObjectMirror value, final NashornRuntime runtime )
@@ -20,6 +22,7 @@ final class FunctionScriptValue
         this.factory = factory;
         this.value = value;
         this.runtime = runtime;
+        this.scope = this.value;
     }
 
     @Override
@@ -34,7 +37,7 @@ final class FunctionScriptValue
         try
         {
             final Object[] jsArray = convertArgs( args );
-            final Object result = this.value.call( null, jsArray );
+            final Object result = this.value.call( this.scope, jsArray );
             return this.factory.newValue( result );
         }
         catch ( final Exception e )
