@@ -62,7 +62,7 @@ class ScriptJsonGeneratorTest
 
             gen.end();
 
-            // One extra to check for safety
+            // One extra to doCheck for safety
             gen.end();
         } );
 

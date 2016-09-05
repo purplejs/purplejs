@@ -16,6 +16,7 @@ import io.purplejs.core.EngineBinder;
 import io.purplejs.core.EngineBuilder;
 import io.purplejs.core.EngineModule;
 import io.purplejs.core.RunMode;
+import io.purplejs.core.internal.util.RequirementChecker;
 import io.purplejs.core.registry.RegistryBuilder;
 import io.purplejs.core.resource.ResourceLoader;
 import io.purplejs.core.resource.ResourceLoaderBuilder;
@@ -43,6 +44,8 @@ public final class EngineBuilderImpl
 
     public EngineBuilderImpl()
     {
+        RequirementChecker.check();
+
         this.devSourceDirs = Lists.newArrayList();
         this.globalVariables = Maps.newHashMap();
         this.config = Maps.newHashMap();
