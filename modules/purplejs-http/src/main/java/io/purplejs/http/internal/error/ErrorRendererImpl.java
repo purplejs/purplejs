@@ -28,40 +28,24 @@ public final class ErrorRendererImpl
     }
 
     @Override
-    public Response handle( final Request request, final Throwable ex )
+    public Response handle( final Request request, final Status status, final Throwable ex )
     {
-        final ErrorInfo info = toInfo( request, ex );
+        final ErrorInfo info = toInfo( request, status, ex );
         return this.handler.handle( info );
     }
 
-    @Override
-    public Response handle( final Request request, final Status status )
-    {
-        final ErrorInfo info = toInfo( request, status );
-        return this.handler.handle( info );
-    }
-
-    private ErrorInfo toInfo( final Request request, final Throwable ex )
+    private ErrorInfo toInfo( final Request request, final Status status, final Throwable ex )
     {
         final ErrorInfoImpl info = new ErrorInfoImpl();
         info.cause = ex;
         info.request = request;
-        info.status = Status.INTERNAL_SERVER_ERROR;
+        info.status = status;
 
         if ( ex instanceof ProblemException )
         {
             populate( info, (ProblemException) ex );
         }
 
-        return info;
-    }
-
-    private ErrorInfo toInfo( final Request request, final Status status )
-    {
-        final ErrorInfoImpl info = new ErrorInfoImpl();
-        info.cause = null;
-        info.request = request;
-        info.status = status;
         return info;
     }
 

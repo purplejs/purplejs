@@ -6,7 +6,5 @@ import io.purplejs.http.Status;
 
 public interface ErrorRenderer
 {
-    Response handle( Request request, Throwable ex );
-
-    Response handle( Request request, Status status );
+    Response handle( Request request, Status status, Throwable ex );
 }

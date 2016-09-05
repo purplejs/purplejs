@@ -41,7 +41,7 @@ class HttpHandlerImplTest
             body( body ).
             build();
 
-        this.handler.errorRenderer.handle( req, status ) >> mockResult;
+        this.handler.errorRenderer.handle( req, status, null ) >> mockResult;
 
         def res = ResponseBuilder.newBuilder().
             status( status ).
@@ -110,7 +110,7 @@ class HttpHandlerImplTest
         def mockResult = ResponseBuilder.newBuilder().
             build();
 
-        this.handler.errorRenderer.handle( req, cause ) >> mockResult;
+        this.handler.errorRenderer.handle( req, Status.INTERNAL_SERVER_ERROR, cause ) >> mockResult;
 
         when:
         def result = this.handler.handleException( req, cause );

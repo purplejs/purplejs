@@ -1,18 +1,13 @@
 package io.purplejs.http.internal.handler;
 
-import java.util.function.Function;
-
+import io.purplejs.core.value.ScriptExports;
 import io.purplejs.http.Request;
 import io.purplejs.http.Response;
 import io.purplejs.http.ResponseBuilder;
 import io.purplejs.http.Status;
-import io.purplejs.http.internal.RequestAccessor;
-import io.purplejs.http.internal.response.ScriptToResponse;
-import io.purplejs.core.value.ScriptExports;
-import io.purplejs.core.value.ScriptValue;
 
 final class ServeRequestCommand
-    implements Function<ScriptExports, Response>
+    extends BaseRequestCommand
 {
     private final static String GET_METHOD = "get";
 
@@ -20,28 +15,13 @@ final class ServeRequestCommand
 
     private final static String SERVICE_METHOD = "service";
 
-    private final Request request;
-
     ServeRequestCommand( final Request request )
     {
-        this.request = request;
+        super( request );
     }
 
     @Override
-    public Response apply( final ScriptExports exports )
-    {
-        try
-        {
-            RequestAccessor.set( this.request );
-            return doExecute( exports );
-        }
-        finally
-        {
-            RequestAccessor.remove();
-        }
-    }
-
-    private Response doExecute( final ScriptExports exports )
+    protected Response doExecute( final ScriptExports exports )
     {
         final String method = findMethod( exports );
         if ( method == null )
@@ -50,8 +30,7 @@ final class ServeRequestCommand
         }
 
         final JsonRequest wrapper = new JsonRequest( this.request );
-        final ScriptValue value = exports.executeMethod( method, wrapper );
-        return new ScriptToResponse().toResponse( value );
+        return executeMethod( exports, method, wrapper );
     }
 
     private String findMethod( final ScriptExports exports )

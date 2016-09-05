@@ -8,6 +8,8 @@ import org.slf4j.LoggerFactory;
 import com.google.common.io.ByteSource;
 
 import io.purplejs.core.Engine;
+import io.purplejs.core.exception.NotFoundException;
+import io.purplejs.core.exception.ProblemException;
 import io.purplejs.core.resource.ResourcePath;
 import io.purplejs.core.value.ScriptExports;
 import io.purplejs.http.Request;
@@ -68,7 +70,7 @@ final class HttpHandlerImpl
             return response;
         }
 
-        return this.errorRenderer.handle( request, status );
+        return handleError( request, status, null );
     }
 
     @Override
@@ -80,7 +82,34 @@ final class HttpHandlerImpl
             return null;
         }
 
-        return this.errorRenderer.handle( request, cause );
+        return handleError( request, Status.INTERNAL_SERVER_ERROR, cause );
+    }
+
+    private Response handleError( final Request request, final Status status, final Throwable cause )
+    {
+        final Response result = handleErrorInJs( request, status, cause );
+        if ( result != null )
+        {
+            return result;
+        }
+
+        return this.errorRenderer.handle( request, status, cause );
+    }
+
+    private Response handleErrorInJs( final Request request, final Status status, final Throwable cause )
+    {
+        if ( !canHandleErrorInJs( cause ) )
+        {
+            return null;
+        }
+
+        final ServeErrorCommand command = new ServeErrorCommand( request, status, cause );
+        return execute( command );
+    }
+
+    private boolean canHandleErrorInJs( final Throwable cause )
+    {
+        return !( cause instanceof ProblemException );
     }
 
     @Override

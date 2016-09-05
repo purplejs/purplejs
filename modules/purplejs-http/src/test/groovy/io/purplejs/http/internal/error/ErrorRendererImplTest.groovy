@@ -28,7 +28,7 @@ class ErrorRendererImplTest
     def "handle exception"()
     {
         when:
-        def res = this.renderer.handle( this.request, new IOException() );
+        def res = this.renderer.handle( this.request, Status.INTERNAL_SERVER_ERROR, new IOException() );
 
         then:
         res != null;
@@ -40,7 +40,7 @@ class ErrorRendererImplTest
     def "handle status"()
     {
         when:
-        def res = this.renderer.handle( this.request, Status.NOT_FOUND );
+        def res = this.renderer.handle( this.request, Status.NOT_FOUND, null );
 
         then:
         res != null;
@@ -66,7 +66,7 @@ class ErrorRendererImplTest
         ''' );
 
         when:
-        def res = this.renderer.handle( this.request, problem );
+        def res = this.renderer.handle( this.request, Status.INTERNAL_SERVER_ERROR, problem );
 
         then:
         res != null;
@@ -86,7 +86,7 @@ class ErrorRendererImplTest
             build();
 
         when:
-        def res = this.renderer.handle( this.request, problem );
+        def res = this.renderer.handle( this.request, Status.INTERNAL_SERVER_ERROR, problem );
 
         then:
         res != null;
