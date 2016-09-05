@@ -6,8 +6,6 @@
  * @module testing
  */
 
-var Assert = Java.type('org.junit.Assert');
-
 /**
  * Add a test to the test suite.
  *
@@ -86,4 +84,18 @@ exports.assertEquals = function (expected, actual, message) {
  */
 exports.assertNotEquals = function (expected, actual, message) {
     __RUNNER__.assertNotEquals(expected, actual, message || '');
+};
+
+
+/**
+ * Assert that the JSON expected == actual.
+ *
+ * @param expected Expected value.
+ * @param actual Actual value to test.
+ * @param message Optional message.
+ */
+exports.assertJson = function (expected, actual, message) {
+    var expectedJson = JSON.stringify(expected, null, 2);
+    var actualJson = JSON.stringify(actual, null, 2);
+    exports.assertEquals(expectedJson, actualJson, message);
 };
