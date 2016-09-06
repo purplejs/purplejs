@@ -16,5 +16,6 @@ githubPages {
     pages {
         from allJavadoc
         into "javadoc/${version}"
+        into "javadoc/latest"
     }
 }
