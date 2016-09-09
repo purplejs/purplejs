@@ -23,6 +23,12 @@ function Router() {
 /**
  * Adds a route to this router.
  *
+ * @example
+ * // Add a route.
+ * router.route('GET', '/persons', function(req) {
+ *  ...
+ * });
+ *
  * @param {String} method Method to match. '*' for everyone.
  * @param {String} pattern Path pattern to match.
  * @param handler Handler to execute on match.
@@ -34,6 +40,12 @@ Router.prototype.route = function (method, pattern, handler) {
 /**
  * Adds a route that matches GET method.
  *
+ * @example
+ * // Add a route.
+ * router.get('/persons', function(req) {
+ *  ...
+ * });
+ *
  * @param {String} pattern Path pattern to match.
  * @param handler Handler to execute on match.
  */
@@ -43,6 +55,12 @@ Router.prototype.get = function (pattern, handler) {
 
 /**
  * Adds a route that matches POST method.
+ *
+ * @example
+ * // Add a route.
+ * router.post('/persons', function(req) {
+ *  ...
+ * });
  *
  * @param {String} pattern Path pattern to match.
  * @param handler Handler to execute on match.
@@ -54,6 +72,12 @@ Router.prototype.post = function (pattern, handler) {
 /**
  * Adds a route that matches DELETE method.
  *
+ * @example
+ * // Add a route.
+ * router.delete('/persons/{id}', function(req) {
+ *  ...
+ * });
+ *
  * @param {String} pattern Path pattern to match.
  * @param handler Handler to execute on match.
  */
@@ -63,6 +87,12 @@ Router.prototype.delete = function (pattern, handler) {
 
 /**
  * Adds a route that matches PUT method.
+ *
+ * @example
+ * // Add a route.
+ * router.put('/persons/{id}', function(req) {
+ *  ...
+ * });
  *
  * @param {String} pattern Path pattern to match.
  * @param handler Handler to execute on match.
@@ -74,6 +104,12 @@ Router.prototype.put = function (pattern, handler) {
 /**
  * Adds a route that matches HEAD method.
  *
+ * @example
+ * // Add a route.
+ * router.head('/persons', function(req) {
+ *  ...
+ * });
+ *
  * @param {String} pattern Path pattern to match.
  * @param handler Handler to execute on match.
  */
@@ -84,6 +120,12 @@ Router.prototype.head = function (pattern, handler) {
 /**
  * Adds a route that matches all methods.
  *
+ * @example
+ * // Add a route.
+ * router.all('/persons/{id}', function(req) {
+ *  ...
+ * });
+ *
  * @param {String} pattern Path pattern to match.
  * @param handler Handler to execute on match.
  */
@@ -93,6 +135,12 @@ Router.prototype.all = function (pattern, handler) {
 
 /**
  * Adds a filter to this router.
+ *
+ * @example
+ * // Add a filter.
+ * router.filter(function(req, next) {
+ *  return next(req);
+ * });
  *
  * @param filter Filter handler to execute.
  */
@@ -131,6 +179,12 @@ function nextInChain(scope, filters) {
 
 /**
  * Dispatch the request to this router.
+ *
+ * @example
+ * // Delegate to the router.
+ * exports.service = function(req) {
+ *   return router.dispatch(req);
+ * };
  *
  * @param req Actual request..
  * @returns Response output.
