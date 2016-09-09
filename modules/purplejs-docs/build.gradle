@@ -1,5 +1,11 @@
 apply plugin: 'java-base'
 apply plugin: 'org.ajoberstar.github-pages'
+apply plugin: 'com.moowork.node'
+
+node {
+    version = '4.5.0'
+    download = true
+}
 
 task allJavadoc( type: Javadoc ) {
     source javaProjects.javadoc.source
@@ -12,10 +18,30 @@ task allJavadoc( type: Javadoc ) {
     }
 }
 
+task jsdoc( type: NodeTask ) {
+    group = 'Documentation'
+    description = 'Generate documentation for Javascript libraries'
+
+    script = file( 'node_modules/.bin/jsdoc' )
+    args = ['-c', 'src/jsdoc/conf.json']
+    args += ['-d', 'build/jsdoc']
+
+    def files = fileTree( '..' ).include( '*/src/main/resources/lib/*.js' ).files
+    args += files
+
+    outputs.dir file( 'build/jsdoc' )
+    inputs.files files
+}
+
 githubPages {
     pages {
         from allJavadoc
         into "javadoc/${version}"
         into "javadoc/latest"
+    }
+    pages {
+        from jsdoc
+        into "jsdoc/${version}"
+        into "jsdoc/latest"
     }
 }

@@ -1,0 +1,21 @@
+{
+  "tags": {
+    "allowUnknownTags": true,
+    "dictionaries": [
+      "jsdoc"
+    ]
+  },
+  "templates": {
+    "cleverLinks": false,
+    "monospaceLinks": false,
+    "default": {
+      "outputSourceFiles": false,
+      "outputSourcePath": false,
+      "includeDate": false
+    }
+  },
+  "opts": {
+    "template": "node_modules/docdash",
+    "encoding": "utf8"
+  }
+}
