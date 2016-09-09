@@ -3,9 +3,18 @@
 /**
  * Router javascript functions.
  *
+ * @example
+ * // Creates a new router.
+ * var router = require('/lib/router')();
+ *
  * @module router
  */
 
+/**
+ * Creates a new router.
+ *
+ * @constructor
+ */
 function Router() {
     this.router = __.newBean('io.purplejs.router.internal.Router');
     this.filters = [];

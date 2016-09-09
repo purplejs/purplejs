@@ -1,7 +1,11 @@
 /* global exports */
 
 /**
- * Http javascript functions.
+ * Http related javascript functions.
+ *
+ * @example
+ * // Require http functions.
+ * var http = require('/lib/http');
  *
  * @module http
  */
@@ -27,6 +31,10 @@ function bodyAsJson() {
 
 /**
  * Returns the current wrapped request. This is a Java object and cannot be serialized to JSON.
+ *
+ * @example
+ * // Return a Java representation of the current request.
+ * var request = http.getRequest();
  *
  * @returns {*} Current request as a Java object.
  */
