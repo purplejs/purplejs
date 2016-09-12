@@ -21,6 +21,7 @@ class JavaVersionTest
         "1.8.0_40"          | true  | false | 40
         "1.8.0_45-internal" | true  | false | 45
         "1.9.0_11"          | false | true  | 11
+        "1.8.0_abc"         | true  | false | 0
     }
 
     private static JavaVersion newVersion( final String value )

@@ -19,8 +19,6 @@ import org.eclipse.jetty.http.MimeTypes;
 import com.google.common.io.Resources;
 import com.google.common.net.MediaType;
 
-import io.purplejs.core.RunMode;
-
 public final class AssetFilter
     implements Filter
 {
@@ -30,9 +28,17 @@ public final class AssetFilter
 
     private MimeTypes mimeTypes;
 
+    private boolean devMode;
+
     public AssetFilter()
     {
         this.mimeTypes = new MimeTypes();
+        this.devMode = false;
+    }
+
+    public void setDevMode( final boolean devMode )
+    {
+        this.devMode = devMode;
     }
 
     public void setDevSourceDirs( final List<File> devSourceDirs )
@@ -89,7 +95,7 @@ public final class AssetFilter
     private URL findResourceInFolders( final String path )
         throws IOException
     {
-        if ( RunMode.get() != RunMode.DEV )
+        if ( !this.devMode )
         {
             return null;
         }

@@ -29,7 +29,7 @@ public final class ConfigBuilder
         return this.builder.build();
     }
 
-    private ConfigBuilder load( final File file )
+    public ConfigBuilder load( final File file )
     {
         if ( !file.isFile() )
         {

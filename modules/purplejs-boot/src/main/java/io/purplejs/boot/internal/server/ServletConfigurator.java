@@ -18,8 +18,9 @@ import com.google.common.io.Files;
 import io.purplejs.boot.internal.config.Configurable;
 import io.purplejs.boot.internal.servlet.AssetFilter;
 import io.purplejs.boot.internal.servlet.ScriptServlet;
-import io.purplejs.core.settings.Settings;
 import io.purplejs.core.Engine;
+import io.purplejs.core.RunMode;
+import io.purplejs.core.settings.Settings;
 
 public final class ServletConfigurator
     implements Configurable
@@ -51,6 +52,7 @@ public final class ServletConfigurator
         this.handler = new ServletContextHandler( ServletContextHandler.SESSIONS );
 
         final AssetFilter filter = new AssetFilter();
+        filter.setDevMode( RunMode.get() == RunMode.DEV );
         filter.setDevSourceDirs( this.devSourceDirs );
         registerFilter( filter );
 

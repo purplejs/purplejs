@@ -140,6 +140,30 @@ class WebSocketSessionImplTest
         other == this.raw;
     }
 
+    def "send text - error"()
+    {
+        setup:
+        this.raw.getRemote() >> this.endpoint;
+        this.endpoint.sendString( _ as String ) >> { throw new IOException( "Some error" ); }
+
+        when:
+        this.session.send( 'text' );
+
+        then: true;
+    }
+
+    def "send binary - error"()
+    {
+        setup:
+        this.raw.getRemote() >> this.endpoint;
+        this.endpoint.sendBytes( _ as ByteBuffer ) >> { throw new IOException( "Some error" ); }
+
+        when:
+        this.session.send( ByteSource.empty() );
+
+        then: true;
+    }
+
     private static ServletUpgradeResponse newServletUpgradeResponse()
     {
         return new ServletUpgradeResponse( new MockHttpServletResponse() );
