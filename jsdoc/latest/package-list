@@ -1,0 +1,17 @@
+io.purplejs.boot
+io.purplejs.core
+io.purplejs.core.context
+io.purplejs.core.exception
+io.purplejs.core.json
+io.purplejs.core.mock
+io.purplejs.core.registry
+io.purplejs.core.resource
+io.purplejs.core.settings
+io.purplejs.core.value
+io.purplejs.gradle
+io.purplejs.http
+io.purplejs.http.error
+io.purplejs.http.handler
+io.purplejs.http.multipart
+io.purplejs.http.websocket
+io.purplejs.testing
