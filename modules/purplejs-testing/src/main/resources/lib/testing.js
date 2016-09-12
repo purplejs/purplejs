@@ -3,6 +3,10 @@
 /**
  * Testing javascript functions.
  *
+ * @example
+ * // Require testing functions.
+ * var t = require('/lib/testing');
+ *
  * @module testing
  */
 

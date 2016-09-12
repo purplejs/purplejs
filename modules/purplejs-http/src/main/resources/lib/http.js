@@ -45,6 +45,13 @@ exports.getRequest = function () {
 /**
  * Returns true if the request-body is json type.
  *
+ * @example
+ * // Find out if the body is of json.
+ * if (http.isJsonBody()) {
+ *   var json = http.bodyAsJson();
+ *   ...
+ * }
+ *
  * @return {boolean} true if the request-body is json.
  */
 exports.isJsonBody = function () {
@@ -53,6 +60,10 @@ exports.isJsonBody = function () {
 
 /**
  * Returns the body as a text string.
+ *
+ * @example
+ * // Return body as text.
+ * var text = http.bodyAsText();
  *
  * @return {string} body as a text string.
  */
@@ -63,6 +74,10 @@ exports.bodyAsText = function () {
 /**
  * Returns the body as json.
  *
+ * @example
+ * // Return body as json.
+ * var json = http.bodyAsJson();
+ *
  * @return {*} body as json.
  */
 exports.bodyAsJson = function () {
@@ -71,6 +86,10 @@ exports.bodyAsJson = function () {
 
 /**
  * Returns the body as a binary stream.
+ *
+ * @example
+ * // Return body as stream.
+ * var stream = http.bodyAsStream();
  *
  * @return {*} body as a binary stream.
  */
@@ -81,6 +100,10 @@ exports.bodyAsStream = function () {
 /**
  * Returns true if the request-body is a multipart form.
  *
+ * @example
+ * // Return true if multipart body.
+ * var multipart = http.isMultipart();
+ *
  * @return {boolean} if request-body is a multipart form.
  */
 exports.isMultipart = function () {
@@ -90,6 +113,10 @@ exports.isMultipart = function () {
 /**
  * Returns multipart form if the content-type is multipart.
  *
+ * @example
+ * // Return multipart form.
+ * var form = http.getMultipartForm();
+ *
  * @return {*} the multipart form.
  */
 exports.getMultipartForm = function () {
@@ -98,6 +125,10 @@ exports.getMultipartForm = function () {
 
 /**
  * Returns multipart item for name and optional index..
+ *
+ * @example
+ * // Return multipart item.
+ * var item = http.getMultipartItem('upload', 0);
  *
  * @param {string} name Name of the multipart item.
  * @param {number?} index Optional index if it's multiple items with same name.

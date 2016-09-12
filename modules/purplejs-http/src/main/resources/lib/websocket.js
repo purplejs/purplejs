@@ -3,6 +3,10 @@
 /**
  * WebSocket javascript functions.
  *
+ * @example
+ * // Require websocket functions.
+ * var websocket = require('/lib/websocket');
+ *
  * @module websocket
  */
 
