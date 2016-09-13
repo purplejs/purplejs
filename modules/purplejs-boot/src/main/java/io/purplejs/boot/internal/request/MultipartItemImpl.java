@@ -2,11 +2,10 @@ package io.purplejs.boot.internal.request;
 
 import javax.servlet.http.Part;
 
-import com.google.common.base.Charsets;
 import com.google.common.io.ByteSource;
 import com.google.common.net.MediaType;
 
-import io.purplejs.core.exception.ExceptionHelper;
+import io.purplejs.core.util.IOHelper;
 import io.purplejs.http.multipart.MultipartItem;
 
 final class MultipartItemImpl
@@ -50,14 +49,7 @@ final class MultipartItemImpl
     @Override
     public String getAsString()
     {
-        try
-        {
-            return this.bytes.asCharSource( Charsets.UTF_8 ).read();
-        }
-        catch ( final Exception e )
-        {
-            throw ExceptionHelper.unchecked( e );
-        }
+        return IOHelper.readString( this.bytes );
     }
 
     @Override

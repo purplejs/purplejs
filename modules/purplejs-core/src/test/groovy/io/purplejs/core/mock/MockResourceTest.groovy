@@ -2,6 +2,7 @@ package io.purplejs.core.mock
 
 import com.google.common.base.Charsets
 import io.purplejs.core.resource.ResourcePath
+import io.purplejs.core.util.IOHelper
 import spock.lang.Specification
 
 class MockResourceTest
@@ -17,7 +18,7 @@ class MockResourceTest
         resource.path == path;
         resource.size == 5;
         resource.lastModified > 0;
-        resource.bytes.asCharSource( Charsets.UTF_8 ).read() == 'hello';
+        IOHelper.readString( resource.bytes ) == 'hello';
 
         when:
         resource.lastModified = 0;

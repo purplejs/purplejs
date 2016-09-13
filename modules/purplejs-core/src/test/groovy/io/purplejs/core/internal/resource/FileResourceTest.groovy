@@ -1,7 +1,7 @@
 package io.purplejs.core.internal.resource
 
-import com.google.common.base.Charsets
 import io.purplejs.core.resource.ResourcePath
+import io.purplejs.core.util.IOHelper
 
 class FileResourceTest
     extends ResourceTestSupport
@@ -20,6 +20,6 @@ class FileResourceTest
         resource.size == file.length();
         resource.lastModified == file.lastModified();
         resource.bytes != null;
-        resource.bytes.asCharSource( Charsets.UTF_8 ).read() == 'hello';
+        IOHelper.readString( resource.bytes ) == 'hello';
     }
 }

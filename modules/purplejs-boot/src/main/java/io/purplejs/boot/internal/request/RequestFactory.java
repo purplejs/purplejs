@@ -6,9 +6,9 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
 import com.google.common.io.ByteSource;
-import com.google.common.io.ByteStreams;
 
 import io.purplejs.core.exception.ExceptionHelper;
+import io.purplejs.core.util.IOHelper;
 import io.purplejs.http.Request;
 import io.purplejs.http.RequestBuilder;
 import io.purplejs.http.multipart.MultipartForm;
@@ -105,15 +105,7 @@ public final class RequestFactory
 
     static ByteSource readBody( final HttpServletRequest req )
     {
-        try
-        {
-            final byte[] data = ByteStreams.toByteArray( req.getInputStream() );
-            return ByteSource.wrap( data );
-        }
-        catch ( final Exception e )
-        {
-            throw ExceptionHelper.unchecked( e );
-        }
+        return ExceptionHelper.wrap( () -> IOHelper.toByteSource( req.getInputStream() ) );
     }
 
     private MultipartForm readMultipart()
@@ -128,13 +120,6 @@ public final class RequestFactory
 
     static MultipartForm readMultipart( final HttpServletRequest req )
     {
-        try
-        {
-            return new MultipartFormFactory().create( req.getParts() );
-        }
-        catch ( final Exception e )
-        {
-            throw ExceptionHelper.unchecked( e );
-        }
+        return ExceptionHelper.wrap( () -> new MultipartFormFactory().create( req.getParts() ) );
     }
 }

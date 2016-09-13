@@ -3,11 +3,10 @@ package io.purplejs.http.internal.error;
 import java.util.Collections;
 import java.util.List;
 
-import com.google.common.base.Charsets;
-
 import io.purplejs.core.exception.ProblemException;
 import io.purplejs.core.resource.Resource;
 import io.purplejs.core.resource.ResourceLoader;
+import io.purplejs.core.util.IOHelper;
 import io.purplejs.http.Request;
 import io.purplejs.http.Response;
 import io.purplejs.http.Status;
@@ -64,13 +63,6 @@ public final class ErrorRendererImpl
             return Collections.emptyList();
         }
 
-        try
-        {
-            return resource.getBytes().asCharSource( Charsets.UTF_8 ).readLines();
-        }
-        catch ( final Exception e )
-        {
-            return Collections.emptyList();
-        }
+        return IOHelper.readLines( resource.getBytes() );
     }
 }

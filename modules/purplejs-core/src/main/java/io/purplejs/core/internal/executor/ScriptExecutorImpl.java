@@ -8,7 +8,6 @@ import javax.script.ScriptContext;
 import javax.script.ScriptEngine;
 import javax.script.SimpleBindings;
 
-import com.google.common.base.Charsets;
 import com.google.common.collect.Maps;
 
 import io.purplejs.core.Environment;
@@ -21,6 +20,7 @@ import io.purplejs.core.internal.value.ScriptValueFactory;
 import io.purplejs.core.internal.value.ScriptValueFactoryImpl;
 import io.purplejs.core.resource.Resource;
 import io.purplejs.core.resource.ResourcePath;
+import io.purplejs.core.util.IOHelper;
 import io.purplejs.core.value.ScriptExports;
 import io.purplejs.core.value.ScriptValue;
 import jdk.nashorn.api.scripting.ScriptObjectMirror;
@@ -152,7 +152,7 @@ public final class ScriptExecutorImpl
     {
         try
         {
-            final String text = resource.getBytes().asCharSource( Charsets.UTF_8 ).read();
+            final String text = IOHelper.readString( resource.getBytes() );
             return this.nashornRuntime.parseJson( text );
         }
         catch ( final Exception e )
@@ -202,7 +202,7 @@ public final class ScriptExecutorImpl
     {
         try
         {
-            final String text = script.getBytes().asCharSource( Charsets.UTF_8 ).read();
+            final String text = IOHelper.readString( script.getBytes() );
             final String source = InitScriptReader.getScript( text );
             return this.engine.eval( source, bindings );
         }

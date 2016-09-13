@@ -1,8 +1,8 @@
 package io.purplejs.core.mock
 
-import com.google.common.base.Charsets
 import io.purplejs.core.resource.Resource
 import io.purplejs.core.resource.ResourcePath
+import io.purplejs.core.util.IOHelper
 import spock.lang.Specification
 
 class MockResourceLoaderTest
@@ -65,7 +65,7 @@ class MockResourceLoaderTest
 
         assert resource != null;
         assert resourcePath == resource.getPath();
-        assert text == resource.getBytes().asCharSource( Charsets.UTF_8 ).read();
+        assert text == IOHelper.readString( resource.bytes );
 
         return true;
     }

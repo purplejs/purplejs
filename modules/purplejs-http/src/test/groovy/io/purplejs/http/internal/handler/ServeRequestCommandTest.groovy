@@ -75,10 +75,10 @@ class ServeRequestCommandTest
         thrown RuntimeException;
     }
 
-    def "no head without get"()
+    def "head without get"()
     {
         setup:
-        this.requestBuilder.method( 'GET' );
+        this.requestBuilder.method( 'HEAD' );
 
         when:
         def res = newCommand().apply( this.exports );
