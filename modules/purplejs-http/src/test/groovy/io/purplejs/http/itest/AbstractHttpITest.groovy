@@ -9,6 +9,7 @@ import io.purplejs.core.resource.ResourcePath
 import io.purplejs.http.Request
 import io.purplejs.http.RequestBuilder
 import io.purplejs.http.Response
+import io.purplejs.http.handler.HttpHandler
 import io.purplejs.http.handler.HttpHandlerFactory
 import io.purplejs.http.websocket.WebSocketEvent
 

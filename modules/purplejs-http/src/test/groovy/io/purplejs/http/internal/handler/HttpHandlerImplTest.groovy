@@ -2,6 +2,7 @@ package io.purplejs.http.internal.handler
 
 import com.google.common.io.ByteSource
 import io.purplejs.core.Engine
+import io.purplejs.core.exception.ProblemException
 import io.purplejs.core.resource.ResourcePath
 import io.purplejs.core.value.ScriptExports
 import io.purplejs.http.RequestBuilder
@@ -106,6 +107,24 @@ class HttpHandlerImplTest
         setup:
         def req = RequestBuilder.newBuilder().build();
         def cause = new IOException();
+
+        def mockResult = ResponseBuilder.newBuilder().
+            build();
+
+        this.handler.errorRenderer.handle( req, Status.INTERNAL_SERVER_ERROR, cause ) >> mockResult;
+
+        when:
+        def result = this.handler.handleException( req, cause );
+
+        then:
+        result == mockResult;
+    }
+
+    def "handleException - not handled"()
+    {
+        setup:
+        def req = RequestBuilder.newBuilder().build();
+        def cause = ProblemException.newBuilder().build();
 
         def mockResult = ResponseBuilder.newBuilder().
             build();
