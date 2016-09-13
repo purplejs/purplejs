@@ -1,6 +1,5 @@
 package io.purplejs.boot.internal;
 
-import java.io.IOException;
 import java.net.URL;
 
 import com.google.common.base.Charsets;
@@ -10,36 +9,16 @@ public final class BannerPrinter
 {
     private final static String PATH = "/banner.txt";
 
-    private final String banner;
-
-    public BannerPrinter()
-    {
-        this.banner = loadBanner();
-    }
-
     private String loadBanner()
+        throws Exception
     {
         final URL url = getClass().getResource( PATH );
-        if ( url == null )
-        {
-            return null;
-        }
-
-        try
-        {
-            return Resources.toString( url, Charsets.UTF_8 );
-        }
-        catch ( final IOException e )
-        {
-            return null;
-        }
+        return Resources.toString( url, Charsets.UTF_8 );
     }
 
     public void printBanner()
+        throws Exception
     {
-        if ( this.banner != null )
-        {
-            System.out.println( this.banner );
-        }
+        System.out.println( loadBanner() );
     }
 }
