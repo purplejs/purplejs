@@ -11,6 +11,7 @@ import spock.lang.Specification
 
 import javax.script.ScriptEngine
 import java.text.SimpleDateFormat
+import java.util.function.Function
 
 class ScriptValueFactoryImplTest
     extends Specification
@@ -49,6 +50,7 @@ class ScriptValueFactoryImplTest
         value.isValue();
 
         value.getValue() == "2";
+        value.toJavaObject() == "2";
         value.getRaw() == "2";
         value.getValue( Integer.class ) == 2;
 
@@ -100,6 +102,14 @@ class ScriptValueFactoryImplTest
         result != null;
         result.isValue();
         result.getValue() == 21.0;
+
+        when:
+        def func = (Function<Object[], Object>) value.toJavaObject();
+        result = func.apply( [10, 11].toArray() );
+
+        then:
+        result != null;
+        result == 21.0;
     }
 
     def "newValue from array"()
@@ -127,6 +137,7 @@ class ScriptValueFactoryImplTest
         value.getArray().get( 0 ).getValue() == "1";
         value.getArray().get( 1 ).getValue() == "2";
 
+        value.toJavaObject() == ["1", "2"];
         value.toJson().toString() == '["1","2"]';
     }
 
@@ -158,6 +169,7 @@ class ScriptValueFactoryImplTest
         value.getMember( "a" ).getValue() == 1;
         value.hasMember( "a" );
 
+        value.toJavaObject() == [a: 1, b: 2];
         value.toJson().toString() == '{"a":1,"b":2}';
     }
 
@@ -207,6 +219,7 @@ class ScriptValueFactoryImplTest
     {
         assert value.getKeys() != null;
         assert value.getKeys().size() == 0;
+        assert value.getMap().isEmpty()
 
         assert value.getMember( "test" ) == null;
         assert !value.hasMember( "test" );

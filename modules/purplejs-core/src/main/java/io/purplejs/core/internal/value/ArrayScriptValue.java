@@ -1,6 +1,7 @@
 package io.purplejs.core.internal.value;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.google.common.collect.Lists;
 import com.google.gson.JsonArray;
@@ -42,6 +43,12 @@ final class ArrayScriptValue
         }
 
         return result;
+    }
+
+    @Override
+    public Object toJavaObject()
+    {
+        return getArray().stream().map( ScriptValue::toJavaObject ).collect( Collectors.toList() );
     }
 
     @Override

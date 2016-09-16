@@ -1,6 +1,7 @@
 package io.purplejs.core.value;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import com.google.gson.JsonElement;
@@ -39,7 +40,7 @@ public interface ScriptValue
     boolean isFunction();
 
     /**
-     * Returns the value if the type is value.
+     * Returns the value if it's type value.
      *
      * @return the value.
      */
@@ -49,7 +50,7 @@ public interface ScriptValue
      * Returns the value if the type is value and converts it.
      *
      * @param type Type to convert to.
-     * @param <T> Type to convert to.
+     * @param <T>  Type to convert to.
      * @return the value
      */
     <T> T getValue( Class<T> type );
@@ -85,6 +86,13 @@ public interface ScriptValue
     List<ScriptValue> getArray();
 
     /**
+     * Returns the value as map.
+     *
+     * @return value as map.
+     */
+    Map<String, ScriptValue> getMap();
+
+    /**
      * Call this function if it's a function.
      *
      * @param args Optional arguments.
@@ -98,6 +106,14 @@ public interface ScriptValue
      * @return value as JSON.
      */
     JsonElement toJson();
+
+    /**
+     * Returns the value as Java object. For simple values, it will return the value. For objects it will return a
+     * map of objects. For arrays it will return a list of objects and for functions it will return a function object.
+     *
+     * @return the value.
+     */
+    Object toJavaObject();
 
     /**
      * Returns the raw (wrapped) object.

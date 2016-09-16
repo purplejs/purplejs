@@ -1,5 +1,7 @@
 package io.purplejs.core.itest
 
+import com.google.common.base.Joiner
+import com.google.common.base.Splitter
 import io.purplejs.core.Engine
 import io.purplejs.core.EngineBinder
 import io.purplejs.core.EngineBuilder
@@ -8,6 +10,7 @@ import io.purplejs.core.mock.MockResourceLoader
 import io.purplejs.core.resource.ResourceLoaderBuilder
 import io.purplejs.core.resource.ResourcePath
 import io.purplejs.core.value.ScriptExports
+import io.purplejs.core.value.ScriptValue
 import spock.lang.Specification
 
 abstract class AbstractCoreITest
@@ -55,6 +58,16 @@ abstract class AbstractCoreITest
     protected final ScriptExports run( final String path )
     {
         return this.engine.require( ResourcePath.from( path ) );
+    }
+
+    protected final ScriptValue run( final String path, final String method, final Object... args )
+    {
+        return run( path ).executeMethod( method, args );
+    }
+
+    protected final String trimLines( final String str )
+    {
+        return Joiner.on( '' ).join( Splitter.on( '\n' ).trimResults().split( str ) );
     }
 
     public void assertEquals( final Object expected, final Object actual )

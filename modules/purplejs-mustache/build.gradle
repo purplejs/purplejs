@@ -1,0 +1,5 @@
+dependencies {
+    compile project( ':purplejs-core' )
+    compile 'com.samskivert:jmustache:1.13'
+    testCompile project( path: ':purplejs-core', configuration: 'testOutput' )
+}

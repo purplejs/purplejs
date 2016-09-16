@@ -1,7 +1,9 @@
 package io.purplejs.core.internal.value;
 
+import java.util.Map;
 import java.util.Set;
 
+import com.google.common.collect.Maps;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
@@ -43,6 +45,30 @@ final class ObjectScriptValue
     public ScriptValue getMember( final String key )
     {
         return this.factory.newValue( this.value.getMember( key ) );
+    }
+
+    @Override
+    public Map<String, ScriptValue> getMap()
+    {
+        final Map<String, ScriptValue> map = Maps.newHashMap();
+        for ( final String key : getKeys() )
+        {
+            map.put( key, getMember( key ) );
+        }
+
+        return map;
+    }
+
+    @Override
+    public Object toJavaObject()
+    {
+        final Map<String, Object> map = Maps.newHashMap();
+        for ( final Map.Entry<String, ScriptValue> entry : getMap().entrySet() )
+        {
+            map.put( entry.getKey(), entry.getValue().toJavaObject() );
+        }
+
+        return map;
     }
 
     @Override

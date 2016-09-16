@@ -1,5 +1,7 @@
 package io.purplejs.core.internal.value;
 
+import java.util.function.Function;
+
 import io.purplejs.core.internal.nashorn.NashornRuntime;
 import io.purplejs.core.internal.util.ErrorHelper;
 import io.purplejs.core.internal.util.JsObjectConverter;
@@ -57,6 +59,16 @@ final class FunctionScriptValue
         }
 
         return result;
+    }
+
+    @Override
+    public Object toJavaObject()
+    {
+        return (Function<Object[], Object>) args ->
+        {
+            final ScriptValue value1 = call( args );
+            return value1 != null ? value1.toJavaObject() : null;
+        };
     }
 
     @Override

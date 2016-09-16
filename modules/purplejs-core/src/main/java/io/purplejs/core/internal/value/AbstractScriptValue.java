@@ -2,6 +2,7 @@ package io.purplejs.core.internal.value;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import com.google.common.collect.Sets;
@@ -71,6 +72,12 @@ abstract class AbstractScriptValue
     public List<ScriptValue> getArray()
     {
         return Collections.emptyList();
+    }
+
+    @Override
+    public Map<String, ScriptValue> getMap()
+    {
+        return Collections.emptyMap();
     }
 
     @Override

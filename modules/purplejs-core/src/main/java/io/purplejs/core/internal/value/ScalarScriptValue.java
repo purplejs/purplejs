@@ -50,6 +50,12 @@ final class ScalarScriptValue
     }
 
     @Override
+    public Object toJavaObject()
+    {
+        return this.value;
+    }
+
+    @Override
     public Object getRaw()
     {
         return this.value;
