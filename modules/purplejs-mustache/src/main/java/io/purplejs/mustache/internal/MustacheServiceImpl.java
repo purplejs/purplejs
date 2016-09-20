@@ -51,7 +51,7 @@ final class MustacheServiceImpl
         return template.execute( model );
     }
 
-    static RuntimeException handleError( final ResourcePath view, final RuntimeException e )
+    private static RuntimeException handleError( final ResourcePath view, final RuntimeException e )
     {
         if ( e instanceof MustacheException.Context )
         {

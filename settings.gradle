@@ -5,6 +5,7 @@ include ':purplejs-boot'
 include ':purplejs-gradle'
 include ':purplejs-testing'
 include ':purplejs-mustache'
+include ':purplejs-thymeleaf'
 include ':purplejs-docs'
 
 rootProject.name = 'purplejs'

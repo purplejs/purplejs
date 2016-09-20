@@ -1,0 +1,2 @@
+org.thymeleaf.standard.StandardDialect
+io.purplejs.thymeleaf.internal.JavascriptVariableDialect
