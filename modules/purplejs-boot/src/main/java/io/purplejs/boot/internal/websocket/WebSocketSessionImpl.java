@@ -2,11 +2,11 @@ package io.purplejs.boot.internal.websocket;
 
 import java.nio.ByteBuffer;
 import java.util.UUID;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.eclipse.jetty.websocket.api.RemoteEndpoint;
 import org.eclipse.jetty.websocket.api.Session;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.google.common.io.ByteSource;
 
@@ -16,7 +16,7 @@ import io.purplejs.http.websocket.WebSocketSession;
 final class WebSocketSessionImpl
     implements WebSocketSession
 {
-    private final static Logger LOG = LoggerFactory.getLogger( WebSocketSessionImpl.class );
+    private final static Logger LOG = Logger.getLogger( WebSocketSessionImpl.class.getName() );
 
     private final String id;
 
@@ -100,7 +100,7 @@ final class WebSocketSessionImpl
         }
         catch ( final Exception e )
         {
-            LOG.error( "Failed to send web-socket message", e );
+            LOG.log( Level.SEVERE, "Failed to send web-socket message", e );
         }
     }
 
@@ -120,7 +120,7 @@ final class WebSocketSessionImpl
         }
         catch ( final Exception e )
         {
-            LOG.error( "Failed to send web-socket message", e );
+            LOG.log( Level.SEVERE, "Failed to send web-socket message", e );
         }
     }
 

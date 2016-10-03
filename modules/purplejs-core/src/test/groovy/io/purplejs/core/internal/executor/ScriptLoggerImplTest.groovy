@@ -1,20 +1,43 @@
 package io.purplejs.core.internal.executor
 
 import io.purplejs.core.resource.ResourcePath
-import org.slf4j.Logger
 import spock.lang.Specification
+
+import java.util.logging.Handler
+import java.util.logging.Level
+import java.util.logging.LogRecord
+import java.util.logging.Logger
 
 class ScriptLoggerImplTest
     extends Specification
 {
-    def Logger logger;
+    def LogRecord record;
 
     def ScriptLoggerImpl scriptLogger;
 
     def setup()
     {
-        this.logger = Mock( Logger.class );
-        this.scriptLogger = new ScriptLoggerImpl( this.logger );
+        def logger = Logger.getLogger( 'unique.logger.' + UUID.randomUUID().toString() );
+        logger.level = Level.FINEST;
+
+        logger.addHandler( new Handler() {
+            @Override
+            void publish( final LogRecord record )
+            {
+                ScriptLoggerImplTest.this.record = record;
+            }
+
+            @Override
+            void flush()
+            {}
+
+            @Override
+            void close()
+                throws SecurityException
+            {}
+        } );
+
+        this.scriptLogger = new ScriptLoggerImpl( logger );
     }
 
     def "pathToLogger"()
@@ -32,7 +55,8 @@ class ScriptLoggerImplTest
         this.scriptLogger.debug( "my message" );
 
         then:
-        1 * this.logger.debug( "my message" );
+        this.record.level == Level.FINEST;
+        this.record.message == 'my message';
     }
 
     def "info"()
@@ -41,7 +65,8 @@ class ScriptLoggerImplTest
         this.scriptLogger.info( "my message" );
 
         then:
-        1 * this.logger.info( "my message" );
+        this.record.level == Level.INFO;
+        this.record.message == 'my message';
     }
 
     def "warning"()
@@ -50,7 +75,8 @@ class ScriptLoggerImplTest
         this.scriptLogger.warning( "my message" );
 
         then:
-        1 * this.logger.warn( "my message" );
+        this.record.level == Level.WARNING;
+        this.record.message == 'my message';
     }
 
     def "error"()
@@ -59,7 +85,8 @@ class ScriptLoggerImplTest
         this.scriptLogger.error( "my message" );
 
         then:
-        1 * this.logger.error( "my message" );
+        this.record.level == Level.SEVERE;
+        this.record.message == 'my message';
     }
 
     def "format"()

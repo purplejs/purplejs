@@ -2,6 +2,7 @@ package io.purplejs.boot;
 
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
+import org.slf4j.bridge.SLF4JBridgeHandler;
 
 import io.purplejs.boot.internal.BannerPrinter;
 import io.purplejs.boot.internal.config.ConfigBuilder;
@@ -15,6 +16,10 @@ public final class MainApp
     public void start()
         throws Exception
     {
+        // Setup logging bridge
+        SLF4JBridgeHandler.removeHandlersForRootLogger();
+        SLF4JBridgeHandler.install();
+
         // Add shutdown-hook
         Runtime.getRuntime().addShutdownHook( new Thread()
         {

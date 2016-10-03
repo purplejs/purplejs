@@ -1,14 +1,12 @@
 package io.purplejs.http.internal.handler;
 
 import java.util.function.Function;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.google.common.io.ByteSource;
 
 import io.purplejs.core.Engine;
-import io.purplejs.core.exception.NotFoundException;
 import io.purplejs.core.exception.ProblemException;
 import io.purplejs.core.resource.ResourcePath;
 import io.purplejs.core.value.ScriptExports;
@@ -25,7 +23,7 @@ import io.purplejs.http.websocket.WebSocketSession;
 final class HttpHandlerImpl
     implements HttpHandler
 {
-    private final static Logger LOG = LoggerFactory.getLogger( HttpHandlerImpl.class );
+    private final static Logger LOG = Logger.getLogger( HttpHandlerImpl.class.getName() );
 
     Engine engine;
 
@@ -76,7 +74,7 @@ final class HttpHandlerImpl
     @Override
     public Response handleException( final Request request, final Throwable cause )
     {
-        LOG.error( "Request [" + request.getUri() + "] caused an exception", cause );
+        LOG.log( Level.SEVERE, "Request [" + request.getUri() + "] caused an exception", cause );
         if ( request.isWebSocket() )
         {
             return null;

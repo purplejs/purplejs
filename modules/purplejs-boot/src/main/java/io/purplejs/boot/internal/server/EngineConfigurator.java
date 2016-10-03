@@ -2,9 +2,7 @@ package io.purplejs.boot.internal.server;
 
 import java.io.File;
 import java.util.List;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.logging.Logger;
 
 import io.purplejs.boot.internal.config.Configurable;
 import io.purplejs.core.Engine;
@@ -15,7 +13,7 @@ import io.purplejs.core.settings.Settings;
 public final class EngineConfigurator
     implements Configurable
 {
-    private final static Logger LOG = LoggerFactory.getLogger( EngineConfigurator.class );
+    private final static Logger LOG = Logger.getLogger( EngineConfigurator.class.getName() );
 
     private Engine engine;
 
@@ -53,6 +51,6 @@ public final class EngineConfigurator
         LOG.info( "Running in DEV mode. Do not use in production!" );
 
         LOG.info( "Monitoring the following directories (devSourceDirs) for changes:" );
-        devSourceDirs.forEach( file -> LOG.info( "*#* {} ", file ) );
+        devSourceDirs.forEach( file -> LOG.info( "*#* " + file ) );
     }
 }

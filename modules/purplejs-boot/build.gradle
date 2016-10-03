@@ -4,6 +4,7 @@ dependencies {
     compile 'org.eclipse.jetty:jetty-servlet:9.3.10.v20160621'
     compile 'org.eclipse.jetty.websocket:websocket-server:9.3.10.v20160621'
     compile 'ch.qos.logback:logback-classic:1.1.7'
+    compile 'org.slf4j:jul-to-slf4j:1.7.21'
     testCompile 'org.springframework:spring-web:4.2.4.RELEASE'
     testCompile 'org.springframework:spring-test:4.2.4.RELEASE'
     testCompile 'com.squareup.okhttp3:okhttp:3.4.1'

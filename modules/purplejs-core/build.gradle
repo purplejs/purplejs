@@ -3,8 +3,6 @@ description = 'PurpleJS core library that defines the engine.'
 dependencies {
     compile "com.google.guava:guava:${versions.guava}"
     compile "com.google.code.gson:gson:2.7"
-    compile "org.slf4j:slf4j-api:${versions.slf4j}"
-    testCompile "org.slf4j:slf4j-simple:${versions.slf4j}"
     testCompile "org.codehaus.groovy:groovy-all:${versions.groovy}"
     testCompile "org.spockframework:spock-core:${versions.spock}"
 }

@@ -1,7 +1,7 @@
 package io.purplejs.core.internal.executor;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import io.purplejs.core.context.ScriptLogger;
 import io.purplejs.core.resource.ResourcePath;
@@ -9,6 +9,10 @@ import io.purplejs.core.resource.ResourcePath;
 final class ScriptLoggerImpl
     implements ScriptLogger
 {
+    private final static Level DEBUG = Level.FINEST;
+
+    private final static Level ERROR = Level.SEVERE;
+
     private final static String PREFIX = "js";
 
     private final Logger logger;
@@ -26,25 +30,30 @@ final class ScriptLoggerImpl
     @Override
     public void debug( final String message, final Object... args )
     {
-        this.logger.debug( format( message, args ) );
+        log( DEBUG, message, args );
     }
 
     @Override
     public void info( final String message, final Object... args )
     {
-        this.logger.info( format( message, args ) );
+        log( Level.INFO, message, args );
     }
 
     @Override
     public void warning( final String message, final Object... args )
     {
-        this.logger.warn( format( message, args ) );
+        log( Level.WARNING, message, args );
     }
 
     @Override
     public void error( final String message, final Object... args )
     {
-        this.logger.error( format( message, args ) );
+        log( ERROR, message, args );
+    }
+
+    private void log( final Level level, final String message, final Object... args )
+    {
+        this.logger.log( level, format( message, args ) );
     }
 
     static String format( final String message, final Object... args )
@@ -60,6 +69,6 @@ final class ScriptLoggerImpl
     static Logger pathToLogger( final ResourcePath path )
     {
         final String name = path.toString().replaceAll( "(.+)\\..+", "$1" ).replace( '/', '.' );
-        return LoggerFactory.getLogger( PREFIX + name );
+        return Logger.getLogger( PREFIX + name );
     }
 }
