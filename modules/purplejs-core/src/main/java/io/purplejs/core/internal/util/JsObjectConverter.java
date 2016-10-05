@@ -49,7 +49,7 @@ public final class JsObjectConverter
         final Object array = this.runtime.newJsArray();
         for ( final Object element : list )
         {
-            NashornHelper.INSTANCE.addToArray( array, toJs( element ) );
+            NashornHelper.addToArray( array, toJs( element ) );
         }
 
         return array;
@@ -60,7 +60,7 @@ public final class JsObjectConverter
         final Object result = this.runtime.newJsObject();
         for ( final Map.Entry<?, ?> entry : map.entrySet() )
         {
-            NashornHelper.INSTANCE.addToObject( result, entry.getKey().toString(), toJs( entry.getValue() ) );
+            NashornHelper.addToObject( result, entry.getKey().toString(), toJs( entry.getValue() ) );
         }
 
         return result;

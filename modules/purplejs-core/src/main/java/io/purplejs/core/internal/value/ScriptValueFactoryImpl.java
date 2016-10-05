@@ -23,14 +23,14 @@ public final class ScriptValueFactoryImpl
             return null;
         }
 
-        if ( NashornHelper.INSTANCE.isUndefined( value ) )
+        if ( NashornHelper.isUndefined( value ) )
         {
             return null;
         }
 
-        if ( NashornHelper.INSTANCE.isDateType( value ) )
+        if ( NashornHelper.isDateType( value ) )
         {
-            return new ScalarScriptValue( NashornHelper.INSTANCE.toDate( value ) );
+            return new ScalarScriptValue( NashornHelper.toDate( value ) );
         }
 
         if ( value instanceof ScriptObjectMirror )

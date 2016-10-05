@@ -47,9 +47,9 @@ class NashornHelperTest
 
         where:
         expected | value
-        true     | NashornHelper.INSTANCE.isUndefined( null )
-        false    | NashornHelper.INSTANCE.isUndefined( 11 )
-        true     | NashornHelper.INSTANCE.isUndefined( ScriptRuntime.UNDEFINED )
+        true     | NashornHelper.isUndefined( null )
+        false    | NashornHelper.isUndefined( 11 )
+        true     | NashornHelper.isUndefined( ScriptRuntime.UNDEFINED )
     }
 
     def "isDateType"()
@@ -58,13 +58,13 @@ class NashornHelperTest
         def result = execute( 'var result = {}; result;' );
 
         then:
-        !NashornHelper.INSTANCE.isDateType( result );
+        !NashornHelper.isDateType( result );
 
         when:
         result = execute( 'var result = new Date(); result;' );
 
         then:
-        NashornHelper.INSTANCE.isDateType( result );
+        NashornHelper.isDateType( result );
     }
 
     def "isArrayType"()
@@ -73,19 +73,19 @@ class NashornHelperTest
         def result = execute( 'var result = 11; result;' );
 
         then:
-        !NashornHelper.INSTANCE.isArrayType( result );
+        !NashornHelper.isArrayType( result );
 
         when:
         result = execute( 'var result = {}; result;' );
 
         then:
-        !NashornHelper.INSTANCE.isArrayType( result );
+        !NashornHelper.isArrayType( result );
 
         when:
         result = execute( 'var result = []; result;' );
 
         then:
-        NashornHelper.INSTANCE.isArrayType( result );
+        NashornHelper.isArrayType( result );
     }
 
     def "isObjectType"()
@@ -94,19 +94,19 @@ class NashornHelperTest
         def result = execute( 'var result = 11; result;' );
 
         then:
-        !NashornHelper.INSTANCE.isObjectType( result );
+        !NashornHelper.isObjectType( result );
 
         when:
         result = execute( 'var result = []; result;' );
 
         then:
-        !NashornHelper.INSTANCE.isObjectType( result );
+        !NashornHelper.isObjectType( result );
 
         when:
         result = execute( 'var result = {}; result;' );
 
         then:
-        NashornHelper.INSTANCE.isObjectType( result );
+        NashornHelper.isObjectType( result );
     }
 
     def "toDate"()
@@ -117,7 +117,7 @@ class NashornHelperTest
 
         when:
         def value = execute( 'var result = new Date(Date.parse(\'1995-11-12T22:24:25Z\')); result;' );
-        def date = NashornHelper.INSTANCE.toDate( value );
+        def date = NashornHelper.toDate( value );
 
         then:
         format.format( date ) == "1995-11-12T22:24:25+0000";
@@ -132,7 +132,7 @@ class NashornHelperTest
         array.size() == 0;
 
         when:
-        NashornHelper.INSTANCE.addToArray( array, 10 );
+        NashornHelper.addToArray( array, 10 );
 
         then:
         array.size() == 1;
@@ -147,7 +147,7 @@ class NashornHelperTest
         object.keySet().size() == 0;
 
         when:
-        NashornHelper.INSTANCE.addToObject( object, 'a', 10 );
+        NashornHelper.addToObject( object, 'a', 10 );
 
         then:
         object.keySet().size() == 1;

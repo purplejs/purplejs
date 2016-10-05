@@ -28,13 +28,13 @@ public final class ScriptJsonGenerator
     @Override
     protected boolean isMap( final Object value )
     {
-        return NashornHelper.INSTANCE.isObjectType( value );
+        return NashornHelper.isObjectType( value );
     }
 
     @Override
     protected boolean isArray( final Object value )
     {
-        return NashornHelper.INSTANCE.isArrayType( value );
+        return NashornHelper.isArrayType( value );
     }
 
     @Override
@@ -42,14 +42,14 @@ public final class ScriptJsonGenerator
     {
         if ( value != null )
         {
-            NashornHelper.INSTANCE.addToObject( map, key, value );
+            NashornHelper.addToObject( map, key, value );
         }
     }
 
     @Override
     protected void addToArray( final Object array, final Object value )
     {
-        NashornHelper.INSTANCE.addToArray( array, value );
+        NashornHelper.addToArray( array, value );
     }
 
     @Override
