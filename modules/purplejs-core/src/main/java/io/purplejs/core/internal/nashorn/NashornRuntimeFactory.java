@@ -6,7 +6,7 @@ import jdk.nashorn.api.scripting.NashornScriptEngineFactory;
 
 public final class NashornRuntimeFactory
 {
-    private final static String[] ENGINE_ARGS = {"--global-per-engine", "-strict"};
+    private final static String[] ENGINE_ARGS = {"--global-per-engine", "-strict", "--language=es6"};
 
     private final NashornScriptEngineFactory scriptEngineFactory;
 

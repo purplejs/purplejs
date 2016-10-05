@@ -21,6 +21,42 @@ class GeneralScriptTest
         !exports.hasMethod( 'hello' );
     }
 
+    def "export mix"()
+    {
+        setup:
+        file( '/test.js', '''
+            this.a = 15;
+            exports.b = 16;
+            module.exports.c = 17;
+        ''' );
+
+        when:
+        def exports = run( '/test.js' );
+
+        then:
+        exports != null;
+        exports.value.hasMember( 'a' );
+        exports.value.hasMember( 'b' );
+        exports.value.hasMember( 'c' );
+    }
+
+    def "export everything"()
+    {
+        setup:
+        file( '/test.js', '''
+            module.exports = {
+                a: 15
+            };
+        ''' );
+
+        when:
+        def exports = run( '/test.js' );
+
+        then:
+        exports != null;
+        exports.value.hasMember( 'a' );
+    }
+
     def "execute exported"()
     {
         setup:

@@ -182,7 +182,6 @@ class ScriptValueFactoryImplTest
         when:
         def result = execute( "var result = new Date(Date.parse('1995-11-12T22:24:25Z')); result;" );
         def value = this.factory.newValue( result );
-        println( value );
 
         then:
         value != null;

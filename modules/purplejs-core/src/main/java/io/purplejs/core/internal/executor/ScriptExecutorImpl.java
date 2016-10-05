@@ -28,6 +28,10 @@ import jdk.nashorn.api.scripting.ScriptObjectMirror;
 public final class ScriptExecutorImpl
     implements ScriptExecutor
 {
+    private final static String PRE_SCRIPT = "(function(__, require, resolve, log, exports, module) { ";
+
+    private final static String POST_SCRIPT = "\n});";
+
     private ScriptEngine engine;
 
     private Environment environment;
@@ -144,7 +148,7 @@ public final class ScriptExecutorImpl
         final Bindings bindings = new SimpleBindings();
         bindings.put( ScriptEngine.FILENAME, path.toString() );
 
-        final ScriptObjectMirror func = (ScriptObjectMirror) doExecute( bindings, resource );
+        final ScriptObjectMirror func = doExecute( bindings, resource );
         return executeRequire( path, func );
     }
 
@@ -186,11 +190,18 @@ public final class ScriptExecutorImpl
     {
         try
         {
+            final ScriptObjectMirror exports = this.nashornRuntime.newJsObject();
+
+            final ScriptObjectMirror module = this.nashornRuntime.newJsObject();
+            module.put( "id", script.toString() );
+            module.put( "exports", exports );
+
             final ExecutionContextImpl context = new ExecutionContextImpl( this, script );
             final Function<String, Object> requireFunc = context::require;
             final Function<String, ResourcePath> resolveFunc = context::resolve;
 
-            return func.call( null, context, requireFunc, resolveFunc, context.getLogger() );
+            func.call( exports, context, requireFunc, resolveFunc, context.getLogger(), exports, module );
+            return module.get( "exports" );
         }
         catch ( final Exception e )
         {
@@ -198,13 +209,13 @@ public final class ScriptExecutorImpl
         }
     }
 
-    private Object doExecute( final Bindings bindings, final Resource script )
+    private ScriptObjectMirror doExecute( final Bindings bindings, final Resource script )
     {
         try
         {
             final String text = IOHelper.readString( script.getBytes() );
-            final String source = InitScriptReader.getScript( text );
-            return this.engine.eval( source, bindings );
+            final String source = PRE_SCRIPT + text + POST_SCRIPT;
+            return (ScriptObjectMirror) this.engine.eval( source, bindings );
         }
         catch ( final Exception e )
         {
