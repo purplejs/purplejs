@@ -85,10 +85,17 @@ final class HttpHandlerImpl
 
     private Response handleError( final Request request, final Status status, final Throwable cause )
     {
-        final Response result = handleErrorInJs( request, status, cause );
-        if ( result != null )
+        try
         {
-            return result;
+            final Response result = handleErrorInJs( request, status, cause );
+            if ( result != null )
+            {
+                return result;
+            }
+        }
+        catch ( final Exception e )
+        {
+            // Do nothing
         }
 
         return this.errorRenderer.handle( request, status, cause );
