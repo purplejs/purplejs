@@ -1,4 +1,4 @@
-package io.purplejs.http.itest
+package io.purplejs.http.internal.response
 
 import com.google.common.io.ByteSource
 import com.google.common.net.MediaType
@@ -8,6 +8,7 @@ import io.purplejs.core.resource.ResourcePath
 import io.purplejs.core.value.ScriptValue
 import io.purplejs.http.Status
 import io.purplejs.http.internal.response.ScriptToResponse
+import io.purplejs.http.itest.AbstractHttpITest
 
 class ScriptToResponseTest
     extends AbstractHttpITest
