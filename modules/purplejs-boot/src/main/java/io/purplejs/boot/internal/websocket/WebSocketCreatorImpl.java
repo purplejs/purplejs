@@ -15,7 +15,7 @@ import io.purplejs.http.websocket.WebSocketConfig;
 import io.purplejs.http.websocket.WebSocketEvent;
 import io.purplejs.http.websocket.WebSocketEventBuilder;
 
-public final class WebSocketHandler
+public final class WebSocketCreatorImpl
     implements WebSocketCreator, WebSocketListener
 {
     private final WebSocketConfig config;
@@ -24,7 +24,7 @@ public final class WebSocketHandler
 
     private WebSocketSessionImpl session;
 
-    public WebSocketHandler( final HttpHandler handler, final WebSocketConfig config )
+    public WebSocketCreatorImpl( final HttpHandler handler, final WebSocketConfig config )
     {
         this.config = config;
         this.handler = handler;
@@ -32,6 +32,11 @@ public final class WebSocketHandler
 
     public Object createWebSocket( final ServletUpgradeRequest req, final ServletUpgradeResponse res )
     {
+        if ( this.config == null )
+        {
+            return null;
+        }
+
         final Set<String> allowSubProtocols = this.config.getSubProtocols();
         if ( allowSubProtocols.isEmpty() )
         {

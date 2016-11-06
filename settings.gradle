@@ -1,5 +1,6 @@
 include ':purplejs-core'
 include ':purplejs-http'
+include ':purplejs-websocket'
 include ':purplejs-router'
 include ':purplejs-boot'
 include ':purplejs-gradle'

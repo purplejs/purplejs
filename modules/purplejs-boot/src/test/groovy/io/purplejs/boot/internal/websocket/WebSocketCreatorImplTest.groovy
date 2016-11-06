@@ -12,10 +12,10 @@ import org.springframework.mock.web.MockHttpServletRequest
 import org.springframework.mock.web.MockHttpServletResponse
 import spock.lang.Specification
 
-class WebSocketHandlerTest
+class WebSocketCreatorImplTest
     extends Specification
 {
-    def WebSocketHandler handler;
+    def WebSocketCreatorImpl handler;
 
     def HttpHandler httpHandler;
 
@@ -27,7 +27,7 @@ class WebSocketHandlerTest
     {
         this.httpHandler = Mock( HttpHandler.class );
         this.config = Mock( WebSocketConfig.class );
-        this.handler = new WebSocketHandler( this.httpHandler, this.config );
+        this.handler = new WebSocketCreatorImpl( this.httpHandler, this.config );
         this.session = Mock( Session.class );
     }
 

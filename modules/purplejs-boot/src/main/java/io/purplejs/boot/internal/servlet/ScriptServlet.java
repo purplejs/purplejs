@@ -13,7 +13,7 @@ import org.eclipse.jetty.websocket.servlet.WebSocketServletFactory;
 
 import io.purplejs.boot.internal.request.RequestFactory;
 import io.purplejs.boot.internal.response.ResponseSerializer;
-import io.purplejs.boot.internal.websocket.WebSocketHandler;
+import io.purplejs.boot.internal.websocket.WebSocketCreatorImpl;
 import io.purplejs.core.Engine;
 import io.purplejs.core.resource.ResourcePath;
 import io.purplejs.http.Request;
@@ -106,7 +106,7 @@ public final class ScriptServlet
     private void acceptWebSocket( final HttpServletRequest req, final HttpServletResponse res, final WebSocketConfig config )
         throws IOException
     {
-        final WebSocketCreator creator = new WebSocketHandler( this.handler, config );
+        final WebSocketCreator creator = new WebSocketCreatorImpl( this.handler, config );
         this.webSocketServletFactory.acceptWebSocket( creator, req, res );
     }
 
