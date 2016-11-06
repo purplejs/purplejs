@@ -281,7 +281,7 @@ final class ErrorPageBuilder
         html.close();
     }
 
-    private static List<LineInfo> findTrace( final Throwable cause )
+    static List<LineInfo> findTrace( final Throwable cause )
     {
         final List<LineInfo> list = Lists.newArrayList();
         final StackTraceElement[] trace = cause.getStackTrace();
