@@ -31,11 +31,6 @@ public final class ConfigBuilder
 
     public ConfigBuilder load( final File file )
     {
-        if ( !file.isFile() )
-        {
-            return this;
-        }
-
         try
         {
             doLoad( file.getPath(), new FileInputStream( file ) );

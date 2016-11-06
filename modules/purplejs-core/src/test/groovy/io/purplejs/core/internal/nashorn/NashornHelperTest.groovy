@@ -24,6 +24,15 @@ class NashornHelperTest
         this.engine = createEngine();
     }
 
+    def "new instance"()
+    {
+        when:
+        def helper = new NashornHelper();
+
+        then:
+        helper != null;
+    }
+
     def "newScriptEngine"()
     {
         when:
