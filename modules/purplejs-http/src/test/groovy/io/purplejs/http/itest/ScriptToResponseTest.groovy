@@ -5,7 +5,9 @@ import com.google.common.net.MediaType
 import io.purplejs.core.mock.MockResource
 import io.purplejs.core.resource.Resource
 import io.purplejs.core.resource.ResourcePath
+import io.purplejs.core.value.ScriptValue
 import io.purplejs.http.Status
+import io.purplejs.http.internal.response.ScriptToResponse
 
 class ScriptToResponseTest
     extends AbstractHttpITest
@@ -395,5 +397,17 @@ class ScriptToResponseTest
         cookie.maxAge == -1;
         !cookie.isSecure();
         !cookie.isHttpOnly();
+    }
+
+    def "default value"()
+    {
+        setup:
+        def value = Mock( ScriptValue.class );
+
+        when:
+        def result = ScriptToResponse.getValue( value, String.class, 'default' );
+
+        then:
+        result == 'default';
     }
 }

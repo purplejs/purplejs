@@ -107,7 +107,7 @@ public final class ScriptToResponse
         }
     }
 
-    private <T> T getValue( final ScriptValue value, final Class<T> type, final T defValue )
+    public static <T> T getValue( final ScriptValue value, final Class<T> type, final T defValue )
     {
         if ( value == null )
         {
