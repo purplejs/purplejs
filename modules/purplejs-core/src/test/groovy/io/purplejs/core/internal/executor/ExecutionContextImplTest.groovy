@@ -1,7 +1,6 @@
 package io.purplejs.core.internal.executor
 
 import io.purplejs.core.Engine
-import io.purplejs.core.context.ExecutionContext
 import io.purplejs.core.exception.NotFoundException
 import io.purplejs.core.resource.ResourcePath
 import jdk.nashorn.api.scripting.ScriptObjectMirror

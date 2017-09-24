@@ -3,7 +3,6 @@ package io.purplejs.core.internal.executor;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import io.purplejs.core.context.ScriptLogger;
 import io.purplejs.core.resource.ResourcePath;
 
 final class ScriptLoggerImpl

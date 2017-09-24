@@ -4,8 +4,6 @@ import java.util.function.Supplier;
 
 import io.purplejs.core.Engine;
 import io.purplejs.core.Environment;
-import io.purplejs.core.context.ExecutionContext;
-import io.purplejs.core.context.ScriptLogger;
 import io.purplejs.core.exception.NotFoundException;
 import io.purplejs.core.internal.resolver.RequirePathResolver;
 import io.purplejs.core.internal.resolver.ResourcePathResolver;

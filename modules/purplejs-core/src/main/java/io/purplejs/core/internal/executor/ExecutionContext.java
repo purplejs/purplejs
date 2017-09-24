@@ -1,4 +1,4 @@
-package io.purplejs.core.context;
+package io.purplejs.core.internal.executor;
 
 import java.util.function.Supplier;
 

@@ -1,4 +1,4 @@
-package io.purplejs.core.context;
+package io.purplejs.core.internal.executor;
 
 /**
  * This logger is added as a global object (log) in the Javascript environment.
