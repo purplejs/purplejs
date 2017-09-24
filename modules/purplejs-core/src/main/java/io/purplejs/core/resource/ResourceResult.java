@@ -1,14 +1,46 @@
 package io.purplejs.core.resource;
 
 import java.util.List;
+import java.util.function.Supplier;
 
-import javax.xml.ws.Provider;
+import com.google.common.collect.Lists;
 
-// TODO: Implement as mutable class.
-public interface ResourceResult
-    extends Provider<ResourcePath>
+public final class ResourceResult
+    implements Supplier<ResourcePath>
 {
-    ResourcePath getFound();
+    private ResourcePath found;
 
-    List<ResourcePath> getScanned();
+    private final List<ResourcePath> scanned;
+
+    public ResourceResult()
+    {
+        this.found = null;
+        this.scanned = Lists.newArrayList();
+    }
+
+    public ResourcePath getFound()
+    {
+        return this.found;
+    }
+
+    public List<ResourcePath> getScanned()
+    {
+        return this.scanned;
+    }
+
+    public void setFound( final ResourcePath found )
+    {
+        this.found = found;
+    }
+
+    public void addScanned( final ResourcePath path )
+    {
+        this.scanned.add( path );
+    }
+
+    @Override
+    public ResourcePath get()
+    {
+        return this.found;
+    }
 }
