@@ -1,7 +1,5 @@
 package io.purplejs.core.internal.value
 
-import com.google.common.base.Charsets
-import com.google.gson.JsonNull
 import io.purplejs.core.internal.nashorn.NashornRuntime
 import io.purplejs.core.internal.nashorn.NashornRuntimeFactory
 import io.purplejs.core.value.ScriptValue
@@ -57,11 +55,6 @@ class ScriptValueFactoryImplTest
         assertNonArray( value );
         assertNonObject( value );
         assertNonFunction( value );
-
-        this.factory.newValue( true ).toJson().toString() == "true";
-        this.factory.newValue( 12 ).toJson().toString() == "12";
-        this.factory.newValue( "test" ).toJson().toString() == '"test"';
-        this.factory.newValue( Charsets.UTF_8 ).toJson().toString() == '"UTF-8"';
     }
 
     def "newValue of undefined"()
@@ -92,8 +85,6 @@ class ScriptValueFactoryImplTest
         assertNonValue( value );
         assertNonArray( value );
         assertNonObject( value );
-
-        JsonNull.INSTANCE == value.toJson();
 
         when:
         result = value.call( 10, 11 );
@@ -138,7 +129,6 @@ class ScriptValueFactoryImplTest
         value.getArray().get( 1 ).getValue() == "2";
 
         value.toJavaObject() == ["1", "2"];
-        value.toJson().toString() == '["1","2"]';
     }
 
     def "newValue from object"()
@@ -170,7 +160,6 @@ class ScriptValueFactoryImplTest
         value.hasMember( "a" );
 
         value.toJavaObject() == [a: 1, b: 2];
-        value.toJson().toString() == '{"a":1,"b":2}';
     }
 
     def "newValue from date"()

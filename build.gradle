@@ -1,9 +1,10 @@
-buildscript {
-    apply from: "$rootDir/gradle/buildscript.gradle", to: buildscript
+plugins {
+    id 'groovy'
+    id 'jacoco'
+    id 'build-dashboard'
+    id 'maven-publish'
+    id 'com.jfrog.bintray' version '1.7.3'
 }
-
-apply plugin: 'java-base'
-apply plugin: 'build-dashboard'
 
 ext {
     // docProjects = project( ':purplejs-docs' )
@@ -26,6 +27,7 @@ configure( allprojects ) {
 configure( javaProjects ) {
     apply from: "$rootDir/gradle/java.gradle"
     apply from: "$rootDir/gradle/bintray.gradle"
+    apply from: "$rootDir/gradle/publish.gradle"
 }
 
 configure( rootProject ) {

@@ -1,0 +1,17 @@
+// TODO: We should use OSS bintray here for snapshots.
+
+publishing {
+    repositories {
+        maven {
+            url 'https://repo.enonic.com/public'
+            credentials {
+                username = findProperty( 'repoUser' )
+                password = findProperty( 'repoPassword' )
+            }
+        }
+    }
+}
+
+publish.onlyIf {
+    isSnapshot
+}

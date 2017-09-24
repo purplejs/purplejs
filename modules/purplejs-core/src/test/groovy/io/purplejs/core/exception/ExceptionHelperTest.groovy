@@ -8,48 +8,60 @@ class ExceptionHelperTest
     def "new instance"()
     {
         when:
-        def instance = new ExceptionHelper();
+        def instance = new ExceptionHelper()
 
         then:
-        instance != null;
+        instance != null
     }
 
-    def "throw unchecked"()
+    def "toRuntime - checked"()
     {
         setup:
-        def cause = new IOException();
+        def cause = new IOException()
 
         when:
-        ExceptionHelper.unchecked( cause );
+        def ex = ExceptionHelper.toRuntime( cause )
 
         then:
-        def IOException ex = thrown();
-        ex == cause;
+        ex instanceof RuntimeException
+        ex.cause == cause
+    }
+
+    def "toRuntime - unchecked"()
+    {
+        setup:
+        def cause = new RuntimeException()
+
+        when:
+        def ex = ExceptionHelper.toRuntime( cause )
+
+        then:
+        cause == ex
     }
 
     def "wrap no exception"()
     {
         setup:
-        def callable = { return 'hello'; };
+        def callable = { return 'hello' }
 
         when:
-        def result = ExceptionHelper.wrap( callable );
+        def result = ExceptionHelper.wrap( callable )
 
         then:
-        result == 'hello';
+        result == 'hello'
     }
 
     def "wrap unchecked"()
     {
         setup:
-        def cause = new IOException();
-        def callable = { throw cause; };
+        def cause = new IOException()
+        def callable = { throw cause }
 
         when:
-        ExceptionHelper.wrap( callable );
+        ExceptionHelper.wrap( callable )
 
         then:
-        def IOException ex = thrown();
-        ex == cause;
+        RuntimeException ex = thrown()
+        ex.cause == cause
     }
 }
