@@ -4,8 +4,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.google.common.collect.Lists;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 
 import io.purplejs.core.value.ScriptValue;
 import jdk.nashorn.api.scripting.ScriptObjectMirror;
@@ -49,18 +47,6 @@ final class ArrayScriptValue
     public Object toJavaObject()
     {
         return getArray().stream().map( ScriptValue::toJavaObject ).collect( Collectors.toList() );
-    }
-
-    @Override
-    public JsonElement toJson()
-    {
-        final JsonArray json = new JsonArray();
-        for ( final ScriptValue value : getArray() )
-        {
-            json.add( value.toJson() );
-        }
-
-        return json;
     }
 
     @Override

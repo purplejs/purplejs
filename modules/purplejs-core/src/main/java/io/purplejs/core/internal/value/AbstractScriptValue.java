@@ -6,8 +6,6 @@ import java.util.Map;
 import java.util.Set;
 
 import com.google.common.collect.Sets;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonNull;
 
 import io.purplejs.core.value.ScriptValue;
 
@@ -84,11 +82,5 @@ abstract class AbstractScriptValue
     public ScriptValue call( final Object... args )
     {
         return null;
-    }
-
-    @Override
-    public JsonElement toJson()
-    {
-        return JsonNull.INSTANCE;
     }
 }

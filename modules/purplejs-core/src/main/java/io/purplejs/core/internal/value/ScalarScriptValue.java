@@ -1,8 +1,5 @@
 package io.purplejs.core.internal.value;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonPrimitive;
-
 import io.purplejs.core.internal.util.ConvertHelper;
 
 final class ScalarScriptValue
@@ -31,22 +28,6 @@ final class ScalarScriptValue
     public <T> T getValue( final Class<T> type )
     {
         return ConvertHelper.INSTANCE.convert( this.value, type );
-    }
-
-    @Override
-    public JsonElement toJson()
-    {
-        if ( this.value instanceof Boolean )
-        {
-            return new JsonPrimitive( (Boolean) this.value );
-        }
-
-        if ( this.value instanceof Number )
-        {
-            return new JsonPrimitive( (Number) this.value );
-        }
-
-        return new JsonPrimitive( this.value.toString() );
     }
 
     @Override

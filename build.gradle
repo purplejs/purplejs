@@ -6,8 +6,8 @@ apply plugin: 'java-base'
 apply plugin: 'build-dashboard'
 
 ext {
-    docProjects = project( ':purplejs-docs' )
-    javaProjects = subprojects - docProjects
+    // docProjects = project( ':purplejs-docs' )
+    javaProjects = subprojects // - docProjects
     isSnapshot = ( version ==~ /.*SNAPSHOT/ )
 }
 

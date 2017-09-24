@@ -4,8 +4,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.google.gson.JsonElement;
-
 /**
  * This interface defines a script value. It's a wrapper around Nashorn's own objects.
  */
@@ -99,13 +97,6 @@ public interface ScriptValue
      * @return result of function call.
      */
     ScriptValue call( Object... args );
-
-    /**
-     * Returns the value as JSON.
-     *
-     * @return value as JSON.
-     */
-    JsonElement toJson();
 
     /**
      * Returns the value as Java object. For simple values, it will return the value. For objects it will return a

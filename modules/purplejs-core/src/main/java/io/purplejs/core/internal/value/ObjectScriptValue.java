@@ -4,8 +4,6 @@ import java.util.Map;
 import java.util.Set;
 
 import com.google.common.collect.Maps;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 
 import io.purplejs.core.value.ScriptValue;
 import jdk.nashorn.api.scripting.ScriptObjectMirror;
@@ -69,18 +67,6 @@ final class ObjectScriptValue
         }
 
         return map;
-    }
-
-    @Override
-    public JsonElement toJson()
-    {
-        final JsonObject json = new JsonObject();
-        for ( final String key : this.value.keySet() )
-        {
-            json.add( key, getMember( key ).toJson() );
-        }
-
-        return json;
     }
 
     @Override

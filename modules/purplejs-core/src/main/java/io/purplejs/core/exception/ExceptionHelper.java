@@ -1,32 +1,24 @@
 package io.purplejs.core.exception;
 
+import java.lang.reflect.UndeclaredThrowableException;
 import java.util.concurrent.Callable;
 
 public final class ExceptionHelper
 {
     /**
-     * Rethrows a checked exception as unchecked exception. This method tricks the compiler into
-     * thinking the exception is unchecked, rather than wrapping the given exception in a new
-     * {@code RuntimeException}.
-     * <p>
-     * This method never returns. Nevertheless, it specifies a return type so it can be invoked as
-     * {@code throw unchecked(e)} in contexts where an exception type is syntactically required
-     * (e.g. when the enclosing method is non-void).
+     * Converts an exception to a runtime exception.
      *
-     * @param e Throwable to be made unchecked.
-     * @return This will never return anything. It's here to trick the compiler.
+     * @param e Exception to convert.
+     * @return a RuntimeException.
      */
-    public static RuntimeException unchecked( final Throwable e )
+    public static RuntimeException toRuntime( final Exception e )
     {
-        ExceptionHelper.adapt( e );
-        return null;
-    }
+        if ( e instanceof RuntimeException )
+        {
+            return (RuntimeException) e;
+        }
 
-    @SuppressWarnings("unchecked")
-    private static <T extends Exception> void adapt( final Throwable e )
-        throws T
-    {
-        throw (T) e;
+        return new UndeclaredThrowableException( e );
     }
 
     /**
@@ -49,7 +41,7 @@ public final class ExceptionHelper
         }
         catch ( final Exception e )
         {
-            throw ExceptionHelper.unchecked( e );
+            throw toRuntime( e );
         }
     }
 }
