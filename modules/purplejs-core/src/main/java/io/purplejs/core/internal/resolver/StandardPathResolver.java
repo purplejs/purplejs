@@ -5,16 +5,11 @@ import io.purplejs.core.resource.ResourcePath;
 public final class StandardPathResolver
     implements ResourcePathResolver
 {
-    private final ResourcePath baseDir;
-
-    public StandardPathResolver( final ResourcePath baseDir )
-    {
-        this.baseDir = baseDir;
-    }
-
     @Override
-    public ResourcePath resolve( final String path )
+    public ResourcePathResult resolve( final ResourcePath base, final String path )
     {
-        return this.baseDir.resolve( path );
+        final ResourcePathResult result = new ResourcePathResult();
+        result.setFound( base.resolve( path ) );
+        return result;
     }
 }

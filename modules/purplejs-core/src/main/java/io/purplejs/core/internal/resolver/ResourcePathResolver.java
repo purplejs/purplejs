@@ -4,5 +4,5 @@ import io.purplejs.core.resource.ResourcePath;
 
 public interface ResourcePathResolver
 {
-    ResourcePath resolve( String path );
+    ResourcePathResult resolve( ResourcePath base, String path );
 }

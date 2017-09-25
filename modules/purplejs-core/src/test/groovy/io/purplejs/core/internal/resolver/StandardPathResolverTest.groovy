@@ -6,16 +6,23 @@ import spock.lang.Specification
 class StandardPathResolverTest
     extends Specification
 {
-    private static ResourcePath resolve( final String dir, final String path )
+    private ResourcePathResolver resolver
+
+    def setup()
     {
-        return new StandardPathResolver( ResourcePath.from( dir ) ).resolve( path );
+        this.resolver = new StandardPathResolver()
+    }
+
+    private ResourcePathResult resolve( final String dir, final String path )
+    {
+        return this.resolver.resolve( ResourcePath.from( dir ), path )
     }
 
     def "test resolve"()
     {
         expect:
-        def result = resolve( from, path );
-        result.toString() == to;
+        def result = resolve( from, path )
+        result.found.toString() == to
 
         where:
         from   | path          | to

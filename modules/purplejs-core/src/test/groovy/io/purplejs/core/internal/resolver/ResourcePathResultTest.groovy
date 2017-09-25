@@ -1,14 +1,15 @@
-package io.purplejs.core.resource
+package io.purplejs.core.internal.resolver
 
+import io.purplejs.core.resource.ResourcePath
 import spock.lang.Specification
 
-class ResourceResultTest
+class ResourcePathResultTest
     extends Specification
 {
     def "found"()
     {
         setup:
-        def result = new ResourceResult()
+        def result = new ResourcePathResult()
         def path = ResourcePath.from( "/a/b" )
 
         when:
@@ -29,7 +30,7 @@ class ResourceResultTest
     def "scanned"()
     {
         setup:
-        def result = new ResourceResult()
+        def result = new ResourcePathResult()
         def path1 = ResourcePath.from( "/a/b" )
         def path2 = ResourcePath.from( "/a/c" )
 

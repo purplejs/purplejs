@@ -26,9 +26,9 @@ abstract class AbstractExecutorTest
         this.executor = new ScriptExecutorImpl();
         this.executor.setNashornRuntime( new NashornRuntimeFactory().newRuntime( getClass().getClassLoader() ) );
         this.executor.setEnvironment( this.environment );
+        this.executor.init();
 
         doConfigure();
-        this.executor.init();
     }
 
     final MockResource addResource( final String path, final String text )

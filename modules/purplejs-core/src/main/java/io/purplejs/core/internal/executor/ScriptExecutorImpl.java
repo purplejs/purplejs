@@ -14,6 +14,9 @@ import io.purplejs.core.Environment;
 import io.purplejs.core.RunMode;
 import io.purplejs.core.internal.cache.ScriptExportsCache;
 import io.purplejs.core.internal.nashorn.NashornRuntime;
+import io.purplejs.core.internal.resolver.RequirePathResolver;
+import io.purplejs.core.internal.resolver.ResourcePathResolver;
+import io.purplejs.core.internal.resolver.StandardPathResolver;
 import io.purplejs.core.internal.util.ErrorHelper;
 import io.purplejs.core.internal.value.ScriptExportsImpl;
 import io.purplejs.core.internal.value.ScriptValueFactory;
@@ -48,6 +51,10 @@ public final class ScriptExecutorImpl
 
     private Bindings global;
 
+    private ResourcePathResolver requirePathResolver;
+
+    private ResourcePathResolver standardPathResolver;
+
     public ScriptExecutorImpl()
     {
         this.global = new SimpleBindings();
@@ -78,6 +85,9 @@ public final class ScriptExecutorImpl
 
         this.engine = this.nashornRuntime.getEngine();
         this.engine.setBindings( this.global, ScriptContext.GLOBAL_SCOPE );
+
+        this.requirePathResolver = new RequirePathResolver( this.environment.getResourceLoader() );
+        this.standardPathResolver = new StandardPathResolver();
     }
 
     public void addGlobalVariables( final Map<String, Object> variables )
@@ -249,5 +259,17 @@ public final class ScriptExecutorImpl
     public NashornRuntime getNashornRuntime()
     {
         return this.nashornRuntime;
+    }
+
+    @Override
+    public ResourcePathResolver getRequirePathResolver()
+    {
+        return this.requirePathResolver;
+    }
+
+    @Override
+    public ResourcePathResolver getStandardPathResolver()
+    {
+        return this.standardPathResolver;
     }
 }

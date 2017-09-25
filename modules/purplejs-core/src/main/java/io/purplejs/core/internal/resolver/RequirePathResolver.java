@@ -12,62 +12,65 @@ public final class RequirePathResolver
 {
     private final ResourceLoader loader;
 
-    private final ResourcePath baseDir;
-
-    public RequirePathResolver( final ResourceLoader loader, final ResourcePath baseDir )
+    public RequirePathResolver( final ResourceLoader loader )
     {
         this.loader = loader;
-        this.baseDir = baseDir;
     }
 
     @Override
-    public ResourcePath resolve( final String path )
+    public ResourcePathResult resolve( final ResourcePath base, final String path )
     {
+        final ResourcePathResult result = new ResourcePathResult();
         if ( path.startsWith( "/" ) || path.startsWith( "./" ) || path.startsWith( "../" ) )
         {
-            return resolveFileOrDir( this.baseDir, path );
+            result.setFound( resolveFileOrDir( result, base, path ) );
+        }
+        else
+        {
+            result.setFound( resolveSearchPath( result, path ) );
         }
 
-        return resolveSearchPath( path );
+        return result;
     }
 
-    private boolean exists( final ResourcePath path )
+    private boolean exists( final ResourcePathResult result, final ResourcePath path )
     {
+        result.addScanned( path );
         return this.loader.exists( path );
     }
 
-    private ResourcePath resolveFileOrDir( final ResourcePath path )
+    private ResourcePath resolveFileOrDir( final ResourcePathResult result, final ResourcePath path )
     {
-        final ResourcePath resolved = resolveAsFile( path );
+        final ResourcePath resolved = resolveAsFile( result, path );
         if ( resolved != null )
         {
             return resolved;
         }
 
-        return resolveAsDir( path );
+        return resolveAsDir( result, path );
     }
 
 
-    private ResourcePath resolveFileOrDir( final ResourcePath dir, final String path )
+    private ResourcePath resolveFileOrDir( final ResourcePathResult result, final ResourcePath dir, final String path )
     {
-        return resolveFileOrDir( dir.resolve( path ) );
+        return resolveFileOrDir( result, dir.resolve( path ) );
     }
 
-    private ResourcePath resolveAsFile( final ResourcePath file )
+    private ResourcePath resolveAsFile( final ResourcePathResult result, final ResourcePath file )
     {
-        if ( exists( file ) )
+        if ( exists( result, file ) )
         {
             return file;
         }
 
         final ResourcePath path1 = ResourcePath.from( file + ".js" );
-        if ( exists( path1 ) )
+        if ( exists( result, path1 ) )
         {
             return path1;
         }
 
         final ResourcePath path2 = ResourcePath.from( file + ".json" );
-        if ( exists( path2 ) )
+        if ( exists( result, path2 ) )
         {
             return path2;
         }
@@ -75,16 +78,16 @@ public final class RequirePathResolver
         return null;
     }
 
-    private ResourcePath resolveAsDir( final ResourcePath dir )
+    private ResourcePath resolveAsDir( final ResourcePathResult result, final ResourcePath dir )
     {
         final ResourcePath path1 = ResourcePath.from( dir + "/index.js" );
-        if ( exists( path1 ) )
+        if ( exists( result, path1 ) )
         {
             return path1;
         }
 
         final ResourcePath path2 = ResourcePath.from( dir + "/index.json" );
-        if ( exists( path2 ) )
+        if ( exists( result, path2 ) )
         {
             return path2;
         }
@@ -92,11 +95,11 @@ public final class RequirePathResolver
         return null;
     }
 
-    private ResourcePath resolveSearchPath( final String path )
+    private ResourcePath resolveSearchPath( final ResourcePathResult result, final String path )
     {
         for ( final ResourcePath searchPath : findSearchPaths() )
         {
-            final ResourcePath resourcePath = resolveFileOrDir( searchPath, path );
+            final ResourcePath resourcePath = resolveFileOrDir( result, searchPath, path );
             if ( resourcePath != null )
             {
                 return resourcePath;

@@ -1,18 +1,20 @@
-package io.purplejs.core.resource;
+package io.purplejs.core.internal.resolver;
 
 import java.util.List;
 import java.util.function.Supplier;
 
 import com.google.common.collect.Lists;
 
-public final class ResourceResult
+import io.purplejs.core.resource.ResourcePath;
+
+public final class ResourcePathResult
     implements Supplier<ResourcePath>
 {
     private ResourcePath found;
 
     private final List<ResourcePath> scanned;
 
-    public ResourceResult()
+    public ResourcePathResult()
     {
         this.found = null;
         this.scanned = Lists.newArrayList();

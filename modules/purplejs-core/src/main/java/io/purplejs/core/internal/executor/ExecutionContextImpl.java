@@ -5,9 +5,8 @@ import java.util.function.Supplier;
 import io.purplejs.core.Engine;
 import io.purplejs.core.Environment;
 import io.purplejs.core.exception.NotFoundException;
-import io.purplejs.core.internal.resolver.RequirePathResolver;
 import io.purplejs.core.internal.resolver.ResourcePathResolver;
-import io.purplejs.core.internal.resolver.StandardPathResolver;
+import io.purplejs.core.internal.resolver.ResourcePathResult;
 import io.purplejs.core.internal.util.JsObjectConverter;
 import io.purplejs.core.registry.Registry;
 import io.purplejs.core.resource.ResourcePath;
@@ -30,16 +29,18 @@ final class ExecutionContextImpl
 
     private final ScriptLogger logger;
 
+    private final ResourcePath resourceDir;
+
     ExecutionContextImpl( final ScriptExecutor executor, final ResourcePath resource )
     {
         this.executor = executor;
         this.resource = resource;
         this.environment = this.executor.getEnvironment();
         this.converter = new JsObjectConverter( this.executor.getNashornRuntime() );
+        this.resourceDir = this.resource.resolve( ".." );
 
-        final ResourcePath dir = this.resource.resolve( ".." );
-        this.requirePathResolver = new RequirePathResolver( this.environment.getResourceLoader(), dir );
-        this.standardPathResolver = new StandardPathResolver( dir );
+        this.requirePathResolver = this.executor.getRequirePathResolver();
+        this.standardPathResolver = this.executor.getStandardPathResolver();
         this.logger = new ScriptLoggerImpl( this.resource );
     }
 
@@ -82,10 +83,12 @@ final class ExecutionContextImpl
     @Override
     public Object require( final String path )
     {
-        final ResourcePath resolved = this.requirePathResolver.resolve( path );
+        final ResourcePathResult result = this.requirePathResolver.resolve( this.resourceDir, path );
+        final ResourcePath resolved = result.get();
+
         if ( resolved == null )
         {
-            throw new NotFoundException( "Could not find [" + path + "] using base [" + this.resource + "]" );
+            throw new NotFoundException( "Could not find [" + path + "] using base [" + this.resourceDir + "]" );
         }
 
         return this.executor.executeRequire( resolved );
@@ -94,7 +97,7 @@ final class ExecutionContextImpl
     @Override
     public ResourcePath resolve( final String path )
     {
-        return this.standardPathResolver.resolve( path );
+        return this.standardPathResolver.resolve( this.resourceDir, path ).get();
     }
 
     @Override
