@@ -12,16 +12,29 @@ public final class RequirePathResolver
 {
     private final ResourceLoader loader;
 
+    private final List<ResourcePath> searchPaths;
+
+    private final List<ResourcePath> rootPaths;
+
     public RequirePathResolver( final ResourceLoader loader )
     {
         this.loader = loader;
+        this.rootPaths = Lists.newArrayList();
+        this.searchPaths = Lists.newArrayList();
+
+        setRootPaths( "/" );
+        setSearchPaths( "/lib" );
     }
 
     @Override
     public ResourcePathResult resolve( final ResourcePath base, final String path )
     {
         final ResourcePathResult result = new ResourcePathResult();
-        if ( path.startsWith( "/" ) || path.startsWith( "./" ) || path.startsWith( "../" ) )
+        if ( path.startsWith( "/" ) )
+        {
+            result.setFound( resolveRoot( result, base, path ) );
+        }
+        else if ( path.startsWith( "./" ) || path.startsWith( "../" ) )
         {
             result.setFound( resolveFileOrDir( result, base, path ) );
         }
@@ -37,6 +50,20 @@ public final class RequirePathResolver
     {
         result.addScanned( path );
         return this.loader.exists( path );
+    }
+
+    private ResourcePath resolveRoot( final ResourcePathResult result, final ResourcePath base, final String path )
+    {
+        for ( final ResourcePath rootPath : this.rootPaths )
+        {
+            final ResourcePath resolved = resolveFileOrDir( result, base, rootPath.getPath() + "/" + path );
+            if ( resolved != null )
+            {
+                return resolved;
+            }
+        }
+
+        return null;
     }
 
     private ResourcePath resolveFileOrDir( final ResourcePathResult result, final ResourcePath path )
@@ -97,7 +124,7 @@ public final class RequirePathResolver
 
     private ResourcePath resolveSearchPath( final ResourcePathResult result, final String path )
     {
-        for ( final ResourcePath searchPath : findSearchPaths() )
+        for ( final ResourcePath searchPath : this.searchPaths )
         {
             final ResourcePath resourcePath = resolveFileOrDir( result, searchPath, path );
             if ( resourcePath != null )
@@ -109,10 +136,21 @@ public final class RequirePathResolver
         return null;
     }
 
-    private static List<ResourcePath> findSearchPaths()
+    public void setRootPaths( final String... paths )
     {
-        final List<ResourcePath> paths = Lists.newArrayList();
-        paths.add( ResourcePath.from( "/lib" ) );
-        return paths;
+        this.rootPaths.clear();
+        for ( final String path : paths )
+        {
+            this.rootPaths.add( ResourcePath.from( path ) );
+        }
+    }
+
+    public void setSearchPaths( final String... paths )
+    {
+        this.searchPaths.clear();
+        for ( final String path : paths )
+        {
+            this.searchPaths.add( ResourcePath.from( path ) );
+        }
     }
 }

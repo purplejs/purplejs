@@ -9,7 +9,7 @@ class RequirePathResolverTest
 {
     private ResourceLoader loader
 
-    private ResourcePathResolver resolver
+    private RequirePathResolver resolver
 
     def setup()
     {
@@ -136,5 +136,45 @@ class RequirePathResolverTest
         '/a/b' | 'a/c' | '/lib/a/c.js'         | ['/lib/a/c', '/lib/a/c.js']
         '/a/b' | 'a/d' | '/lib/a/d/index.json' | ['/lib/a/d', '/lib/a/d.js', '/lib/a/d.json', '/lib/a/d/index.js', '/lib/a/d/index.json']
         '/a/b' | 'x'   | null                  | ['/lib/x', '/lib/x.js', '/lib/x.json', '/lib/x/index.js', '/lib/x/index.json']
+    }
+
+    def "resolve (rootPaths setting)"()
+    {
+        setup:
+        this.resolver.setRootPaths( '/', '/other' )
+
+        mockExists( "/a/b" )
+        mockExists( "/other/a/c" )
+
+        expect:
+        def result = resolve( from, path )
+        def found = result.found
+        to != null ? ( found.toString() == to ) : ( found == null )
+        scanned == result.scanned.collect { it.toString() }
+
+        where:
+        from | path   | to           | scanned
+        '/'  | '/a/b' | '/a/b'       | ['/a/b']
+        '/'  | '/a/c' | '/other/a/c' | ['/a/c', '/a/c.js', '/a/c.json', '/a/c/index.js', '/a/c/index.json', '/other/a/c']
+    }
+
+    def "resolve (searchPaths setting)"()
+    {
+        setup:
+        this.resolver.setSearchPaths( '/lib', '/other' )
+
+        mockExists( "/lib/a/b" )
+        mockExists( "/other/a/c" )
+
+        expect:
+        def result = resolve( from, path )
+        def found = result.found
+        to != null ? ( found.toString() == to ) : ( found == null )
+        scanned == result.scanned.collect { it.toString() }
+
+        where:
+        from | path  | to           | scanned
+        '/'  | 'a/b' | '/lib/a/b'   | ['/lib/a/b']
+        '/'  | 'a/c' | '/other/a/c' | ['/lib/a/c', '/lib/a/c.js', '/lib/a/c.json', '/lib/a/c/index.js', '/lib/a/c/index.json', '/other/a/c']
     }
 }
