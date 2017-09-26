@@ -1,7 +1,6 @@
 package io.purplejs.core.internal.nashorn
 
 import jdk.nashorn.api.scripting.ScriptObjectMirror
-import jdk.nashorn.internal.runtime.ScriptRuntime
 import spock.lang.Specification
 
 import javax.script.ScriptEngine
@@ -58,7 +57,6 @@ class NashornHelperTest
         expected | value
         true     | NashornHelper.isUndefined( null )
         false    | NashornHelper.isUndefined( 11 )
-        true     | NashornHelper.isUndefined( ScriptRuntime.UNDEFINED )
     }
 
     def "isDateType"()

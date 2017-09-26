@@ -4,7 +4,6 @@ import io.purplejs.core.internal.nashorn.NashornRuntime
 import io.purplejs.core.internal.nashorn.NashornRuntimeFactory
 import io.purplejs.core.value.ScriptValue
 import jdk.nashorn.api.scripting.ScriptObjectMirror
-import jdk.nashorn.internal.runtime.ScriptRuntime
 import spock.lang.Specification
 
 import javax.script.ScriptEngine
@@ -55,15 +54,6 @@ class ScriptValueFactoryImplTest
         assertNonArray( value );
         assertNonObject( value );
         assertNonFunction( value );
-    }
-
-    def "newValue of undefined"()
-    {
-        when:
-        def value = this.factory.newValue( ScriptRuntime.UNDEFINED );
-
-        then:
-        value == null;
     }
 
     def "newValue from function"()

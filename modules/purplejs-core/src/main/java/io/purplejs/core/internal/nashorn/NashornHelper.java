@@ -3,13 +3,12 @@ package io.purplejs.core.internal.nashorn;
 import java.util.Date;
 
 import jdk.nashorn.api.scripting.ScriptObjectMirror;
-import jdk.nashorn.internal.runtime.ScriptRuntime;
 
 public final class NashornHelper
 {
     public static boolean isUndefined( final Object value )
     {
-        return ( value == null ) || ( value == ScriptRuntime.UNDEFINED );
+        return ( value == null ) || ( value.getClass().getSimpleName().equalsIgnoreCase( "undefined" ) );
     }
 
     public static boolean isDateType( final Object value )
