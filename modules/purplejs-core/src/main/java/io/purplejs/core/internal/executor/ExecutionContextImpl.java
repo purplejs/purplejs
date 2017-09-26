@@ -87,7 +87,9 @@ final class ExecutionContextImpl
 
         if ( resolved == null )
         {
-            throw new NotFoundException( "Could not find [" + path + "] using base [" + this.resourceDir + "]" );
+            final NotFoundException ex = new NotFoundException( "Could not find [" + path + "] using base [" + this.resourceDir + "]" );
+            ex.setScanned( context.getScanned() );
+            throw ex;
         }
 
         return this.executor.executeRequire( resolved );

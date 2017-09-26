@@ -1,5 +1,9 @@
 package io.purplejs.core.exception;
 
+import java.util.List;
+
+import com.google.common.collect.Lists;
+
 import io.purplejs.core.resource.ResourcePath;
 
 /**
@@ -8,6 +12,8 @@ import io.purplejs.core.resource.ResourcePath;
 public final class NotFoundException
     extends RuntimeException
 {
+    private final List<ResourcePath> scanned;
+
     /**
      * Constructs the exception with a message.
      *
@@ -16,6 +22,7 @@ public final class NotFoundException
     public NotFoundException( final String message )
     {
         super( message );
+        this.scanned = Lists.newArrayList();
     }
 
     /**
@@ -26,5 +33,26 @@ public final class NotFoundException
     public NotFoundException( final ResourcePath path )
     {
         this( String.format( "Resource [%s] not found", path.toString() ) );
+    }
+
+    /**
+     * Return resources that has been scanned.
+     *
+     * @return resources scanned.
+     */
+    public List<ResourcePath> getScanned()
+    {
+        return this.scanned;
+    }
+
+    /**
+     * Set scanned resources.
+     *
+     * @param scanned List of scanned resources.
+     */
+    public void setScanned( final List<ResourcePath> scanned )
+    {
+        this.scanned.clear();
+        this.scanned.addAll( scanned );
     }
 }
