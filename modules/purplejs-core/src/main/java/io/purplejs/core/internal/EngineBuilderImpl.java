@@ -20,6 +20,8 @@ import io.purplejs.core.internal.util.RequirementChecker;
 import io.purplejs.core.registry.RegistryBuilder;
 import io.purplejs.core.resource.ResourceLoader;
 import io.purplejs.core.resource.ResourceLoaderBuilder;
+import io.purplejs.core.resource.ResourceResolver;
+import io.purplejs.core.resource.ResourceResolverBuilder;
 import io.purplejs.core.settings.Settings;
 import io.purplejs.core.settings.SettingsBuilder;
 
@@ -29,6 +31,8 @@ public final class EngineBuilderImpl
     private ClassLoader classLoader;
 
     private ResourceLoader resourceLoader;
+
+    private ResourceResolver resourceResolver;
 
     private final List<File> devSourceDirs;
 
@@ -73,6 +77,13 @@ public final class EngineBuilderImpl
     public EngineBuilder resourceLoader( final ResourceLoader resourceLoader )
     {
         this.resourceLoader = resourceLoader;
+        return this;
+    }
+
+    @Override
+    public EngineBuilder resourceResolver( final ResourceResolver resourceResolver )
+    {
+        this.resourceResolver = resourceResolver;
         return this;
     }
 
@@ -137,6 +148,11 @@ public final class EngineBuilderImpl
             this.resourceLoader = ResourceLoaderBuilder.newBuilder().from( this.classLoader ).build();
         }
 
+        if ( this.resourceResolver == null )
+        {
+            this.resourceResolver = ResourceResolverBuilder.newBuilder().build();
+        }
+
         if ( this.settings == null )
         {
             this.settings = SettingsBuilder.newBuilder().build();
@@ -166,6 +182,7 @@ public final class EngineBuilderImpl
         final EngineImpl engine = new EngineImpl();
         engine.classLoader = this.classLoader;
         engine.resourceLoader = createResourceLoader();
+        engine.resourceResolver = this.resourceResolver;
         engine.config = ImmutableMap.copyOf( this.config );
         engine.globalVariables = ImmutableMap.copyOf( this.globalVariables );
         engine.devSourceDirs = ImmutableList.copyOf( this.devSourceDirs );

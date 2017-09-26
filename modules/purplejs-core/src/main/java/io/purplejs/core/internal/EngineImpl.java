@@ -8,13 +8,13 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 
 import io.purplejs.core.Engine;
-import io.purplejs.core.RunMode;
 import io.purplejs.core.internal.executor.ScriptExecutorImpl;
 import io.purplejs.core.internal.nashorn.NashornRuntime;
 import io.purplejs.core.internal.nashorn.NashornRuntimeFactory;
 import io.purplejs.core.registry.Registry;
 import io.purplejs.core.resource.ResourceLoader;
 import io.purplejs.core.resource.ResourcePath;
+import io.purplejs.core.resource.ResourceResolver;
 import io.purplejs.core.settings.Settings;
 import io.purplejs.core.value.ScriptExports;
 
@@ -22,6 +22,8 @@ final class EngineImpl
     implements Engine
 {
     ResourceLoader resourceLoader;
+
+    ResourceResolver resourceResolver;
 
     ClassLoader classLoader;
 
@@ -48,6 +50,12 @@ final class EngineImpl
     public ResourceLoader getResourceLoader()
     {
         return this.resourceLoader;
+    }
+
+    @Override
+    public ResourceResolver getResourceResolver()
+    {
+        return this.resourceResolver;
     }
 
     @Override

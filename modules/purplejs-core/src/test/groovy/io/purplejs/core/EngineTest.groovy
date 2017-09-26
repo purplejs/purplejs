@@ -1,6 +1,7 @@
 package io.purplejs.core
 
 import io.purplejs.core.resource.ResourceLoader
+import io.purplejs.core.resource.ResourceResolver
 import io.purplejs.core.settings.SettingsBuilder
 import org.junit.Rule
 import org.junit.rules.TemporaryFolder
@@ -12,7 +13,7 @@ class EngineTest
     extends Specification
 {
     @Rule
-    def TemporaryFolder temporaryFolder = new TemporaryFolder();
+    TemporaryFolder temporaryFolder = new TemporaryFolder();
 
     def "getSettings"()
     {
@@ -155,5 +156,20 @@ class EngineTest
         then:
         engine != null;
         engine.resourceLoader == loader;
+    }
+
+    def "getResourceResolver"()
+    {
+        setup:
+        def resolver = Mock( ResourceResolver.class )
+
+        when:
+        def engine = EngineBuilder.newBuilder().
+            resourceResolver( resolver ).
+            build()
+
+        then:
+        engine != null
+        engine.resourceResolver == resolver
     }
 }

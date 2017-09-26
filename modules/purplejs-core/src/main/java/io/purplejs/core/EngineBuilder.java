@@ -4,6 +4,7 @@ import java.io.File;
 
 import io.purplejs.core.internal.EngineBuilderImpl;
 import io.purplejs.core.resource.ResourceLoader;
+import io.purplejs.core.resource.ResourceResolver;
 import io.purplejs.core.settings.Settings;
 
 /**
@@ -38,6 +39,14 @@ public interface EngineBuilder
      * @return the instance of this builder.
      */
     EngineBuilder resourceLoader( ResourceLoader resourceLoader );
+
+    /**
+     * Sets the resource-resolver to use. If not set, it will use a default resolver.
+     *
+     * @param resourceResolver resource-resolver to use.
+     * @return the instance of this builder.
+     */
+    EngineBuilder resourceResolver( ResourceResolver resourceResolver );
 
     /**
      * Adds a new engine-module to do more configurations.

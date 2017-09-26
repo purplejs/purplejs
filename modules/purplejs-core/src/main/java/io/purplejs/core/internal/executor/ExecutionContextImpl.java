@@ -5,11 +5,12 @@ import java.util.function.Supplier;
 import io.purplejs.core.Engine;
 import io.purplejs.core.Environment;
 import io.purplejs.core.exception.NotFoundException;
-import io.purplejs.core.internal.resolver.ResourcePathResolver;
-import io.purplejs.core.internal.resolver.ResourcePathResult;
+import io.purplejs.core.internal.resolver.ResourceResolverContextImpl;
 import io.purplejs.core.internal.util.JsObjectConverter;
 import io.purplejs.core.registry.Registry;
 import io.purplejs.core.resource.ResourcePath;
+import io.purplejs.core.resource.ResourceResolverContext;
+import io.purplejs.core.resource.ResourceResolverMode;
 import io.purplejs.core.value.ScriptValue;
 
 final class ExecutionContextImpl
@@ -18,10 +19,6 @@ final class ExecutionContextImpl
     private final ScriptExecutor executor;
 
     private final ResourcePath resource;
-
-    private final ResourcePathResolver requirePathResolver;
-
-    private final ResourcePathResolver standardPathResolver;
 
     private final Environment environment;
 
@@ -38,9 +35,6 @@ final class ExecutionContextImpl
         this.environment = this.executor.getEnvironment();
         this.converter = new JsObjectConverter( this.executor.getNashornRuntime() );
         this.resourceDir = this.resource.resolve( ".." );
-
-        this.requirePathResolver = this.executor.getRequirePathResolver();
-        this.standardPathResolver = this.executor.getStandardPathResolver();
         this.logger = new ScriptLoggerImpl( this.resource );
     }
 
@@ -80,11 +74,16 @@ final class ExecutionContextImpl
         this.executor.registerDisposer( this.resource, runnable );
     }
 
+    private ResourceResolverContext newResolverContext( final ResourceResolverMode mode )
+    {
+        return new ResourceResolverContextImpl( mode, this.environment.getResourceLoader(), this.resourceDir );
+    }
+
     @Override
     public Object require( final String path )
     {
-        final ResourcePathResult result = this.requirePathResolver.resolve( this.resourceDir, path );
-        final ResourcePath resolved = result.get();
+        final ResourceResolverContext context = newResolverContext( ResourceResolverMode.REQUIRE );
+        final ResourcePath resolved = this.environment.getResourceResolver().resolve( context, path );
 
         if ( resolved == null )
         {
@@ -97,7 +96,8 @@ final class ExecutionContextImpl
     @Override
     public ResourcePath resolve( final String path )
     {
-        return this.standardPathResolver.resolve( this.resourceDir, path ).get();
+        final ResourceResolverContext context = newResolverContext( ResourceResolverMode.SIMPLE );
+        return this.environment.getResourceResolver().resolve( context, path );
     }
 
     @Override

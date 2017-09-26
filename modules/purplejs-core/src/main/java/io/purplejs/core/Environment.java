@@ -5,6 +5,7 @@ import java.util.List;
 
 import io.purplejs.core.registry.Registry;
 import io.purplejs.core.resource.ResourceLoader;
+import io.purplejs.core.resource.ResourceResolver;
 import io.purplejs.core.settings.Settings;
 
 /**
@@ -20,6 +21,13 @@ public interface Environment
      * @return the resource-loader instance.
      */
     ResourceLoader getResourceLoader();
+
+    /**
+     * Returns the configured resource-resolver instance.
+     *
+     * @return the resource-resolver instance.
+     */
+    ResourceResolver getResourceResolver();
 
     /**
      * Returns the configured classloader.

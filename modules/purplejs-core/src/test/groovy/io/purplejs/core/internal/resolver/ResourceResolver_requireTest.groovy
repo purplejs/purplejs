@@ -1,35 +1,19 @@
 package io.purplejs.core.internal.resolver
 
-import io.purplejs.core.resource.ResourceLoader
-import io.purplejs.core.resource.ResourcePath
-import spock.lang.Specification
+import io.purplejs.core.resource.ResourceResolverBuilder
+import io.purplejs.core.resource.ResourceResolverMode
 
-class RequirePathResolverTest
-    extends Specification
+class ResourceResolver_requireTest
+    extends AbstractResourceResolverTest
 {
-    private ResourceLoader loader
-
-    private RequirePathResolver resolver
-
-    def setup()
+    @Override
+    protected void configure()
     {
-        this.loader = Mock( ResourceLoader.class )
-        this.resolver = new RequirePathResolver( this.loader )
-    }
-
-    private static ResourcePath toPath( final String path )
-    {
-        return ResourcePath.from( path )
-    }
-
-    private void mockExists( final String path )
-    {
-        this.loader.exists( toPath( path ) ) >> true
-    }
-
-    private ResourcePathResult resolve( final String dir, final String path )
-    {
-        return this.resolver.resolve( toPath( dir ), path )
+        this.mode = ResourceResolverMode.REQUIRE
+        this.resolver = ResourceResolverBuilder.newBuilder().
+            rootPath( "/" ).
+            searchPath( "/lib" ).
+            build()
     }
 
     def "resolve file"()
@@ -42,9 +26,8 @@ class RequirePathResolverTest
 
         expect:
         def result = resolve( from, path )
-        def found = result.found
-        to != null ? ( found.toString() == to ) : ( found == null )
-        scanned == result.scanned.collect { it.toString() }
+        to != null ? ( result.toString() == to ) : ( result == null )
+        scanned == this.context.scanned.collect { it.toString() }
 
         where:
         from     | path       | to           | scanned
@@ -55,6 +38,7 @@ class RequirePathResolverTest
             ['/a/b/d.txt', '/a/b/d.txt.js', '/a/b/d.txt.json', '/a/b/d.txt/index.js', '/a/b/d.txt/index.json']
     }
 
+
     def "resolve file js"()
     {
         setup:
@@ -63,11 +47,10 @@ class RequirePathResolverTest
 
         when:
         def result = resolve( '/a/b', './c' )
-        def path = result.found
-        def scanned = result.scanned.collect { it.toString() }
+        def scanned = this.context.scanned.collect { it.toString() }
 
         then:
-        path.toString() == '/a/b/c.js'
+        result.toString() == '/a/b/c.js'
         scanned == ['/a/b/c', '/a/b/c.js']
     }
 
@@ -78,13 +61,13 @@ class RequirePathResolverTest
 
         when:
         def result = resolve( '/a/b', './c' )
-        def path = result.found
-        def scanned = result.scanned.collect { it.toString() }
+        def scanned = this.context.scanned.collect { it.toString() }
 
         then:
-        path.toString() == '/a/b/c.json'
+        result.toString() == '/a/b/c.json'
         scanned == ['/a/b/c', '/a/b/c.js', '/a/b/c.json']
     }
+
 
     def "resolve dir js"()
     {
@@ -94,11 +77,10 @@ class RequirePathResolverTest
 
         when:
         def result = resolve( '/a/b', './c' )
-        def path = result.found
-        def scanned = result.scanned.collect { it.toString() }
+        def scanned = this.context.scanned.collect { it.toString() }
 
         then:
-        path.toString() == '/a/b/c/index.js'
+        result.toString() == '/a/b/c/index.js'
         scanned == ['/a/b/c', '/a/b/c.js', '/a/b/c.json', '/a/b/c/index.js']
     }
 
@@ -109,13 +91,13 @@ class RequirePathResolverTest
 
         when:
         def result = resolve( '/a/b', './c' )
-        def path = result.found
-        def scanned = result.scanned.collect { it.toString() }
+        def scanned = this.context.scanned.collect { it.toString() }
 
         then:
-        path.toString() == '/a/b/c/index.json'
+        result.toString() == '/a/b/c/index.json'
         scanned == ['/a/b/c', '/a/b/c.js', '/a/b/c.json', '/a/b/c/index.js', '/a/b/c/index.json']
     }
+
 
     def "resolve search lib"()
     {
@@ -126,9 +108,8 @@ class RequirePathResolverTest
 
         expect:
         def result = resolve( from, path )
-        def found = result.found
-        to != null ? ( found.toString() == to ) : ( found == null )
-        scanned == result.scanned.collect { it.toString() }
+        to != null ? ( result.toString() == to ) : ( result == null )
+        scanned == this.context.scanned.collect { it.toString() }
 
         where:
         from   | path  | to                    | scanned
@@ -141,16 +122,17 @@ class RequirePathResolverTest
     def "resolve (rootPaths setting)"()
     {
         setup:
-        this.resolver.setRootPaths( '/', '/other' )
+        this.resolver = ResourceResolverBuilder.newBuilder().
+            rootPath( "/", "/other" ).
+            build()
 
         mockExists( "/a/b" )
         mockExists( "/other/a/c" )
 
         expect:
         def result = resolve( from, path )
-        def found = result.found
-        to != null ? ( found.toString() == to ) : ( found == null )
-        scanned == result.scanned.collect { it.toString() }
+        to != null ? ( result.toString() == to ) : ( result == null )
+        scanned == this.context.scanned.collect { it.toString() }
 
         where:
         from | path   | to           | scanned
@@ -161,16 +143,17 @@ class RequirePathResolverTest
     def "resolve (searchPaths setting)"()
     {
         setup:
-        this.resolver.setSearchPaths( '/lib', '/other' )
+        this.resolver = ResourceResolverBuilder.newBuilder().
+            searchPath( "/lib", "/other" ).
+            build()
 
         mockExists( "/lib/a/b" )
         mockExists( "/other/a/c" )
 
         expect:
         def result = resolve( from, path )
-        def found = result.found
-        to != null ? ( found.toString() == to ) : ( found == null )
-        scanned == result.scanned.collect { it.toString() }
+        to != null ? ( result.toString() == to ) : ( result == null )
+        scanned == this.context.scanned.collect { it.toString() }
 
         where:
         from | path  | to           | scanned
