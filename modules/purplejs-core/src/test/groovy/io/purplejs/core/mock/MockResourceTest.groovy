@@ -2,7 +2,7 @@ package io.purplejs.core.mock
 
 import com.google.common.base.Charsets
 import io.purplejs.core.resource.ResourcePath
-import io.purplejs.core.util.IOHelper
+import io.purplejs.core.internal.util.IOHelper
 import spock.lang.Specification
 
 class MockResourceTest

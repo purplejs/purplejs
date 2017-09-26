@@ -1,7 +1,7 @@
 package io.purplejs.core.internal.resource
 
 import io.purplejs.core.resource.ResourcePath
-import io.purplejs.core.util.IOHelper
+import io.purplejs.core.internal.util.IOHelper
 
 class FileResourceTest
     extends ResourceTestSupport

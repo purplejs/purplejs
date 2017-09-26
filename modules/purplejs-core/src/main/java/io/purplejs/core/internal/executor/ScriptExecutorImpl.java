@@ -20,7 +20,7 @@ import io.purplejs.core.internal.value.ScriptValueFactory;
 import io.purplejs.core.internal.value.ScriptValueFactoryImpl;
 import io.purplejs.core.resource.Resource;
 import io.purplejs.core.resource.ResourcePath;
-import io.purplejs.core.util.IOHelper;
+import io.purplejs.core.internal.util.IOHelper;
 import io.purplejs.core.value.ScriptExports;
 import io.purplejs.core.value.ScriptValue;
 import jdk.nashorn.api.scripting.ScriptObjectMirror;
