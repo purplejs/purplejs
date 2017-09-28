@@ -29,6 +29,8 @@ public interface Environment
      */
     ResourceResolver getResourceResolver();
 
+    // BeanInjector getBeanInjector();
+
     /**
      * Returns the configured classloader.
      *

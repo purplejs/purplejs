@@ -48,6 +48,8 @@ public interface EngineBuilder
      */
     EngineBuilder resourceResolver( ResourceResolver resourceResolver );
 
+    // EngineBuilder beanInjector(BeanInjector beanInjector)
+
     /**
      * Adds a new engine-module to do more configurations.
      *
