@@ -3,6 +3,7 @@ package io.purplejs.core;
 import java.io.File;
 import java.util.List;
 
+import io.purplejs.core.inject.BeanInjector;
 import io.purplejs.core.registry.Registry;
 import io.purplejs.core.resource.ResourceLoader;
 import io.purplejs.core.resource.ResourceResolver;
@@ -29,7 +30,12 @@ public interface Environment
      */
     ResourceResolver getResourceResolver();
 
-    // BeanInjector getBeanInjector();
+    /**
+     * Returns the configured bean-injector instance.
+     *
+     * @return the bean-injector instance.
+     */
+    BeanInjector getBeanInjector();
 
     /**
      * Returns the configured classloader.
