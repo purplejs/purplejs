@@ -8,6 +8,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 
 import io.purplejs.core.Engine;
+import io.purplejs.core.inject.BeanInjector;
 import io.purplejs.core.internal.executor.ScriptExecutorImpl;
 import io.purplejs.core.internal.nashorn.NashornRuntime;
 import io.purplejs.core.internal.nashorn.NashornRuntimeFactory;
@@ -24,6 +25,8 @@ final class EngineImpl
     ResourceLoader resourceLoader;
 
     ResourceResolver resourceResolver;
+
+    BeanInjector beanInjector;
 
     ClassLoader classLoader;
 
@@ -56,6 +59,12 @@ final class EngineImpl
     public ResourceResolver getResourceResolver()
     {
         return this.resourceResolver;
+    }
+
+    @Override
+    public BeanInjector getBeanInjector()
+    {
+        return this.beanInjector;
     }
 
     @Override

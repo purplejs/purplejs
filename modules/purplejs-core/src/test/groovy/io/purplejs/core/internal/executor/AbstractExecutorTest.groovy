@@ -1,6 +1,7 @@
 package io.purplejs.core.internal.executor
 
 import io.purplejs.core.Environment
+import io.purplejs.core.internal.inject.DefaultBeanInjector
 import io.purplejs.core.internal.nashorn.NashornRuntimeFactory
 import io.purplejs.core.mock.MockResource
 import io.purplejs.core.mock.MockResourceLoader
@@ -24,6 +25,7 @@ abstract class AbstractExecutorTest
         this.environment.getResourceLoader() >> this.resources;
         this.environment.getClassLoader() >> getClass().getClassLoader();
         this.environment.resourceResolver >> ResourceResolverBuilder.newBuilder().build()
+        this.environment.beanInjector >> new DefaultBeanInjector()
 
         this.executor = new ScriptExecutorImpl();
         this.executor.setNashornRuntime( new NashornRuntimeFactory().newRuntime( getClass().getClassLoader() ) );

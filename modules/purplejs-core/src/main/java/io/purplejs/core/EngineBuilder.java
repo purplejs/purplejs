@@ -2,6 +2,7 @@ package io.purplejs.core;
 
 import java.io.File;
 
+import io.purplejs.core.inject.BeanInjector;
 import io.purplejs.core.internal.EngineBuilderImpl;
 import io.purplejs.core.resource.ResourceLoader;
 import io.purplejs.core.resource.ResourceResolver;
@@ -48,7 +49,13 @@ public interface EngineBuilder
      */
     EngineBuilder resourceResolver( ResourceResolver resourceResolver );
 
-    // EngineBuilder beanInjector(BeanInjector beanInjector)
+    /**
+     * Sets the bean-injector to use. If not set, it will use a default injector.
+     *
+     * @param beanInjector bean-injector to use.
+     * @return the instance of this builder.
+     */
+    EngineBuilder beanInjector( BeanInjector beanInjector );
 
     /**
      * Adds a new engine-module to do more configurations.

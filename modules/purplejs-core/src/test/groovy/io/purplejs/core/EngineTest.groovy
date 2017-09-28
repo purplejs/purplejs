@@ -1,5 +1,6 @@
 package io.purplejs.core
 
+import io.purplejs.core.inject.BeanInjector
 import io.purplejs.core.resource.ResourceLoader
 import io.purplejs.core.resource.ResourceResolver
 import io.purplejs.core.settings.SettingsBuilder
@@ -171,5 +172,20 @@ class EngineTest
         then:
         engine != null
         engine.resourceResolver == resolver
+    }
+
+    def "getBeanInjector"()
+    {
+        setup:
+        def injector = Mock( BeanInjector.class )
+
+        when:
+        def engine = EngineBuilder.newBuilder().
+            beanInjector( injector ).
+            build()
+
+        then:
+        engine != null
+        engine.beanInjector == injector
     }
 }

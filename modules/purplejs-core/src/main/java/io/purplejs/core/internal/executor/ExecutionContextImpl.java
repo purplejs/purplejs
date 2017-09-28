@@ -5,6 +5,8 @@ import java.util.function.Supplier;
 import io.purplejs.core.Engine;
 import io.purplejs.core.Environment;
 import io.purplejs.core.exception.NotFoundException;
+import io.purplejs.core.inject.BeanInjector;
+import io.purplejs.core.internal.inject.InjectorContextImpl;
 import io.purplejs.core.internal.resolver.ResourceResolverContextImpl;
 import io.purplejs.core.internal.util.JsObjectConverter;
 import io.purplejs.core.registry.Registry;
@@ -152,6 +154,14 @@ final class ExecutionContextImpl
         throws Exception
     {
         final Class<?> clz = forName( type );
-        return clz.newInstance();
+        return inject( clz.newInstance() );
+    }
+
+    private Object inject( final Object instance )
+    {
+        final BeanInjector injector = this.getEnvironment().getBeanInjector();
+        final InjectorContextImpl context = new InjectorContextImpl( this.getEngine(), this.resource, instance );
+        injector.inject( context );
+        return context.getInstance();
     }
 }

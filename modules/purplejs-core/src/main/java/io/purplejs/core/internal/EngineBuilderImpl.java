@@ -16,6 +16,8 @@ import io.purplejs.core.EngineBinder;
 import io.purplejs.core.EngineBuilder;
 import io.purplejs.core.EngineModule;
 import io.purplejs.core.RunMode;
+import io.purplejs.core.inject.BeanInjector;
+import io.purplejs.core.internal.inject.DefaultBeanInjector;
 import io.purplejs.core.internal.util.RequirementChecker;
 import io.purplejs.core.registry.RegistryBuilder;
 import io.purplejs.core.resource.ResourceLoader;
@@ -46,6 +48,8 @@ public final class EngineBuilderImpl
 
     private Settings settings;
 
+    private BeanInjector beanInjector;
+
     public EngineBuilderImpl()
     {
         RequirementChecker.check();
@@ -54,7 +58,6 @@ public final class EngineBuilderImpl
         this.globalVariables = Maps.newHashMap();
         this.config = Maps.newHashMap();
         this.registryBuilder = RegistryBuilder.newBuilder();
-
         this.module = new CompositeModule();
         this.module.autoLoad();
     }
@@ -84,6 +87,13 @@ public final class EngineBuilderImpl
     public EngineBuilder resourceResolver( final ResourceResolver resourceResolver )
     {
         this.resourceResolver = resourceResolver;
+        return this;
+    }
+
+    @Override
+    public EngineBuilder beanInjector( final BeanInjector beanInjector )
+    {
+        this.beanInjector = beanInjector;
         return this;
     }
 
@@ -157,6 +167,11 @@ public final class EngineBuilderImpl
         {
             this.settings = SettingsBuilder.newBuilder().build();
         }
+
+        if ( this.beanInjector == null )
+        {
+            this.beanInjector = new DefaultBeanInjector();
+        }
     }
 
     private ResourceLoader createResourceLoader()
@@ -188,6 +203,7 @@ public final class EngineBuilderImpl
         engine.devSourceDirs = ImmutableList.copyOf( this.devSourceDirs );
         engine.module = this.module;
         engine.settings = this.settings;
+        engine.beanInjector = this.beanInjector;
 
         this.registryBuilder.instance( Engine.class, engine );
         this.registryBuilder.instance( ResourceLoader.class, this.resourceLoader );
