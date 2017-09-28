@@ -4,5 +4,5 @@ ext {
     versions.junit = '4.12'
     versions.groovy = '2.4.12'
     versions.spock = '1.0-groovy-2.4'
-    versions.guava = '19.0'
+    versions.guava = '18.0'
 }
