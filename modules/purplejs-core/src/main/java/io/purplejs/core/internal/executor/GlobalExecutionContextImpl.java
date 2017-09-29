@@ -3,7 +3,7 @@ package io.purplejs.core.internal.executor;
 import io.purplejs.core.Engine;
 import io.purplejs.core.Environment;
 import io.purplejs.core.internal.util.JsObjectConverter;
-import io.purplejs.core.internal.util.ResourceHelper;
+import io.purplejs.core.resource.ResourceHelper;
 import io.purplejs.core.resource.ResourcePath;
 
 final class GlobalExecutionContextImpl

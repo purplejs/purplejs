@@ -1,24 +1,20 @@
-package io.purplejs.core.internal.util;
+package io.purplejs.core.resource;
 
 import java.util.List;
 
 import com.google.common.collect.Lists;
 
-import io.purplejs.core.resource.ResourcePath;
+import jdk.nashorn.api.scripting.NashornException;
 
-// TODO: Move to more permanent location.
-public class ResourceHelper
+public final class ResourceHelper
 {
-    private static List<ResourcePath> getScriptStack()
+    public static List<ResourcePath> getScriptStack()
     {
         final List<ResourcePath> result = Lists.newArrayList();
-        for ( final StackTraceElement e : Thread.currentThread().getStackTrace() )
+        for ( final StackTraceElement e : NashornException.getScriptFrames( new RuntimeException() ) )
         {
             final String file = e.getFileName();
-            if ( ( file != null ) && file.endsWith( ".js" ) )
-            {
-                result.add( ResourcePath.from( file ) );
-            }
+            result.add( ResourcePath.from( file ) );
         }
 
         return result;
