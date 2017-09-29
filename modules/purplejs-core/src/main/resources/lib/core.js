@@ -84,10 +84,6 @@ exports.getStreamSize = function (stream) {
  * @returns {*} A new stream.
  */
 exports.newStream = function (text) {
-    var clz = Java.type('io.purplejs.core.util.ResourceHelper');
-    log.info(clz.currentScript);
-
-
     return helper.newStream(text);
 };
 

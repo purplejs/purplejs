@@ -75,14 +75,9 @@ public final class CoreLibHelper
         } );
     }
 
-    private ResourcePath toPath( final Object path )
+    public ByteSource loadResource( final ResourceLoader loader, final String path )
     {
-        return path instanceof ResourcePath ? (ResourcePath) path : ResourcePath.from( path.toString() );
-    }
-
-    public ByteSource loadResource( final ResourceLoader loader, final Object path )
-    {
-        final Resource resource = loader.loadOrNull( toPath( path ) );
+        final Resource resource = loader.loadOrNull( ResourcePath.from( path ) );
         return resource != null ? resource.getBytes() : null;
     }
 }

@@ -23,3 +23,7 @@ exports.getEngine = function () {
 exports.disposer = function (disposer) {
     context.disposer(disposer);
 };
+
+exports.resolve = function (path) {
+    return context.getCallingScript().getParent().resolve(path).toString();
+};

@@ -1,4 +1,4 @@
-package io.purplejs.core.util;
+package io.purplejs.core.internal.util;
 
 import java.util.List;
 
@@ -9,7 +9,7 @@ import io.purplejs.core.resource.ResourcePath;
 // TODO: Move to more permanent location.
 public class ResourceHelper
 {
-    public static List<ResourcePath> getScriptStack()
+    private static List<ResourcePath> getScriptStack()
     {
         final List<ResourcePath> result = Lists.newArrayList();
         for ( final StackTraceElement e : Thread.currentThread().getStackTrace() )

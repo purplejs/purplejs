@@ -2,6 +2,7 @@ package io.purplejs.core.internal.executor;
 
 import io.purplejs.core.Engine;
 import io.purplejs.core.Environment;
+import io.purplejs.core.resource.ResourcePath;
 
 /**
  * This object is available as a global javascript object (__ - double underscore).
@@ -54,4 +55,8 @@ public interface GlobalExecutionContext
      */
     Object newBean( String type )
         throws Exception;
+
+    ResourcePath getCurrentScript();
+
+    ResourcePath getCallingScript();
 }

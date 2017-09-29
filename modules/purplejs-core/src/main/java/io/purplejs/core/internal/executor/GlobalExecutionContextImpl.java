@@ -3,6 +3,7 @@ package io.purplejs.core.internal.executor;
 import io.purplejs.core.Engine;
 import io.purplejs.core.Environment;
 import io.purplejs.core.internal.util.JsObjectConverter;
+import io.purplejs.core.internal.util.ResourceHelper;
 import io.purplejs.core.resource.ResourcePath;
 
 final class GlobalExecutionContextImpl
@@ -63,5 +64,17 @@ final class GlobalExecutionContextImpl
     {
         final Class<?> clz = forName( type );
         return clz.newInstance();
+    }
+
+    @Override
+    public ResourcePath getCurrentScript()
+    {
+        return ResourceHelper.getCurrentScript();
+    }
+
+    @Override
+    public ResourcePath getCallingScript()
+    {
+        return ResourceHelper.getCallingScript();
     }
 }

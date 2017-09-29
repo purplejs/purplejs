@@ -28,7 +28,7 @@ import jdk.nashorn.api.scripting.ScriptObjectMirror;
 public final class ScriptExecutorImpl
     implements ScriptExecutor
 {
-    private final static String PRE_SCRIPT = "(function(require, resolve, log, exports, module) { ";
+    private final static String PRE_SCRIPT = "(function(require, log, exports, module) { ";
 
     private final static String POST_SCRIPT = "\n});";
 
@@ -200,9 +200,8 @@ public final class ScriptExecutorImpl
 
             final ExecutionContextImpl context = new ExecutionContextImpl( this, script );
             final Function<String, Object> requireFunc = context::require;
-            final Function<String, ResourcePath> resolveFunc = context::resolve;
 
-            func.call( exports, requireFunc, resolveFunc, context.getLogger(), exports, module );
+            func.call( exports, requireFunc, context.getLogger(), exports, module );
             return module.get( "exports" );
         }
         catch ( final Exception e )

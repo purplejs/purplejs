@@ -2,7 +2,6 @@ package io.purplejs.core.internal.lib
 
 import com.google.common.base.Charsets
 import io.purplejs.core.mock.MockResourceLoader
-import io.purplejs.core.resource.ResourcePath
 import spock.lang.Specification
 
 import java.util.function.Consumer
@@ -136,19 +135,16 @@ class CoreLibHelperTest
 
         when:
         def stream1 = this.helper.loadResource( this.loader, '/a/b.txt' );
-        def stream2 = this.helper.loadResource( this.loader, ResourcePath.from( '/a/b.txt' ) );
 
         then:
         stream1 != null;
         stream1.asCharSource( Charsets.UTF_8 ).read() == 'hello'
-        stream2 != null;
-        stream2.asCharSource( Charsets.UTF_8 ).read() == 'hello'
     }
 
     def "loadResource not found"()
     {
         when:
-        def stream = this.helper.loadResource( this.loader, ResourcePath.from( '/a/b.txt' ) );
+        def stream = this.helper.loadResource( this.loader, '/a/b.txt' );
 
         then:
         stream == null;
