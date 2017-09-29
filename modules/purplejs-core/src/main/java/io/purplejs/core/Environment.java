@@ -4,8 +4,8 @@ import java.io.File;
 import java.util.List;
 
 import io.purplejs.core.registry.Registry;
-import io.purplejs.core.resource.ResourceLoader;
 import io.purplejs.core.require.RequireResolver;
+import io.purplejs.core.resource.ResourceLoader;
 import io.purplejs.core.settings.Settings;
 
 /**
@@ -28,8 +28,6 @@ public interface Environment
      * @return the require-resolver instance.
      */
     RequireResolver getRequireResolver();
-
-    // BeanInjector getBeanInjector();
 
     /**
      * Returns the configured classloader.
