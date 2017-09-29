@@ -13,10 +13,12 @@ class MockScriptTest
         ''' );
 
         file( '/test.js', '''
+            var system = require('/lib/system');
             var lib = require('./library');
+
             t.assertEquals('Hello World', lib.hello());
 
-            __.registerMock('/library.js', {
+            system.registerMock('/library.js', {
                 hello: function () {
                     return 'Hello Mock';
                 }

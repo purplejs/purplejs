@@ -7,14 +7,15 @@ class DisposerTest
     {
         setup:
         file( '/test.js', '''
+            var system = require('/lib/system');
             var executed = false;
 
-            __.disposer(function () {
+            system.disposer(function () {
                 executed = true;
             });
 
             t.assertEquals(false, executed);
-            __.engine.dispose();
+            system.getEngine().dispose();
             t.assertEquals(true, executed);
         ''' );
 

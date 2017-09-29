@@ -8,7 +8,7 @@ class CoreLibScriptTest
         setup:
         file( '/test.js', '''
             var core = require('/lib/core');
-
+            
             var stream = core.newStream('hello');
             t.assertEquals(true, stream != undefined);
         ''' );

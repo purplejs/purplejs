@@ -15,12 +15,12 @@ import io.purplejs.core.RunMode;
 import io.purplejs.core.internal.cache.ScriptExportsCache;
 import io.purplejs.core.internal.nashorn.NashornRuntime;
 import io.purplejs.core.internal.util.ErrorHelper;
+import io.purplejs.core.internal.util.IOHelper;
 import io.purplejs.core.internal.value.ScriptExportsImpl;
 import io.purplejs.core.internal.value.ScriptValueFactory;
 import io.purplejs.core.internal.value.ScriptValueFactoryImpl;
 import io.purplejs.core.resource.Resource;
 import io.purplejs.core.resource.ResourcePath;
-import io.purplejs.core.internal.util.IOHelper;
 import io.purplejs.core.value.ScriptExports;
 import io.purplejs.core.value.ScriptValue;
 import jdk.nashorn.api.scripting.ScriptObjectMirror;
@@ -28,7 +28,7 @@ import jdk.nashorn.api.scripting.ScriptObjectMirror;
 public final class ScriptExecutorImpl
     implements ScriptExecutor
 {
-    private final static String PRE_SCRIPT = "(function(__, require, resolve, log, exports, module) { ";
+    private final static String PRE_SCRIPT = "(function(require, resolve, log, exports, module) { ";
 
     private final static String POST_SCRIPT = "\n});";
 
@@ -78,6 +78,8 @@ public final class ScriptExecutorImpl
 
         this.engine = this.nashornRuntime.getEngine();
         this.engine.setBindings( this.global, ScriptContext.GLOBAL_SCOPE );
+
+        this.global.put( "__executionContext", new GlobalExecutionContextImpl( this ) );
     }
 
     public void addGlobalVariables( final Map<String, Object> variables )
@@ -200,7 +202,7 @@ public final class ScriptExecutorImpl
             final Function<String, Object> requireFunc = context::require;
             final Function<String, ResourcePath> resolveFunc = context::resolve;
 
-            func.call( exports, context, requireFunc, resolveFunc, context.getLogger(), exports, module );
+            func.call( exports, requireFunc, resolveFunc, context.getLogger(), exports, module );
             return module.get( "exports" );
         }
         catch ( final Exception e )
