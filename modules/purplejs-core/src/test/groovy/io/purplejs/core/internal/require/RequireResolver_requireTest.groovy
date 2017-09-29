@@ -1,16 +1,14 @@
-package io.purplejs.core.internal.resolver
+package io.purplejs.core.internal.require
 
-import io.purplejs.core.resource.ResourceResolverBuilder
-import io.purplejs.core.resource.ResourceResolverMode
+import io.purplejs.core.require.RequireResolverBuilder
 
-class ResourceResolver_requireTest
-    extends AbstractResourceResolverTest
+class RequireResolver_requireTest
+    extends AbstractRequireResolverTest
 {
     @Override
     protected void configure()
     {
-        this.mode = ResourceResolverMode.REQUIRE
-        this.resolver = ResourceResolverBuilder.newBuilder().
+        this.resolver = RequireResolverBuilder.newBuilder().
             rootPath( "/" ).
             searchPath( "/lib" ).
             build()
@@ -122,7 +120,7 @@ class ResourceResolver_requireTest
     def "resolve (rootPaths setting)"()
     {
         setup:
-        this.resolver = ResourceResolverBuilder.newBuilder().
+        this.resolver = RequireResolverBuilder.newBuilder().
             rootPath( "/", "/other" ).
             build()
 
@@ -143,7 +141,7 @@ class ResourceResolver_requireTest
     def "resolve (searchPaths setting)"()
     {
         setup:
-        this.resolver = ResourceResolverBuilder.newBuilder().
+        this.resolver = RequireResolverBuilder.newBuilder().
             searchPath( "/lib", "/other" ).
             build()
 

@@ -1,7 +1,7 @@
 package io.purplejs.core
 
+import io.purplejs.core.require.RequireResolver
 import io.purplejs.core.resource.ResourceLoader
-import io.purplejs.core.resource.ResourceResolver
 import io.purplejs.core.settings.SettingsBuilder
 import org.junit.Rule
 import org.junit.rules.TemporaryFolder
@@ -158,18 +158,18 @@ class EngineTest
         engine.resourceLoader == loader;
     }
 
-    def "getResourceResolver"()
+    def "getRequireResolver"()
     {
         setup:
-        def resolver = Mock( ResourceResolver.class )
+        def resolver = Mock( RequireResolver.class )
 
         when:
         def engine = EngineBuilder.newBuilder().
-            resourceResolver( resolver ).
+            requireResolver( resolver ).
             build()
 
         then:
         engine != null
-        engine.resourceResolver == resolver
+        engine.requireResolver == resolver
     }
 }

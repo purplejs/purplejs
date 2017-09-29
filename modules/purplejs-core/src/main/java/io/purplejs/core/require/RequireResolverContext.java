@@ -1,11 +1,11 @@
-package io.purplejs.core.resource;
+package io.purplejs.core.require;
 
 import java.util.List;
 
-public interface ResourceResolverContext
-{
-    ResourceResolverMode getMode();
+import io.purplejs.core.resource.ResourcePath;
 
+public interface RequireResolverContext
+{
     ResourcePath getBase();
 
     List<ResourcePath> getScanned();

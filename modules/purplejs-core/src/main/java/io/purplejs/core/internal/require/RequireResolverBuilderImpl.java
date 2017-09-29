@@ -1,35 +1,35 @@
-package io.purplejs.core.internal.resolver;
+package io.purplejs.core.internal.require;
 
 import java.util.List;
 
 import com.google.common.collect.Lists;
 
 import io.purplejs.core.resource.ResourcePath;
-import io.purplejs.core.resource.ResourceResolver;
-import io.purplejs.core.resource.ResourceResolverBuilder;
+import io.purplejs.core.require.RequireResolver;
+import io.purplejs.core.require.RequireResolverBuilder;
 
-public final class ResourceResolverBuilderImpl
-    implements ResourceResolverBuilder
+public final class RequireResolverBuilderImpl
+    implements RequireResolverBuilder
 {
     private final List<ResourcePath> rootPaths;
 
     private final List<ResourcePath> searchPaths;
 
-    public ResourceResolverBuilderImpl()
+    public RequireResolverBuilderImpl()
     {
         this.rootPaths = Lists.newArrayList();
         this.searchPaths = Lists.newArrayList();
     }
 
     @Override
-    public ResourceResolverBuilder rootPath( final String... path )
+    public RequireResolverBuilder rootPath( final String... path )
     {
         addPaths( this.rootPaths, path );
         return this;
     }
 
     @Override
-    public ResourceResolverBuilder searchPath( final String... path )
+    public RequireResolverBuilder searchPath( final String... path )
     {
         addPaths( this.searchPaths, path );
         return this;
@@ -46,7 +46,7 @@ public final class ResourceResolverBuilderImpl
     }
 
     @Override
-    public ResourceResolver build()
+    public RequireResolver build()
     {
         if ( this.rootPaths.isEmpty() )
         {
@@ -58,6 +58,6 @@ public final class ResourceResolverBuilderImpl
             this.searchPaths.add( ResourcePath.from( "/lib" ) );
         }
 
-        return new ResourceResolverImpl( this.rootPaths, this.searchPaths );
+        return new RequireResolverImpl( this.rootPaths, this.searchPaths );
     }
 }

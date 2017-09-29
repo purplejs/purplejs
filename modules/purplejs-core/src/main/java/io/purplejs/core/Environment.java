@@ -5,7 +5,7 @@ import java.util.List;
 
 import io.purplejs.core.registry.Registry;
 import io.purplejs.core.resource.ResourceLoader;
-import io.purplejs.core.resource.ResourceResolver;
+import io.purplejs.core.require.RequireResolver;
 import io.purplejs.core.settings.Settings;
 
 /**
@@ -23,11 +23,11 @@ public interface Environment
     ResourceLoader getResourceLoader();
 
     /**
-     * Returns the configured resource-resolver instance.
+     * Returns the configured require-resolver instance.
      *
-     * @return the resource-resolver instance.
+     * @return the require-resolver instance.
      */
-    ResourceResolver getResourceResolver();
+    RequireResolver getRequireResolver();
 
     // BeanInjector getBeanInjector();
 

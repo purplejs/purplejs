@@ -1,37 +1,27 @@
-package io.purplejs.core.internal.resolver;
+package io.purplejs.core.internal.require;
 
 import java.util.List;
 
 import com.google.common.collect.Lists;
 
+import io.purplejs.core.require.RequireResolverContext;
 import io.purplejs.core.resource.ResourceLoader;
 import io.purplejs.core.resource.ResourcePath;
-import io.purplejs.core.resource.ResourceResolverContext;
-import io.purplejs.core.resource.ResourceResolverMode;
 
-public final class ResourceResolverContextImpl
-    implements ResourceResolverContext
+public final class RequireResolverContextImpl
+    implements RequireResolverContext
 {
-    private final ResourceResolverMode mode;
-
     private final ResourceLoader loader;
 
     private final List<ResourcePath> scanned;
 
     private final ResourcePath base;
 
-    public ResourceResolverContextImpl( final ResourceResolverMode mode, final ResourceLoader loader, final ResourcePath base )
+    public RequireResolverContextImpl( final ResourceLoader loader, final ResourcePath base )
     {
-        this.mode = mode;
         this.loader = loader;
         this.scanned = Lists.newArrayList();
         this.base = base;
-    }
-
-    @Override
-    public ResourceResolverMode getMode()
-    {
-        return this.mode;
     }
 
     @Override

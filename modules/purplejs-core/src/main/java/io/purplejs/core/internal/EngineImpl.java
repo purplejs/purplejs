@@ -14,7 +14,7 @@ import io.purplejs.core.internal.nashorn.NashornRuntimeFactory;
 import io.purplejs.core.registry.Registry;
 import io.purplejs.core.resource.ResourceLoader;
 import io.purplejs.core.resource.ResourcePath;
-import io.purplejs.core.resource.ResourceResolver;
+import io.purplejs.core.require.RequireResolver;
 import io.purplejs.core.settings.Settings;
 import io.purplejs.core.value.ScriptExports;
 
@@ -23,7 +23,7 @@ final class EngineImpl
 {
     ResourceLoader resourceLoader;
 
-    ResourceResolver resourceResolver;
+    RequireResolver requireResolver;
 
     ClassLoader classLoader;
 
@@ -53,9 +53,9 @@ final class EngineImpl
     }
 
     @Override
-    public ResourceResolver getResourceResolver()
+    public RequireResolver getRequireResolver()
     {
-        return this.resourceResolver;
+        return this.requireResolver;
     }
 
     @Override

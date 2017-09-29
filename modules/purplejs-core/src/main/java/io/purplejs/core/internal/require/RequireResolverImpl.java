@@ -1,44 +1,28 @@
-package io.purplejs.core.internal.resolver;
+package io.purplejs.core.internal.require;
 
 import java.util.List;
 
 import com.google.common.collect.Lists;
 
+import io.purplejs.core.require.RequireResolver;
+import io.purplejs.core.require.RequireResolverContext;
 import io.purplejs.core.resource.ResourcePath;
-import io.purplejs.core.resource.ResourceResolver;
-import io.purplejs.core.resource.ResourceResolverContext;
-import io.purplejs.core.resource.ResourceResolverMode;
 
-final class ResourceResolverImpl
-    implements ResourceResolver
+final class RequireResolverImpl
+    implements RequireResolver
 {
     private final List<ResourcePath> rootPaths;
 
     private final List<ResourcePath> searchPaths;
 
-    ResourceResolverImpl( final List<ResourcePath> rootPaths, final List<ResourcePath> searchPaths )
+    RequireResolverImpl( final List<ResourcePath> rootPaths, final List<ResourcePath> searchPaths )
     {
         this.rootPaths = Lists.newArrayList( rootPaths );
         this.searchPaths = Lists.newArrayList( searchPaths );
     }
 
     @Override
-    public ResourcePath resolve( final ResourceResolverContext context, final String path )
-    {
-        if ( context.getMode() == ResourceResolverMode.REQUIRE )
-        {
-            return resolveRequire( context, path );
-        }
-
-        return resolveSimple( context, path );
-    }
-
-    private ResourcePath resolveSimple( final ResourceResolverContext context, final String path )
-    {
-        return context.getBase().resolve( path );
-    }
-
-    private ResourcePath resolveRequire( final ResourceResolverContext context, final String path )
+    public ResourcePath resolve( final RequireResolverContext context, final String path )
     {
         if ( path.startsWith( "/" ) )
         {
@@ -54,7 +38,7 @@ final class ResourceResolverImpl
         }
     }
 
-    private ResourcePath resolveRoot( final ResourceResolverContext context, final ResourcePath base, final String path )
+    private ResourcePath resolveRoot( final RequireResolverContext context, final ResourcePath base, final String path )
     {
         for ( final ResourcePath rootPath : this.rootPaths )
         {
@@ -68,7 +52,7 @@ final class ResourceResolverImpl
         return null;
     }
 
-    private ResourcePath resolveFileOrDir( final ResourceResolverContext context, final ResourcePath path )
+    private ResourcePath resolveFileOrDir( final RequireResolverContext context, final ResourcePath path )
     {
         final ResourcePath resolved = resolveAsFile( context, path );
         if ( resolved != null )
@@ -79,12 +63,12 @@ final class ResourceResolverImpl
         return resolveAsDir( context, path );
     }
 
-    private ResourcePath resolveFileOrDir( final ResourceResolverContext context, final ResourcePath dir, final String path )
+    private ResourcePath resolveFileOrDir( final RequireResolverContext context, final ResourcePath dir, final String path )
     {
         return resolveFileOrDir( context, dir.resolve( path ) );
     }
 
-    private ResourcePath resolveAsFile( final ResourceResolverContext context, final ResourcePath file )
+    private ResourcePath resolveAsFile( final RequireResolverContext context, final ResourcePath file )
     {
         if ( context.exists( file ) )
         {
@@ -106,7 +90,7 @@ final class ResourceResolverImpl
         return null;
     }
 
-    private ResourcePath resolveAsDir( final ResourceResolverContext context, final ResourcePath dir )
+    private ResourcePath resolveAsDir( final RequireResolverContext context, final ResourcePath dir )
     {
         final ResourcePath path1 = ResourcePath.from( dir + "/index.js" );
         if ( context.exists( path1 ) )
@@ -123,7 +107,7 @@ final class ResourceResolverImpl
         return null;
     }
 
-    private ResourcePath resolveSearchPath( final ResourceResolverContext context, final String path )
+    private ResourcePath resolveSearchPath( final RequireResolverContext context, final String path )
     {
         for ( final ResourcePath searchPath : this.searchPaths )
         {

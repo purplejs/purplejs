@@ -4,7 +4,7 @@ import io.purplejs.core.Environment
 import io.purplejs.core.internal.nashorn.NashornRuntimeFactory
 import io.purplejs.core.mock.MockResource
 import io.purplejs.core.mock.MockResourceLoader
-import io.purplejs.core.resource.ResourceResolverBuilder
+import io.purplejs.core.require.RequireResolverBuilder
 import spock.lang.Specification
 
 abstract class AbstractExecutorTest
@@ -23,7 +23,7 @@ abstract class AbstractExecutorTest
         this.resources = new MockResourceLoader();
         this.environment.getResourceLoader() >> this.resources;
         this.environment.getClassLoader() >> getClass().getClassLoader();
-        this.environment.resourceResolver >> ResourceResolverBuilder.newBuilder().build()
+        this.environment.requireResolver >> RequireResolverBuilder.newBuilder().build()
 
         this.executor = new ScriptExecutorImpl();
         this.executor.setNashornRuntime( new NashornRuntimeFactory().newRuntime( getClass().getClassLoader() ) );

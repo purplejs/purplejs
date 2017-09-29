@@ -83,16 +83,6 @@ class ExecutionContextImplTest
         thrown NotFoundException;
     }
 
-    def "test resolve"()
-    {
-        when:
-        def result = this.context.resolve( '/a/b/other.js' );
-
-        then:
-        result != null;
-        ResourcePath.from( "/a/b/other.js" ) == result;
-    }
-
     def "test dispose"()
     {
         setup:

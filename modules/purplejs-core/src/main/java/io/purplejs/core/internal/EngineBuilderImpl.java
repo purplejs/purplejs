@@ -18,10 +18,10 @@ import io.purplejs.core.EngineModule;
 import io.purplejs.core.RunMode;
 import io.purplejs.core.internal.util.RequirementChecker;
 import io.purplejs.core.registry.RegistryBuilder;
+import io.purplejs.core.require.RequireResolver;
+import io.purplejs.core.require.RequireResolverBuilder;
 import io.purplejs.core.resource.ResourceLoader;
 import io.purplejs.core.resource.ResourceLoaderBuilder;
-import io.purplejs.core.resource.ResourceResolver;
-import io.purplejs.core.resource.ResourceResolverBuilder;
 import io.purplejs.core.settings.Settings;
 import io.purplejs.core.settings.SettingsBuilder;
 
@@ -32,7 +32,7 @@ public final class EngineBuilderImpl
 
     private ResourceLoader resourceLoader;
 
-    private ResourceResolver resourceResolver;
+    private RequireResolver requireResolver;
 
     private final List<File> devSourceDirs;
 
@@ -81,9 +81,9 @@ public final class EngineBuilderImpl
     }
 
     @Override
-    public EngineBuilder resourceResolver( final ResourceResolver resourceResolver )
+    public EngineBuilder requireResolver( final RequireResolver requireResolver )
     {
-        this.resourceResolver = resourceResolver;
+        this.requireResolver = requireResolver;
         return this;
     }
 
@@ -148,9 +148,9 @@ public final class EngineBuilderImpl
             this.resourceLoader = ResourceLoaderBuilder.newBuilder().from( this.classLoader ).build();
         }
 
-        if ( this.resourceResolver == null )
+        if ( this.requireResolver == null )
         {
-            this.resourceResolver = ResourceResolverBuilder.newBuilder().build();
+            this.requireResolver = RequireResolverBuilder.newBuilder().build();
         }
 
         if ( this.settings == null )
@@ -182,7 +182,7 @@ public final class EngineBuilderImpl
         final EngineImpl engine = new EngineImpl();
         engine.classLoader = this.classLoader;
         engine.resourceLoader = createResourceLoader();
-        engine.resourceResolver = this.resourceResolver;
+        engine.requireResolver = this.requireResolver;
         engine.config = ImmutableMap.copyOf( this.config );
         engine.globalVariables = ImmutableMap.copyOf( this.globalVariables );
         engine.devSourceDirs = ImmutableList.copyOf( this.devSourceDirs );

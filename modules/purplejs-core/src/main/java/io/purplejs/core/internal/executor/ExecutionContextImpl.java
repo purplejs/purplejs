@@ -5,12 +5,11 @@ import java.util.function.Supplier;
 import io.purplejs.core.Engine;
 import io.purplejs.core.Environment;
 import io.purplejs.core.exception.NotFoundException;
-import io.purplejs.core.internal.resolver.ResourceResolverContextImpl;
+import io.purplejs.core.internal.require.RequireResolverContextImpl;
 import io.purplejs.core.internal.util.JsObjectConverter;
 import io.purplejs.core.registry.Registry;
+import io.purplejs.core.require.RequireResolverContext;
 import io.purplejs.core.resource.ResourcePath;
-import io.purplejs.core.resource.ResourceResolverContext;
-import io.purplejs.core.resource.ResourceResolverMode;
 import io.purplejs.core.value.ScriptValue;
 
 final class ExecutionContextImpl
@@ -74,16 +73,16 @@ final class ExecutionContextImpl
         this.executor.registerDisposer( this.resource, runnable );
     }
 
-    private ResourceResolverContext newResolverContext( final ResourceResolverMode mode )
+    private RequireResolverContext newResolverContext()
     {
-        return new ResourceResolverContextImpl( mode, this.environment.getResourceLoader(), this.resourceDir );
+        return new RequireResolverContextImpl( this.environment.getResourceLoader(), this.resourceDir );
     }
 
     @Override
     public Object require( final String path )
     {
-        final ResourceResolverContext context = newResolverContext( ResourceResolverMode.REQUIRE );
-        final ResourcePath resolved = this.environment.getResourceResolver().resolve( context, path );
+        final RequireResolverContext context = newResolverContext();
+        final ResourcePath resolved = this.environment.getRequireResolver().resolve( context, path );
 
         if ( resolved == null )
         {
@@ -93,13 +92,6 @@ final class ExecutionContextImpl
         }
 
         return this.executor.executeRequire( resolved );
-    }
-
-    @Override
-    public ResourcePath resolve( final String path )
-    {
-        final ResourceResolverContext context = newResolverContext( ResourceResolverMode.SIMPLE );
-        return this.environment.getResourceResolver().resolve( context, path );
     }
 
     @Override

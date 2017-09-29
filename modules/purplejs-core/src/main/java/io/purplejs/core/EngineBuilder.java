@@ -4,7 +4,7 @@ import java.io.File;
 
 import io.purplejs.core.internal.EngineBuilderImpl;
 import io.purplejs.core.resource.ResourceLoader;
-import io.purplejs.core.resource.ResourceResolver;
+import io.purplejs.core.require.RequireResolver;
 import io.purplejs.core.settings.Settings;
 
 /**
@@ -41,12 +41,12 @@ public interface EngineBuilder
     EngineBuilder resourceLoader( ResourceLoader resourceLoader );
 
     /**
-     * Sets the resource-resolver to use. If not set, it will use a default resolver.
+     * Sets the require-resolver to use. If not set, it will use a default resolver.
      *
-     * @param resourceResolver resource-resolver to use.
+     * @param requireResolver require-resolver to use.
      * @return the instance of this builder.
      */
-    EngineBuilder resourceResolver( ResourceResolver resourceResolver );
+    EngineBuilder requireResolver( RequireResolver requireResolver );
 
     // EngineBuilder beanInjector(BeanInjector beanInjector)
 

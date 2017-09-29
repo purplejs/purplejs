@@ -25,5 +25,5 @@ exports.disposer = function (disposer) {
 };
 
 exports.resolve = function (path) {
-    return context.getCallingScript().getParent().resolve(path).toString();
+    return context.callingScript.parent.resolve(path).toString();
 };

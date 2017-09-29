@@ -57,14 +57,6 @@ public interface ExecutionContext
     Object require( String path );
 
     /**
-     * Resolve a new file resource. The file can be relative or absolute.
-     *
-     * @param path Absolute or relative path.
-     * @return the resource path.
-     */
-    ResourcePath resolve( String path );
-
-    /**
      * Adds a new disposer.
      *
      * @param runnable Disposer to add.

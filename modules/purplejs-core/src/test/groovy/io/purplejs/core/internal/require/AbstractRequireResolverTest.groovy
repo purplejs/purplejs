@@ -1,18 +1,19 @@
-package io.purplejs.core.internal.resolver
+package io.purplejs.core.internal.require
 
-import io.purplejs.core.resource.*
+import io.purplejs.core.require.RequireResolver
+import io.purplejs.core.require.RequireResolverContext
+import io.purplejs.core.resource.ResourceLoader
+import io.purplejs.core.resource.ResourcePath
 import spock.lang.Specification
 
-abstract class AbstractResourceResolverTest
+abstract class AbstractRequireResolverTest
     extends Specification
 {
     protected ResourceLoader loader
 
-    protected ResourceResolver resolver
+    protected RequireResolver resolver
 
-    protected ResourceResolverContext context
-
-    protected ResourceResolverMode mode
+    protected RequireResolverContext context
 
     def setup()
     {
@@ -32,7 +33,7 @@ abstract class AbstractResourceResolverTest
 
     protected ResourcePath resolve( final String dir, final String path )
     {
-        this.context = new ResourceResolverContextImpl( this.mode, this.loader, toPath( dir ) )
+        this.context = new RequireResolverContextImpl( this.loader, toPath( dir ) )
         return this.resolver.resolve( this.context, path )
     }
 
