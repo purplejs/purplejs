@@ -1,7 +1,6 @@
 package io.purplejs.core.internal.executor;
 
 import java.util.Map;
-import java.util.function.Function;
 
 import javax.script.Bindings;
 import javax.script.ScriptContext;
@@ -79,7 +78,7 @@ public final class ScriptExecutorImpl
         this.engine = this.nashornRuntime.getEngine();
         this.engine.setBindings( this.global, ScriptContext.GLOBAL_SCOPE );
 
-        this.global.put( "__executionContext", new GlobalExecutionContextImpl( this ) );
+        this.global.put( "__executionContext", new ExecutionContextImpl( this ) );
     }
 
     public void addGlobalVariables( final Map<String, Object> variables )
@@ -198,10 +197,10 @@ public final class ScriptExecutorImpl
             module.put( "id", script.toString() );
             module.put( "exports", exports );
 
-            final ExecutionContextImpl context = new ExecutionContextImpl( this, script );
-            final Function<String, Object> requireFunc = context::require;
+            final RequireFunction requireFunc = new RequireFunction( this, script.getParent() );
+            final ScriptLoggerImpl logger = new ScriptLoggerImpl( script );
 
-            func.call( exports, requireFunc, context.getLogger(), exports, module );
+            func.call( exports, requireFunc, logger, exports, module );
             return module.get( "exports" );
         }
         catch ( final Exception e )

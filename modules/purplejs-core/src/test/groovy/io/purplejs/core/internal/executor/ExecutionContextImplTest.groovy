@@ -1,96 +1,60 @@
 package io.purplejs.core.internal.executor
 
 import io.purplejs.core.Engine
-import io.purplejs.core.exception.NotFoundException
 import io.purplejs.core.resource.ResourcePath
-import jdk.nashorn.api.scripting.ScriptObjectMirror
 
 import java.util.function.Supplier
 
 class ExecutionContextImplTest
     extends AbstractExecutorTest
 {
-    def ExecutionContext context;
-
-    def ResourcePath resource;
+    ExecutionContext context
 
     @Override
     protected void doConfigure()
     {
-        this.resource = ResourcePath.from( "/a/b/test.js" );
-        this.context = new ExecutionContextImpl( this.executor, this.resource );
-    }
-
-    def "test getResource"()
-    {
-        when:
-        def res = this.context.resource;
-
-        then:
-        this.resource == res;
+        this.context = new ExecutionContextImpl( this.executor )
     }
 
     def "test getEnvironment"()
     {
         when:
-        def env = this.context.environment;
+        def env = this.context.environment
 
         then:
-        this.environment == env;
+        this.environment == env
     }
 
     def "test getEngine"()
     {
         setup:
-        def engine = Mock( Engine.class );
-        this.environment.getInstance( Engine.class ) >> engine;
+        def engine = Mock( Engine.class )
+        this.environment.getInstance( Engine.class ) >> engine
 
         when:
-        def expected = this.context.engine;
+        def expected = this.context.engine
 
         then:
-        engine == expected;
+        engine == expected
     }
 
     def "test getRegistry"()
     {
         when:
-        def registry = this.context.registry;
+        def registry = this.context.registry
 
         then:
-        this.environment == registry;
-    }
-
-    def "test require"()
-    {
-        setup:
-        addResource( '/a/b/other.js', 'module.exports = {};' );
-
-        when:
-        def result = this.context.require( '/a/b/other.js' );
-
-        then:
-        result != null;
-        result instanceof ScriptObjectMirror;
-    }
-
-    def "require not found"()
-    {
-        when:
-        this.context.require( '/a/b/other.js' );
-
-        then:
-        thrown NotFoundException;
+        this.environment == registry
     }
 
     def "test dispose"()
     {
         setup:
-        def func = Mock( Runnable.class );
-        this.context.disposer( func );
+        def func = Mock( Runnable.class )
+        this.context.disposer( func )
 
         when:
-        this.executor.dispose();
+        this.executor.dispose()
 
         then:
         1 * func.run();
@@ -99,100 +63,91 @@ class ExecutionContextImplTest
     def "test registerMock"()
     {
         setup:
-        addResource( "/a/b/other.js", "module.exports = {};" );
+        addResource( "/a/b/other.js", "module.exports = {};" )
 
         when:
-        def mock = new Object();
-        this.context.registerMock( "/a/b/other.js", mock );
-        def result = this.context.require( "/a/b/other.js" );
+        def mock = new Object()
+        this.context.registerMock( "/a/b/other.js", mock )
+        def result = this.context.require( ResourcePath.from( "/a/b/other.js" ) )
 
         then:
-        result == mock;
+        result == mock
     }
 
     def "test newBean"()
     {
         when:
-        def bean = this.context.newBean( MyTestBean.class.name );
+        def bean = this.context.newBean( MyTestBean.class.name )
 
         then:
-        bean != null;
+        bean != null
     }
 
     def "test newBean not found"()
     {
         when:
-        this.context.newBean( 'foo.bar.NoClass' );
+        this.context.newBean( 'foo.bar.NoClass' )
 
         then:
-        thrown ClassNotFoundException;
+        thrown ClassNotFoundException
     }
 
     def "test getInstance"()
     {
         setup:
-        def expected = new MyTestBean();
-        this.environment.getInstance( MyTestBean.class ) >> expected;
+        def expected = new MyTestBean()
+        this.environment.getInstance( MyTestBean.class ) >> expected
 
         when:
-        def result = this.context.getInstance( MyTestBean.class.name );
+        def result = this.context.getInstance( MyTestBean.class.name )
 
         then:
-        result == expected;
+        result == expected
     }
 
     def "test getProvider"()
     {
         setup:
-        def expected = Mock( Supplier.class );
-        this.environment.getProvider( MyTestBean.class ) >> expected;
+        def expected = Mock( Supplier.class )
+        this.environment.getProvider( MyTestBean.class ) >> expected
 
         when:
-        def result = this.context.getProvider( MyTestBean.class.name );
+        def result = this.context.getProvider( MyTestBean.class.name )
 
         then:
-        result == expected;
+        result == expected
     }
 
     def "test getInstanceOrNull"()
     {
         setup:
-        def expected = Optional.of( new MyTestBean() );
-        this.environment.getInstanceOrNull( MyTestBean.class ) >> expected;
+        def expected = Optional.of( new MyTestBean() )
+        this.environment.getInstanceOrNull( MyTestBean.class ) >> expected
 
         when:
-        def result = this.context.getInstanceOrNull( MyTestBean.class.name );
+        def result = this.context.getInstanceOrNull( MyTestBean.class.name )
 
         then:
-        result == expected;
+        result == expected
     }
 
     def "test toScriptValue"()
     {
         when:
-        def result = this.context.toScriptValue( 12 );
+        def result = this.context.toScriptValue( 12 )
 
         then:
-        result != null;
-        result.isValue();
+        result != null
+        result.isValue()
     }
 
     def "test toNativeObject"()
     {
         when:
-        def result = this.context.toNativeObject( 12 );
+        def result = this.context.toNativeObject( 12 )
 
         then:
-        result != null;
-        result == 12;
-    }
-
-    def "test getLogger"()
-    {
-        when:
-        def result = this.context.getLogger();
-
-        then:
-        result != null;
+        result != null
+        result == 12
     }
 }

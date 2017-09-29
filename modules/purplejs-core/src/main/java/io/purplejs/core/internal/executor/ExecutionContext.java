@@ -21,25 +21,11 @@ public interface ExecutionContext
     Engine getEngine();
 
     /**
-     * Returns the actual script running.
-     *
-     * @return script running.
-     */
-    ResourcePath getResource();
-
-    /**
      * Returns the script environment.
      *
      * @return script environment.
      */
     Environment getEnvironment();
-
-    /**
-     * Returns the script logger.
-     *
-     * @return script logger.
-     */
-    ScriptLogger getLogger();
 
     /**
      * Returns the component registry.
@@ -49,19 +35,19 @@ public interface ExecutionContext
     Registry getRegistry();
 
     /**
-     * Require a new javascript file or json file relative to the current file.
-     *
-     * @param path Absolute or relative path.
-     * @return exports for javascript or json.
-     */
-    Object require( String path );
-
-    /**
      * Adds a new disposer.
      *
      * @param runnable Disposer to add.
      */
     void disposer( Runnable runnable );
+
+    /**
+     * Require a new javascript file or json file relative to the current file.
+     *
+     * @param path Absolute or relative path.
+     * @return exports for javascript or json.
+     */
+    Object require( ResourcePath path );
 
     /**
      * Converts a value to a script value.
@@ -126,4 +112,8 @@ public interface ExecutionContext
      */
     Object newBean( String type )
         throws Exception;
+
+    ResourcePath getCurrentScript();
+
+    ResourcePath getCallingScript();
 }

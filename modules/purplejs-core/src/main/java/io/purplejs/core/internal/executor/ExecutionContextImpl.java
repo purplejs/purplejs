@@ -4,11 +4,9 @@ import java.util.function.Supplier;
 
 import io.purplejs.core.Engine;
 import io.purplejs.core.Environment;
-import io.purplejs.core.exception.NotFoundException;
-import io.purplejs.core.internal.require.RequireResolverContextImpl;
 import io.purplejs.core.internal.util.JsObjectConverter;
 import io.purplejs.core.registry.Registry;
-import io.purplejs.core.require.RequireResolverContext;
+import io.purplejs.core.resource.ResourceHelper;
 import io.purplejs.core.resource.ResourcePath;
 import io.purplejs.core.value.ScriptValue;
 
@@ -17,30 +15,15 @@ final class ExecutionContextImpl
 {
     private final ScriptExecutor executor;
 
-    private final ResourcePath resource;
-
     private final Environment environment;
 
     private final JsObjectConverter converter;
 
-    private final ScriptLogger logger;
-
-    private final ResourcePath resourceDir;
-
-    ExecutionContextImpl( final ScriptExecutor executor, final ResourcePath resource )
+    ExecutionContextImpl( final ScriptExecutor executor )
     {
         this.executor = executor;
-        this.resource = resource;
         this.environment = this.executor.getEnvironment();
         this.converter = new JsObjectConverter( this.executor.getNashornRuntime() );
-        this.resourceDir = this.resource.resolve( ".." );
-        this.logger = new ScriptLoggerImpl( this.resource );
-    }
-
-    @Override
-    public ResourcePath getResource()
-    {
-        return this.resource;
     }
 
     @Override
@@ -62,36 +45,15 @@ final class ExecutionContextImpl
     }
 
     @Override
-    public ScriptLogger getLogger()
-    {
-        return this.logger;
-    }
-
-    @Override
     public void disposer( final Runnable runnable )
     {
-        this.executor.registerDisposer( this.resource, runnable );
-    }
-
-    private RequireResolverContext newResolverContext()
-    {
-        return new RequireResolverContextImpl( this.environment.getResourceLoader(), this.resourceDir );
+        this.executor.registerDisposer( ResourcePath.from( "/" ), runnable );
     }
 
     @Override
-    public Object require( final String path )
+    public Object require( final ResourcePath path )
     {
-        final RequireResolverContext context = newResolverContext();
-        final ResourcePath resolved = this.environment.getRequireResolver().resolve( context, path );
-
-        if ( resolved == null )
-        {
-            final NotFoundException ex = new NotFoundException( "Could not find [" + path + "] using base [" + this.resourceDir + "]" );
-            ex.setScanned( context.getScanned() );
-            throw ex;
-        }
-
-        return this.executor.executeRequire( resolved );
+        return this.executor.executeRequire( path );
     }
 
     @Override
@@ -145,5 +107,17 @@ final class ExecutionContextImpl
     {
         final Class<?> clz = forName( type );
         return clz.newInstance();
+    }
+
+    @Override
+    public ResourcePath getCurrentScript()
+    {
+        return ResourceHelper.getCurrentScript();
+    }
+
+    @Override
+    public ResourcePath getCallingScript()
+    {
+        return ResourceHelper.getCallingScript();
     }
 }
