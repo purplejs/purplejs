@@ -3,8 +3,8 @@ package io.purplejs.core;
 import java.io.File;
 
 import io.purplejs.core.internal.EngineBuilderImpl;
-import io.purplejs.core.resource.ResourceLoader;
 import io.purplejs.core.require.RequireResolver;
+import io.purplejs.core.resource.ResourceLoader;
 import io.purplejs.core.settings.Settings;
 
 /**
@@ -47,8 +47,6 @@ public interface EngineBuilder
      * @return the instance of this builder.
      */
     EngineBuilder requireResolver( RequireResolver requireResolver );
-
-    // EngineBuilder beanInjector(BeanInjector beanInjector)
 
     /**
      * Adds a new engine-module to do more configurations.
