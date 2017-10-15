@@ -78,7 +78,7 @@ public final class ScriptExecutorImpl
         this.engine = this.nashornRuntime.getEngine();
         this.engine.setBindings( this.global, ScriptContext.GLOBAL_SCOPE );
 
-        this.global.put( "__executionContext", new ExecutionContextImpl( this ) );
+        this.global.put( "$system", new ExecutionContextImpl( this ) );
     }
 
     public void addGlobalVariables( final Map<String, Object> variables )

@@ -7,6 +7,7 @@ import io.purplejs.core.Environment;
 import io.purplejs.core.internal.util.JsObjectConverter;
 import io.purplejs.core.registry.Registry;
 import io.purplejs.core.resource.ResourceHelper;
+import io.purplejs.core.resource.ResourceLoader;
 import io.purplejs.core.resource.ResourcePath;
 import io.purplejs.core.value.ScriptValue;
 
@@ -119,5 +120,24 @@ final class ExecutionContextImpl
     public ResourcePath getCallingScript()
     {
         return ResourceHelper.getCallingScript();
+    }
+
+    @Override
+    public ResourcePath resolve( final String path )
+    {
+        return resolve( getCurrentScript(), path );
+    }
+
+    @Override
+    public ResourcePath resolve( final ResourcePath base, final String path )
+    {
+        final ResourcePath parent = base.getParent();
+        return parent != null ? parent.resolve( path ) : ResourcePath.ROOT.resolve( path );
+    }
+
+    @Override
+    public ResourceLoader getResourceLoader()
+    {
+        return getEnvironment().getResourceLoader();
     }
 }

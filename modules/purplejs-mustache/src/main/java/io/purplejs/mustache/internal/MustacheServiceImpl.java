@@ -1,15 +1,17 @@
 package io.purplejs.mustache.internal;
 
+import com.google.common.base.Charsets;
+import com.google.common.io.CharSource;
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.MustacheException;
 import com.samskivert.mustache.Template;
 
 import io.purplejs.core.Engine;
+import io.purplejs.core.exception.ExceptionHelper;
 import io.purplejs.core.exception.ProblemException;
 import io.purplejs.core.resource.Resource;
 import io.purplejs.core.resource.ResourceLoader;
 import io.purplejs.core.resource.ResourcePath;
-import io.purplejs.core.util.IOHelper;
 import io.purplejs.core.value.ScriptValue;
 import io.purplejs.mustache.MustacheService;
 
@@ -46,7 +48,8 @@ final class MustacheServiceImpl
 
     private String doRender( final Resource view, final Object model )
     {
-        final String str = IOHelper.readString( view.getBytes() );
+        final CharSource source = view.getBytes().asCharSource( Charsets.UTF_8 );
+        final String str = ExceptionHelper.wrap( source::read );
         final Template template = this.compiler.compile( str );
         return template.execute( model );
     }

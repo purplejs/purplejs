@@ -7,7 +7,7 @@
  * @module mustache
  */
 
-var service = __.getInstance('io.purplejs.mustache.MustacheService');
+var service = $system.getInstance('io.purplejs.mustache.MustacheService');
 
 /**
  * This function renders a view using mustache.
@@ -17,6 +17,7 @@ var service = __.getInstance('io.purplejs.mustache.MustacheService');
  * @returns {string} The rendered output.
  */
 exports.render = function (view, model) {
-    model = __.toScriptValue(model);
+    model = $system.toScriptValue(model);
+    view = $system.resolve($system.callingScript, view);
     return service.render(view, model);
 };

@@ -17,10 +17,8 @@ class MustacheLibScriptTest
             var mustache = require('/lib/mustache');
 
             exports.render = function() {
-                var view = resolve('/test.html');
                 var model = ${model};
-
-                return mustache.render(view, model);
+                return mustache.render('/test.html', model);
             };
         """ );
     }

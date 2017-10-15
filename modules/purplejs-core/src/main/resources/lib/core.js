@@ -10,10 +10,8 @@
  * @module core
  */
 
-var system = require('/lib/system');
-
 // Create a new instance of helper and get hold of a resource-loader.
-var helper = system.newBean('io.purplejs.core.internal.lib.CoreLibHelper');
+var helper = $system.newBean('io.purplejs.core.internal.lib.CoreLibHelper');
 
 /**
  * Read text from a stream.
@@ -40,7 +38,7 @@ exports.readText = function (stream) {
  * @returns {string[]} Returns lines as an array.
  */
 exports.readLines = function (stream) {
-    return system.toNativeObject(helper.readLines(stream));
+    return $system.toNativeObject(helper.readLines(stream));
 };
 
 /**
@@ -103,5 +101,5 @@ exports.newStream = function (text) {
  * @returns {*} A stream for the resource or undefined.
  */
 exports.loadResource = function (path) {
-    return helper.loadResource(system.getResourceLoader(), path);
+    return helper.loadResource($system.getResourceLoader(), path);
 };

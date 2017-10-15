@@ -7,8 +7,7 @@ class ResolveTest
     {
         setup:
         file( '/a/b/test.js', '''
-            var system = require('/lib/system');
-            var path = system.resolve('./test.html').toString();
+            var path = $system.resolve('./test.html').toString();
             t.assertEquals('/a/b/test.html', path);
         ''' );
 
@@ -23,8 +22,7 @@ class ResolveTest
     {
         setup:
         file( '/a/b/test.js', '''
-            var system = require('/lib/system');
-            var path = system.resolve('/c/test.html').toString();
+            var path = $system.resolve('/c/test.html').toString();
             t.assertEquals('/c/test.html', path);
         ''' );
 
@@ -39,8 +37,7 @@ class ResolveTest
     {
         setup:
         file( '/a/b/other.js', '''
-            var system = require('/lib/system');
-            var path = system.resolve('./test.html').toString();
+            var path = $system.resolve('./test.html').toString();
             t.assertEquals('/a/b/test.html', path);
         ''' );
 

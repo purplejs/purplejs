@@ -103,9 +103,8 @@ class CoreLibScriptTest
 
         file( '/a/b/test.js', '''
             var core = require('/lib/core');
-            var system = require('/lib/system');
 
-            var stream = core.loadResource(system.resolve('./other.txt'))
+            var stream = core.loadResource($system.resolve('./other.txt'))
             var text = core.readText(stream);
 
             t.assertEquals('hello', text);

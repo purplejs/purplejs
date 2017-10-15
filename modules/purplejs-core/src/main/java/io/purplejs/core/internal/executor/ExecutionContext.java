@@ -5,6 +5,7 @@ import java.util.function.Supplier;
 import io.purplejs.core.Engine;
 import io.purplejs.core.Environment;
 import io.purplejs.core.registry.Registry;
+import io.purplejs.core.resource.ResourceLoader;
 import io.purplejs.core.resource.ResourcePath;
 import io.purplejs.core.value.ScriptValue;
 
@@ -116,4 +117,10 @@ public interface ExecutionContext
     ResourcePath getCurrentScript();
 
     ResourcePath getCallingScript();
+
+    ResourcePath resolve( String path );
+
+    ResourcePath resolve( ResourcePath base, String path );
+
+    ResourceLoader getResourceLoader();
 }
