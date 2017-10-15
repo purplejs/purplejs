@@ -5,9 +5,10 @@ import java.io.Reader;
 
 import org.thymeleaf.templateresource.ITemplateResource;
 
+import com.google.common.base.Charsets;
+
 import io.purplejs.core.resource.Resource;
 import io.purplejs.core.resource.ResourcePath;
-import io.purplejs.core.util.IOHelper;
 
 final class TemplateResourceImpl
     implements ITemplateResource
@@ -47,7 +48,7 @@ final class TemplateResourceImpl
     public Reader reader()
         throws IOException
     {
-        return IOHelper.toCharSource( this.resource.getBytes() ).openBufferedStream();
+        return this.resource.getBytes().asCharSource( Charsets.UTF_8 ).openBufferedStream();
     }
 
     @Override

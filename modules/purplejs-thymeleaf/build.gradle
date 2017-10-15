@@ -1,5 +1,5 @@
 dependencies {
     compile project( ':purplejs-core' )
-    compile 'org.thymeleaf:thymeleaf:3.0.2.RELEASE'
+    compile 'org.thymeleaf:thymeleaf:3.0.8.RELEASE'
     testCompile project( path: ':purplejs-core', configuration: 'testOutput' )
 }

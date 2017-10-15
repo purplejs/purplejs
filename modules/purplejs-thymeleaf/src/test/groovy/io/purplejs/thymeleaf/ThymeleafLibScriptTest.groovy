@@ -17,10 +17,8 @@ class ThymeleafLibScriptTest
             var thymeleaf = require('/lib/thymeleaf');
 
             exports.render = function() {
-                var view = resolve('/test.html');
                 var model = ${model};
-
-                return thymeleaf.render(view, model);
+                return thymeleaf.render('/test.html', model);
             };
         """ );
     }

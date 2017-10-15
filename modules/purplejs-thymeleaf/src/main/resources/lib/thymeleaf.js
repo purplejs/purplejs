@@ -7,7 +7,7 @@
  * @module thymeleaf
  */
 
-var service = __.getInstance('io.purplejs.thymeleaf.ThymeleafService');
+var service = $system.getInstance('io.purplejs.thymeleaf.ThymeleafService');
 
 /**
  * This function renders a view using thymeleaf.
@@ -17,6 +17,7 @@ var service = __.getInstance('io.purplejs.thymeleaf.ThymeleafService');
  * @returns {string} The rendered output.
  */
 exports.render = function (view, model) {
-    model = __.toScriptValue(model);
+    model = $system.toScriptValue(model);
+    view = $system.resolve($system.callingScript, view);
     return service.render(view, model);
 };
