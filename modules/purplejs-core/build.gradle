@@ -1,25 +1,7 @@
-apply plugin: 'osgi'
-
 description = 'PurpleJS core library that defines the engine.'
 
 dependencies {
     compile "com.google.guava:guava:${versions.guava}"
     testCompile "org.codehaus.groovy:groovy-all:${versions.groovy}"
     testCompile "org.spockframework:spock-core:${versions.spock}"
-}
-
-jar {
-    manifest {
-        name = 'PurpleJS Core'
-        instruction 'Export-Package', "io.purplejs.core;version=${version}"
-        instruction 'Export-Package', "io.purplejs.core.exception;version=${version}"
-        instruction 'Export-Package', "io.purplejs.core.inject;version=${version}"
-        instruction 'Export-Package', "io.purplejs.core.json;version=${version}"
-        instruction 'Export-Package', "io.purplejs.core.mock;version=${version}"
-        instruction 'Export-Package', "io.purplejs.core.registry;version=${version}"
-        instruction 'Export-Package', "io.purplejs.core.resource;version=${version}"
-        instruction 'Export-Package', "io.purplejs.core.settings;version=${version}"
-        instruction 'Export-Package', "io.purplejs.core.value;version=${version}"
-        instruction '-nouses', 'true'
-    }
 }
